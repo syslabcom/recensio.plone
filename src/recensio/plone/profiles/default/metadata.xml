@@ -3,7 +3,7 @@
   <!-- There is no version element in this file because the version is managed by
     ftw.upgrade
   -->
-  <dependecies>
+  <dependencies>
     <dependency>profile-ftw.upgrade:default</dependency>
-  </dependecies>
+  </dependencies>
 </metadata>
