@@ -1,0 +1,263 @@
+##############################################################################
+#
+# Copyright (c) 2003-2004 Zope Corporation and Contributors.
+# All Rights Reserved.
+#
+# This software is subject to the provisions of the Zope Public License,
+# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
+# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
+# FOR A PARTICULAR PURPOSE.
+#
+##############################################################################
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"POT-Creation-Date: Wed Nov 10 11:55:18 2010\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: zope/app/locales/extract.py\n"
+
+#. Default: Your location (city and country)
+msgid "help_location"
+msgstr ""
+
+#           from us (about comments on your contributions)?"
+#. Default: "What language would you prefer for receiving information
+msgid "help_preferred_language"
+msgstr ""
+
+#. Default: "Preferred language"
+msgid "label_preferred_language"
+msgstr ""
+
+#. Default: "Review"
+msgid "label_schema_review"
+msgstr ""
+
+#. Default: "Reviewed text"
+msgid "label_schema_reviewed_text"
+msgstr ""
+
+#. Default: "Presented text"
+msgid "label_schema_presented_text"
+msgstr ""
+
+#. Default: "Presentation"
+msgid "label_schema_presentation"
+msgstr ""
+
+#. Default: "Presentated Resource"
+msgid "label_schema_presented_resource"
+msgstr ""
+
+#. Default: "Associated Journal"
+msgid "label_schema_associated_journal"
+msgstr ""
+
+#. Default "Associated Edited Volume"
+msgid "label_schema_associated_edited_volume"
+msgstr ""
+
+#           your monograph on recensio.net. All fields marked with *
+#           are required.\n Please keep in mind that you may present
+#           your core statements in nearly all European languages but
+#           that we would advise you to choose one of the main
+#           academic languages. This way your presentation will
+#           attract much more attention and discussion of your
+#           statements is much more likely.\n You can make changes or
+#           additions to all data at a later date."
+#. Default: "Please fill in the following form in order to present
+msgid "description_presentation_monograph"
+msgstr ""
+
+#           your contribution to an edited volume on recensio.net. All
+#           fields marked with * are required.\n Please keep in mind
+#           that you may present your core statements in nearly all
+#           European languages but that we would advise you to choose
+#           one of the main academic languages. This way your
+#           presentation will attract much more attention and
+#           discussion of your statements is much more likely.\n You
+#           can make changes or additions to all data at a later date."
+#. Default: "Please fill in the following form in order to present
+msgid "description_presentation_collection"
+msgstr ""
+
+#           online resource relevant to historians on
+#           recensio.net. All fields marked with * are required.\n
+#           Please keep in mind that you may present your core
+#           statements in nearly all European languages but that we
+#           would advise you to choose one of the main academic
+#           languages. This way your presentation will attract much
+#           more attention and discussion of your statements is much
+#           more likely.\n You can make changes or additions to all
+#           data at a later date."
+#. Default: "Please fill in the following form in order to present an
+msgid "description_presentation_online_resource"
+msgstr ""
+
+#           your article on recensio.net. All fields marked with *
+#           are required.\nPlease keep in mind that you may present
+#           your core statements in nearly all European languages
+#           but that we would advise you to choose one of the main
+#           academic languages. This way your presentation will
+#           attract much more attention and discussion of your
+#           statements is much more likely.\nYou can make changes
+#           or additions to all data at a later date."
+#. Default: "Please fill in the following form in order to present
+msgid "description_presentation_article"
+msgstr ""
+
+#. Default: "Suche in"
+msgid "label_item_type"
+msgstr ""
+
+#. Default: "Einstellungsdatum"
+msgid "label_new_items_since"
+msgstr ""
+
+#. Default: "Schlagwoerter"
+msgid "label_tags"
+msgstr ""
+
+msgid "label_filed_under"
+msgstr ""
+
+msgid "label_existing_tags"
+msgstr ""
+
+#. Default: "Neues Schlagwort hinzufuegen
+msgid "label_new_tags"
+msgstr ""
+
+#: recensio.policy:/missing_18n_labels.py:27
+msgid "Presentation Online Resource"
+msgstr ""
+
+#. Default: "Presentation Article in Journal
+#: recensio.policy:/missing_18n_labels.py:28
+msgid "Presentation Article Review"
+msgstr ""
+
+#: recensio.policy:/missing_18n_labels.py:29
+msgid "Presentation Article in Journal"
+msgstr ""
+
+#: recensio.policy:/missing_18n_labels.py:30
+msgid "Presentation Article edited Volume"
+msgstr ""
+
+#: recensio.policy:/missing_18n_labels.py:31
+msgid "Presentation Collection"
+msgstr ""
+
+#: recensio.policy:/missing_18n_labels.py:32
+msgid "Presentation Monograph"
+msgstr ""
+
+#: recensio.policy:/missing_18n_labels.py:33
+msgid "Review Journal"
+msgstr ""
+
+#: recensio.policy:/missing_18n_labels.py:34
+msgid "Review Monograph"
+msgstr ""
+
+#: recensio.policy:/missing_18n_labels.py:28
+msgid "Review Article Journal"
+msgstr ""
+
+#: recensio.policy:/missing_18n_labels.py:29
+msgid "Review Article Collection"
+msgstr ""
+
+#: recensio.policy:/missing_18n_labels.py:30
+msgid "Review Article Edited Volume"
+msgstr ""
+
+#: recensio.policy:/missing_18n_labels.py:31
+msgid "Review Exhibition"
+msgstr ""
+
+#: recensio.policy:/missing_18n_labels.py:13
+msgid "Publication"
+msgstr ""
+
+#. Default: "Waehlen Sie Ihren Benutzernamen. Bitte verwenden Sie nach Moeglichkeit dieses Schema: Vorname_Nachname. Diesen Namen benoetigen Sie spaeter zur Anmeldung. Es sind keine Umlaute, Leer- oder Sonderzeichen erlaubt, zwischen Gross- und Kleinschreibung wird unterschieden."
+msgid "help_user_name_creation_casesensitive"
+msgstr ""
+
+#. Default: "Geben Sie den Code ein, den Sie im Bild unten sehen bzw. in der Audiodatei hoeren."
+msgid "Type the code from the picture shown below or from the audio."
+msgstr ""
+
+#. Default: one space
+msgid "description_review_journal"
+msgstr ""
+
+#. Default: one space
+msgid "description_review_monograph"
+msgstr ""
+
+#. Default: "Presentation (article in a journal)"
+msgid "heading_add_PresentationArticleReview_title"
+msgstr ""
+
+#. Default: "Presentation (article in an edited volume)"
+msgid "heading_add_PresentationCollection_title"
+msgstr ""
+
+#. Default: "Presentation (monograph)"
+msgid "heading_add_PresentationMonograph_title"
+msgstr ""
+
+#. Default: "Presentation (online resource)"
+msgid "heading_add_PresentationOnlineResource_title"
+msgstr ""
+
+#. Default: "Author's home page in this site…"
+#: CMFPlone/skins/plone_content/author.cpt:139
+msgid "label_author_internal_home_page"
+msgstr ""
+
+#. Default: "We apologize for the inconvenience, but the page you were trying to access is not at this address. You can use the links below to help you find what you are looking for."
+#: CMFPlone/skins/plone_templates/default_error_message.pt:42
+msgid "description_site_error"
+msgstr ""
+
+#. Default: "Save"
+#: recensio/theme/skins/recensio_theme/edit_macros.pt:237
+msgid "label_save"
+msgstr ""
+
+#. Default: "Save and edit later"
+#: recensio/theme/skins/recensio_theme/edit_macros.pt:229
+msgid "label_save_and_edit_later"
+msgstr ""
+
+#. Default: "Submit for Publication"
+#: recensio/theme/skins/recensio_theme/edit_macros.pt:245
+msgid "label_save_and_submit"
+msgstr ""
+
+#. Default: "Log in to send feedback"
+#: recensio/theme/skins/recensio_theme/author.cpt:166
+msgid "label_login_to_send_feedback"
+msgstr ""
+
+#. Default: "Next ${number} items"
+#: plone.batching/plone/batching/batchnavigation.pt:28
+#: plone.batching/plone/batching/batchnavigation_bootstrap.pt:67
+msgid "batch_next_x_items"
+msgstr ""
+
+#. Default: "Previous ${number} items"
+#: plone.batching/plone/batching/batchnavigation.pt:16
+#: plone.batching/plone/batching/batchnavigation_bootstrap.pt:30
+msgid "batch_previous_x_items"
+msgstr ""
