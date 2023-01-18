@@ -1,0 +1,6 @@
+[report]
+include =
+    src/quaive.app/*
+omit =
+    */test*
+    */upgrades/*
