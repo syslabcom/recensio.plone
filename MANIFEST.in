@@ -1,7 +1,9 @@
 graft src/recensio
 graft docs
+include *.md
 include *.rst
-exclude tox.ini
 exclude *.txt
-exclude .gitlab-ci.yml
+exclude *.cfg
+exclude .github.cfg
+prune .github
 global-exclude *.pyc

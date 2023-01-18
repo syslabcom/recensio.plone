@@ -1,7 +1,6 @@
 name: tests
 
 on:
-  push:
   pull_request:
     branches: [main]
 
@@ -33,19 +32,11 @@ jobs:
             ${{ runner.os }}-cache-
       - name: Install dependencies
         run: |
-          python -m venv .
-          bin/pip install -r requirements.txt
-          bin/buildout -c .github.cfg
-      - name: Pre commit
-        uses: pre-commit/action@v2.0.0
-        if: ${{ matrix.config[1] == '3.11' }}
+          make
       - name: Code Analysis
-        run: |
-          bin/code-analysis
+        uses: pre-commit/action@v2.0.0
         if: ${{ matrix.config[1] == '3.11' }}
       - name: Test
         run: |
-          bin/coverage run bin/test -s recensio.plone
-          bin/coverage report --fail-under=60 -i
-        env:
-          zope_i18n_compile_mo_files: 1
+          ./bin/coverage run ./bin/test -s recensio.plone
+          ./bin/coverage report --fail-under=60 -i
