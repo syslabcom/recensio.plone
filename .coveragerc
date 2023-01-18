@@ -1,6 +1,6 @@
 [report]
 include =
-    src/quaive.app/*
+    src/recensio/*
 omit =
     */test*
     */upgrades/*
