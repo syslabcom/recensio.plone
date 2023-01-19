@@ -32,7 +32,7 @@
     <element value="Document" />
   </property>
   <!-- Schema, class and security -->
-  <property name="add_permission">recensio.plone.AddVolume</property>
+  <property name="add_permission">cmf.AddPortalContent</property>
   <property name="klass">recensio.plone.content.volume.Volume</property>
   <property name="model_file" />
   <property name="model_source" />

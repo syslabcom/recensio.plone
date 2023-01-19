@@ -28,7 +28,7 @@
   -->
   </property>
   <!-- Schema, class and security -->
-  <property name="add_permission">recensio.plone.AddReviewArticleJournal</property>
+  <property name="add_permission">cmf.AddPortalContent</property>
   <property name="klass">recensio.plone.content.review_article_journal.ReviewArticleJournal</property>
   <property name="model_file" />
   <property name="model_source" />
@@ -50,6 +50,7 @@
     <element value="plone.publication" />
     <element value="plone.categorization" />
     <element value="plone.locking" />
+    <element value="recensio.authors" />
     <!--<element value="plone.leadimage"/>-->
     <!--<element value="plone.relateditems"/>-->
     <!--<element value="plone.richtext"/>-->

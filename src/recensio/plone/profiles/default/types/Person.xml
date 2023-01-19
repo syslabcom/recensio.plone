@@ -21,7 +21,7 @@
   <!-- Hierarchy control -->
   <property name="global_allow">True</property>
   <!-- Schema, class and security -->
-  <property name="add_permission">recensio.plone.AddPerson</property>
+  <property name="add_permission">cmf.AddPortalContent</property>
   <property name="klass">recensio.plone.content.person.Person</property>
   <property name="model_file" />
   <property name="model_source" />
