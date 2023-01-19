@@ -23,6 +23,7 @@
       directory="profiles/uninstall"
       />
 
+  <include package=".behaviors" />
   <include package=".browser" />
   <include package=".upgrades" />
 
