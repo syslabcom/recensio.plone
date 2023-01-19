@@ -48,6 +48,7 @@ setup(
         "setuptools",
         "ftw.upgrade",
         "plone.api",
+        "collective.z3cform.datagridfield",
     ],
     extras_require={
         "test": [

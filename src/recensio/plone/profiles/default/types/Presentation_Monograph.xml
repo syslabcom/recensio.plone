@@ -21,7 +21,7 @@
   <!-- Hierarchy control -->
   <property name="global_allow">False</property>
   <!-- Schema, class and security -->
-  <property name="add_permission">recensio.plone.AddPresentationMonograph</property>
+  <property name="add_permission">cmf.AddPortalContent</property>
   <property name="klass">recensio.plone.content.presentation_monograph.PresentationMonograph</property>
   <property name="model_file" />
   <property name="model_source" />
@@ -40,6 +40,7 @@
     <element value="plone.publication" />
     <element value="plone.categorization" />
     <element value="plone.locking" />
+    <element value="recensio.reference_authors" />
   </property>
 
   <!-- View information -->
