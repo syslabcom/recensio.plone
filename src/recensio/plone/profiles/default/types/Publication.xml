@@ -2,7 +2,7 @@
 <object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
         meta_type="Dexterity FTI"
         name="Publication"
-        i18n:domain="recensio.plone"
+        i18n:domain="plone"
 >
 
   <!-- Basic properties -->
