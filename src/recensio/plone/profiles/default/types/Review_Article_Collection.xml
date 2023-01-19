@@ -44,6 +44,7 @@
     <element value="plone.categorization" />
     <element value="plone.locking" />
     <element value="recensio.authors" />
+    <element value="recensio.cover_picture" />
     <!--<element value="plone.leadimage"/>-->
     <!--<element value="plone.relateditems"/>-->
     <!--<element value="plone.richtext"/>-->
