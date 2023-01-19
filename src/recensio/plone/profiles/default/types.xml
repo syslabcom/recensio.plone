@@ -3,7 +3,10 @@
         name="portal_types"
 >
   <object meta_type="Dexterity FTI"
-          name="Presentation Online Resource"
+          name="Issue"
+  />
+  <object meta_type="Dexterity FTI"
+          name="Person"
   />
   <object meta_type="Dexterity FTI"
           name="Presentation Article Review"
@@ -12,36 +15,33 @@
           name="Presentation Collection"
   />
   <object meta_type="Dexterity FTI"
-          name="Review Journal"
-  />
-  <object meta_type="Dexterity FTI"
-          name="Review Article Journal"
-  />
-  <object meta_type="Dexterity FTI"
-          name="Review Article Collection"
-  />
-  <object meta_type="Dexterity FTI"
-          name="Review Exhibition"
-  />
-  <object meta_type="Dexterity FTI"
           name="Presentation Monograph"
   />
   <object meta_type="Dexterity FTI"
-          name="Review Monograph"
+          name="Presentation Online Resource"
   />
   <object meta_type="Dexterity FTI"
           name="Publication"
   />
   <object meta_type="Dexterity FTI"
-          name="Volume"
+          name="Review Article Collection"
   />
   <object meta_type="Dexterity FTI"
-          name="Issue"
+          name="Review Article Journal"
+  />
+  <object meta_type="Dexterity FTI"
+          name="Review Exhibition"
+  />
+  <object meta_type="Dexterity FTI"
+          name="Review Journal"
+  />
+  <object meta_type="Dexterity FTI"
+          name="Review Monograph"
   />
   <object meta_type="Dexterity FTI"
           name="Topic"
   />
   <object meta_type="Dexterity FTI"
-          name="Person"
+          name="Volume"
   />
 </object>
