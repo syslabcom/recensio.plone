@@ -20,6 +20,11 @@ class ISerial(model.Schema):
         required=False,
     )
 
+    pages = schema.TextLine(
+        title=_("Pages"),
+        required=False,
+    )
+
 
 @adapter(IDexterityContent)
 class Serial:
@@ -43,3 +48,11 @@ class Serial:
     @seriesVol.setter
     def seriesVol(self, value):
         self.context.seriesVol = value
+
+    @property
+    def pages(self):
+        return self.context.pages
+
+    @pages.setter
+    def pages(self, value):
+        self.context.pages = value
