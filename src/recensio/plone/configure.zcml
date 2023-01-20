@@ -7,6 +7,9 @@
 
   <i18n:registerTranslations directory="locales" />
 
+  <include package="collective.z3cform.datagridfield" />
+  <include package="ftw.upgrade" />
+
   <genericsetup:registerProfile
       name="default"
       title="recensio.plone"
