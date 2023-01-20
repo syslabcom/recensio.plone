@@ -52,6 +52,7 @@
     <element value="plone.locking" />
     <element value="recensio.cover_picture" />
     <element value="recensio.editorial" />
+    <element value="recensio.serial" />
     <!--<element value="plone.leadimage"/>-->
     <!--<element value="plone.relateditems"/>-->
     <!--<element value="plone.richtext"/>-->
