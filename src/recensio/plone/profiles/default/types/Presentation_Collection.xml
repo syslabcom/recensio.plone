@@ -41,6 +41,7 @@
     <element value="plone.categorization" />
     <element value="plone.locking" />
     <element value="recensio.reference_authors" />
+    <element value="recensio.pages_of_presented_text" />
   </property>
 
   <!-- View information -->
