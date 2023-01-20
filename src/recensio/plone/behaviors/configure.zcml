@@ -67,4 +67,12 @@
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 
+  <plone:behavior
+      name="recensio.base_review"
+      title="Base Review Behavior"
+      factory=".base_review.BaseReview"
+      provides=".base_review.IBaseReview"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
 </configure>
