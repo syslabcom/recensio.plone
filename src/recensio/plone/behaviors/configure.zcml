@@ -27,4 +27,12 @@
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 
+  <plone:behavior
+      name="recensio.pages_of_presented_text"
+      title="Pages of Presented Text Behavior"
+      factory=".pages_of_presented_text.PagesOfPresentedText"
+      provides=".pages_of_presented_text.IPagesOfPresentedText"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
 </configure>
