@@ -75,4 +75,12 @@
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 
+  <plone:behavior
+      name="recensio.book_review"
+      title="Printed Review Behavior"
+      factory=".book_review.BookReview"
+      provides=".book_review.IBookReview"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
 </configure>
