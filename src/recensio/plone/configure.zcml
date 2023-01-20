@@ -30,6 +30,7 @@
   <include package=".browser" />
   <include package=".content" />
   <include package=".upgrades" />
+  <include package=".vocabularies" />
 
   <utility
       factory=".setuphandlers.HiddenProfiles"
