@@ -53,6 +53,7 @@
     <element value="recensio.cover_picture" />
     <element value="recensio.editorial" />
     <element value="recensio.serial" />
+    <element value="recensio.printed_review" />
     <!--<element value="plone.leadimage"/>-->
     <!--<element value="plone.relateditems"/>-->
     <!--<element value="plone.richtext"/>-->

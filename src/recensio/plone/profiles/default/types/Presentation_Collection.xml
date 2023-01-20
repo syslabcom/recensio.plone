@@ -43,6 +43,7 @@
     <element value="recensio.reference_authors" />
     <element value="recensio.pages_of_presented_text" />
     <element value="recensio.serial" />
+    <element value="recensio.printed_review" />
   </property>
 
   <!-- View information -->
