@@ -55,6 +55,7 @@
     <element value="recensio.serial" />
     <element value="recensio.base_review" />
     <element value="recensio.printed_review" />
+    <element value="recensio.book_review" />
     <!--<element value="plone.leadimage"/>-->
     <!--<element value="plone.relateditems"/>-->
     <!--<element value="plone.richtext"/>-->

@@ -44,6 +44,7 @@
     <element value="recensio.editorial" />
     <element value="recensio.serial" />
     <element value="recensio.printed_review" />
+    <element value="recensio.book_review" />
   </property>
 
   <!-- View information -->
