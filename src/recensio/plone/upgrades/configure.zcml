@@ -3,7 +3,6 @@
     xmlns:upgrade-step="http://namespaces.zope.org/ftw.upgrade"
     >
 
-  <include package="ftw.upgrade" />
   <include
       package="ftw.upgrade"
       file="meta.zcml"
