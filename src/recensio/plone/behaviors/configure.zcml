@@ -35,4 +35,12 @@
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 
+  <plone:behavior
+      name="recensio.editorial"
+      title="Editorial Behavior"
+      factory=".editorial.Editorial"
+      provides=".editorial.IEditorial"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
 </configure>
