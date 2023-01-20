@@ -51,4 +51,12 @@
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 
+  <plone:behavior
+      name="recensio.article"
+      title="Article Behavior"
+      factory=".article.Article"
+      provides=".article.IArticle"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
 </configure>
