@@ -83,4 +83,12 @@
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 
+  <plone:behavior
+      name="recensio.journal_review"
+      title="Journal Review Behavior"
+      factory=".journal_review.JournalReview"
+      provides=".journal_review.IJournalReview"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
 </configure>
