@@ -60,6 +60,14 @@
       />
 
   <plone:behavior
+      name="recensio.printed_review"
+      title="Printed Review Behavior"
+      factory=".printed_review.PrintedReview"
+      provides=".printed_review.IPrintedReview"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
+  <plone:behavior
       name="recensio.base_review"
       title="Base Review Behavior"
       factory=".base_review.BaseReview"
