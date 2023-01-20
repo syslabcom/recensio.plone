@@ -5,5 +5,6 @@
   -->
   <dependencies>
     <dependency>profile-ftw.upgrade:default</dependency>
+    <dependency>profile-collective.z3cform.datagridfield:default</dependency>
   </dependencies>
 </metadata>
