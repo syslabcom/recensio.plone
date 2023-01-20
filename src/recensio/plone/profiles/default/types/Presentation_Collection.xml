@@ -42,6 +42,7 @@
     <element value="plone.locking" />
     <element value="recensio.reference_authors" />
     <element value="recensio.pages_of_presented_text" />
+    <element value="recensio.serial" />
   </property>
 
   <!-- View information -->

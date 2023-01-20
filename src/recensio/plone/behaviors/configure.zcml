@@ -44,6 +44,14 @@
       />
 
   <plone:behavior
+      name="recensio.serial"
+      title="Serial Behavior"
+      factory=".serial.Serial"
+      provides=".serial.ISerial"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
+  <plone:behavior
       name="recensio.article"
       title="Article Behavior"
       factory=".article.Article"
