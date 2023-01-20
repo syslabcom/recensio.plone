@@ -91,4 +91,12 @@
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 
+  <plone:behavior
+      name="recensio.base_presentation"
+      title="Base Review Behavior"
+      factory=".base_presentation.BasePresentation"
+      provides=".base_presentation.IBasePresentation"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
 </configure>
