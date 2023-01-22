@@ -22,14 +22,14 @@
   <property name="global_allow">False</property>
   <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
+    <element value="Document" />
+    <element value="File" />
     <element value="Issue" />
+    <element value="Review Article Collection" />
+    <element value="Review Article Journal" />
+    <element value="Review Exhibition" />
     <element value="Review Journal" />
     <element value="Review Monograph" />
-    <element value="Review Article Journal" />
-    <element value="Review Article Collection" />
-    <element value="Review Exhibition" />
-    <element value="File" />
-    <element value="Document" />
   </property>
   <!-- Schema, class and security -->
   <property name="add_permission">cmf.AddPortalContent</property>
@@ -42,28 +42,15 @@
   <property name="behaviors"
             purge="false"
   >
-    <!-- Details about all standard behaviors following can be read at
-         https://docs.plone.org/external/plone.app.dexterity/docs/reference/standard-behaviours.html
-    -->
-    <element value="plone.basic" />
-    <element value="plone.namefromtitle" />
     <element value="plone.allowdiscussion" />
+    <element value="plone.basic" />
+    <element value="plone.categorization" />
     <element value="plone.excludefromnavigation" />
-    <element value="plone.shortname" />
+    <element value="plone.locking" />
+    <element value="plone.namefromtitle" />
     <element value="plone.ownership" />
     <element value="plone.publication" />
-    <element value="plone.categorization" />
-    <element value="plone.locking" />
-    <!--<element value="plone.leadimage"/>-->
-    <!--<element value="plone.relateditems"/>-->
-    <!--<element value="plone.richtext"/>-->
-    <!--<element value="plone.tableofcontents"/>-->
-    <!--<element value="plone.versioning" />-->
-    <!--<element value="plone.translatable" />-->
-    <!--<element value="plone.nextprevioustoggle" />-->
-    <!--<element value="plone.nextpreviousenabled" />-->
-    <!--<element value="plone.navigationroot" />-->
-    <!--<element value="plone.selectablecontrainstypes" />-->
+    <element value="plone.shortname" />
   </property>
 
   <!-- View information -->
