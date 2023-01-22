@@ -31,17 +31,13 @@
   <property name="behaviors"
             purge="false"
   >
-    <element value="plone.allowdiscussion" />
     <element value="plone.basic" />
     <element value="plone.categorization" />
-    <element value="plone.excludefromnavigation" />
     <element value="plone.locking" />
     <element value="plone.namefromtitle" />
-    <element value="plone.ownership" />
-    <element value="plone.publication" />
-    <element value="plone.shortname" />
     <element value="recensio.article" />
     <element value="recensio.authors" />
+    <element value="recensio.base" />
     <element value="recensio.base_review" />
     <element value="recensio.book_review" />
     <element value="recensio.cover_picture" />
