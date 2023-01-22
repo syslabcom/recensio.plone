@@ -41,6 +41,7 @@
     <element value="plone.publication" />
     <element value="plone.shortname" />
     <element value="recensio.base_review" />
+    <element value="recensio.printed_review" />
   </property>
 
   <!-- View information -->
