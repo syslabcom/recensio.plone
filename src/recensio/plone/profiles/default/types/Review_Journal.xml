@@ -47,7 +47,6 @@
     <element value="plone.ownership" />
     <element value="plone.publication" />
     <element value="plone.shortname" />
-    <element value="recensio.authors" />
     <element value="recensio.base_review" />
     <element value="recensio.cover_picture" />
     <element value="recensio.journal_review" />
