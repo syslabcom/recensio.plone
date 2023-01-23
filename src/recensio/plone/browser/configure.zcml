@@ -3,4 +3,21 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     >
 
+  <browser:page
+      name="pageviewer"
+      for="recensio.plone.interfaces.IReview"
+      class=".pageviewer.Pageviewer"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
+      name="review_view"
+      for="recensio.plone.interfaces.IReview"
+      class=".review.View"
+      template="templates/review.pt"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
 </configure>

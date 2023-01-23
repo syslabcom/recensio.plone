@@ -1,0 +1,85 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      xml:lang="en"
+      i18n:domain="recensio"
+>
+
+  <div metal:fill-slot="content-title">
+    <h2 tal:content="structure context/getDecoratedTitle">username: Title</h2>
+  </div>
+
+  <div metal:fill-slot="content-core">
+    <div id="review"
+         tal:define="
+           searchresults context/getSearchresults | nothing;
+         "
+    >
+
+      <p tal:condition="searchresults">
+        ${searchresults}
+      </p>
+
+      <a class="iframe"
+         id="preview-image"
+         href="${here/absolute_url}/@@pageviewer"
+         rel="contactSheet"
+         tal:define="
+           no_pages XXX|nothing|view/get_no_pages;
+         "
+         tal:condition="not:view/isUseExternalFulltext"
+      >
+        <img src="${view/get_preview_img_url}" />
+      </a>
+
+      <a id="cover-image"
+         href="${python:view.get_doi_url_if_active() or context.canonical_uri}"
+         tal:define="
+           custom_cover context/customCoverImage|nothing;
+         "
+         tal:condition="context/isUseExternalFulltext|nothing"
+      >
+        <img src="${context/absolute_url}/@@images/customCoverImage/mini"
+             tal:condition="custom_cover"
+        />
+        <p tal:condition="not:custom_cover"
+           i18n:translate=""
+        >
+          Zum Volltext</p>
+      </a>
+
+      <br />
+
+      <p tal:condition="view/show_dara_update">
+        <form action="${context/absolute_url}/dara_update"
+              method="POST"
+        >
+          <button type="submit"
+                  value="Dara Update"
+          >Dara Update</button>
+        </form>
+      </p>
+
+      <p>
+        <a id="toctrigger"
+           href="#reviewtoc"
+           tal:condition="python:getattr(context, 'tableOfContents', None)"
+           i18n:translate="show_reviewtoc_trigger"
+        >Inhaltsverzeichnis anzeigen</a>
+      </p>
+
+      <div style="display:none"><pre id="reviewtoc"
+             tal:condition="python:hasattr(context, 'tableOfContents')"
+             tal:content="structure context/tableOfContents"
+        ></pre></div>
+      <div id="reviewhtml"
+           tal:condition="python:getattr(context, 'review', None)"
+           tal:content="structure python:context.review.output_relative_to(view.context)"
+      ></div>
+    </div>
+  </div>
+
+</html>
