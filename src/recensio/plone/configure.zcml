@@ -29,6 +29,8 @@
   <include package=".behaviors" />
   <include package=".browser" />
   <include package=".content" />
+  <include package=".mails" />
+  <include package=".subscribers" />
   <include package=".upgrades" />
   <include package=".vocabularies" />
 

@@ -1,0 +1,17 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    >
+
+  <!-- XXX in the old system this was
+    for="recensio.contenttypes.interfaces.review.IReview"
+  -->
+  <browser:page
+      name="mail_new_presentation"
+      for="*"
+      class=".legacy.MailNewPublication"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+</configure>
