@@ -38,7 +38,6 @@
   <property name="behaviors"
             purge="false"
   >
-    <element value="plone.allowdiscussion" />
     <element value="plone.basic" />
     <element value="plone.categorization" />
     <element value="plone.excludefromnavigation" />
