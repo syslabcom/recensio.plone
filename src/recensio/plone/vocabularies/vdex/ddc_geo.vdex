@@ -4,7 +4,7 @@
   <vocabName>
     <langstring language="en">International Standard Classification of Occupations, ISCO-88</langstring>
   </vocabName>
-  <vocabIdentifier>ISCO88</vocabIdentifier>
+  <vocabIdentifier>recensio.plone.vocabularies.region_values</vocabIdentifier>
   <term>
     <termIdentifier>4</termIdentifier>
     <caption>
