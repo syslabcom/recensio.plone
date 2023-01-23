@@ -42,6 +42,7 @@
     <element value="plone.categorization" />
     <element value="plone.locking" />
     <element value="plone.namefromtitle" />
+    <element value="recensio.authors" />
     <element value="recensio.base" />
     <element value="recensio.base_review" />
     <element value="recensio.book_review" />
@@ -49,7 +50,6 @@
     <element value="recensio.editorial" />
     <element value="recensio.printed_review" />
     <element value="recensio.serial" />
-    <element value="recensio.authors" />
   </property>
 
   <!-- View information -->
