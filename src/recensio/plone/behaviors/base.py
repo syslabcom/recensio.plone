@@ -119,6 +119,33 @@ class IBase(model.Schema):
         required=False,
     )
 
+    # TODO
+    # schemata="reviewed_text",
+    # size=10,
+    ddcSubject = schema.Choice(
+        title=_("ddc subject"),
+        vocabulary="recensio.plone.vocabularies.topic_values",
+        required=False,
+    )
+
+    # TODO
+    # schemata="reviewed_text",
+    # size=10,
+    ddcTime = schema.Choice(
+        title=_("ddc time"),
+        vocabulary="recensio.plone.vocabularies.epoch_values",
+        required=False,
+    )
+
+    # TODO
+    # schemata="reviewed_text",
+    # size=10,
+    ddcPlace = schema.Choice(
+        title=_("ddc place"),
+        vocabulary="recensio.plone.vocabularies.region_values",
+        required=False,
+    )
+
     # fieldset(
     #    "reviewed_text",
     #    label=_("label_schema_reviewed_text", default="Reviewed Text"),
