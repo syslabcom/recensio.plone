@@ -99,4 +99,12 @@
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 
+  <plone:behavior
+      name="recensio.base"
+      title="Recensio base behavior"
+      factory=".base.Base"
+      provides=".base.IBase"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
 </configure>
