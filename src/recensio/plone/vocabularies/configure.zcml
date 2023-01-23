@@ -1,4 +1,8 @@
-<configure xmlns="http://namespaces.zope.org/zope">
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:vdex="http://namespaces.zope.org/vdex">
+
+  <vdex:vocabulary directory="vdex/" />
 
   <utility
       name="recensio.plone.vocabularies.honorifics"
