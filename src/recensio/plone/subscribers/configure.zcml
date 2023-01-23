@@ -1,0 +1,9 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <subscriber
+      for="*
+           Products.CMFCore.interfaces.IActionSucceededEvent"
+      handler=".simple_publication_workflow.mail_after_publication"
+      />
+
+</configure>
