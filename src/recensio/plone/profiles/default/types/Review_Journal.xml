@@ -42,11 +42,11 @@
     <element value="plone.categorization" />
     <element value="plone.locking" />
     <element value="plone.namefromtitle" />
-    <element value="recensio.authors" />
     <element value="recensio.base" />
     <element value="recensio.base_review" />
     <element value="recensio.cover_picture" />
     <element value="recensio.journal_review" />
+    <element value="recensio.printed_review" />
   </property>
 
   <!-- View information -->
