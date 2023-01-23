@@ -1,0 +1,784 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- This document was created with Syntext Serna Free. -->
+<vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0                           imsvdex_v1p0.xsd imsvdex_v1p0_thesaurus.xsd                           http://www.imsglobal.org/xsd/imsmd_rootv1p2p1                           imsmd_rootv1p2p1.xsd" orderSignificant="true" profileType="flatTokenTerms" language="en">
+  <vocabName>
+    <langstring language="en">International Standard Classification of Occupations, ISCO-88</langstring>
+  </vocabName>
+  <vocabIdentifier>recensio.plone.vocabularies.region_values</vocabIdentifier>
+  <term>
+    <termIdentifier>4</termIdentifier>
+    <caption>
+      <langstring language="de">Europa</langstring>
+      <langstring language="en">Europe</langstring>
+      <langstring language="fr">Europe</langstring>
+    </caption>
+    <term>
+      <termIdentifier>41</termIdentifier>
+      <caption>
+        <langstring language="de">Nordeuropa</langstring>
+        <langstring language="en">Northern Europe</langstring>
+        <langstring language="fr">Europe du Nord</langstring>
+      </caption>
+      <term>
+        <termIdentifier>41.1</termIdentifier>
+        <caption>
+          <langstring language="de">Finnland</langstring>
+          <langstring language="en">Finland</langstring>
+          <langstring language="fr">Finlande</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>41.2</termIdentifier>
+        <caption>
+          <langstring language="de">Island</langstring>
+          <langstring language="en">Iceland</langstring>
+          <langstring language="fr">Islande</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>41.3</termIdentifier>
+        <caption>
+          <langstring language="de">Skandinavien</langstring>
+          <langstring language="en">Scandinavia</langstring>
+          <langstring language="fr">Pays scandinaves</langstring>
+        </caption>
+        <term>
+          <termIdentifier>41.31</termIdentifier>
+          <caption>
+            <langstring language="de">Dänemark</langstring>
+            <langstring language="en">Denmark</langstring>
+            <langstring language="fr"> Danemark</langstring>
+          </caption>
+        </term>
+        <term>
+          <termIdentifier>41.32</termIdentifier>
+          <caption>
+            <langstring language="de">Norwegen</langstring>
+            <langstring language="en">Norway</langstring>
+            <langstring language="fr"> Norvège</langstring>
+          </caption>
+        </term>
+        <term>
+          <termIdentifier>41.33</termIdentifier>
+          <caption>
+            <langstring language="de">Schweden</langstring>
+            <langstring language="en">Sweden</langstring>
+            <langstring language="fr"> Suède</langstring>
+          </caption>
+        </term>
+      </term>
+      <term>
+        <termIdentifier>41.4</termIdentifier>
+        <caption>
+          <langstring language="de">Baltikum</langstring>
+          <langstring language="en">Baltic states</langstring>
+          <langstring language="fr">Pays baltes</langstring>
+        </caption>
+        <term>
+          <termIdentifier>41.41</termIdentifier>
+          <caption>
+            <langstring language="de">Estland</langstring>
+            <langstring language="en">Estonia</langstring>
+            <langstring language="fr">Estonie</langstring>
+          </caption>
+        </term>
+        <term>
+          <termIdentifier>41.42</termIdentifier>
+          <caption>
+            <langstring language="de">Lettland</langstring>
+            <langstring language="en">Latvia</langstring>
+            <langstring language="fr"> Lettonie</langstring>
+          </caption>
+        </term>
+        <term>
+          <termIdentifier>41.43</termIdentifier>
+          <caption>
+            <langstring language="de">Litauen</langstring>
+            <langstring language="en">Lithuania</langstring>
+            <langstring language="fr"> Lituanie</langstring>
+          </caption>
+        </term>
+      </term>
+    </term>
+    <term>
+      <termIdentifier>42</termIdentifier>
+      <caption>
+        <langstring language="de">Westeuropa</langstring>
+        <langstring language="en">Western Europe</langstring>
+        <langstring language="fr">Europe de l&apos;Ouest</langstring>
+      </caption>
+      <term>
+        <termIdentifier>42.1</termIdentifier>
+        <caption>
+          <langstring language="de">Niederlande</langstring>
+          <langstring language="en">Netherlands</langstring>
+          <langstring language="fr">Pays-Bas</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>42.2</termIdentifier>
+        <caption>
+          <langstring language="de">Belgien</langstring>
+          <langstring language="en">Belgium</langstring>
+          <langstring language="fr">Belgique</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>42.3</termIdentifier>
+        <caption>
+          <langstring language="de">Luxemburg</langstring>
+          <langstring language="en">Luxembourg</langstring>
+          <langstring language="fr">Luxembourg</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>42.4</termIdentifier>
+        <caption>
+          <langstring language="de">Frankreich</langstring>
+          <langstring language="en">France</langstring>
+          <langstring language="fr">France</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>42.5</termIdentifier>
+        <caption>
+          <langstring language="de">Deutschland</langstring>
+          <langstring language="en">Germany</langstring>
+          <langstring language="fr">Allemagne</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>42.6</termIdentifier>
+        <caption>
+          <langstring language="de">Österreich</langstring>
+          <langstring language="en">Austria</langstring>
+          <langstring language="fr">Autriche</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>42.7</termIdentifier>
+        <caption>
+          <langstring language="de">Schweiz</langstring>
+          <langstring language="en">Switzerland</langstring>
+          <langstring language="fr">Suisse</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>42.8</termIdentifier>
+        <caption>
+          <langstring language="de">Großbritannien</langstring>
+          <langstring language="en">Great Britain</langstring>
+          <langstring language="fr">Grande-Bretagne</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>42.9</termIdentifier>
+        <caption>
+          <langstring language="de">Irland</langstring>
+          <langstring language="en">Ireland</langstring>
+          <langstring language="fr">Irlande</langstring>
+        </caption>
+      </term>
+    </term>
+    <term>
+      <termIdentifier>43</termIdentifier>
+      <caption>
+        <langstring language="de">Osteuropa</langstring>
+        <langstring language="en">Eastern Europe</langstring>
+        <langstring language="fr">Europe de l&apos;Est</langstring>
+      </caption>
+      <term>
+        <termIdentifier>947.08</termIdentifier>
+        <caption>
+          <langstring language="de">UdSSR und GUS</langstring>
+          <langstring language="en">USSR and CIS</langstring>
+          <langstring language="fr">URSS et CEI</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>43.1</termIdentifier>
+        <caption>
+          <langstring language="de">Russland</langstring>
+          <langstring language="en">Russia</langstring>
+          <langstring language="fr">Russie</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>43.2</termIdentifier>
+        <caption>
+          <langstring language="de">Weißrussland</langstring>
+          <langstring language="en">Belarus</langstring>
+          <langstring language="fr">Biélorussie</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>43.3</termIdentifier>
+        <caption>
+          <langstring language="de">Ukraine</langstring>
+          <langstring language="en">Ukraine</langstring>
+          <langstring language="fr">Ukraine</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>437</termIdentifier>
+        <caption>
+          <langstring language="de">Ostmitteleuropa</langstring>
+          <langstring language="en">East-Central Europe</langstring>
+          <langstring language="fr">Europe médiane</langstring>
+        </caption>
+        <term>
+          <termIdentifier>43.4</termIdentifier>
+          <caption>
+            <langstring language="de">Polen</langstring>
+            <langstring language="en">Poland</langstring>
+            <langstring language="fr">Pologne</langstring>
+          </caption>
+        </term>
+        <term>
+          <termIdentifier>43.5</termIdentifier>
+          <caption>
+            <langstring language="de">Tschechien</langstring>
+            <langstring language="en">Czech Republic</langstring>
+            <langstring language="fr">République Tchèque</langstring>
+          </caption>
+        </term>
+        <term>
+          <termIdentifier>43.6</termIdentifier>
+          <caption>
+            <langstring language="de">Slowakei</langstring>
+            <langstring language="en">Slovakia</langstring>
+            <langstring language="fr">Slovaquie</langstring>
+          </caption>
+        </term>
+        <term>
+          <termIdentifier>43.7</termIdentifier>
+          <caption>
+            <langstring language="de">Ungarn</langstring>
+            <langstring language="en">Hungary</langstring>
+            <langstring language="fr">Hongrie</langstring>
+          </caption>
+        </term>
+      </term>
+      <term>
+        <termIdentifier>43.8</termIdentifier>
+        <caption>
+          <langstring language="de">Rumänien</langstring>
+          <langstring language="en">Romania</langstring>
+          <langstring language="fr">Roumanie</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>43.9</termIdentifier>
+        <caption>
+          <langstring language="de">Moldawien</langstring>
+          <langstring language="en">Moldavia</langstring>
+          <langstring language="fr">Moldavie</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>475</termIdentifier>
+        <caption>
+          <langstring language="de">Kaukasus</langstring>
+          <langstring language="en">Caucasus</langstring>
+          <langstring language="fr">Caucase</langstring>
+          </caption>
+        <term>
+          <termIdentifier>43.10</termIdentifier>
+          <caption>
+            <langstring language="de">Armenien</langstring>
+            <langstring language="en">Armenia</langstring>
+            <langstring language="fr">Arménie</langstring>
+          </caption>
+        </term>
+        <term>
+          <termIdentifier>43.11</termIdentifier>
+          <caption>
+            <langstring language="de">Aserbaidschan</langstring>
+            <langstring language="en">Azerbaijan</langstring>
+            <langstring language="fr">Azerbaïdjan</langstring>
+          </caption>
+        </term>
+        <term>
+          <termIdentifier>43.12</termIdentifier>
+          <caption>
+            <langstring language="de">Georgien</langstring>
+            <langstring language="en">Georgia</langstring>
+            <langstring language="fr">Géorgie</langstring>
+          </caption>
+        </term>
+      </term>
+    </term>
+    <term>
+      <termIdentifier>44</termIdentifier>
+      <caption>
+        <langstring language="de">Südeuropa</langstring>
+        <langstring language="en">Southern Europe</langstring>
+        <langstring language="fr">Europe du Sud</langstring>
+      </caption>
+      <term>
+        <termIdentifier>1822</termIdentifier>
+        <caption>
+          <langstring language="de">Mittelmeerraum</langstring>
+          <langstring language="en">Mediterranean region</langstring>
+          <langstring language="fr">Region Méditerranée</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>44.1</termIdentifier>
+        <caption>
+          <langstring language="de">Spanien</langstring>
+          <langstring language="en">Spain</langstring>
+          <langstring language="fr">Espagne</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>44.2</termIdentifier>
+        <caption>
+          <langstring language="de">Portugal</langstring>
+          <langstring language="en">Portugal</langstring>
+          <langstring language="fr">Portugal</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>44.3</termIdentifier>
+        <caption>
+          <langstring language="de">Italien</langstring>
+          <langstring language="en">Italy</langstring>
+          <langstring language="fr">Italie</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>44.4</termIdentifier>
+        <caption>
+          <langstring language="de">Malta</langstring>
+          <langstring language="en">Malta</langstring>
+          <langstring language="fr">Malte</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>44.5</termIdentifier>
+        <caption>
+          <langstring language="de">Zypern</langstring>
+          <langstring language="en">Cyprus</langstring>
+          <langstring language="fr">Chypre</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>44.6</termIdentifier>
+        <caption>
+          <langstring language="de">Südosteuropa</langstring>
+          <langstring language="en">South Eastern Europe</langstring>
+          <langstring language="fr">Europe du Sud-Est</langstring>
+        </caption>
+        <term>
+          <termIdentifier>44.61</termIdentifier>
+          <caption>
+            <langstring language="de">Albanien</langstring>
+            <langstring language="en">Albania</langstring>
+            <langstring language="fr">Albanie</langstring>
+          </caption>
+        </term>
+        <term>
+          <termIdentifier>44.62</termIdentifier>
+          <caption>
+            <langstring language="de">Bosnien-Herzegowina</langstring>
+            <langstring language="en">Bosnia and Herzegovina</langstring>
+            <langstring language="fr">Bosnie-Herzégovine</langstring>
+          </caption>
+        </term>
+        <term>
+          <termIdentifier>44.63</termIdentifier>
+          <caption>
+            <langstring language="de">Bulgarien</langstring>
+            <langstring language="en">Bulgaria</langstring>
+            <langstring language="fr">Bulgarie</langstring>
+          </caption>
+        </term>
+        <term>
+          <termIdentifier>44.64</termIdentifier>
+          <caption>
+            <langstring language="de">Griechenland</langstring>
+            <langstring language="en">Greece</langstring>
+            <langstring language="fr">Grèce</langstring>
+          </caption>
+        </term>
+        <term>
+          <termIdentifier>44.65</termIdentifier>
+          <caption>
+            <langstring language="de">Kroatien</langstring>
+            <langstring language="en">Croatia</langstring>
+            <langstring language="fr">Croatie</langstring>
+          </caption>
+        </term>
+        <term>
+          <termIdentifier>44.66</termIdentifier>
+          <caption>
+            <langstring language="de">Makedonien</langstring>
+            <langstring language="en">Macedonia</langstring>
+            <langstring language="fr">Macédoine</langstring>
+          </caption>
+        </term>
+        <term>
+          <termIdentifier>44.67</termIdentifier>
+          <caption>
+            <langstring language="de">Serbien</langstring>
+            <langstring language="en">Serbia</langstring>
+            <langstring language="fr">Serbie</langstring>
+          </caption>
+        </term>
+        <term>
+          <termIdentifier>44.68</termIdentifier>
+          <caption>
+            <langstring language="de">Montenegro</langstring>
+            <langstring language="en">Montenegro</langstring>
+            <langstring language="fr">Monténégro</langstring>
+          </caption>
+        </term>
+        <term>
+          <termIdentifier>44.69</termIdentifier>
+          <caption>
+            <langstring language="de">Slowenien</langstring>
+            <langstring language="en">Slovenia</langstring>
+            <langstring language="fr">Slovénie</langstring>
+          </caption>
+        </term>
+		<term>
+		  <termIdentifier>561</termIdentifier>
+		  <caption>
+			<langstring language="de">Türkei, Osmanisches Reich</langstring>
+			<langstring language="en">Turkey, Ottoman Empire</langstring>
+			<langstring language="fr">Turquie, Empire ottoman</langstring>
+		  </caption>
+		</term>
+        <term>
+          <termIdentifier>44.71</termIdentifier>
+          <caption>
+            <langstring language="de">Kosovo</langstring>
+            <langstring language="en">Kosovo</langstring>
+            <langstring language="fr">Kosovo</langstring>
+          </caption>
+        </term>
+      </term>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>5</termIdentifier>
+    <caption>
+      <langstring language="de">Asien</langstring>
+      <langstring language="en">Asia</langstring>
+      <langstring language="fr">Asie</langstring>
+    </caption>
+    <term>
+      <termIdentifier>59.2</termIdentifier>
+      <caption>
+        <langstring language="de">Arabische Halbinsel und benachbarte Gebiete</langstring>
+        <langstring language="en">Arabian Peninsula and neighbouring territories</langstring>
+        <langstring language="fr">Arabie et territoires voisins</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>51</termIdentifier>
+      <caption>
+        <langstring language="de">China und benachbarte Gebiete</langstring>
+        <langstring language="en">China and neighbouring territories</langstring>
+        <langstring language="fr">Chine et territoires voisins</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>567</termIdentifier>
+      <caption>
+        <langstring language="de">Irak</langstring>
+        <langstring language="en">Iraq</langstring>
+        <langstring language="fr">Irak</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>55</termIdentifier>
+      <caption>
+        <langstring language="de">Iran</langstring>
+        <langstring language="en">Iran</langstring>
+        <langstring language="fr">Iran</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>52</termIdentifier>
+      <caption>
+        <langstring language="de">Japan</langstring>
+        <langstring language="en">Japan</langstring>
+        <langstring language="fr">Japon</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>56</termIdentifier>
+      <caption>
+        <langstring language="de">Naher Osten</langstring>
+        <langstring language="en">Near East</langstring>
+        <langstring language="fr">Proche-Orient</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>59.1</termIdentifier>
+      <caption>
+        <langstring language="de">Palästina, Israel</langstring>
+        <langstring language="en">Palestine, Israel</langstring>
+        <langstring language="fr">Palestine, Israël</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>57</termIdentifier>
+      <caption>
+        <langstring language="de">Sibirien</langstring>
+        <langstring language="en">Sibiria</langstring>
+        <langstring language="fr">Sibérie</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>54</termIdentifier>
+      <caption>
+        <langstring language="de">Südasien u. Indien</langstring>
+        <langstring language="en">Southern Asia and India</langstring>
+        <langstring language="fr">Asie du Sud et Inde</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>59</termIdentifier>
+      <caption>
+        <langstring language="de">Südostasien</langstring>
+        <langstring language="en">South-Eastern Asia</langstring>
+        <langstring language="fr">Asie du Sud-Est</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>58</termIdentifier>
+      <caption>
+        <langstring language="de">Zentralasien</langstring>
+        <langstring language="en">Central Asia</langstring>
+        <langstring language="fr">Asie centrale</langstring>
+      </caption>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>6</termIdentifier>
+    <caption>
+      <langstring language="de">Afrika</langstring>
+      <langstring language="en">Africa</langstring>
+      <langstring language="fr">Afrique</langstring>
+    </caption>
+    <term>
+      <termIdentifier>61</termIdentifier>
+      <caption>
+        <langstring language="de">Tunesien und Libyen</langstring>
+        <langstring language="en">Tunisia and Libya</langstring>
+        <langstring language="fr">Tunisie et Libye</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>62</termIdentifier>
+      <caption>
+        <langstring language="de">Ägypten und Sudan</langstring>
+        <langstring language="en">Egypt and Sudan</langstring>
+        <langstring language="fr">Égypte et Soudan</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>63</termIdentifier>
+      <caption>
+        <langstring language="de">Äthiopien und Eritrea</langstring>
+        <langstring language="en">Ethiopia and Eritrea</langstring>
+        <langstring language="fr">Éthiopie et Érythrée</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>64</termIdentifier>
+      <caption>
+        <langstring language="de">Marokko</langstring>
+        <langstring language="en">Morocco</langstring>
+        <langstring language="fr">Maroc</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>65</termIdentifier>
+      <caption>
+        <langstring language="de">Algerien</langstring>
+        <langstring language="en">Algeria</langstring>
+        <langstring language="fr">Algérie</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>66</termIdentifier>
+      <caption>
+        <langstring language="de">Westafrika</langstring>
+        <langstring language="en">Western Africa</langstring>
+        <langstring language="fr">Afrique de l&apos;Ouest</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>67</termIdentifier>
+      <caption>
+        <langstring language="de">Zentral- u. Ostafrika</langstring>
+        <langstring language="en">Middle and Eastern Africa</langstring>
+        <langstring language="fr">Afrique de l&apos; Est et centrale</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>68</termIdentifier>
+      <caption>
+        <langstring language="de">Südafrika</langstring>
+        <langstring language="en">Southern Africa</langstring>
+        <langstring language="fr">Afrique australe</langstring>
+      </caption>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>7</termIdentifier>
+    <caption>
+      <langstring language="de">Amerika</langstring>
+      <langstring language="en">America</langstring>
+      <langstring language="fr">Amérique</langstring>
+    </caption>
+    <term>
+      <termIdentifier>71</termIdentifier>
+      <caption>
+        <langstring language="de">Nordamerika</langstring>
+        <langstring language="en">North America</langstring>
+        <langstring language="fr">Amérique du Nord</langstring>
+      </caption>
+      <term>
+        <termIdentifier>71.1</termIdentifier>
+        <caption>
+          <langstring language="de"> USA</langstring>
+          <langstring language="en"> USA</langstring>
+          <langstring language="fr">États-Unis</langstring>
+        </caption>
+      </term>
+      <term>
+        <termIdentifier>71.2</termIdentifier>
+        <caption>
+          <langstring language="de"> Kanada</langstring>
+          <langstring language="en"> Canada</langstring>
+          <langstring language="fr">Canada</langstring>
+        </caption>
+      </term>
+    </term>
+    <term>
+      <termIdentifier>72</termIdentifier>
+      <caption>
+        <langstring language="de">Mittelamerika</langstring>
+        <langstring language="en">Central America</langstring>
+        <langstring language="fr">Amérique centrale</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>73</termIdentifier>
+      <caption>
+        <langstring language="de">Südamerika</langstring>
+        <langstring language="en">South America</langstring>
+        <langstring language="fr">Amérique du Sud</langstring>
+      </caption>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>11</termIdentifier>
+    <caption>
+      <langstring language="de">Kalte Klimazonen</langstring>
+      <langstring language="en">Cold climates</langstring>
+      <langstring language="fr">Climats froids</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>9</termIdentifier>
+    <caption>
+      <langstring language="de">Andere Teile der Welt</langstring>
+      <langstring language="en">Other countries</langstring>
+      <langstring language="fr">Autres pays</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>181</termIdentifier>
+    <caption>
+      <langstring language="de">Welt</langstring>
+      <langstring language="en">World</langstring>
+      <langstring language="fr">Monde</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>3</termIdentifier>
+    <caption>
+      <langstring language="de">Alte Welt</langstring>
+      <langstring language="en">Ancient World</langstring>
+      <langstring language="fr">Ancien Monde</langstring>
+    </caption>
+    <term>
+      <termIdentifier>32</termIdentifier>
+      <caption>
+        <langstring language="de">Ägypten / Alte Welt</langstring>
+        <langstring language="en">Egypt / ancient</langstring>
+        <langstring language="fr">Égypte / Ancien Monde</langstring>
+      </caption>
+    </term>
+	<term>
+	  <termIdentifier>398</termIdentifier>
+	  <caption>
+		<langstring language="de">Südosteuropa, Byzanz / Alte Welt</langstring>
+		<langstring language="en">South Eastern Europe, Byzantine Empire / ancient</langstring>
+		<langstring language="fr">Europe du Sud-Est, Empire </langstring>
+	  </caption>
+	</term>
+    <term>
+      <termIdentifier>31</termIdentifier>
+      <caption>
+        <langstring language="de">China / Alte Welt</langstring>
+        <langstring language="en">China / ancient</langstring>
+        <langstring language="fr">Chine / Ancien Monde</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>38</termIdentifier>
+      <caption>
+        <langstring language="de">Griechenland / Alte Welt</langstring>
+        <langstring language="en">Greece / ancient</langstring>
+        <langstring language="fr">Grèce / Ancien Monde</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>35</termIdentifier>
+      <caption>
+        <langstring language="de">Mesopotamien, Persien / Alte Welt</langstring>
+        <langstring language="en">Mesopotamia, Persia / ancient</langstring>
+        <langstring language="fr">Mésopotamie, Perse / Ancien Monde</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>394</termIdentifier>
+      <caption>
+        <langstring language="de">Naher Osten / Alte Welt</langstring>
+        <langstring language="en">Near East / ancient</langstring>
+        <langstring language="fr">Proche-Orient / Ancient Monde</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>33</termIdentifier>
+      <caption>
+        <langstring language="de">Palästina, Israel / Alte Welt</langstring>
+        <langstring language="en">Palestine, Israel / ancient</langstring>
+        <langstring language="fr">Palestine, Israël / Ancien Monde</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>37</termIdentifier>
+      <caption>
+        <langstring language="de">Römisches Reich</langstring>
+        <langstring language="en">Roman Empire</langstring>
+        <langstring language="fr">Empire romain</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>39</termIdentifier>
+      <caption>
+        <langstring language="de">Andere Teile der alten Welt</langstring>
+        <langstring language="en">Other parts of the world</langstring>
+        <langstring language="fr">Autres parties du monde</langstring>
+      </caption>
+    </term>
+  </term>
+</vdex>

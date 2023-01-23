@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0
+                          imsvdex_v1p0.xsd imsvdex_v1p0_thesaurus.xsd
+                          http://www.imsglobal.org/xsd/imsmd_rootv1p2p1
+                          imsmd_rootv1p2p1.xsd"
+      orderSignificant="true"
+      profileType="flatTokenTerms"
+      language="en">
+  <vocabName>
+    <langstring language="en">International Standard Classification of Occupations, ISCO-88</langstring>
+  </vocabName>
+  <vocabIdentifier>recensio.plone.vocabularies.epoch_values</vocabIdentifier>
+  <term>
+<termIdentifier>0901</termIdentifier>
+<caption>
+<langstring language="de">bis 499 n. Chr.</langstring>
+<langstring language="en">until 499 AD</langstring>
+<langstring language="fr">jusqu'à 499 ap. J.-C.</langstring>
+</caption>
+<term>
+<termIdentifier>09012</termIdentifier>
+<caption>
+<langstring language="de">vor 4000 v. Chr.</langstring>
+<langstring language="en">before 4000 BC</langstring>
+<langstring language="fr">avant 4000 av. J.-C.</langstring>
+</caption>
+
+</term>
+<term>
+<termIdentifier>09013</termIdentifier>
+<caption>
+<langstring language="de">3999-1000 v. Chr.</langstring>
+<langstring language="en">3999-1000 BC</langstring>
+<langstring language="fr">de 3999 à 1000 av. J.-C.</langstring>
+</caption>
+
+</term>
+<term>
+<termIdentifier>09014</termIdentifier>
+<caption>
+<langstring language="de">999 - 1  v. Chr.</langstring>
+<langstring language="en">999 - 1 BC</langstring>
+<langstring language="fr">de 999 à 1 av. J.-C.</langstring>
+</caption>
+
+</term>
+<term>
+<termIdentifier>09015</termIdentifier>
+<caption>
+<langstring language="de">1 - 5.  Jh. n. Chr.</langstring>
+<langstring language="en">1st - 5th century AD</langstring>
+<langstring language="fr">Ier - Ve siècle après JC</langstring>
+</caption>
+
+</term>
+</term>
+<term>
+<termIdentifier>0902</termIdentifier>
+<caption>
+<langstring language="de">Mittelalter</langstring>
+<langstring language="en">Middle Ages</langstring>
+<langstring language="fr">Moyen Âge</langstring>
+</caption>
+<term>
+<termIdentifier>09021</termIdentifier>
+<caption>
+<langstring language="de">6. - 12. Jh.</langstring>
+<langstring language="en">6th - 12th century</langstring>
+<langstring language="fr">VIe - XIIe siècle</langstring>
+</caption>
+
+</term>
+<term>
+<termIdentifier>09022</termIdentifier>
+<caption>
+<langstring language="de">13. Jh.</langstring>
+<langstring language="en">13th century</langstring>
+<langstring language="fr">XIIIe siècle</langstring>
+</caption>
+
+</term>
+<term>
+<termIdentifier>09023</termIdentifier>
+<caption>
+<langstring language="de">14. Jh.</langstring>
+<langstring language="en">14th century</langstring>
+<langstring language="fr">XIVe siècle</langstring>
+</caption>
+
+</term>
+<term>
+<termIdentifier>09024</termIdentifier>
+<caption>
+<langstring language="de">15. Jh.</langstring>
+<langstring language="en">15th century</langstring>
+<langstring language="fr">XVe siècle</langstring>
+</caption>
+
+</term>
+</term>
+<term>
+<termIdentifier>0903</termIdentifier>
+<caption>
+<langstring language="de">Neuzeit bis 1900</langstring>
+<langstring language="en">Modern age until 1900</langstring>
+<langstring language="fr">Époque moderne jusqu'à 1900</langstring>
+</caption>
+<term>
+<termIdentifier>09031</termIdentifier>
+<caption>
+<langstring language="de">16. Jh.</langstring>
+<langstring language="en">16th century</langstring>
+<langstring language="fr">XVIe siècle</langstring>
+</caption>
+
+</term>
+<term>
+<termIdentifier>09032</termIdentifier>
+<caption>
+<langstring language="de">17. Jh.</langstring>
+<langstring language="en">17th century</langstring>
+<langstring language="fr">XVIIe siècle</langstring>
+</caption>
+
+</term>
+<term>
+<termIdentifier>09033</termIdentifier>
+<caption>
+<langstring language="de">18. Jh.</langstring>
+<langstring language="en">18th century</langstring>
+<langstring language="fr">XVIIIe siècle</langstring>
+</caption>
+
+</term>
+<term>
+<termIdentifier>09034</termIdentifier>
+<caption>
+<langstring language="de">19. Jh.</langstring>
+<langstring language="en">19th century</langstring>
+<langstring language="fr">XIXe siècle</langstring>
+</caption>
+
+</term>
+</term>
+<term>
+<termIdentifier>0904</termIdentifier>
+<caption>
+<langstring language="de">20. Jahrhundert</langstring>
+<langstring language="en">20th century</langstring>
+<langstring language="fr">XXe siècle</langstring>
+</caption>
+<term>
+<termIdentifier>09041</termIdentifier>
+<caption>
+<langstring language="de">1900 - 1919</langstring>
+<langstring language="en">1900 - 1919</langstring>
+<langstring language="fr">1900 - 1919</langstring>
+</caption>
+
+</term>
+<term>
+<termIdentifier>09042</termIdentifier>
+<caption>
+<langstring language="de">1920 - 1929</langstring>
+<langstring language="en">1920 - 1929</langstring>
+<langstring language="fr">1920 - 1929</langstring>
+</caption>
+
+</term>
+<term>
+<termIdentifier>09043</termIdentifier>
+<caption>
+<langstring language="de">1930 - 1939</langstring>
+<langstring language="en">1930 - 1939</langstring>
+<langstring language="fr">1930 - 1939</langstring>
+</caption>
+
+</term>
+<term>
+<termIdentifier>09044</termIdentifier>
+<caption>
+<langstring language="de">1940 - 1949</langstring>
+<langstring language="en">1940 - 1949</langstring>
+<langstring language="fr">1940 - 1949</langstring>
+</caption>
+
+</term>
+<term>
+<termIdentifier>09045</termIdentifier>
+<caption>
+<langstring language="de">1950 - 1959</langstring>
+<langstring language="en">1950 - 1959</langstring>
+<langstring language="fr">1950 - 1959</langstring>
+</caption>
+
+</term>
+<term>
+<termIdentifier>09046</termIdentifier>
+<caption>
+<langstring language="de">1960 - 1969</langstring>
+<langstring language="en">1960 - 1969</langstring>
+<langstring language="fr">1960 - 1969</langstring>
+</caption>
+
+</term>
+<term>
+<termIdentifier>09047</termIdentifier>
+<caption>
+<langstring language="de">1970 - 1979</langstring>
+<langstring language="en">1970 - 1979</langstring>
+<langstring language="fr">1970 - 1979</langstring>
+</caption>
+
+</term>
+<term>
+<termIdentifier>09048</termIdentifier>
+<caption>
+<langstring language="de">1980 - 1989</langstring>
+<langstring language="en">1980 - 1989</langstring>
+<langstring language="fr">1980 - 1989</langstring>
+</caption>
+
+</term>
+<term>
+<termIdentifier>09049</termIdentifier>
+<caption>
+<langstring language="de">1990 - 1999</langstring>
+<langstring language="en">1990 - 1999</langstring>
+<langstring language="fr">1990 - 1999</langstring>
+</caption>
+
+</term>
+</term>
+<term>
+<termIdentifier>0905</termIdentifier>
+<caption>
+<langstring language="de">21. Jahrhundert</langstring>
+<langstring language="en">21st century</langstring>
+<langstring language="fr">XXIe siècle</langstring>
+</caption>
+<term>
+<termIdentifier>090511</termIdentifier>
+<caption>
+<langstring language="de">2000-2009</langstring>
+<langstring language="en">2000-2009</langstring>
+<langstring language="fr">2000-2009</langstring>
+</caption>
+
+</term>
+<term>
+<termIdentifier>090512</termIdentifier>
+<caption>
+<langstring language="de">2010-2019</langstring>
+<langstring language="en">2010-2019</langstring>
+<langstring language="fr">2010-2019</langstring>
+</caption>
+
+</term>
+</term>
+</vdex>

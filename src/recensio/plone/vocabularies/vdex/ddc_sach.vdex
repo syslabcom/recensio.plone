@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0
+                          imsvdex_v1p0.xsd imsvdex_v1p0_thesaurus.xsd
+                          http://www.imsglobal.org/xsd/imsmd_rootv1p2p1
+                          imsmd_rootv1p2p1.xsd"
+      orderSignificant="true"
+      profileType="flatTokenTerms"
+      language="en">
+  <vocabName>
+      <langstring language="en">International Standard Classification of Occupations, ISCO-88</langstring>
+  </vocabName>
+  <vocabIdentifier>recensio.plone.vocabularies.topic_values</vocabIdentifier>
+
+  <term>
+    <termIdentifier>630.9</termIdentifier>
+    <caption>
+      <langstring language="de">Agrargeschichte</langstring>
+      <langstring language="en">History of agriculture</langstring>
+      <langstring language="fr">Histoire rurale</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>930.1</termIdentifier>
+    <caption>
+      <langstring language="de">Archäologie</langstring>
+      <langstring language="en">Archaeology</langstring>
+      <langstring language="fr">Archéologie</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>020</termIdentifier>
+    <caption>
+      <langstring language="de">Archiv, Bibliothek, Museum</langstring>
+      <langstring language="en">Archive, Library, Museum</langstring>
+      <langstring language="fr">Archives, Bibliothèque, Musée</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>370.9</termIdentifier>
+    <caption>
+      <langstring language="de">Bildungs-, Wissenschafts-, Schul- und Universitätsgeschichte</langstring>
+      <langstring language="en">History of education</langstring>
+      <langstring language="fr">Histoire de l'éducation</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>929</termIdentifier>
+    <caption>
+      <langstring language="de">Biographien, Familiengeschichte</langstring>
+      <langstring language="en">Biographies, genealogy</langstring>
+      <langstring language="fr">Biographies, généalogie</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>791.409</termIdentifier>
+    <caption>
+      <langstring language="de">Film-, Hörfunk- und Fernsehgeschichte </langstring>
+      <langstring language="en">History of cinema, radio and television</langstring>
+      <langstring language="fr">Histoire du cinéma, de la radio et de la télévision</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>900</termIdentifier>
+    <caption>
+      <langstring language="de">Geschichte allgemein</langstring>
+      <langstring language="en">History</langstring>
+      <langstring language="fr">Histoire générale</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>509</termIdentifier>
+    <caption>
+      <langstring language="de">Geschichte der Naturwissenschaften</langstring>
+      <langstring language="en">History of science</langstring>
+      <langstring language="fr">Histoire des sciences</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>150.9</termIdentifier>
+    <caption>
+      <langstring language="de">Geschichte der Psychologie</langstring>
+      <langstring language="en">History of psychology</langstring>
+      <langstring language="fr">Histoire de la psychologie</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>909.0491497</termIdentifier>
+    <caption>
+      <langstring language="de">Geschichte der Sinti und Roma</langstring>
+      <langstring language="en">History of Sinti and Romanies</langstring>
+      <langstring language="fr">Histoire des Sinti et des Roms</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>070.9</termIdentifier>
+    <caption>
+      <langstring language="de">Geschichte des Journalismus, der Medien und der Kommunikation</langstring>
+      <langstring language="en">History of journalism, media and communication</langstring>
+      <langstring language="fr">Histoire du journalisme, des médias et de la communication</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>907.1</termIdentifier>
+    <caption>
+      <langstring language="de">Geschichtsdidaktik</langstring>
+      <langstring language="en">History Didactics</langstring>
+      <langstring language="fr">Didactique de l'histoire</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>305.309</termIdentifier>
+    <caption>
+      <langstring language="de">Geschlechtergeschichte</langstring>
+      <langstring language="en">Gender Studies</langstring>
+      <langstring language="fr">Histoire des genres</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>880</termIdentifier>
+    <caption>
+      <langstring language="de">Griechische Literatur</langstring>
+      <langstring language="en">Greek Literature</langstring>
+      <langstring language="fr">Littérature grecque</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>304.609</termIdentifier>
+    <caption>
+      <langstring language="de">Historische Demographie</langstring>
+      <langstring language="en">Historical Demography</langstring>
+      <langstring language="fr">Démographie</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>911</termIdentifier>
+    <caption>
+      <langstring language="de">Historische Geographie</langstring>
+      <langstring language="en">Historical Geography</langstring>
+      <langstring language="fr">Géographie historique</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>907.2</termIdentifier>
+    <caption>
+      <langstring language="de">Historische Hilfswissenschaften</langstring>
+      <langstring language="en">Auxiliary sciences of history</langstring>
+      <langstring language="fr">Sciences auxiliaires de l'Histoire</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>001.09</termIdentifier>
+    <caption>
+      <langstring language="de">Ideen- und Geistesgeschichte</langstring>
+      <langstring language="en">Intellectual History</langstring>
+      <langstring language="fr">Histoire intellectuelle</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>909.04924</termIdentifier>
+    <caption>
+      <langstring language="de">Jüdische Geschichte</langstring>
+      <langstring language="en">Jewish History</langstring>
+      <langstring language="fr">Histoire juive</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>200.9</termIdentifier>
+    <caption>
+      <langstring language="de">Kirchen- und Religionsgeschichte</langstring>
+      <langstring language="en">History of religion</langstring>
+      <langstring language="fr">Histoire des religions</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>709</termIdentifier>
+    <caption>
+      <langstring language="de">Kunstgeschichte</langstring>
+      <langstring language="en">Art History</langstring>
+      <langstring language="fr">Histoire de l'art</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>870</termIdentifier>
+    <caption>
+      <langstring language="de">Lateinische Literatur</langstring>
+      <langstring language="en">Latin Literature</langstring>
+      <langstring language="fr">Littérature latine</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>809</termIdentifier>
+    <caption>
+      <langstring language="de">Literaturgeschichte</langstring>
+      <langstring language="en">History of literature</langstring>
+      <langstring language="fr">Histoire littéraire</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>610.9</termIdentifier>
+    <caption>
+      <langstring language="de">Medizingeschichte</langstring>
+      <langstring language="en">History of medicine</langstring>
+      <langstring language="fr">Histoire de la médecine</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>355.009</termIdentifier>
+    <caption>
+      <langstring language="de">Militär- und Kriegsgeschichte</langstring>
+      <langstring language="en">Military History</langstring>
+      <langstring language="fr">Histoire militaire</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>780.9</termIdentifier>
+    <caption>
+      <langstring language="de">Musikgeschichte</langstring>
+      <langstring language="en">Music History</langstring>
+      <langstring language="fr">Histoire de la musique</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>909</termIdentifier>
+    <caption>
+      <langstring language="de">Politikgeschichte</langstring>
+      <langstring language="en">Political History</langstring>
+      <langstring language="fr">Histoire politique</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>340.09</termIdentifier>
+    <caption>
+      <langstring language="de">Rechtsgeschichte</langstring>
+      <langstring language="en">Legal History</langstring>
+      <langstring language="fr">Histoire du droit</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>307.09</termIdentifier>
+    <caption>
+      <langstring language="de">Siedlungs-, Stadt- und Ortsgeschichte</langstring>
+      <langstring language="en">Local History</langstring>
+      <langstring language="fr">Histoire locale</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>306.09</termIdentifier>
+    <caption>
+      <langstring language="de">Sozial- und Kulturgeschichte</langstring>
+      <langstring language="en">Social and Cultural History</langstring>
+      <langstring language="fr">Histoire culturelle et sociale</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>796.09</termIdentifier>
+    <caption>
+      <langstring language="de">Sportgeschichte</langstring>
+      <langstring language="en">History of sport</langstring>
+      <langstring language="fr">Histoire du sport</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>417.7</termIdentifier>
+    <caption>
+      <langstring language="de">Sprachgeschichte</langstring>
+      <langstring language="en">Historical Linguistics</langstring>
+      <langstring language="fr">Linguistique comparée</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>609</termIdentifier>
+    <caption>
+      <langstring language="de">Technikgeschichte</langstring>
+      <langstring language="en">History of technology</langstring>
+      <langstring language="fr">Histoire des techniques</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>792.09</termIdentifier>
+    <caption>
+      <langstring language="de">Theatergeschichte</langstring>
+      <langstring language="en">History of theatre</langstring>
+      <langstring language="fr">Histoire du théâtre</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>901</termIdentifier>
+    <caption>
+      <langstring language="de">Theorie + Methode der Geschichtswissenschaft</langstring>
+      <langstring language="en">Historiography</langstring>
+      <langstring language="fr">Épistémologie et historiographie</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>333709</termIdentifier>
+    <caption>
+      <langstring language="de">Umweltgeschichte</langstring>
+      <langstring language="en">Environmental History</langstring>
+      <langstring language="fr">Histoire environnementale</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>351.09</termIdentifier>
+    <caption>
+      <langstring language="de">Verwaltungsgeschichte</langstring>
+      <langstring language="en">History of administration</langstring>
+      <langstring language="fr">Histoire de l'administration</langstring>
+    </caption>
+  </term>
+
+  <term>
+    <termIdentifier>330.09</termIdentifier>
+    <caption>
+      <langstring language="de">Wirtschaftsgeschichte</langstring>
+      <langstring language="en">Economic History</langstring>
+      <langstring language="fr">Histoire économique</langstring>
+    </caption>
+  </term>
+
+</vdex>
