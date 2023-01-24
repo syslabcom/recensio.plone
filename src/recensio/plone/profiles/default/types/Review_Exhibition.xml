@@ -37,6 +37,7 @@
     <element value="plone.namefromtitle" />
     <element value="recensio.base" />
     <element value="recensio.base_review" />
+    <element value="recensio.url_in_citation" />
   </property>
 
   <!-- View information -->

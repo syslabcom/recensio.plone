@@ -50,6 +50,7 @@
     <element value="plone.ownership" />
     <element value="plone.publication" />
     <element value="plone.shortname" />
+    <element value="recensio.url_in_citation" />
   </property>
 
   <!-- View information -->

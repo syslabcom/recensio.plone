@@ -50,6 +50,7 @@
     <element value="recensio.editorial" />
     <element value="recensio.printed_review" />
     <element value="recensio.serial" />
+    <element value="recensio.url_in_citation" />
   </property>
 
   <!-- View information -->
