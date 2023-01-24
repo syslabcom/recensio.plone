@@ -35,9 +35,7 @@
   <property name="schema">recensio.plone.content.review_monograph.IReviewMonograph</property>
 
   <!-- Enabled behaviors -->
-  <property name="behaviors"
-            purge="false"
-  >
+  <property name="behaviors">
     <element value="plone.basic" />
     <element value="plone.categorization" />
     <element value="plone.locking" />

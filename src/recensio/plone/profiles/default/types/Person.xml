@@ -28,9 +28,7 @@
   <property name="schema">recensio.plone.content.person.IPerson</property>
 
   <!-- Enabled behaviors -->
-  <property name="behaviors"
-            purge="false"
-  >
+  <property name="behaviors">
     <element value="plone.categorization" />
     <element value="plone.locking" />
     <element value="plone.ownership" />
