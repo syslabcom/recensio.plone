@@ -11,7 +11,6 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class IPrintedReview(model.Schema):
-
     heading_presented_work = schema.TextLine(
         title=_("heading_presented_work", default=("Information on presented work")),
         required=False,
@@ -64,7 +63,7 @@ class IPrintedReview(model.Schema):
 
 @adapter(IDexterityContent)
 class PrintedReview:
-    """Adapter for IPrintedReview"""
+    """Adapter for IPrintedReview."""
 
     def __init__(self, context):
         self.context = context

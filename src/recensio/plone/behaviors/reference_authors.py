@@ -12,7 +12,7 @@ from zope.interface import provider
 
 
 class IReferenceAuthorRowSchema(Interface):
-    """Schema for a row in the datagridfield"""
+    """Schema for a row in the datagridfield."""
 
     lastname = schema.TextLine(title=_("Lastname"), required=False)
     firstname = schema.TextLine(title=_("Firstname"), required=False)
@@ -28,7 +28,6 @@ class IReferenceAuthorRowSchema(Interface):
 
 @provider(IFormFieldProvider)
 class IReferenceAuthors(model.Schema):
-
     directives.widget(referenceAuthors=DataGridFieldFactory)
     referenceAuthors = schema.List(
         title=_(
@@ -46,7 +45,7 @@ class IReferenceAuthors(model.Schema):
 
 @adapter(IDexterityContent)
 class ReferenceAuthors:
-    """Adapter for IReferenceAuthors"""
+    """Adapter for IReferenceAuthors."""
 
     def __init__(self, context):
         self.context = context

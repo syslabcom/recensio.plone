@@ -10,7 +10,6 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class IPagesOfPresentedText(model.Schema):
-
     heading__page_number_of_presented_text_in_print = schema.TextLine(
         title=_(
             "description_page_number_of_presented_text_in_print",
@@ -34,7 +33,7 @@ class IPagesOfPresentedText(model.Schema):
 
 @adapter(IDexterityContent)
 class PagesOfPresentedText:
-    """Adapter for IPagesOfPresentedText"""
+    """Adapter for IPagesOfPresentedText."""
 
     def __init__(self, context):
         self.context = context
@@ -57,10 +56,10 @@ class PagesOfPresentedText:
 
     @property
     def heading__page_number_of_presented_text_in_print(self):
-        """This field is readonly"""
+        """This field is readonly."""
         return ""
 
     @heading__page_number_of_presented_text_in_print.setter
     def heading__page_number_of_presented_text_in_print(self, value):
-        """This field is readonly"""
+        """This field is readonly."""
         pass

@@ -78,7 +78,7 @@ class IBasePresentation(model.Schema):
 
 @adapter(IDexterityContent)
 class BasePresentation:
-    """Adapter for IBasePresentation"""
+    """Adapter for IBasePresentation."""
 
     def __init__(self, context):
         self.context = context

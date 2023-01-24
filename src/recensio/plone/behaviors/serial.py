@@ -9,7 +9,6 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class ISerial(model.Schema):
-
     series = schema.TextLine(
         title=_("Series"),
         required=False,
@@ -28,7 +27,7 @@ class ISerial(model.Schema):
 
 @adapter(IDexterityContent)
 class Serial:
-    """Adapter for ISeries"""
+    """Adapter for ISeries."""
 
     def __init__(self, context):
         self.context = context

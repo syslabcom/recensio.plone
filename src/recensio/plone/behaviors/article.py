@@ -10,7 +10,6 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class IArticle(model.Schema):
-
     translatedTitle = schema.TextLine(
         title=_("Translated Title"),
         required=False,
@@ -58,7 +57,7 @@ class IArticle(model.Schema):
 
 @adapter(IDexterityContent)
 class Article:
-    """Adapter for IArticle"""
+    """Adapter for IArticle."""
 
     def __init__(self, context):
         self.context = context

@@ -36,7 +36,6 @@ def generateDoi(context):
 
 @provider(IFormFieldProvider)
 class IBaseReview(model.Schema):
-
     pdf = NamedBlobFile(
         title=_("PDF"),
         required=False,
@@ -90,7 +89,7 @@ class IBaseReview(model.Schema):
 
 @adapter(IDexterityContent)
 class BaseReview:
-    """Adapter for IBaseReview"""
+    """Adapter for IBaseReview."""
 
     def __init__(self, context):
         self.context = context

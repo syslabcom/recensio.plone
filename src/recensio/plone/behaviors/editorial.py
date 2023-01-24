@@ -14,7 +14,6 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class IEditorial(model.Schema):
-
     help_authors_or_editors = schema.TextLine(
         title=_(
             "help_authors_or_editors",
@@ -45,19 +44,19 @@ class IEditorial(model.Schema):
 
 @adapter(IDexterityContent)
 class Editorial:
-    """Adapter for IEditorial"""
+    """Adapter for IEditorial."""
 
     def __init__(self, context):
         self.context = context
 
     @property
     def help_authors_or_editors(self):
-        """This field is readonly"""
+        """This field is readonly."""
         return ""
 
     @help_authors_or_editors.setter
     def help_authors_or_editors(self, value):
-        """This field is readonly"""
+        """This field is readonly."""
         pass
 
     @property

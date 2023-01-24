@@ -13,7 +13,6 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class IAuthors(model.Schema):
-
     directives.widget(
         "authors",
         RelatedItemsFieldWidget,
@@ -29,7 +28,7 @@ class IAuthors(model.Schema):
 
 @adapter(IDexterityContent)
 class Authors:
-    """Adapter for IAuthors"""
+    """Adapter for IAuthors."""
 
     def __init__(self, context):
         self.context = context

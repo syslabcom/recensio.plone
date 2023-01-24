@@ -13,7 +13,7 @@ from zope.interface import provider
 
 
 class IAdditionalTitleRowSchema(Interface):
-    """Schema for a row in the datagridfield"""
+    """Schema for a row in the datagridfield."""
 
     title = schema.TextLine(title=_("Title"), required=False)
     subtitle = schema.TextLine(title=_("Subtitle"), required=False)
@@ -21,7 +21,6 @@ class IAdditionalTitleRowSchema(Interface):
 
 @provider(IFormFieldProvider)
 class IBookReview(model.Schema):
-
     additionalTitles = schema.List(
         title=_("Paralleltitel (andere Sprachen)"),
         value_type=DictRow(schema=IAdditionalTitleRowSchema, required=False),
@@ -73,7 +72,7 @@ class IBookReview(model.Schema):
 
 @adapter(IDexterityContent)
 class BookReview:
-    """Adapter for IBookReview"""
+    """Adapter for IBookReview."""
 
     def __init__(self, context):
         self.context = context

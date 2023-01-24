@@ -9,7 +9,6 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class IJournalReview(model.Schema):
-
     issn = schema.TextLine(
         title=_("ISSN"),
         description=_(
@@ -66,7 +65,7 @@ class IJournalReview(model.Schema):
 
 @adapter(IDexterityContent)
 class JournalReview:
-    """Adapter for IJournalReview"""
+    """Adapter for IJournalReview."""
 
     def __init__(self, context):
         self.context = context

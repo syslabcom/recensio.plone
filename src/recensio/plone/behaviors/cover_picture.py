@@ -9,7 +9,6 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class ICoverPicture(model.Schema):
-
     coverPicture = NamedBlobImage(
         title=_("Cover picture"),
         required=False,
@@ -18,7 +17,7 @@ class ICoverPicture(model.Schema):
 
 @adapter(IDexterityContent)
 class CoverPicture:
-    """Adapter for ICoverPicture"""
+    """Adapter for ICoverPicture."""
 
     def __init__(self, context):
         self.context = context
