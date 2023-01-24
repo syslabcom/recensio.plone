@@ -51,7 +51,7 @@
     <element value="recensio.licence" />
     <element value="recensio.printed_review" />
     <element value="recensio.serial" />
-    <element value="recensio.url_in_citation" />
+    <element value="recensio.settings_url_in_citation" />
   </property>
 
   <!-- View information -->

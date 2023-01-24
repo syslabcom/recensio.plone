@@ -52,7 +52,7 @@
     <element value="recensio.licence" />
     <element value="recensio.settings_doi" />
     <element value="recensio.settings_fulltext" />
-    <element value="recensio.url_in_citation" />
+    <element value="recensio.settings_url_in_citation" />
   </property>
 
   <!-- View information -->

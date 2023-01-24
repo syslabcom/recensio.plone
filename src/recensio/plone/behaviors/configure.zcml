@@ -108,14 +108,6 @@
       />
 
   <plone:behavior
-      name="recensio.url_in_citation"
-      title="URL in Citation Behavior"
-      factory=".url_in_citation.URLInCitation"
-      provides=".url_in_citation.IURLInCitation"
-      for="plone.dexterity.interfaces.IDexterityContent"
-      />
-
-  <plone:behavior
       name="recensio.licence"
       title="Licence Behavior"
       factory=".licence.Licence"
@@ -136,6 +128,14 @@
       title="Fulltext Settings Behavior"
       factory=".settings_fulltext.SettingsFulltext"
       provides=".settings_fulltext.ISettingsFulltext"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
+  <plone:behavior
+      name="recensio.settings_url_in_citation"
+      title="URL in Citation Settings Behavior"
+      factory=".settings_url_in_citation.SettingsURLInCitation"
+      provides=".settings_url_in_citation.ISettingsURLInCitation"
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 
