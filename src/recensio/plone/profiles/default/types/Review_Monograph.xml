@@ -48,6 +48,7 @@
     <element value="recensio.book_review" />
     <element value="recensio.cover_picture" />
     <element value="recensio.editorial" />
+    <element value="recensio.licence" />
     <element value="recensio.printed_review" />
     <element value="recensio.serial" />
     <element value="recensio.url_in_citation" />
