@@ -3,6 +3,7 @@ from plone.dexterity.content import Item
 from plone.supermodel import model
 from recensio.plone import _
 from recensio.plone.behaviors.base import IBase
+from recensio.plone.behaviors.directives import fieldset_reviewed_text
 from recensio.plone.utils import getFormatter
 from recensio.plone.utils import punctuated_title_and_subtitle
 from zope import schema
@@ -35,14 +36,7 @@ class IReviewArticleJournal(model.Schema):
         required=False,
     )
 
-    model.fieldset(
-        "reviewed_text",
-        label=_("label_schema_reviewed_text", default="Reviewed Text"),
-        fields=[
-            "editor",
-            "translatedTitleJournal",
-        ],
-    )
+    fieldset_reviewed_text(["editor", "translatedTitleJournal"])
 
 
 # TODO

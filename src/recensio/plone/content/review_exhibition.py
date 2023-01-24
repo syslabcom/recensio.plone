@@ -7,6 +7,7 @@ from plone.dexterity.content import Item
 from plone.supermodel import model
 from recensio.plone import _
 from recensio.plone.behaviors.base import IBase
+from recensio.plone.behaviors.directives import fieldset_exhibition
 from recensio.plone.utils import get_formatted_names
 from recensio.plone.utils import getFormatter
 from recensio.plone.utils import punctuated_title_and_subtitle
@@ -134,10 +135,8 @@ class IReviewExhibition(model.Schema):
         required=False,
     )
 
-    model.fieldset(
-        "exhibition",
-        label=_("label_schema_exhibition", default="Ausstellung"),
-        fields=[
+    fieldset_exhibition(
+        [
             "exhibiting_institution",
             "dates",
             "years",

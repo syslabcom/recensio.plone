@@ -5,6 +5,7 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.behaviors.directives import fieldset_review
 from zope import schema
 from zope.component import adapter
 from zope.interface import Interface
@@ -42,13 +43,7 @@ class IReferenceAuthors(model.Schema):
         required=False,
     )
 
-    model.fieldset(
-        "review",
-        label=_("label_schema_review", default="Review"),
-        fields=[
-            "referenceAuthors",
-        ],
-    )
+    fieldset_review(["referenceAuthors"])
 
 
 @adapter(IDexterityContent)

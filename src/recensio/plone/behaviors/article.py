@@ -3,6 +3,7 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.behaviors.directives import fieldset_reviewed_text
 from zope import schema
 from zope.component import adapter
 from zope.interface import provider
@@ -54,10 +55,8 @@ class IArticle(model.Schema):
         required=False,
     )
 
-    model.fieldset(
-        "reviewed_text",
-        label=_("label_schema_reviewed_text", default="Reviewed Text"),
-        fields=[
+    fieldset_reviewed_text(
+        [
             "translatedTitle",
             "url_article",
             "urn_article",
@@ -65,7 +64,7 @@ class IArticle(model.Schema):
             "heading__page_number_of_article_in_journal_or_edited_volume",
             "pageStartOfArticle",
             "pageEndOfArticle",
-        ],
+        ]
     )
 
 

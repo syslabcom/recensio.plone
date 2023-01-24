@@ -5,6 +5,7 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.behaviors.directives import fieldset_reviewed_text
 from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
 from zope import schema
@@ -41,14 +42,7 @@ class IEditorial(model.Schema):
         pattern_options={"mode": "auto", "favorites": []},
     )
 
-    model.fieldset(
-        "reviewed_text",
-        label=_("label_schema_reviewed_text", default="Reviewed Text"),
-        fields=[
-            "help_authors_or_editors",
-            "editorial",
-        ],
-    )
+    fieldset_reviewed_text(["help_authors_or_editors", "editorial"])
 
 
 @adapter(IDexterityContent)

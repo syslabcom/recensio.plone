@@ -12,6 +12,8 @@ from plone.dexterity.interfaces import IDexterityContent
 from plone.namedfile import field as namedfile
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.behaviors.directives import fieldset_review
+from recensio.plone.behaviors.directives import fieldset_reviewed_text
 from recensio.plone.utils import get_formatted_names
 from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
@@ -142,10 +144,8 @@ class IBase(model.Schema):
         required=False,
     )
 
-    model.fieldset(
-        "reviewed_text",
-        label=_("label_schema_reviewed_text", default="Reviewed Text"),
-        fields=[
+    fieldset_reviewed_text(
+        [
             "languageReviewedText",
             "ddcSubject",
             "ddcTime",
@@ -153,10 +153,8 @@ class IBase(model.Schema):
         ],
     )
 
-    model.fieldset(
-        "review",
-        label=_("label_schema_review", default="Review"),
-        fields=[
+    fieldset_review(
+        [
             "reviewAuthors",
             "languageReview",
             "review",

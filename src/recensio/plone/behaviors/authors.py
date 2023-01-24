@@ -5,6 +5,7 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.behaviors.directives import fieldset_reviewed_text
 from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
 from zope.component import adapter
@@ -25,11 +26,7 @@ class IAuthors(model.Schema):
         required=False,
     )
 
-    model.fieldset(
-        "reviewed_text",
-        label=_("label_schema_reviewed_text", default="Reviewed Text"),
-        fields=["authors"],
-    )
+    fieldset_reviewed_text(["authors"])
 
 
 @adapter(IDexterityContent)
