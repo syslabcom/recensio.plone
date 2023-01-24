@@ -23,7 +23,7 @@ description_is_url_shown_in_citation_note = _(
 
 
 @provider(IFormFieldProvider)
-class IURLInCitation(model.Schema):
+class ISettingsURLInCitation(model.Schema):
     # TODO:
     # schemata="review",
     # condition="python:object.aq_parent.isURLShownInCitationNote() if object.aq_parent != object else True",
@@ -41,8 +41,8 @@ class IURLInCitation(model.Schema):
 
 
 @adapter(IDexterityContent)
-class URLInCitation:
-    """Adapter for IURLInCitation."""
+class SettingsURLInCitation:
+    """Adapter for ISettingsURLInCitation."""
 
     def __init__(self, context):
         self.context = context
