@@ -35,13 +35,6 @@ class IPagesOfPresentedText(model.Schema):
         label=_("label_schema_reviewed_text", default="Reviewed Text"),
         fields=[
             "heading__page_number_of_presented_text_in_print",
-        ],
-    )
-
-    model.fieldset(
-        "presented_text",
-        label=_("label_schema_presented_text", default="Presented Text"),
-        fields=[
             "pageStartOfPresentedTextInPrint",
             "pageEndOfPresentedTextInPrint",
         ],
