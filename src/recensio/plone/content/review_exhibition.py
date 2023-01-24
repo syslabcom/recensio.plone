@@ -6,10 +6,16 @@ from plone.autoform.directives import widget
 from plone.dexterity.content import Item
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.behaviors.base import IBase
+from recensio.plone.utils import get_formatted_names
+from recensio.plone.utils import getFormatter
+from recensio.plone.utils import punctuated_title_and_subtitle
 from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
 from zope import interface
 from zope import schema
+from zope.i18n import translate
+from zope.i18nmessageid import Message
 from zope.interface import implementer
 
 
@@ -55,6 +61,11 @@ class IDatesRowSchema(interface.Interface):
 
 class IReviewExhibition(model.Schema):
     """Marker interface and Dexterity Python Schema for ReviewExhibition."""
+
+    subtitle = schema.TextLine(
+        title=_("Subtitle"),
+        required=False,
+    )
 
     exhibiting_institution = schema.List(
         title=_("Ausstellende Institution"),
@@ -127,3 +138,66 @@ class IReviewExhibition(model.Schema):
 @implementer(IReviewExhibition)
 class ReviewExhibition(Item):
     """Content-type class for IReviewExhibition."""
+
+    @property
+    def exhibitor(self):
+        exhibitor = " / ".join(
+            [
+                institution["name"].strip()
+                for institution in self.exhibiting_institution
+                if institution["name"]
+            ]
+        )
+        if exhibitor:
+            return exhibitor
+        exhibitor = " / ".join(
+            [
+                organisation["name"].strip()
+                for organisation in self.exhibiting_organisation
+                if organisation["name"]
+            ]
+        )
+        if exhibitor:
+            return exhibitor
+        exhibitor = get_formatted_names(
+            [
+                person.to_object
+                for person in self.curators
+                if person.firstname or person.lastname
+            ],
+        )
+        return exhibitor
+
+    def getDecoratedTitle(self):
+        dates_formatter = getFormatter(", ")
+        dates_string = " / ".join(
+            [dates_formatter(date["place"], date["runtime"]) for date in self.dates]
+        )
+
+        permanent_exhib_string = translate(
+            Message("Dauerausstellung", "recensio", default="Permanent Exhibition")
+        )
+        title_string = getFormatter(". ")(
+            punctuated_title_and_subtitle(self),
+            permanent_exhib_string if self.isPermanentExhibition else "",
+        )
+
+        full_title = getFormatter(": ", ", ", " ")
+
+        def message_callback(reviewers_formatted):
+            return Message(
+                "exhibition_reviewed_by",
+                "recensio",
+                default="Exhibition reviewed by ${review_authors}",
+                mapping={"review_authors": reviewers_formatted},
+            )
+
+        reviewer_string = IBase(self).get_formatted_review_authors(
+            message_callback=message_callback
+        )
+        return full_title(
+            self.exhibitor,
+            title_string,
+            dates_string,
+            reviewer_string,
+        )

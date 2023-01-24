@@ -1,3 +1,4 @@
+from plone import api
 from plone.app.dexterity.behaviors.metadata import default_language
 from plone.app.dexterity.textindexer import searchable
 from plone.app.textfield import RichText as RichTextField
@@ -11,10 +12,13 @@ from plone.dexterity.interfaces import IDexterityContent
 from plone.namedfile import field as namedfile
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.utils import get_formatted_names
 from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
 from zope import schema
 from zope.component import adapter
+from zope.i18n import translate
+from zope.i18nmessageid import Message
 from zope.interface import provider
 
 
@@ -183,6 +187,27 @@ class Base:
     @reviewAuthors.setter
     def reviewAuthors(self, value):
         self.context.reviewAuthors = value
+
+    def get_formatted_review_authors(self, message_callback=None):
+        reviewers_formatted = get_formatted_names(
+            [rel.to_object for rel in self.reviewAuthors]
+        )
+        if reviewers_formatted:
+            if message_callback is not None:
+                message = message_callback(reviewers_formatted)
+            else:
+                message = Message(
+                    "reviewed_by",
+                    "recensio",
+                    default="reviewed by ${review_authors}",
+                    mapping={"review_authors": reviewers_formatted},
+                )
+            reviewer_string_inner = translate(
+                message,
+                api.portal.get_current_language(),
+            )
+            reviewer_string = f"({reviewer_string_inner})"
+        return reviewer_string
 
     @property
     def languageReview(self):

@@ -1,4 +1,5 @@
 from functools import reduce
+from html import escape
 
 
 def getFormatter(*specification):
@@ -71,3 +72,55 @@ def getFormatter(*specification):
         return reduce(joinIfNotEmpty, data_to_reduce)
 
     return formatter
+
+
+def get_formatted_names(names, lastname_first=False):
+    full_name_separator = " / "
+    name_part_separator = " "
+    name_part1 = "firstname"
+    name_part2 = "lastname"
+    if lastname_first:
+        name_part_separator = ", "
+        name_part1 = "lastname"
+        name_part2 = "firstname"
+    return escape(
+        full_name_separator.join(
+            [
+                getFormatter(name_part_separator)(
+                    getattr(x, name_part1), getattr(x, name_part2)
+                )
+                for x in names
+            ]
+        )
+    )
+
+
+def format_title_and_subtitle(title, subtitle):
+    last_char = title[-1]
+    if last_char in ["!", "?", ":", ";", ".", ","]:
+        separator = " "
+    else:
+        separator = ". "
+    return getFormatter(separator)(title, subtitle)
+
+
+def punctuated_title_and_subtitle(review):
+    titles = [(review.title, review.subtitle)]
+    if getattr(review, "additionalTitles", None):
+        titles = titles + [
+            (
+                additional["title"],
+                additional["subtitle"],
+            )
+            for additional in review.additionalTitles
+        ]
+    title = " / ".join(
+        [
+            format_title_and_subtitle(title, subtitle)
+            for title, subtitle in titles
+            if title
+        ]
+    )
+    if getattr(review, "translatedTitle", None):
+        title = f"{title} [{review.translatedTitle}]"
+    return title
