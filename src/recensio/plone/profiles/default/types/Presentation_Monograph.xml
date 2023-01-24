@@ -28,9 +28,7 @@
   <property name="schema">recensio.plone.content.presentation_monograph.IPresentationMonograph</property>
 
   <!-- Enabled behaviors -->
-  <property name="behaviors"
-            purge="false"
-  >
+  <property name="behaviors">
     <element value="plone.allowdiscussion" />
     <element value="plone.basic" />
     <element value="plone.categorization" />
