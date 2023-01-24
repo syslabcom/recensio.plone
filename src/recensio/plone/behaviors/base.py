@@ -11,7 +11,6 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.namedfile import field as namedfile
 from plone.supermodel import model
-from plone.supermodel.directives import fieldset
 from recensio.plone import _
 from recensio.plone.utils import get_formatted_names
 from z3c.relationfield.schema import RelationChoice
@@ -143,7 +142,7 @@ class IBase(model.Schema):
         required=False,
     )
 
-    fieldset(
+    model.fieldset(
         "reviewed_text",
         label=_("label_schema_reviewed_text", default="Reviewed Text"),
         fields=[
@@ -154,7 +153,7 @@ class IBase(model.Schema):
         ],
     )
 
-    fieldset(
+    model.fieldset(
         "review",
         label=_("label_schema_review", default="Review"),
         fields=[

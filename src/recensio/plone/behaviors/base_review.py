@@ -5,7 +5,6 @@ from plone.dexterity.interfaces import IDexterityContent
 from plone.namedfile.field import NamedBlobFile
 from plone.namedfile.field import NamedBlobImage
 from plone.supermodel import model
-from plone.supermodel.directives import fieldset
 from recensio.plone import _
 from z3c.form.interfaces import IAddForm
 from z3c.form.interfaces import IEditForm
@@ -87,7 +86,7 @@ class IBaseReview(model.Schema):
         required=False,
     )
 
-    fieldset(
+    model.fieldset(
         "review",
         label=_("label_schema_review", default="Review"),
         fields=[

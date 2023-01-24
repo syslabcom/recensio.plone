@@ -5,7 +5,6 @@ from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
-from plone.supermodel.directives import fieldset
 from recensio.plone import _
 from zope import schema
 from zope.component import adapter
@@ -70,7 +69,7 @@ class IBookReview(model.Schema):
         required=False,
     )
 
-    fieldset(
+    model.fieldset(
         "reviewed_text",
         label=_("label_schema_reviewed_text", default="Reviewed Text"),
         fields=[
