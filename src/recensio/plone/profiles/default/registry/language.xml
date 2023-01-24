@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<registry>
+  <records interface="plone.i18n.interfaces.ILanguageSchema"
+           prefix="plone"
+  >
+    <value key="always_show_selector">True</value>
+    <value key="authenticated_users_only">False</value>
+    <value key="available_languages">
+      <element>en-us</element>
+      <element>fr</element>
+      <element>de</element>
+    </value>
+    <value key="default_language">de</value>
+    <value key="display_flags">True</value>
+    <value key="set_cookie_always">True</value>
+    <value key="use_cctld_negotiation">False</value>
+    <value key="use_combined_language_codes">True</value>
+    <value key="use_content_negotiation">False</value>
+    <value key="use_cookie_negotiation">True</value>
+    <value key="use_path_negotiation">False</value>
+    <value key="use_request_negotiation">False</value>
+    <value key="use_subdomain_negotiation">False</value>
+  </records>
+</registry>
