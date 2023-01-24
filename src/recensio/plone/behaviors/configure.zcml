@@ -123,4 +123,20 @@
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 
+  <plone:behavior
+      name="recensio.settings_doi"
+      title="DOI Settings Behavior"
+      factory=".settings_doi.SettingsDoi"
+      provides=".settings_doi.ISettingsDoi"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
+  <plone:behavior
+      name="recensio.settings_fulltext"
+      title="Fulltext Settings Behavior"
+      factory=".settings_fulltext.SettingsFulltext"
+      provides=".settings_fulltext.ISettingsFulltext"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
 </configure>
