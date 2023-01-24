@@ -107,4 +107,12 @@
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 
+  <plone:behavior
+      name="recensio.url_in_citation"
+      title="URL in Citation Behavior"
+      factory=".url_in_citation.URLInCitation"
+      provides=".url_in_citation.IURLInCitation"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
 </configure>
