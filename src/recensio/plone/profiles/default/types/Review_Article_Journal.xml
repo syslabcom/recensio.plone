@@ -48,6 +48,7 @@
     <element value="recensio.base_review" />
     <element value="recensio.cover_picture" />
     <element value="recensio.journal_review" />
+    <element value="recensio.licence" />
     <element value="recensio.printed_review" />
     <element value="recensio.url_in_citation" />
   </property>

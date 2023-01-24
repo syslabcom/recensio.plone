@@ -115,4 +115,12 @@
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 
+  <plone:behavior
+      name="recensio.licence"
+      title="Licence Behavior"
+      factory=".licence.Licence"
+      provides=".licence.ILicence"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
 </configure>
