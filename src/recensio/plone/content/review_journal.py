@@ -1,6 +1,7 @@
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Item
 from plone.supermodel import model
+from plone.supermodel.directives import fieldset
 from recensio.plone import _
 from recensio.plone.behaviors.base import IBase
 from recensio.plone.utils import getFormatter
@@ -13,19 +14,24 @@ from zope.interface import provider
 class IReviewJournal(model.Schema):
     """Marker interface and Dexterity Python Schema for ReviewJournal."""
 
-    # TODO
-    # schemata="reviewed_text",
     editor = schema.TextLine(
         title=_("Editor (name or institution)"),
     )
 
-    # TODO
-    # schemata="reviewed_text",
     translatedTitleJournal = schema.TextLine(
         title=_(
             "label_translated_title_journal",
             default="Translated title (Journal)",
         ),
+    )
+
+    fieldset(
+        "reviewed_text",
+        label=_("label_schema_reviewed_text", default="Reviewed Text"),
+        fields=[
+            "editor",
+            "translatedTitleJournal",
+        ],
     )
 
 

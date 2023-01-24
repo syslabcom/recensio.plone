@@ -11,6 +11,7 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.namedfile import field as namedfile
 from plone.supermodel import model
+from plone.supermodel.directives import fieldset
 from recensio.plone import _
 from recensio.plone.utils import get_formatted_names
 from z3c.relationfield.schema import RelationChoice
@@ -22,12 +23,7 @@ from zope.i18nmessageid import Message
 from zope.interface import provider
 
 
-# from plone.supermodel.directives import fieldset
-
-
 # TODO, maybe:
-# - Move `title` to fieldset "reviewed_text"
-# - Move `subject` to fieldset "reviewed_text"
 # - Set content type for `generatedPdf` to `application/pdf`
 # - Set a character limit for `review`: 4000 characters
 # - Set rows for `review` to 20
@@ -124,7 +120,6 @@ class IBase(model.Schema):
     )
 
     # TODO
-    # schemata="reviewed_text",
     # size=10,
     ddcSubject = schema.Choice(
         title=_("ddc subject"),
@@ -133,7 +128,6 @@ class IBase(model.Schema):
     )
 
     # TODO
-    # schemata="reviewed_text",
     # size=10,
     ddcTime = schema.Choice(
         title=_("ddc time"),
@@ -142,7 +136,6 @@ class IBase(model.Schema):
     )
 
     # TODO
-    # schemata="reviewed_text",
     # size=10,
     ddcPlace = schema.Choice(
         title=_("ddc place"),
@@ -150,27 +143,30 @@ class IBase(model.Schema):
         required=False,
     )
 
-    # fieldset(
-    #    "reviewed_text",
-    #    label=_("label_schema_reviewed_text", default="Reviewed Text"),
-    #    fields=[
-    #        "languageReviewedText",
-    #    ],
-    # )
+    fieldset(
+        "reviewed_text",
+        label=_("label_schema_reviewed_text", default="Reviewed Text"),
+        fields=[
+            "languageReviewedText",
+            "ddcSubject",
+            "ddcTime",
+            "ddcPlace",
+        ],
+    )
 
-    # fieldset(
-    #    "review",
-    #    label=_("Review"),
-    #    fields=[
-    #        "reviewAuthors",
-    #        "languageReview",
-    #        "review",
-    #        "urn",
-    #        "bv",
-    #        "ppn",
-    #        "canonical_uri",
-    #    ],
-    # )
+    fieldset(
+        "review",
+        label=_("label_schema_review", default="Review"),
+        fields=[
+            "reviewAuthors",
+            "languageReview",
+            "review",
+            "urn",
+            "bv",
+            "ppn",
+            "canonical_uri",
+        ],
+    )
 
 
 @adapter(IDexterityContent)

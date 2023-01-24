@@ -5,6 +5,7 @@ from plone.dexterity.interfaces import IDexterityContent
 from plone.namedfile.field import NamedBlobFile
 from plone.namedfile.field import NamedBlobImage
 from plone.supermodel import model
+from plone.supermodel.directives import fieldset
 from recensio.plone import _
 from z3c.form.interfaces import IAddForm
 from z3c.form.interfaces import IEditForm
@@ -84,6 +85,18 @@ class IBaseReview(model.Schema):
             "activated on the volume or issue.",
         ),
         required=False,
+    )
+
+    fieldset(
+        "review",
+        label=_("label_schema_review", default="Review"),
+        fields=[
+            "pdf",
+            "doc",
+            "customCitation",
+            "doi",
+            "customCoverImage",
+        ],
     )
 
 

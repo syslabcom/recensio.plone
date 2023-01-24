@@ -4,6 +4,7 @@ from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
+from plone.supermodel.directives import fieldset
 from recensio.plone import _
 from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
@@ -23,6 +24,12 @@ class IAuthors(model.Schema):
         defaultFactory=list,
         value_type=RelationChoice(source=CatalogSource(portal_type="Person")),
         required=False,
+    )
+
+    fieldset(
+        "reviewed_text",
+        label=_("label_schema_reviewed_text", default="Reviewed Text"),
+        fields=["authors"],
     )
 
 

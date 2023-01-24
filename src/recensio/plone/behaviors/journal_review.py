@@ -1,6 +1,7 @@
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
+from plone.supermodel.directives import fieldset
 from recensio.plone import _
 from zope import schema
 from zope.component import adapter
@@ -60,6 +61,22 @@ class IJournalReview(model.Schema):
     officialYearOfPublication = schema.TextLine(
         title=_("Official year of publication (if different)"),
         required=False,
+    )
+
+    fieldset(
+        "reviewed_text",
+        label=_("label_schema_reviewed_text", default="Reviewed Text"),
+        fields=[
+            "issn",
+            "issn_online",
+            "url_journal",
+            "urn_journal",
+            "doi_journal",
+            "shortnameJournal",
+            "volumeNumber",
+            "issueNumber",
+            "officialYearOfPublication",
+        ],
     )
 
 

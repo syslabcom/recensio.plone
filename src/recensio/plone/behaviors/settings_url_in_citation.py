@@ -1,6 +1,7 @@
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
+from plone.supermodel.directives import fieldset
 from recensio.plone import _
 from zope import schema
 from zope.component import adapter
@@ -25,7 +26,6 @@ description_is_url_shown_in_citation_note = _(
 @provider(IFormFieldProvider)
 class ISettingsURLInCitation(model.Schema):
     # TODO:
-    # schemata="review",
     # condition="python:object.aq_parent.isURLShownInCitationNote() if object.aq_parent != object else True",
     # Show only as label, if:
     #     condition="python:not object.aq_parent.isURLShownInCitationNote() if object.aq_parent != object else False",
@@ -37,6 +37,14 @@ class ISettingsURLInCitation(model.Schema):
         description=description_is_url_shown_in_citation_note,
         default=True,
         required=False,
+    )
+
+    fieldset(
+        "review",
+        label=_("label_schema_review", default="Review"),
+        fields=[
+            "URLShownInCitationNote",
+        ],
     )
 
 

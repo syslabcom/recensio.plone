@@ -5,6 +5,7 @@ from plone.app.z3cform.widget import RelatedItemsFieldWidget
 from plone.autoform.directives import widget
 from plone.dexterity.content import Item
 from plone.supermodel import model
+from plone.supermodel.directives import fieldset
 from recensio.plone import _
 from recensio.plone.behaviors.base import IBase
 from recensio.plone.utils import get_formatted_names
@@ -132,6 +133,22 @@ class IReviewExhibition(model.Schema):
     doi_exhibition = schema.TextLine(
         title=_("DOI der Ausstellungswebsite"),
         required=False,
+    )
+
+    fieldset(
+        "exhibition",
+        label=_("label_schema_exhibition", default="Ausstellung"),
+        fields=[
+            "exhibiting_institution",
+            "dates",
+            "years",
+            "exhibiting_organisation",
+            "curators",
+            "isPermanentExhibition",
+            "titleProxy",
+            "url_exhibition",
+            "doi_exhibition",
+        ],
     )
 
 
