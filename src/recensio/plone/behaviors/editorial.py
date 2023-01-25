@@ -6,10 +6,13 @@ from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
 from recensio.plone import _
 from recensio.plone.behaviors.directives import fieldset_reviewed_text
+from recensio.plone.utils import getFormatter
 from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
 from zope import schema
 from zope.component import adapter
+from zope.i18n import translate
+from zope.i18nmessageid import Message
 from zope.interface import provider
 
 
@@ -69,3 +72,22 @@ class Editorial:
     @editorial.setter
     def editorial(self, value):
         self.context.editorial = value
+
+    def get_formatted_editorial(self):
+        editors_list = [
+            getFormatter(" ")(editor.to_object.firstname, editor.to_object.lastname)
+            for editor in self.context.editorial
+        ]
+        if len(editors_list) == 0:
+            return ""
+        if len(editors_list) == 1:
+            label_editor = translate(
+                Message("label_abbrev_editor", "recensio", default="(ed.)")
+            )
+        else:
+            label_editor = translate(
+                Message("label_abbrev_editors", "recensio", default="(eds.)")
+            )
+        editors_str = " / ".join(editors_list)
+        editors_str = f"{editors_str} {label_editor}"
+        return editors_str

@@ -6,6 +6,7 @@ from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
 from recensio.plone import _
 from recensio.plone.behaviors.directives import fieldset_reviewed_text
+from recensio.plone.utils import getFormatter
 from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
 from zope.component import adapter
@@ -43,3 +44,10 @@ class Authors:
     @authors.setter
     def authors(self, value):
         self.context.authors = value
+
+    def get_formatted_authors(self):
+        authors_list = [
+            getFormatter(" ")(author.to_object.firstname, author.to_object.lastname)
+            for author in self.context.authors
+        ]
+        return " / ".join(authors_list)

@@ -2,6 +2,7 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Item
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.behaviors.authors import IAuthors
 from recensio.plone.behaviors.base import IBase
 from recensio.plone.interfaces import IReview
 from recensio.plone.utils import get_formatted_names
@@ -49,8 +50,8 @@ class ReviewArticleCollection(Item):
     """Content-type class for IReviewArticleCollection."""
 
     def formatted_authors(self):
-        # TODO
-        return ""
+        authors_str = IAuthors(self).get_formatted_authors()
+        return authors_str
 
     def getDecoratedTitle(self):
         args = {

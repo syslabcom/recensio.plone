@@ -2,8 +2,10 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Item
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.behaviors.authors import IAuthors
 from recensio.plone.behaviors.base import IBase
 from recensio.plone.behaviors.directives import fieldset_reviewed_text
+from recensio.plone.behaviors.editorial import IEditorial
 from recensio.plone.interfaces import IReview
 from recensio.plone.utils import getFormatter
 from recensio.plone.utils import punctuated_title_and_subtitle
@@ -53,8 +55,9 @@ class ReviewArticleJournal(Item):
     """Content-type class for IReviewArticleJournal."""
 
     def formatted_authors_editorial(self):
-        # TODO
-        return ""
+        authors_str = IAuthors(self).get_formatted_authors()
+        editors_str = IEditorial(self).get_formatted_editorial()
+        return getFormatter(": ")(editors_str, authors_str)
 
     def getDecoratedTitle(self):
         args = {
