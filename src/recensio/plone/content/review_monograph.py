@@ -4,6 +4,7 @@ from plone.supermodel import model
 from recensio.plone import _
 from recensio.plone.behaviors.base import IBase
 from recensio.plone.behaviors.directives import fieldset_reviewed_text
+from recensio.plone.interfaces import IReview
 from recensio.plone.utils import getFormatter
 from recensio.plone.utils import punctuated_title_and_subtitle
 from zope import schema
@@ -23,7 +24,7 @@ class IReviewMonograph(model.Schema):
     fieldset_reviewed_text(["translatedTitle"])
 
 
-@implementer(IReviewMonograph)
+@implementer(IReviewMonograph, IReview)
 class ReviewMonograph(Item):
     """Content-type class for IReviewMonograph."""
 
