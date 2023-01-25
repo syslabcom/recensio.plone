@@ -4,6 +4,7 @@ from plone.supermodel import model
 from recensio.plone import _
 from recensio.plone.behaviors.base import IBase
 from recensio.plone.behaviors.directives import fieldset_reviewed_text
+from recensio.plone.interfaces import IReview
 from recensio.plone.utils import getFormatter
 from zope import schema
 from zope.interface import implementer
@@ -33,7 +34,7 @@ class IReviewJournal(model.Schema):
 # * field `subtitle` from Printed Review is hidden
 
 
-@implementer(IReviewJournal)
+@implementer(IReviewJournal, IReview)
 class ReviewJournal(Item):
     """Content-type class for IReviewJournal."""
 

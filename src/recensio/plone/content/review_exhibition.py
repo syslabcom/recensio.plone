@@ -8,6 +8,7 @@ from plone.supermodel import model
 from recensio.plone import _
 from recensio.plone.behaviors.base import IBase
 from recensio.plone.behaviors.directives import fieldset_exhibition
+from recensio.plone.interfaces import IReview
 from recensio.plone.utils import get_formatted_names
 from recensio.plone.utils import getFormatter
 from recensio.plone.utils import punctuated_title_and_subtitle
@@ -150,7 +151,7 @@ class IReviewExhibition(model.Schema):
     )
 
 
-@implementer(IReviewExhibition)
+@implementer(IReviewExhibition, IReview)
 class ReviewExhibition(Item):
     """Content-type class for IReviewExhibition."""
 

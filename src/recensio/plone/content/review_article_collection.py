@@ -3,6 +3,7 @@ from plone.dexterity.content import Item
 from plone.supermodel import model
 from recensio.plone import _
 from recensio.plone.behaviors.base import IBase
+from recensio.plone.interfaces import IReview
 from recensio.plone.utils import get_formatted_names
 from recensio.plone.utils import getFormatter
 from recensio.plone.utils import punctuated_title_and_subtitle
@@ -43,7 +44,7 @@ class IReviewArticleCollection(model.Schema):
 # * field `heading_presented_work` from Printed Review is hidden
 
 
-@implementer(IReviewArticleCollection)
+@implementer(IReviewArticleCollection, IReview)
 class ReviewArticleCollection(Item):
     """Content-type class for IReviewArticleCollection."""
 
