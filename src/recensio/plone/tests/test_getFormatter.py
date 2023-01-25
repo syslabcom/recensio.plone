@@ -4,11 +4,10 @@ from unittest import TestCase
 
 class TestGetFormatter(TestCase):
     """Test copied almost verbatim from the docstring of
-    recensio.contenttypes.citation.getFormatter
-    """
+    recensio.contenttypes.citation.getFormatter."""
 
     def test_to(self):
-        """Test a formatter that returns a string like "1 to 2" """
+        """Test a formatter that returns a string like "1 to 2"."""
         formatter = getFormatter(", ", ", ", " to ")
         self.assertEqual(formatter("1", "2", "3", "4"), "1, 2, 3 to 4")
 

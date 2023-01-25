@@ -9,13 +9,12 @@ logger = getLogger(__name__)
 
 
 class IRecensioSettings(Interface):
-    """XXX import the proper interface once we have a control panel"""
+    """XXX import the proper interface once we have a control panel."""
 
 
 def mail_after_publication(obj, event):
     """Send an email if the workflow of the obj is simple publication workflow
-    and the object is published.
-    """
+    and the object is published."""
     wf = api.portal.get_tool("portal_workflow")
 
     if wf.getChainFor(obj)[0] != "simple_publication_workflow":

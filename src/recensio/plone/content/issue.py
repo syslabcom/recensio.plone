@@ -7,9 +7,9 @@ from zope.interface import implementer
 
 
 class IIssue(model.Schema):
-    """Marker interface and Dexterity Python Schema for Issue"""
+    """Marker interface and Dexterity Python Schema for Issue."""
 
 
 @implementer(IIssue)
 class Issue(Container):
-    """Content-type class for IIssue"""
+    """Content-type class for IIssue."""
