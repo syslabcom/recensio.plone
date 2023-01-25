@@ -257,7 +257,8 @@ class TestFormattedAuthorsEditorial(unittest.TestCase):
     """Test formatted authors and editorial."""
 
     def test_single_author_formatting(self):
-        """A single author (and no editors) is returned with leading first name."""
+        """A single author (and no editors) is returned with leading first
+        name."""
         review = ReviewMonograph()
         provideAdapter(Authors, provides=IAuthors)
         provideAdapter(Editorial, provides=IEditorial)

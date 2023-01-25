@@ -3,10 +3,8 @@ from html import escape
 
 
 def getFormatter(*specification):
-    """
-    Give the specification as a list of separators.
-    Returns a method that accepts n+1 attributes and joins them if the
-    attribute is not empty.
+    """Give the specification as a list of separators. Returns a method that
+    accepts n+1 attributes and joins them if the attribute is not empty.
 
     The tests have been moved to the tests module.
 

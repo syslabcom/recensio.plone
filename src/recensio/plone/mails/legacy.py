@@ -28,7 +28,7 @@ NOTIFICATION_LOG_ADDR = "maillog@recensio.net"
 
 
 class MailNewPublication(BrowserView):
-    """Moved and adapted from recensio.policy.browser.email"""
+    """Moved and adapted from recensio.policy.browser.email."""
 
     def __call__(self):
         from_name = api.portal.get_registry_record(

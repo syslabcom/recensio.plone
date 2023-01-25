@@ -4,9 +4,9 @@ from zope.interface import implementer
 
 
 class IVolume(model.Schema):
-    """Marker interface and Dexterity Python Schema for Volume"""
+    """Marker interface and Dexterity Python Schema for Volume."""
 
 
 @implementer(IVolume)
 class Volume(Container):
-    """Content-type class for IVolume"""
+    """Content-type class for IVolume."""
