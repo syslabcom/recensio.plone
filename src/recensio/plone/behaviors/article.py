@@ -55,6 +55,9 @@ class IArticle(model.Schema):
         required=False,
     )
 
+    page_start_end_in_print_article = schema.Field(readonly=True)
+    directives.omitted("page_start_end_in_print_article")
+
     fieldset_reviewed_text(
         [
             "translatedTitle",
@@ -130,3 +133,32 @@ class Article:
     @pageEndOfArticle.setter
     def pageEndOfArticle(self, value):
         self.context.pageEndOfArticle = value
+
+    def format_page_start_end(self, page_start, page_end):
+        # page_start is set to 0 when it is left empty in the bulk
+        # import spreadsheet #4054
+        if page_start in (None, 0):
+            page_start = ""
+        page_start = str(page_start).strip()
+
+        # page_end is set to 0 when it is left empty in the bulk
+        # import spreadsheet #4054
+        if page_end in (None, 0):
+            page_end = ""
+        page_end = str(page_end).strip()
+
+        if page_start == page_end:
+            # both the same/empty
+            page_start_end = page_start
+        elif page_start and page_end:
+            page_start_end = f"{page_start}-{page_end}"
+        else:
+            # one is not empty
+            page_start_end = page_start or page_end
+        return page_start_end
+
+    @property
+    def page_start_end_in_print_article(self):
+        page_start = self.pageStartOfArticle
+        page_end = self.pageEndOfArticle
+        return self.format_page_start_end(page_start, page_end)
