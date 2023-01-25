@@ -1,5 +1,9 @@
+from recensio.plone.behaviors.authors import Authors
+from recensio.plone.behaviors.authors import IAuthors
 from recensio.plone.behaviors.base import Base
 from recensio.plone.behaviors.base import IBase
+from recensio.plone.behaviors.editorial import Editorial
+from recensio.plone.behaviors.editorial import IEditorial
 from recensio.plone.content.review_article_collection import ReviewArticleCollection
 from recensio.plone.content.review_article_journal import ReviewArticleJournal
 from recensio.plone.content.review_exhibition import ReviewExhibition
@@ -229,17 +233,107 @@ class TestDecoratedTitle(unittest.TestCase):
             )
 
 
+def person(firstname, lastname):
+    mock_author = Mock()
+    mock_author.firstname = firstname
+    mock_author.lastname = lastname
+    mock_relation = Mock()
+    mock_relation.to_object = mock_author
+    return mock_relation
+
+
 class TestFormattedAuthorsEditorial(unittest.TestCase):
     """Test formatted authors and editorial."""
 
-    @unittest.skip("TODO")
     def test_single_author_formatting(self):
         """A single author (and no editors) is returned with leading first name."""
         review = ReviewMonograph()
-        mock_author = Mock()
-        mock_author.firstname = "Tadeusz"
-        mock_author.lastname = "Kot\xc5\x82owski"
-        mock_relation = Mock()
-        mock_relation.to_object = mock_author
-        setattr(review, "authors", [mock_author])
-        self.assertEqual(review.formatted_authors_editorial(), "Tadeusz Kot\u0142owski")
+        provideAdapter(Authors, provides=IAuthors)
+        provideAdapter(Editorial, provides=IEditorial)
+
+        setattr(review, "authors", [person("Tadeusz", "Kot\xc5\x82owski")])
+        setattr(review, "editorial", [])
+        provideAdapter(Authors, provides=IAuthors)
+        self.assertEqual(
+            review.formatted_authors_editorial(), "Tadeusz Kot\xc5\x82owski"
+        )
+
+    def test_multiple_authors_formatting(self):
+        review = ReviewMonograph()
+        provideAdapter(Authors, provides=IAuthors)
+        provideAdapter(Editorial, provides=IEditorial)
+
+        setattr(
+            review,
+            "authors",
+            [person("Tadeusz", "Kot\xc5\x82owski"), person("Aldous", "Huxley")],
+        )
+        setattr(review, "editorial", [])
+        self.assertEqual(
+            review.formatted_authors_editorial(),
+            "Tadeusz Kot\xc5\x82owski / Aldous Huxley",
+        )
+
+        setattr(
+            review,
+            "authors",
+            [person("Aldous", "Huxley"), person("Tadeusz", "Kot\xc5\x82owski")],
+        )
+        setattr(review, "editorial", [])
+        self.assertEqual(
+            review.formatted_authors_editorial(),
+            "Aldous Huxley / Tadeusz Kot\xc5\x82owski",
+        )
+
+    def test_single_author_single_editor_formatting(self):
+        review = ReviewMonograph()
+        provideAdapter(Authors, provides=IAuthors)
+        provideAdapter(Editorial, provides=IEditorial)
+
+        setattr(review, "authors", [person("Aldous", "Huxley")])
+        setattr(review, "editorial", [person("Tadeusz", "Kot\xc5\x82owski")])
+        authors_editorial = "Tadeusz Kot\xc5\x82owski (ed.): Aldous Huxley"
+        self.assertEqual(review.formatted_authors_editorial(), authors_editorial)
+
+    def test_multiple_authors_multiple_editors_formatting(self):
+        review = ReviewMonograph()
+        provideAdapter(Authors, provides=IAuthors)
+        provideAdapter(Editorial, provides=IEditorial)
+
+        setattr(
+            review,
+            "authors",
+            [person("Tadeusz", "Kot\xc5\x82owski"), person("Aldous", "Huxley")],
+        )
+        setattr(
+            review,
+            "editorial",
+            [person("Ed", "Itor"), person("Vitali", "Testchev")],
+        )
+        self.assertEqual(
+            review.formatted_authors_editorial(),
+            (
+                "Ed Itor / Vitali Testchev (eds.): "
+                "Tadeusz Kot\xc5\x82owski "
+                "/ Aldous Huxley"
+            ),
+        )
+
+        setattr(
+            review,
+            "authors",
+            [person("Aldous", "Huxley"), person("Tadeusz", "Kot\xc5\x82owski")],
+        )
+        setattr(
+            review,
+            "editorial",
+            [person("Vitali", "Testchev"), person("Ed", "Itor")],
+        )
+        self.assertEqual(
+            review.formatted_authors_editorial(),
+            (
+                "Vitali Testchev / Ed Itor (eds.): "
+                "Aldous Huxley "
+                "/ Tadeusz Kot\xc5\x82owski"
+            ),
+        )
