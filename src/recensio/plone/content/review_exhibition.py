@@ -17,7 +17,6 @@ from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
 from zope import interface
 from zope import schema
-from zope.i18nmessageid import Message
 from zope.interface import implementer
 
 
@@ -191,7 +190,7 @@ class ReviewExhibition(Item):
         )
 
         permanent_exhib_string = api.portal.translate(
-            Message("Dauerausstellung", "recensio", default="Permanent Exhibition")
+            _("Dauerausstellung", default="Permanent Exhibition")
         )
         title_string = getFormatter(". ")(
             punctuated_title_and_subtitle(self),
@@ -201,9 +200,8 @@ class ReviewExhibition(Item):
         full_title = getFormatter(": ", ", ", " ")
 
         def message_callback(reviewers_formatted):
-            return Message(
+            return _(
                 "exhibition_reviewed_by",
-                "recensio",
                 default="Exhibition reviewed by ${review_authors}",
                 mapping={"review_authors": reviewers_formatted},
             )

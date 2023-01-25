@@ -10,7 +10,6 @@ from recensio.plone.utils import get_formatted_names
 from recensio.plone.utils import getFormatter
 from recensio.plone.utils import punctuated_title_and_subtitle
 from zope import schema
-from zope.i18nmessageid import Message
 from zope.interface import implementer
 from zope.interface import provider
 
@@ -57,14 +56,10 @@ class ReviewArticleCollection(Item):
 
     def getDecoratedTitle(self):
         args = {
-            "(Hg.)": api.portal.translate(
-                Message("label_abbrev_editor", "recensio", default="(Hg.)")
-            ),
-            "in": api.portal.translate(Message("text_in", "recensio", default="in:")),
-            "page": api.portal.translate(
-                Message("text_pages", "recensio", default="p.")
-            ),
-            ":": api.portal.translate(Message("text_colon", "recensio", default=":")),
+            "(Hg.)": api.portal.translate(_("label_abbrev_editor", default="(Hg.)")),
+            "in": api.portal.translate(_("text_in", default="in:")),
+            "page": api.portal.translate(_("text_pages", default="p.")),
+            ":": api.portal.translate(_("text_colon", default=":")),
         }
 
         authors_string = self.formatted_authors()
