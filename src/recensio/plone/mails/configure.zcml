@@ -3,12 +3,9 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     >
 
-  <!-- XXX in the old system this was
-    for="recensio.contenttypes.interfaces.review.IReview"
-  -->
   <browser:page
       name="mail_new_presentation"
-      for="*"
+      for="recensio.plone.interfaces.IReview"
       class=".legacy.MailNewPublication"
       permission="zope2.View"
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
