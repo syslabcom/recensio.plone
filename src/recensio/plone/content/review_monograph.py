@@ -3,6 +3,7 @@ from plone.dexterity.content import Item
 from plone.supermodel import model
 from recensio.plone import _
 from recensio.plone.behaviors.base import IBase
+from recensio.plone.behaviors.directives import fieldset_reviewed_text
 from recensio.plone.utils import getFormatter
 from recensio.plone.utils import punctuated_title_and_subtitle
 from zope import schema
@@ -14,12 +15,12 @@ from zope.interface import provider
 class IReviewMonograph(model.Schema):
     """Marker interface and Dexterity Python Schema for ReviewMonograph."""
 
-    # TODO
-    # schemata="reviewed_text"
     translatedTitle = schema.TextLine(
         title=_("Translated Title"),
         required=False,
     )
+
+    fieldset_reviewed_text(["translatedTitle"])
 
 
 @implementer(IReviewMonograph)

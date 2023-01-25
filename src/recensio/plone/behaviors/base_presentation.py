@@ -5,6 +5,7 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.behaviors.directives import fieldset_review
 from zope import schema
 from zope.component import adapter
 from zope.interface import provider
@@ -20,7 +21,6 @@ def get_user_home_page():
 
 @provider(IFormFieldProvider)
 class IBasePresentation(model.Schema):
-
     labelPresentationAuthor = schema.TextLine(
         title=_("label_presentation_author", default=("")),
         required=False,
@@ -73,6 +73,16 @@ class IBasePresentation(model.Schema):
         ),
         required=True,
         default=False,
+    )
+
+    fieldset_review(
+        [
+            "labelPresentationAuthor",
+            "reviewAuthorHonorific",
+            "reviewAuthorEmail",
+            "reviewAuthorPersonalUrl",
+            "isLicenceApproved",
+        ],
     )
 
 

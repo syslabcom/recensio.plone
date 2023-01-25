@@ -7,6 +7,7 @@ from plone.dexterity.content import Item
 from plone.supermodel import model
 from recensio.plone import _
 from recensio.plone.behaviors.base import IBase
+from recensio.plone.behaviors.directives import fieldset_exhibition
 from recensio.plone.utils import get_formatted_names
 from recensio.plone.utils import getFormatter
 from recensio.plone.utils import punctuated_title_and_subtitle
@@ -132,6 +133,20 @@ class IReviewExhibition(model.Schema):
     doi_exhibition = schema.TextLine(
         title=_("DOI der Ausstellungswebsite"),
         required=False,
+    )
+
+    fieldset_exhibition(
+        [
+            "exhibiting_institution",
+            "dates",
+            "years",
+            "exhibiting_organisation",
+            "curators",
+            "isPermanentExhibition",
+            "titleProxy",
+            "url_exhibition",
+            "doi_exhibition",
+        ],
     )
 
 

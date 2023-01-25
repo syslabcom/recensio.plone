@@ -6,6 +6,7 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.behaviors.directives import fieldset_reviewed_text
 from zope import schema
 from zope.component import adapter
 from zope.interface import Interface
@@ -67,6 +68,17 @@ class IBookReview(model.Schema):
     doi_monograph = schema.TextLine(
         title=_("DOI (Monographie)"),
         required=False,
+    )
+
+    fieldset_reviewed_text(
+        [
+            "additionalTitles",
+            "isbn",
+            "isbn_online",
+            "url_monograph",
+            "urn_monograph",
+            "doi_monograph",
+        ],
     )
 
 

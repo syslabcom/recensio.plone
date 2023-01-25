@@ -3,6 +3,7 @@ from plone.dexterity.content import Item
 from plone.supermodel import model
 from recensio.plone import _
 from recensio.plone.behaviors.base import IBase
+from recensio.plone.behaviors.directives import fieldset_reviewed_text
 from recensio.plone.utils import getFormatter
 from recensio.plone.utils import punctuated_title_and_subtitle
 from zope import schema
@@ -17,8 +18,6 @@ class IReviewArticleJournal(model.Schema):
     """Marker interface and Dexterity Python Schema for
     ReviewArticleJournal."""
 
-    # TODO
-    # schemata="reviewed_text",
     editor = schema.TextLine(
         title=_("Editor (name or institution)"),
         required=False,
@@ -29,8 +28,6 @@ class IReviewArticleJournal(model.Schema):
         required=True,
     )
 
-    # TODO
-    # schemata="reviewed_text",
     translatedTitleJournal = schema.TextLine(
         title=_(
             "label_translated_title_journal",
@@ -38,6 +35,8 @@ class IReviewArticleJournal(model.Schema):
         ),
         required=False,
     )
+
+    fieldset_reviewed_text(["editor", "translatedTitleJournal"])
 
 
 # TODO

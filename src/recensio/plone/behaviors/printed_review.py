@@ -4,6 +4,7 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.behaviors.directives import fieldset_reviewed_text
 from zope import schema
 from zope.component import adapter
 from zope.interface import provider
@@ -59,6 +60,20 @@ class IPrintedReview(model.Schema):
         required=False,
     )
     directives.omitted("idBvb")
+
+    fieldset_reviewed_text(
+        [
+            "heading_presented_work",
+            "subtitle",
+            "yearOfPublication",
+            "placeOfPublication",
+            "publisher",
+            "yearOfPublicationOnline",
+            "placeOfPublicationOnline",
+            "publisherOnline",
+            "idBvb",
+        ],
+    )
 
 
 @adapter(IDexterityContent)

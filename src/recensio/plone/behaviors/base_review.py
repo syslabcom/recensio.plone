@@ -6,6 +6,7 @@ from plone.namedfile.field import NamedBlobFile
 from plone.namedfile.field import NamedBlobImage
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.behaviors.directives import fieldset_review
 from z3c.form.interfaces import IAddForm
 from z3c.form.interfaces import IEditForm
 from zope import schema
@@ -84,6 +85,16 @@ class IBaseReview(model.Schema):
             "activated on the volume or issue.",
         ),
         required=False,
+    )
+
+    fieldset_review(
+        [
+            "pdf",
+            "doc",
+            "customCitation",
+            "doi",
+            "customCoverImage",
+        ],
     )
 
 
