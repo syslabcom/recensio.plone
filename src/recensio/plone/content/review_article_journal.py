@@ -55,7 +55,11 @@ class ReviewArticleJournal(Item):
 
     def formatted_authors_editorial(self):
         authors_str = IAuthors(self).get_formatted_authors()
-        editors_str = IEditorial(self).get_formatted_editorial()
+        editorial_apadter = IEditorial(self, None)
+        if editorial_apadter:
+            editors_str = IEditorial(self, None).get_formatted_editorial()
+        else:
+            editors_str = ""
         return getFormatter(": ")(editors_str, authors_str)
 
     def getDecoratedTitle(self):
