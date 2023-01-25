@@ -1,3 +1,4 @@
+from plone import api
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Item
 from plone.supermodel import model
@@ -9,8 +10,6 @@ from recensio.plone.utils import get_formatted_names
 from recensio.plone.utils import getFormatter
 from recensio.plone.utils import punctuated_title_and_subtitle
 from zope import schema
-from zope.i18n import translate
-from zope.i18nmessageid import Message
 from zope.interface import implementer
 from zope.interface import provider
 
@@ -50,17 +49,17 @@ class ReviewArticleCollection(Item):
     """Content-type class for IReviewArticleCollection."""
 
     def formatted_authors(self):
+        # TODO This is here as a hint for the one implementing citations.
+        # Please remove this method and use IAuthors instead.
         authors_str = IAuthors(self).get_formatted_authors()
         return authors_str
 
     def getDecoratedTitle(self):
         args = {
-            "(Hg.)": translate(
-                Message("label_abbrev_editor", "recensio", default="(Hg.)")
-            ),
-            "in": translate(Message("text_in", "recensio", default="in:")),
-            "page": translate(Message("text_pages", "recensio", default="p.")),
-            ":": translate(Message("text_colon", "recensio", default=":")),
+            "(Hg.)": api.portal.translate(_("label_abbrev_editor", default="(Hg.)")),
+            "in": api.portal.translate(_("text_in", default="in:")),
+            "page": api.portal.translate(_("text_pages", default="p.")),
+            ":": api.portal.translate(_("text_colon", default=":")),
         }
 
         authors_string = self.formatted_authors()

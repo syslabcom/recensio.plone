@@ -1,3 +1,4 @@
+from plone import api
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Item
 from plone.supermodel import model
@@ -10,8 +11,6 @@ from recensio.plone.interfaces import IReview
 from recensio.plone.utils import getFormatter
 from recensio.plone.utils import punctuated_title_and_subtitle
 from zope import schema
-from zope.i18n import translate
-from zope.i18nmessageid import Message
 from zope.interface import implementer
 from zope.interface import provider
 
@@ -61,9 +60,9 @@ class ReviewArticleJournal(Item):
 
     def getDecoratedTitle(self):
         args = {
-            "in:": translate(Message("text_in", "recensio", default="in:")),
-            "page": translate(Message("text_pages", "recensio", default="p.")),
-            ":": translate(Message("text_colon", "recensio", default=":")),
+            "in:": api.portal.translate(_("text_in", default="in:")),
+            "page": api.portal.translate(_("text_pages", default="p.")),
+            ":": api.portal.translate(_("text_colon", default=":")),
         }
 
         item = getFormatter(" ", ", ", " ", ", ", f", {args['page']} ")

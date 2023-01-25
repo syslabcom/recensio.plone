@@ -12,6 +12,7 @@ from recensio.plone.content.review_monograph import ReviewMonograph
 from unittest.mock import Mock
 from unittest.mock import patch
 from zope.component import provideAdapter
+from zope.i18n import translate
 
 import unittest
 
@@ -35,13 +36,14 @@ class TestDecoratedTitle(unittest.TestCase):
         mock_relation.to_object = mock_author
         review.reviewAuthors = [mock_relation]
         provideAdapter(Base, provides=IBase)
-        with patch("plone.api.portal.get_current_language", return_value="en"):
-            self.assertEqual(
-                review.getDecoratedTitle(),
-                "Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch / "
-                "Plone 4. Benutzerhandbuch "
-                "(reviewed by Cillian de Roiste)",
-            )
+        with patch("plone.api.portal.translate", new_callable=lambda: translate):
+            with patch("plone.api.portal.get_current_language", return_value="en"):
+                self.assertEqual(
+                    review.getDecoratedTitle(),
+                    "Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch / "
+                    "Plone 4. Benutzerhandbuch "
+                    "(reviewed by Cillian de Roiste)",
+                )
 
     def test_decorated_title_review_journal(self):
         """Test `ReviewJournal.getDecoratedTitle()`"""
@@ -60,11 +62,12 @@ class TestDecoratedTitle(unittest.TestCase):
         review.volumeNumber = "1"
         review.issueNumber = "3"
         provideAdapter(Base, provides=IBase)
-        with patch("plone.api.portal.get_current_language", return_value="en"):
-            self.assertEqual(
-                review.getDecoratedTitle(),
-                "Plone Mag [Plöne Mág], 1 (2010/2009), 3 (reviewed by Cillian de Roiste)",
-            )
+        with patch("plone.api.portal.translate", new_callable=lambda: translate):
+            with patch("plone.api.portal.get_current_language", return_value="en"):
+                self.assertEqual(
+                    review.getDecoratedTitle(),
+                    "Plone Mag [Plöne Mág], 1 (2010/2009), 3 (reviewed by Cillian de Roiste)",
+                )
 
     def test_decorated_title_review_article_journal(self):
         """Test `ReviewArticleJournal.getDecoratedTitle()`"""
@@ -87,15 +90,16 @@ class TestDecoratedTitle(unittest.TestCase):
         review.issueNumber = "3"
         review.page_start_end_in_print_article = "42-48"
         provideAdapter(Base, provides=IBase)
-        with patch("plone.api.portal.get_current_language", return_value="en"):
-            self.assertEqual(
-                review.getDecoratedTitle(),
-                "Patrick Gerken / Alexander Pilz: "
-                "The Plone Story. A CMS through the ages "
-                "[Die Plöne-Geschichte. Ein CMS im Wandel der Zeit], "
-                "in: Plone Mag [Plöne Mág], "
-                "1 (2010/2009), 3, p. 42-48 (reviewed by Cillian de Roiste)",
-            )
+        with patch("plone.api.portal.translate", new_callable=lambda: translate):
+            with patch("plone.api.portal.get_current_language", return_value="en"):
+                self.assertEqual(
+                    review.getDecoratedTitle(),
+                    "Patrick Gerken / Alexander Pilz: "
+                    "The Plone Story. A CMS through the ages "
+                    "[Die Plöne-Geschichte. Ein CMS im Wandel der Zeit], "
+                    "in: Plone Mag [Plöne Mág], "
+                    "1 (2010/2009), 3, p. 42-48 (reviewed by Cillian de Roiste)",
+                )
 
     def test_decorated_title_review_article_collection(self):
         """Test `ReviewArticleCollection.getDecoratedTitle()`"""
@@ -121,15 +125,17 @@ class TestDecoratedTitle(unittest.TestCase):
         review.editorial = [mock_relation2]
         review.page_start_end_in_print_article = "73-78"
         provideAdapter(Base, provides=IBase)
-        with patch("plone.api.portal.get_current_language", return_value="en"):
-            self.assertEqual(
-                review.getDecoratedTitle(),
-                "Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch "
-                "[Plone 4.0. The User Manual], "
-                "in: Karl Kornfeld (Hg.): Handbuch der Handbücher. "
-                "Betriebsanleitungen, Bauanleitungen und mehr [Handbook of Handbooks], "
-                "p. 73-78 (reviewed by Cillian de Roiste)",
-            )
+        with patch("plone.api.portal.translate", new_callable=lambda: translate):
+            with patch("plone.api.portal.get_current_language", return_value="en"):
+                self.assertEqual(
+                    review.getDecoratedTitle(),
+                    "Patrick Gerken / Alexander Pilz: Plone 4.0. Das Benutzerhandbuch "
+                    "[Plone 4.0. The User Manual], "
+                    "in: Karl Kornfeld (Hg.): Handbuch der Handbücher. "
+                    "Betriebsanleitungen, Bauanleitungen und mehr "
+                    "[Handbook of Handbooks], "
+                    "p. 73-78 (reviewed by Cillian de Roiste)",
+                )
 
     def _make_review_exhibition(self):
         review = ReviewExhibition()
@@ -160,12 +166,13 @@ class TestDecoratedTitle(unittest.TestCase):
             {"name": "Verein für Softwareerhaltung", "gnd": ""}
         ]
 
-        with patch("plone.api.portal.get_current_language", return_value="en"):
-            self.assertEqual(
-                review.getDecoratedTitle(),
-                "Museum für Software: Algol. Eine Retrospektive, München "
-                "(Exhibition reviewed by Cillian de Roiste)",
-            )
+        with patch("plone.api.portal.translate", new_callable=lambda: translate):
+            with patch("plone.api.portal.get_current_language", return_value="en"):
+                self.assertEqual(
+                    review.getDecoratedTitle(),
+                    "Museum für Software: Algol. Eine Retrospektive, München "
+                    "(Exhibition reviewed by Cillian de Roiste)",
+                )
 
     def test_decorated_title_review_exhibition_institution(self):
         review = self._make_review_exhibition()
@@ -177,12 +184,13 @@ class TestDecoratedTitle(unittest.TestCase):
             {"name": "Verein für Softwareerhaltung", "gnd": ""}
         ]
 
-        with patch("plone.api.portal.get_current_language", return_value="en"):
-            self.assertEqual(
-                review.getDecoratedTitle(),
-                "Museum für Software: Permanent Exhibition, München "
-                "(Exhibition reviewed by Cillian de Roiste)",
-            )
+        with patch("plone.api.portal.translate", new_callable=lambda: translate):
+            with patch("plone.api.portal.get_current_language", return_value="en"):
+                self.assertEqual(
+                    review.getDecoratedTitle(),
+                    "Museum für Software: Permanent Exhibition, München "
+                    "(Exhibition reviewed by Cillian de Roiste)",
+                )
 
     def test_decorated_title_review_exhibition_organisation(self):
         review = self._make_review_exhibition()
@@ -194,12 +202,13 @@ class TestDecoratedTitle(unittest.TestCase):
             {"name": "Verein für Softwareerhaltung", "gnd": ""}
         ]
 
-        with patch("plone.api.portal.get_current_language", return_value="en"):
-            self.assertEqual(
-                review.getDecoratedTitle(),
-                "Verein für Softwareerhaltung: Permanent Exhibition, München "
-                "(Exhibition reviewed by Cillian de Roiste)",
-            )
+        with patch("plone.api.portal.translate", new_callable=lambda: translate):
+            with patch("plone.api.portal.get_current_language", return_value="en"):
+                self.assertEqual(
+                    review.getDecoratedTitle(),
+                    "Verein für Softwareerhaltung: Permanent Exhibition, München "
+                    "(Exhibition reviewed by Cillian de Roiste)",
+                )
 
     def test_decorated_title_review_exhibition_curator(self):
         review = self._make_review_exhibition()
@@ -209,12 +218,13 @@ class TestDecoratedTitle(unittest.TestCase):
         review.exhibiting_institution = [{"name": "", "gnd": ""}]
         review.exhibiting_organisation = [{"name": "", "gnd": ""}]
 
-        with patch("plone.api.portal.get_current_language", return_value="en"):
-            self.assertEqual(
-                review.getDecoratedTitle(),
-                "Alexander Pilz: Permanent Exhibition, München "
-                "(Exhibition reviewed by Cillian de Roiste)",
-            )
+        with patch("plone.api.portal.translate", new_callable=lambda: translate):
+            with patch("plone.api.portal.get_current_language", return_value="en"):
+                self.assertEqual(
+                    review.getDecoratedTitle(),
+                    "Alexander Pilz: Permanent Exhibition, München "
+                    "(Exhibition reviewed by Cillian de Roiste)",
+                )
 
     def test_decorated_title_review_exhibition_blank(self):
         review = self._make_review_exhibition()
@@ -225,12 +235,13 @@ class TestDecoratedTitle(unittest.TestCase):
         review.exhibiting_organisation = [{"name": "", "gnd": ""}]
         review.curators = []
 
-        with patch("plone.api.portal.get_current_language", return_value="en"):
-            self.assertEqual(
-                review.getDecoratedTitle(),
-                "Permanent Exhibition, München "
-                "(Exhibition reviewed by Cillian de Roiste)",
-            )
+        with patch("plone.api.portal.translate", new_callable=lambda: translate):
+            with patch("plone.api.portal.get_current_language", return_value="en"):
+                self.assertEqual(
+                    review.getDecoratedTitle(),
+                    "Permanent Exhibition, München "
+                    "(Exhibition reviewed by Cillian de Roiste)",
+                )
 
 
 def person(firstname, lastname):

@@ -1,5 +1,6 @@
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
+from plone import api
 from plone.app.vocabularies.catalog import CatalogSource
 from plone.app.z3cform.widget import RelatedItemsFieldWidget
 from plone.autoform.directives import widget
@@ -16,8 +17,6 @@ from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
 from zope import interface
 from zope import schema
-from zope.i18n import translate
-from zope.i18nmessageid import Message
 from zope.interface import implementer
 
 
@@ -190,8 +189,8 @@ class ReviewExhibition(Item):
             [dates_formatter(date["place"], date["runtime"]) for date in self.dates]
         )
 
-        permanent_exhib_string = translate(
-            Message("Dauerausstellung", "recensio", default="Permanent Exhibition")
+        permanent_exhib_string = api.portal.translate(
+            _("Dauerausstellung", default="Permanent Exhibition")
         )
         title_string = getFormatter(". ")(
             punctuated_title_and_subtitle(self),
@@ -201,9 +200,8 @@ class ReviewExhibition(Item):
         full_title = getFormatter(": ", ", ", " ")
 
         def message_callback(reviewers_formatted):
-            return Message(
+            return _(
                 "exhibition_reviewed_by",
-                "recensio",
                 default="Exhibition reviewed by ${review_authors}",
                 mapping={"review_authors": reviewers_formatted},
             )
