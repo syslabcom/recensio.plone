@@ -485,7 +485,7 @@ class View(BrowserView):
 
     @property
     def do_visit_canonical_uri(self):
-        url = getattr(self.context, "canonical_uri", "")
+        url = getattr(self.context, "canonical_uri", "") or ""
         return "www.perspectivia.net/content/publikationen/francia" in url
 
     def show_dara_update(self):

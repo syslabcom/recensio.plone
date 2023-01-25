@@ -80,6 +80,14 @@
            tal:content="structure python:context.review.output_relative_to(view.context)"
       ></div>
     </div>
+
+    <div class="visualClear"><!-- --></div>
+
+    <iframe src="${context/canonical_uri}?recensio=true"
+            style="display: none"
+            tal:condition="view/do_visit_canonical_uri"
+    ></iframe>
+
   </div>
 
 </html>
