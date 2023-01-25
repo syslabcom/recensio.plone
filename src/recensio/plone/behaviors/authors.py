@@ -46,8 +46,10 @@ class Authors:
         self.context.authors = value
 
     def get_formatted_authors(self):
-        authors_list = [
-            getFormatter(" ")(author.to_object.firstname, author.to_object.lastname)
-            for author in self.context.authors
-        ]
+        formatter = getFormatter(" ")
+        authors_list = []
+        for item in self.context.authors:
+            obj = item.to_object
+            if obj:
+                authors_list.append(formatter(obj.firstname, obj.lastname))
         return " / ".join(authors_list)
