@@ -74,10 +74,12 @@ class Editorial:
         self.context.editorial = value
 
     def get_formatted_editorial(self):
-        editors_list = [
-            getFormatter(" ")(editor.to_object.firstname, editor.to_object.lastname)
-            for editor in self.context.editorial
-        ]
+        formatter = getFormatter(" ")
+        editors_list = []
+        for item in self.context.editorial:
+            obj = item.to_object
+            if obj:
+                editors_list.append(formatter(obj.firstname, obj.lastname))
         if len(editors_list) == 0:
             return ""
         if len(editors_list) == 1:
