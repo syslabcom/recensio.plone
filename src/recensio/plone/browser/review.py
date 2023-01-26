@@ -4,11 +4,12 @@ from plone import api
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from recensio.plone import _
+from recensio.plone.browser.canonical import CanonicalURLHelper
 from recensio.plone.mails.legacy import get_formatted_names
 from ZTUtils import make_query
 
 
-class View(BrowserView):
+class View(BrowserView, CanonicalURLHelper):
     """Moderation View."""
 
     metadata_fields = []  # XXX
@@ -34,25 +35,6 @@ class View(BrowserView):
         "get_journal_title": "rft.jtitle",
         "pages": "rft.pages",
     }
-
-    def get_canonical_url(self):
-        """XXX.
-
-        registry = getUtility(IRegistry)
-        recensio_settings = registry.forInterface(IRecensioSettings, prefix="recensio.plone.settings")
-        virtual_url = self.request.get("VIRTUAL_URL_PARTS", [])
-        if virtual_url and virtual_url[0] != recensio_settings.external_portal_url:
-            canonical_url = "/".join(
-                (
-                    recensio_settings.external_portal_url,
-                    "/".join(self.context.getPhysicalPath()[2:]),
-                )
-            )
-            return canonical_url
-        else:
-            return self.request["ACTUAL_URL"]
-        """
-        return self.context.absolute_url()  # XXX user the code above
 
     def get_metadata_review_author(self):
         return get_formatted_names(
@@ -521,7 +503,5 @@ class View(BrowserView):
             not self.request["HTTP_HOST"].startswith("admin.")
             and canonical_url != self.request["ACTUAL_URL"]
         ):
-            # XXX
-            # return self.request.response.redirect(canonical_url, status=301)
-            pass
+            return self.request.response.redirect(canonical_url, status=301)
         return super().__call__()
