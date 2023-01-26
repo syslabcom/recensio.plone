@@ -17,6 +17,17 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <!-- XXX: maybe we restrict this to a particular interface? -->
+  <browser:page
+      name="publications-view"
+      for="*"
+      class=".publications.PublicationsView"
+      template="templates/publications.pt"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+
   <browser:page
       name="pageviewer"
       for="recensio.plone.interfaces.IReview"

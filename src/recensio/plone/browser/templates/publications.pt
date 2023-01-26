@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      xml:lang="en"
+      i18n:domain="recensio"
+>
+  <metal:main fill-slot="main"
+              tal:define="
+                ploneview python:context.restrictedTraverse('@@plone');
+              "
+  >
+    <h1 i18n:translate="heading_publications">Publications</h1>
+    <p i18n:translate="description_publications">Here you see a list of publications of which we present reviews.</p>
+    <div id="content_left">
+      <tal:rep repeat="publication view/publications">
+        <h2>
+          <a tal:attributes="
+               href publication/link;
+             ">
+            <span tal:replace="publication/title">
+                    Publication Title
+            </span>
+          </a>
+        </h2>
+        <a tal:attributes="
+             href publication/link;
+           ">
+          <img class="floatBefore publication-image"
+               src="#"
+               tal:attributes="
+                 src publication/logo;
+                 alt string:${publication/title} logo;
+               "
+          /></a>
+
+        <p tal:content="structure publication/desc">The Description</p>
+        <div class="visualClear"></div>
+      </tal:rep>
+    </div>
+
+  </metal:main>
+</html>
