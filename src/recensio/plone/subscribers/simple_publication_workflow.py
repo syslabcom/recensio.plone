@@ -2,14 +2,10 @@ from DateTime import DateTime
 from logging import getLogger
 from plone import api
 from recensio.plone import _
-from zope.interface import Interface
+from recensio.plone.controlpanel.settings import IRecensioSettings
 
 
 logger = getLogger(__name__)
-
-
-class IRecensioSettings(Interface):
-    """XXX import the proper interface once we have a control panel."""
 
 
 def mail_after_publication(obj, event):
