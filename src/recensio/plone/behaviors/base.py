@@ -1,5 +1,4 @@
 from plone import api
-from plone.app.dexterity.behaviors.metadata import default_language
 from plone.app.dexterity.textindexer import searchable
 from plone.app.textfield import RichText as RichTextField
 from plone.app.vocabularies.catalog import CatalogSource
@@ -53,21 +52,23 @@ class IBase(model.Schema):
     )
 
     directives.widget("languageReview", SelectFieldWidget)
-    languageReview = schema.Choice(
+    languageReview = schema.List(
         title=_("Language(s) (review)"),
-        vocabulary="plone.app.vocabularies.SupportedContentLanguages",
+        value_type=schema.Choice(
+            vocabulary="plone.app.vocabularies.SupportedContentLanguages"
+        ),
         required=False,
-        missing_value="",
-        defaultFactory=default_language,
+        defaultFactory=list,
     )
 
     directives.widget("languageReviewedText", SelectFieldWidget)
-    languageReviewedText = schema.Choice(
+    languageReviewedText = schema.List(
         title=_("Language(s) (text)"),
-        vocabulary="plone.app.vocabularies.SupportedContentLanguages",
+        value_type=schema.Choice(
+            vocabulary="plone.app.vocabularies.SupportedContentLanguages"
+        ),
         required=False,
-        missing_value="",
-        defaultFactory=default_language,
+        defaultFactory=list,
     )
 
     recensioID = schema.TextLine(
@@ -122,26 +123,31 @@ class IBase(model.Schema):
 
     # TODO
     # size=10,
-    ddcSubject = schema.Choice(
+    ddcSubject = schema.List(
         title=_("ddc subject"),
-        vocabulary="recensio.plone.vocabularies.topic_values",
+        value_type=schema.Choice(vocabulary="recensio.plone.vocabularies.topic_values"),
         required=False,
+        defaultFactory=list,
     )
 
     # TODO
     # size=10,
-    ddcTime = schema.Choice(
+    ddcTime = schema.List(
         title=_("ddc time"),
-        vocabulary="recensio.plone.vocabularies.epoch_values",
+        value_type=schema.Choice(vocabulary="recensio.plone.vocabularies.epoch_values"),
         required=False,
+        defaultFactory=list,
     )
 
     # TODO
     # size=10,
-    ddcPlace = schema.Choice(
+    ddcPlace = schema.List(
         title=_("ddc place"),
-        vocabulary="recensio.plone.vocabularies.region_values",
+        value_type=schema.Choice(
+            vocabulary="recensio.plone.vocabularies.region_values",
+        ),
         required=False,
+        defaultFactory=list,
     )
 
     fieldset_reviewed_text(
@@ -275,3 +281,27 @@ class Base:
     @canonical_uri.setter
     def canonical_uri(self, value):
         self.context.canonical_uri = value
+
+    @property
+    def ddcSubject(self):
+        return self.context.ddcSubject
+
+    @ddcSubject.setter
+    def ddcSubject(self, value):
+        self.context.ddcSubject = value
+
+    @property
+    def ddcTime(self):
+        return self.context.ddcTime
+
+    @ddcTime.setter
+    def ddcTime(self, value):
+        self.context.ddcTime = value
+
+    @property
+    def ddcPlace(self):
+        return self.context.ddcPlace
+
+    @ddcPlace.setter
+    def ddcPlace(self, value):
+        self.context.ddcPlace = value
