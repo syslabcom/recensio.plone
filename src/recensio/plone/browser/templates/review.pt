@@ -13,81 +13,386 @@
   </div>
 
   <div metal:fill-slot="content-core">
-    <div id="review"
-         tal:define="
-           searchresults context/getSearchresults | nothing;
-         "
-    >
+    <div>
 
-      <p tal:condition="searchresults">
-        ${searchresults}
-      </p>
-
-      <a class="iframe"
-         id="preview-image"
-         href="${here/absolute_url}/@@pageviewer"
-         rel="contactSheet"
-         tal:define="
-           no_pages XXX|nothing|view/get_no_pages;
-         "
-         tal:condition="not:view/isUseExternalFulltext"
+      <div id="review"
+           tal:define="
+             searchresults context/getSearchresults | nothing;
+           "
       >
-        <img src="${view/get_preview_img_url}" />
-      </a>
 
-      <a id="cover-image"
-         href="${python:view.get_doi_url_if_active() or context.canonical_uri}"
-         tal:define="
-           custom_cover context/customCoverImage|nothing;
-         "
-         tal:condition="context/isUseExternalFulltext|nothing"
-      >
-        <img src="${context/absolute_url}/@@images/customCoverImage/mini"
-             tal:condition="custom_cover"
-        />
-        <p tal:condition="not:custom_cover"
-           i18n:translate=""
+        <p tal:condition="searchresults">
+      ${searchresults}
+        </p>
+
+        <a class="iframe"
+           id="preview-image"
+           href="${here/absolute_url}/@@pageviewer"
+           rel="contactSheet"
+           tal:define="
+             no_pages XXX|nothing|view/get_no_pages;
+           "
+           tal:condition="not:view/isUseExternalFulltext"
         >
-          Zum Volltext</p>
-      </a>
+          <img src="${view/get_preview_img_url}" />
+        </a>
 
-      <br />
-
-      <p tal:condition="view/show_dara_update">
-        <form action="${context/absolute_url}/dara_update"
-              method="POST"
+        <a id="cover-image"
+           href="${python:view.get_doi_url_if_active() or context.canonical_uri}"
+           tal:define="
+             custom_cover context/customCoverImage|nothing;
+           "
+           tal:condition="context/isUseExternalFulltext|nothing"
         >
-          <button type="submit"
-                  value="Dara Update"
-          >Dara Update</button>
-        </form>
-      </p>
+          <img src="${context/absolute_url}/@@images/customCoverImage/mini"
+               tal:condition="custom_cover"
+          />
+          <p tal:condition="not:custom_cover"
+             i18n:translate=""
+          >
+            Zum Volltext</p>
+        </a>
 
-      <p>
-        <a id="toctrigger"
-           href="#reviewtoc"
-           tal:condition="python:getattr(context, 'tableOfContents', None)"
-           i18n:translate="show_reviewtoc_trigger"
-        >Inhaltsverzeichnis anzeigen</a>
-      </p>
+        <br />
 
-      <div style="display:none"><pre id="reviewtoc"
-             tal:condition="python:hasattr(context, 'tableOfContents')"
-             tal:content="structure context/tableOfContents"
-        ></pre></div>
-      <div id="reviewhtml"
-           tal:condition="python:getattr(context, 'review', None)"
-           tal:content="structure python:context.review.output_relative_to(view.context)"
-      ></div>
+        <p tal:condition="view/show_dara_update">
+          <form action="${context/absolute_url}/dara_update"
+                method="POST"
+          >
+            <button type="submit"
+                    value="Dara Update"
+            >Dara Update</button>
+          </form>
+        </p>
+
+        <p>
+          <a id="toctrigger"
+             href="#reviewtoc"
+             tal:condition="python:getattr(context, 'tableOfContents', None)"
+             i18n:translate="show_reviewtoc_trigger"
+          >Inhaltsverzeichnis anzeigen</a>
+        </p>
+
+        <div style="display:none"><pre id="reviewtoc"
+               tal:condition="python:hasattr(context, 'tableOfContents')"
+               tal:content="structure context/tableOfContents"
+          ></pre></div>
+        <div id="reviewhtml"
+             tal:condition="python:getattr(context, 'review', None)"
+             tal:content="structure python:context.review.output_relative_to(view.context)"
+        ></div>
+      </div>
+
+      <div class="visualClear"><!-- --></div>
+
+      <iframe src="${context/canonical_uri}?recensio=true"
+              style="display: none"
+              tal:condition="view/do_visit_canonical_uri"
+      ></iframe>
+
     </div>
+    <div tal:define="
+           pdf python:view.get_review_pdf();
+         ">
+      <div class="portlet"
+           id="portletDownload"
+           tal:define="
+             pdf_ob python:pdf and pdf['blob'];
+           "
+           tal:condition="pdf"
+      >
+        <p class="download pdf"
+           tal:condition="not:context/isUseExternalFulltext|nothing"
+        >
+          <a href="PartB.pdf"
+             target="_blank"
+             tal:attributes="
+               href python:context.absolute_url()+'/@@generate-pdf-recension?language='+context.portal_languages.getPreferredLanguage();
+             "
+             i18n:translate="download_as"
+          >Download as
+            <strong>PDF</strong><br />
+            <em class="discrete">(<span tal:replace="python: pdf_ob and pdf['size']/1024 or 0"
+                    i18n:name="download_size"
+              ></span>
+              kb)</em></a>
+        </p>
+        <p class="external fulltext pdf"
+           tal:condition="context/isUseExternalFulltext|nothing"
+        >
+          <a href="${python: view.get_doi_url_if_active() or context.canonical_uri}"
+             target="_blank"
+             i18n:translate=""
+          >
+            Zum Volltext</a>
+        </p>
+      </div>
 
-    <div class="visualClear"><!-- --></div>
+      <div id="social-media-content">
+        <img id="social-media-buttons-content"
+             alt="Social Media Buttons"
+             src="${context/absolute_url}/++resource++recensio.theme.images/social-media-icons.png"
+             usemap="#socialmap-content"
+        />
+        <map name="socialmap-content">
+          <area alt="fb"
+                coords="0,0,30,30"
+                href="https://www.facebook.com/sharer/sharer.php?u=${context/absolute_url}"
+                shape="rect"
+          />
+          <area alt="twitter"
+                coords="30,0,60,30"
+                href="http://twitter.com/home?status=${context/absolute_url}"
+                shape="rect"
+          />
+          <area alt="twitter"
+                coords="60,0,90,30"
+                href="string:https://www.linkedin.com/shareArticle?mini=true&amp;url=${context/absolute_url}"
+                shape="rect"
+          />
+        </map>
+      </div>
 
-    <iframe src="${context/canonical_uri}?recensio=true"
-            style="display: none"
-            tal:condition="view/do_visit_canonical_uri"
-    ></iframe>
+      <div tal:define="
+             metadata_field_names view/metadata_fields;
+             metadata view/get_metadata;
+           ">
+        <span class="Z3988"
+              title="${view/get_metadata_context_object}"
+        >
+          <div id="accordion-container">
+            <ul class="accordion">
+              <li class="accordion-item"
+                  id="metadata"
+                  title="Metadata"
+                  i18n:attributes="title metadata"
+              >
+                <h2>
 
+                  <a class="trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink"
+                         class="togglebutton closed"
+                         height="25.2"
+                         version="1.1"
+                         viewbox="0 0 9 25.2"
+                         width="9"
+                    >
+                      <path d="m 8.55,12.600006 q 0,0.3654 -0.2664,0.6336 l -6.3,6.3 q -0.2664,0.2664 -0.6336,0.2664 -0.3672,0 -0.6336,-0.2664 Q 0.45,19.267206 0.45,18.900006 V 6.3000064 q 0,-0.3654 0.2664,-0.6336 0.2664,-0.2682 0.6336,-0.2664 0.3672,0.0018 0.6336,0.2664 l 6.3,6.2999996 q 0.2664,0.2664 0.2664,0.6336 z"></path>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink"
+                         class="togglebutton open"
+                         height="25.2"
+                         version="1.1"
+                         viewbox="0 0 14.4 25.2"
+                         width="14.4"
+                    >
+                      <path d="m 14.399994,9.4500004 q 0,0.3654 -0.2664,0.6335996 l -6.3,6.3 q -0.2664,0.2664 -0.6336,0.2664 -0.3672,0 -0.6336,-0.2664 l -6.30000004,-6.3 Q -6.0407349e-6,9.8172004 -6.0407349e-6,9.4500004 q 0,-0.3672 0.2664000007349,-0.6336 0.2664,-0.2664 0.6336,-0.2664 H 13.499994 q 0.3654,0 0.6336,0.2664 0.2682,0.2664 0.2664,0.6336 z"></path>
+                    </svg>
+
+                    <tal:heading i18n:translate="metadata">Metadata</tal:heading>
+                  </a>
+                </h2>
+
+                <ul class="accordion-content">
+                  <li class="opened-on-load">
+
+                    <dl>
+                      <tal:field_names repeat="field_name metadata_field_names">
+                        <tal:has_value condition="python:metadata[field_name]['value']">
+                          <dt tal:content="python:metadata[field_name]['label']">
+                            Editor (name or institution)
+                          </dt>
+                          <dd tal:condition="python: metadata[field_name]['is_macro']">
+                            <metal:val use-macro="python: context.widget(field_name, mode='view')" />
+                          </dd>
+                          <dd tal:condition="python: not metadata[field_name]['is_macro']"
+                              tal:content="structure python: metadata[field_name]['value']"
+                          >
+                            Frank Severin
+                          </dd>
+                        </tal:has_value>
+                      </tal:field_names>
+                    </dl>
+
+                  </li>
+                </ul>
+              </li>
+              <li class="accordion-item"
+                  id="citation"
+                  title="Zitierhinweise"
+                  i18n:attributes="title citation_note"
+              >
+                <h2>
+                  <a class="trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink"
+                         class="togglebutton closed"
+                         height="25.2"
+                         version="1.1"
+                         viewbox="0 0 9 25.2"
+                         width="9"
+                    >
+                      <path d="m 8.55,12.600006 q 0,0.3654 -0.2664,0.6336 l -6.3,6.3 q -0.2664,0.2664 -0.6336,0.2664 -0.3672,0 -0.6336,-0.2664 Q 0.45,19.267206 0.45,18.900006 V 6.3000064 q 0,-0.3654 0.2664,-0.6336 0.2664,-0.2682 0.6336,-0.2664 0.3672,0.0018 0.6336,0.2664 l 6.3,6.2999996 q 0.2664,0.2664 0.2664,0.6336 z"></path>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink"
+                         class="togglebutton open"
+                         height="25.2"
+                         version="1.1"
+                         viewbox="0 0 14.4 25.2"
+                         width="14.4"
+                    >
+                      <path d="m 14.399994,9.4500004 q 0,0.3654 -0.2664,0.6335996 l -6.3,6.3 q -0.2664,0.2664 -0.6336,0.2664 -0.3672,0 -0.6336,-0.2664 l -6.30000004,-6.3 Q -6.0407349e-6,9.8172004 -6.0407349e-6,9.4500004 q 0,-0.3672 0.2664000007349,-0.6336 0.2664,-0.2664 0.6336,-0.2664 H 13.499994 q 0.3654,0 0.6336,0.2664 0.2682,0.2664 0.2664,0.6336 z"></path>
+                    </svg>
+                    <tal:heading i18n:translate="citation_note">Zitierhinweise</tal:heading>
+                  </a>
+                </h2>
+                <ul class="accordion-content">
+                  <li>
+                    <p tal:content="structure context/get_citation_string|XXX|nothing"></p>
+                    <dl>
+                      <tal:absolute_url condition="view/is_url_shown_in_citation_note">
+                        <dt i18n:translate="url">URL:</dt>
+                        <dd><a href="${context/absolute_url}"
+                             title="${context/absolute_url}"
+                          >${context/absolute_url}</a></dd>
+                      </tal:absolute_url>
+                      <tal:canonical_uri define="
+                                           url context/canonical_uri | nothing;
+                                         "
+                                         condition="url"
+                      >
+                        <dt i18n:translate="heading_first_published">First published:</dt>
+                        <dd><a href="${url}"
+                             title="${url}"
+                          >${url}</a>
+                        </dd>
+                      </tal:canonical_uri>
+                    </dl>
+
+                  </li>
+                </ul>
+              </li>
+              <li class="accordion-item"
+                  id="license"
+                  title="Lizenzhinweis:"
+                  i18n:attributes="title license-note-heading"
+              >
+                <h2>
+                  <a class="trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink"
+                         class="togglebutton closed"
+                         height="25.2"
+                         version="1.1"
+                         viewbox="0 0 9 25.2"
+                         width="9"
+                    >
+                      <path d="m 8.55,12.600006 q 0,0.3654 -0.2664,0.6336 l -6.3,6.3 q -0.2664,0.2664 -0.6336,0.2664 -0.3672,0 -0.6336,-0.2664 Q 0.45,19.267206 0.45,18.900006 V 6.3000064 q 0,-0.3654 0.2664,-0.6336 0.2664,-0.2682 0.6336,-0.2664 0.3672,0.0018 0.6336,0.2664 l 6.3,6.2999996 q 0.2664,0.2664 0.2664,0.6336 z"></path>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink"
+                         class="togglebutton open"
+                         height="25.2"
+                         version="1.1"
+                         viewbox="0 0 14.4 25.2"
+                         width="14.4"
+                    >
+                      <path d="m 14.399994,9.4500004 q 0,0.3654 -0.2664,0.6335996 l -6.3,6.3 q -0.2664,0.2664 -0.6336,0.2664 -0.3672,0 -0.6336,-0.2664 l -6.30000004,-6.3 Q -6.0407349e-6,9.8172004 -6.0407349e-6,9.4500004 q 0,-0.3672 0.2664000007349,-0.6336 0.2664,-0.2664 0.6336,-0.2664 H 13.499994 q 0.3654,0 0.6336,0.2664 0.2682,0.2664 0.2664,0.6336 z"></path>
+                    </svg>
+
+                    <tal:heading i18n:translate="license-note-heading">Lizenzhinweis:</tal:heading>
+                  </a>
+                </h2>
+                <ul class="accordion-content">
+                  <li>
+                    <p tal:content="structure context/getLicense|XXX|nothing">Dieser Beitrag
+   unterliegt der Creative-Commons-Lizenz
+   Namensnennung-Keine kommerzielle Nutzung-Keine
+   Bearbeitung (CC-BY-NC-ND), darf also unter diesen
+   Bedingungen elektronisch benutzt, &uuml;bermittelt,
+   ausgedruckt und zum Download bereitgestellt
+                      werden. Den Text der Lizenz erreichen Sie hier:</p>
+                    <a href="${python: context.getLicenseURL()['url'];}"
+                       tal:condition="context/getLicenseURL | nothing"
+                       tal:content="python: context.getLicenseURL()['msg']"
+                    >
+                      Licence msg</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="accordion-item"
+                  id="online-publication"
+                  title="Links"
+                  tal:condition="python:context.Type().startswith('Presentation')"
+                  i18n:attributes="title links-box-heading"
+              >
+                <h2 i18n:translate="links-box-heading">Links</h2>
+                <ul class="accordion-content">
+                  <li tal:define="
+                        online_review_urls view/get_online_review_urls;
+                        published_reviews view/get_published_reviews;
+                        user_home_page context/getReviewAuthorPersonalUrl;
+                      ">
+                    <dl>
+                      <dt tal:condition="context/uri"
+                          i18n:translate="online_accessible"
+                      >
+                        Diese Schrift ist online abrufbar
+                      </dt>
+                      <dd>
+                        <a href="${context/uri}">${context/uri}</a>
+                      </dd>
+                      <dt tal:condition="not:context/uri"
+                          i18n:translate="online_not_accessible"
+                      >
+                        Diese Schrift ist nicht online abrufbar
+                      </dt>
+                      <dd></dd>
+                      <tal:block tal:condition="online_review_urls">
+                        <dt i18n:translate="heading_online_reviews_of_presented_text">
+                          Rezension/en zum praesentierten Werk
+                        </dt>
+                        <dd>
+                          <span tal:repeat="online_review_url online_review_urls">
+                            <a href="${online_review_url/url}">
+                              ${online_review_url/url}
+                            </a>
+                          </span>
+                        </dd>
+                      </tal:block>
+
+                      <tal:block tal:condition="published_reviews">
+                        <dt i18n:translate="heading_published_reviews_of_presented_text">
+                          Published reviews of the presented text
+                        </dt>
+                        <dd tal:repeat="published_review published_reviews">
+                          <span tal:replace="published_review/details">
+                          </span>
+                        </dd>
+                      </tal:block>
+
+                      <tal:block tal:condition="user_home_page">
+                        <dt i18n:translate="">
+                          Personal webpage URL/URN
+                        </dt>
+                        <dd>
+                          <a href="${user_home_page}"
+                             tal:content="user_home_page"
+                          >${user_home_page}</a>
+                        </dd>
+                      </tal:block>
+                    </dl>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </span>
+      </div>
+    </div>
   </div>
 
 </html>

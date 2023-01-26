@@ -11,6 +11,8 @@ from ZTUtils import make_query
 class View(BrowserView):
     """Moderation View."""
 
+    metadata_fields = []  # XXX
+    ordered_fields = []  # XXX
     custom_metadata_field_labels = {
         "get_publication_title": _("Publication Title"),
         "get_journal_title": _("heading_metadata_journal"),
@@ -237,16 +239,16 @@ class View(BrowserView):
 
     def get_metadata(self):  # noqa: C901
         context = self.context
-        fields = self.context.Schema()._fields
         meta = {}
-        for field in context.metadata_fields:
+        fields = []  # XXX
+        for field in self.metadata_fields:
             value = False  # A field is only displayed if it has a value
             is_macro = False
             if field.startswith("get_"):
                 label = self.custom_metadata_field_labels[field]
                 value = getattr(context, field)()
             elif field == "metadata_start_end_pages":
-                if "metadata_start_end_pages_article" in context.metadata_fields:
+                if "metadata_start_end_pages_article" in self.metadata_fields:
                     label = _("metadata_pages_review")
                 else:
                     label = _("metadata_pages")
@@ -403,7 +405,7 @@ class View(BrowserView):
         terms = {}
         introstr = "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook"
 
-        for field in context.metadata_fields:
+        for field in self.metadata_fields:
             if field in self.openurl_terms:
                 name = self.openurl_terms[field]
 
@@ -450,7 +452,7 @@ class View(BrowserView):
 
     def get_online_review_urls(self):
         existing_online_review_urls = []
-        if "existingOnlineReviews" in self.context.ordered_fields:
+        if "existingOnlineReviews" in self.ordered_fields:
             existingOnlineReviewUrls = self.context.getExistingOnlineReviews()
             if existingOnlineReviewUrls != () and existingOnlineReviewUrls != (
                 {"name": "", "url": ""},
@@ -464,7 +466,7 @@ class View(BrowserView):
 
     def get_published_reviews(self):
         published_reviews = []
-        if "publishedReviews" in self.context.ordered_fields:
+        if "publishedReviews" in self.ordered_fields:
             publishedReviews = self.context.getPublishedReviews()
             if publishedReviews != () and publishedReviews != ({"details": ""},):
                 published_reviews = [
@@ -509,6 +511,9 @@ class View(BrowserView):
     def isUseExternalFulltext(self):
         """XXX: needs a migration and the IParentGetter to be ported."""
         return False
+
+    def get_review_pdf(self):
+        """XXX."""
 
     def __call__(self):
         canonical_url = self.get_canonical_url()
