@@ -10,6 +10,14 @@
       />
 
   <browser:page
+      name="base_view"
+      for="recensio.plone.content.person.IPerson"
+      class=".person.BaseView"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
       name="pageviewer"
       for="recensio.plone.interfaces.IReview"
       class=".pageviewer.Pageviewer"
