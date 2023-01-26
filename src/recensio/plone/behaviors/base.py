@@ -206,9 +206,8 @@ class Base:
                 api.portal.get_current_language(),
             )
             reviewer_string = f"({reviewer_string_inner})"
-        else:
-            reviewer_string = "XXX"
-        return reviewer_string
+            return reviewer_string
+        return ""
 
     @property
     def languageReview(self):
