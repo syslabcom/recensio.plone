@@ -3,6 +3,12 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     >
 
+  <browser:resourceDirectory
+      name="recensio.theme.images"
+      directory="images"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
   <browser:page
       name="pageviewer"
       for="recensio.plone.interfaces.IReview"
