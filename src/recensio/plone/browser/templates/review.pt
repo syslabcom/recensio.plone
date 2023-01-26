@@ -251,7 +251,7 @@
                 </h2>
                 <ul class="accordion-content">
                   <li>
-                    <p tal:content="structure view/get_citation_string|nothing"></p>
+                    <p tal:content="structure view/get_citation_string"></p>
                     <dl>
                       <tal:absolute_url condition="view/is_url_shown_in_citation_note">
                         <dt i18n:translate="url">URL:</dt>
