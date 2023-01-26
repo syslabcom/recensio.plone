@@ -156,6 +156,7 @@ class IRecensioSettings(Interface):
 
 class RecensioSettingsEditForm(controlpanel.RegistryEditForm):
     schema = IRecensioSettings
+    schema_prefix = "recensio.plone.settings"
     label = _("label_recensio_settings", default="Recensio settings")
     description = _(
         "description_recensio_setings",

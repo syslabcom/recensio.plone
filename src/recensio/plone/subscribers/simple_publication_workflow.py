@@ -38,7 +38,7 @@ def mail_after_publication(obj, event):
     if event.action == "submit":
         subject = _("label_item_submitted", default="Content was submitted")
         mail_to = api.portal.get_registry_record(
-            name="review_submitted_email",
+            name="recensio.plone.settings.review_submitted_email",
             interface=IRecensioSettings,
             default=mail_from,
         )
