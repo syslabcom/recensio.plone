@@ -11,6 +11,8 @@ class BaseView(BrowserView):
 
         We can get rid of this view after the migration if an upgrade step
         cleans up the layout property.
+
+        TODO: clean up the layout property after the migration
         """
         return api.content.get_view(
             name="view",
