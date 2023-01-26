@@ -30,7 +30,7 @@
            href="${here/absolute_url}/@@pageviewer"
            rel="contactSheet"
            tal:define="
-             no_pages XXX|nothing|view/get_no_pages;
+             no_pages XXX|nothing|view/get_num_pages;
            "
            tal:condition="not:view/isUseExternalFulltext"
         >
