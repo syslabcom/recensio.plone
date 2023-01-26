@@ -6,7 +6,7 @@
     <value key="always_show_selector">True</value>
     <value key="authenticated_users_only">False</value>
     <value key="available_languages">
-      <element>en-us</element>
+      <element>en</element>
       <element>fr</element>
       <element>de</element>
     </value>
