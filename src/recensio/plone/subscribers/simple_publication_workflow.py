@@ -2,14 +2,10 @@ from DateTime import DateTime
 from logging import getLogger
 from plone import api
 from recensio.plone import _
-from zope.interface import Interface
+from recensio.plone.controlpanel.settings import IRecensioSettings
 
 
 logger = getLogger(__name__)
-
-
-class IRecensioSettings(Interface):
-    """XXX import the proper interface once we have a control panel."""
 
 
 def mail_after_publication(obj, event):
@@ -42,7 +38,7 @@ def mail_after_publication(obj, event):
     if event.action == "submit":
         subject = _("label_item_submitted", default="Content was submitted")
         mail_to = api.portal.get_registry_record(
-            name="review_submitted_email",
+            name="recensio.plone.settings.review_submitted_email",
             interface=IRecensioSettings,
             default=mail_from,
         )
