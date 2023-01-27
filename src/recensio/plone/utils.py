@@ -72,8 +72,7 @@ def getFormatter(*specification):
     return formatter
 
 
-def get_formatted_names(names, lastname_first=False):
-    full_name_separator = " / "
+def get_formatted_names(names, lastname_first=False, full_name_separator=" / "):
     name_part_separator = " "
     name_part1 = "firstname"
     name_part2 = "lastname"

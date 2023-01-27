@@ -3,9 +3,12 @@ from html import escape
 from plone import api
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
+from Products.PortalTransforms.libtransforms.utils import scrubHTML
 from recensio.plone import _
 from recensio.plone.browser.canonical import CanonicalURLHelper
-from recensio.plone.mails.legacy import get_formatted_names
+from recensio.plone.utils import get_formatted_names
+from recensio.plone.utils import getFormatter
+from recensio.plone.utils import punctuated_title_and_subtitle
 from ZTUtils import make_query
 
 
@@ -38,7 +41,9 @@ class View(BrowserView, CanonicalURLHelper):
 
     def get_metadata_review_author(self):
         return get_formatted_names(
-            " <br/> ", ", ", self.context.reviewAuthors, lastname_first=True
+            self.context.reviewAuthors,
+            lastname_first=True,
+            full_name_separator=" <br/> ",
         )
 
     def _get_gnd_link(self, gnd_id):
@@ -481,6 +486,10 @@ class View(BrowserView, CanonicalURLHelper):
         except AttributeError:
             return False
 
+    def get_citation_string(self):
+        # XXX specific to subtypes; implement in specific views
+        return "XXX"
+
     def is_url_shown_in_citation_note(self):
         is_external_fulltext = getattr(
             self.context, "isUseExternalFulltext", lambda: False
@@ -505,3 +514,60 @@ class View(BrowserView, CanonicalURLHelper):
         ):
             return self.request.response.redirect(canonical_url, status=301)
         return super().__call__()
+
+
+class ReviewMonographView(View):
+    def get_citation_string(self):
+        if self.context.customCitation:
+            return scrubHTML(self.context.customCitation).decode("utf8")
+
+        args = {
+            "review_of": api.portal.translate(
+                _("text_review_of", default="review of:")
+            ),
+            "in": api.portal.translate(_("text_in", default="in:")),
+            "page": api.portal.translate(_("text_pages", default="p.")),
+            ":": api.portal.translate(_("text_colon", default=":")),
+        }
+        rev_details_formatter = getFormatter(", ", ", ", "%(:)s " % args, ", ")
+        reviewer_string = get_formatted_names(
+            [rel.to_object for rel in self.context.reviewAuthors], lastname_first=True
+        )
+        authors_string = self.context.formatted_authors_editorial()
+        title_subtitle_string = punctuated_title_and_subtitle(self.context)
+        item_string = rev_details_formatter(
+            authors_string,
+            title_subtitle_string,
+            self.context.placeOfPublication,
+            self.context.publisher,
+            self.context.yearOfPublication,
+        )
+
+        mag_number_formatter = getFormatter(", ", ", ")
+        mag_number_string = mag_number_formatter("XXX", "0", "0")
+        # TODO
+        #     self.get_publication_title(),
+        #     self.get_volume_title(),
+        #     self.get_issue_title(),
+        # )
+
+        location = "XXX"
+        # TODO
+        # location = self.get_citation_location()
+
+        citation_formatter = getFormatter(
+            "%(:)s %(review_of)s " % args,
+            ", %(in)s " % args,
+            ", %(page)s " % args,
+            ", ",
+        )
+
+        citation_string = citation_formatter(
+            escape(reviewer_string),
+            escape(item_string),
+            escape(mag_number_string),
+            "XXX",  # TODO self.page_start_end_in_print,
+            location,
+        )
+
+        return citation_string
