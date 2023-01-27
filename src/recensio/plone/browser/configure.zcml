@@ -42,6 +42,13 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <browser:page
+      name="get_page_image"
+      for="recensio.plone.interfaces.IReview"
+      class=".pageviewer.GetPageImage"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
 
   <browser:page
       name="pageviewer"
