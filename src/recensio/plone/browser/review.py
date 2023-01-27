@@ -505,6 +505,39 @@ class View(BrowserView, CanonicalURLHelper):
     def get_review_pdf(self):
         """XXX."""
 
+    def getTranslations(
+        self, obj, include_canonical=True, review_state=True, _is_canonical=None
+    ):
+        if review_state:
+            state = api.content.get_state(self.context)
+            return {"": [self, state]}
+        else:
+            return {"": self}
+
+    def getLicense(self):
+        publication = IParentGetter(self.context).get_parent_object_of_type(
+            "Publication"
+        )
+        publication_licence = ""
+        current = self
+        if publication is not None:
+            while current != publication.aq_parent:
+                licence_obj = getattr(current, "licence_ref", None)
+                if licence_obj:
+                    licence_obj = current.to_object
+                if licence_obj:
+                    licence_translated = self.getTranslation(licence_obj)
+                    publication_licence = licence_translated.text or ""
+                else:
+                    publication_licence = getattr(current.aq_base, "licence", "")
+                if publication_licence:
+                    publication_licence = publication_licence.output_relative_to(
+                        current
+                    )
+                    break
+                current = current.aq_parent
+        return True and publication_licence or _("license-note-review")
+
     def __call__(self):
         canonical_url = self.get_canonical_url()
         if (
