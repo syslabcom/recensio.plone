@@ -823,7 +823,7 @@ class ReviewMonographView(View):
             escape(reviewer_string),
             escape(item_string),
             escape(mag_number_string),
-            "XXX",  # TODO self.page_start_end_in_print,
+            self.context.page_start_end_in_print,
             location,
         )
 
@@ -877,7 +877,7 @@ class ReviewJournalView(View):
             escape(reviewer_string),
             escape(item_string),
             escape(reference_mag_string),
-            "XXX",  # TODO self.page_start_end_in_print,
+            self.context.page_start_end_in_print,
             location,
         )
         return citation_string

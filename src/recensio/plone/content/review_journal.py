@@ -4,6 +4,7 @@ from plone.supermodel import model
 from recensio.plone import _
 from recensio.plone.behaviors.base import IBase
 from recensio.plone.behaviors.directives import fieldset_reviewed_text
+from recensio.plone.content.base_review import BaseReview
 from recensio.plone.interfaces import IReview
 from recensio.plone.utils import getFormatter
 from zope import schema
@@ -35,7 +36,7 @@ class IReviewJournal(model.Schema):
 
 
 @implementer(IReviewJournal, IReview)
-class ReviewJournal(Item):
+class ReviewJournal(Item, BaseReview):
     """Content-type class for IReviewJournal."""
 
     def getDecoratedTitle(self):

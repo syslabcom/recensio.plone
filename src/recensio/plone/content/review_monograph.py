@@ -6,6 +6,7 @@ from recensio.plone.behaviors.authors import IAuthors
 from recensio.plone.behaviors.base import IBase
 from recensio.plone.behaviors.directives import fieldset_reviewed_text
 from recensio.plone.behaviors.editorial import IEditorial
+from recensio.plone.content.base_review import BaseReview
 from recensio.plone.interfaces import IReview
 from recensio.plone.utils import getFormatter
 from recensio.plone.utils import punctuated_title_and_subtitle
@@ -27,7 +28,7 @@ class IReviewMonograph(model.Schema):
 
 
 @implementer(IReviewMonograph, IReview)
-class ReviewMonograph(Item):
+class ReviewMonograph(Item, BaseReview):
     """Content-type class for IReviewMonograph."""
 
     def formatted_authors_editorial(self):
