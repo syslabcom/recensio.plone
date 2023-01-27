@@ -10,6 +10,7 @@ from recensio.plone.behaviors.base_review import generateDoi
 from recensio.plone.browser.canonical import CanonicalURLHelper
 from recensio.plone.utils import get_formatted_names
 from recensio.plone.utils import getFormatter
+from recensio.plone.utils import getTranslations
 from recensio.plone.utils import punctuated_title_and_subtitle
 from ZTUtils import make_query
 
@@ -505,15 +506,6 @@ class View(BrowserView, CanonicalURLHelper):
     def get_review_pdf(self):
         """XXX."""
 
-    def getTranslations(
-        self, obj, include_canonical=True, review_state=True, _is_canonical=None
-    ):
-        if review_state:
-            state = api.content.get_state(self.context)
-            return {"": [self, state]}
-        else:
-            return {"": self}
-
     def getLicense(self):
         publication = IParentGetter(self.context).get_parent_object_of_type(
             "Publication"
@@ -526,7 +518,7 @@ class View(BrowserView, CanonicalURLHelper):
                 if licence_obj:
                     licence_obj = current.to_object
                 if licence_obj:
-                    licence_translated = self.getTranslation(licence_obj)
+                    licence_translated = getTranslations(licence_obj)
                     publication_licence = licence_translated.text or ""
                 else:
                     publication_licence = getattr(current.aq_base, "licence", "")
