@@ -520,14 +520,15 @@ class View(BrowserView, CanonicalURLHelper):
                     licence_obj = licence_obj.to_object
                 if licence_obj:
                     licence_translated = licence_obj  # XXX get translation
-                    publication_licence = (
-                        licence_translated.text.output_relative_to(current) or ""
-                    )
+                    publication_licence = licence_translated.text
                     if publication_licence:
                         break
                 else:
                     publication_licence = getattr(current.aq_base, "licence", "")
                 if publication_licence:
+                    publication_licence = publication_licence.output_relative_to(
+                        licence_translated
+                    )
                     break
                 current = current.aq_parent
         return True and publication_licence or _("license-note-review")
