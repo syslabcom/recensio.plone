@@ -500,8 +500,9 @@ class View(BrowserView, CanonicalURLHelper):
         return not is_external_fulltext and is_url_shown_via_review
 
     def isUseExternalFulltext(self):
-        """XXX: needs a migration and the IParentGetter to be ported."""
-        return False
+        return IParentGetter(self.context).get_flag_with_override(
+            "useExternalFulltext", True
+        )
 
     def get_review_pdf(self):
         """XXX."""
@@ -529,6 +530,43 @@ class View(BrowserView, CanonicalURLHelper):
                     break
                 current = current.aq_parent
         return True and publication_licence or _("license-note-review")
+
+    def getUUIDUrl(self):
+        base_url = api.portal.get().absolute_url()
+        if base_url.startswith("http://www."):
+            base_url = base_url.replace("http://www.", "http://")
+        base_url += "/r/"
+        base_url += self.context.UID()
+        return f'<a href="{base_url}">{base_url}</a>'
+
+    def isDoiRegistrationActive(self):
+        # TODO
+        return False
+
+    def get_citation_location(self):
+        location = []
+        doi_active = self.isDoiRegistrationActive()
+        # If DOI registration is not active and the object has only the
+        # auto-generated DOI, i.e. the user has not supplied their own,
+        # then we don't want to show the DOI. See #12126-86
+        has_doi = doi_active or self.context.doi != generateDoi(self.context)
+        has_canonical_uri = getattr(self.context, "canonical_uri", False)
+        if has_doi:
+            doi = self.context.doi
+            location.append(f'DOI: <a href="http://dx.doi.org/{doi}">{doi}</a>')
+        if has_canonical_uri and not self.isUseExternalFulltext():  # 3102 #REC-984
+            location.append(
+                api.portal.translate(
+                    _(
+                        "label_downloaded_via_recensio",
+                        mapping={"portal": api.portal.get().Title()},
+                    )
+                )
+            )
+        if not has_canonical_uri and not has_doi:
+            location.append(self.getUUIDUrl())
+
+        return ", ".join(location)
 
     def __call__(self):
         canonical_url = self.get_canonical_url()
@@ -574,9 +612,7 @@ class ReviewMonographView(View):
             IParentGetter(self.context).get_title_from_parent_of_type("Issue"),
         )
 
-        location = "XXX"
-        # TODO
-        # location = self.get_citation_location()
+        location = self.get_citation_location()
 
         citation_formatter = getFormatter(
             "%(:)s %(review_of)s " % args,
