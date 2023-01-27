@@ -31,6 +31,7 @@
       directory="profiles/uninstall"
       />
 
+  <include package=".adapters" />
   <include package=".behaviors" />
   <include package=".browser" />
   <include package=".content" />

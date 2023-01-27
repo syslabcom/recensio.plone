@@ -1,0 +1,13 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <!--
+      XXX the original zcml register this adapter for a set of interfaces
+      I doubt that makes a lot of sense, so I'm registering it for all
+    -->
+  <adapter
+      factory=".parentgetter.ParentGetter"
+      provides="recensio.plone.interfaces.IParentGetter"
+      for="*"
+      />
+
+</configure>
