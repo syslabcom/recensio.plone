@@ -511,7 +511,7 @@ class View(BrowserView, CanonicalURLHelper):
             "Publication"
         )
         publication_licence = ""
-        current = self
+        current = self.context
         if publication is not None:
             while current != publication.aq_parent:
                 licence_obj = getattr(current, "licence_ref", None)
