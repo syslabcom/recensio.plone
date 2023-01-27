@@ -31,7 +31,7 @@
     <element value="Review Monograph" />
   </property>
   <!-- Schema, class and security -->
-  <property name="add_permission">recensio.plone.AddIssue</property>
+  <property name="add_permission">cmf.AddPortalContent</property>
   <property name="klass">recensio.plone.content.issue.Issue</property>
   <property name="model_file" />
   <property name="model_source" />
