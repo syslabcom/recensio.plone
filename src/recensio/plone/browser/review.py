@@ -10,7 +10,6 @@ from recensio.plone.behaviors.base_review import generateDoi
 from recensio.plone.browser.canonical import CanonicalURLHelper
 from recensio.plone.utils import get_formatted_names
 from recensio.plone.utils import getFormatter
-from recensio.plone.utils import getTranslations
 from recensio.plone.utils import punctuated_title_and_subtitle
 from ZTUtils import make_query
 
@@ -520,21 +519,12 @@ class View(BrowserView, CanonicalURLHelper):
                 if licence_obj:
                     licence_obj = licence_obj.to_object
                 if licence_obj:
-                    # XXX This needs to be rechecked, it seems that in the old
-                    # getTranslations() return a dict, butthe code was expected to be:
-                    # ```
-                    # licence_translated = licence_obj.getTranslation()
-                    # publication_licence = licence_translated.getText()
-                    # ```
-                    licence_translated = getTranslations(
-                        licence_obj, review_state=False
-                    )[""]
-                    licence_translated = licence_obj
-                    publication_licence = licence_translated.text or ""
+                    licence_translated = licence_obj  # XXX get translation
+                    publication_licence = (
+                        licence_translated.text.output_relative_to(current) or ""
+                    )
                     if publication_licence:
-                        publication_licence = publication_licence.output_relative_to(
-                            licence_translated
-                        )
+                        break
                 else:
                     publication_licence = getattr(current.aq_base, "licence", "")
                 if publication_licence:
