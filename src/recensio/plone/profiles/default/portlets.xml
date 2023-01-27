@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<portlets xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="plone"
+>
+
+  <portlet addview="recensio.plone.portlets.get_pdf.AddForm"
+           title="Recensio Get PDF portlet"
+           i18n:attributes="title"
+  />
+
+  <portlet addview="recensio.plone.portlets.social_links.AddForm"
+           title="Recensio Social Links Portlet"
+           i18n:attributes="title"
+  />
+
+  <assignment category="context"
+              for="recensio.plone.interfaces.IReview"
+              manager="plone.rightcolumn"
+              name="recensio.plone.portlets.get_pdf"
+              title="Recensio Get PDF portlet"
+              type="recensio.plone.portlets.get_pdf"
+              i18n:attributes="title"
+  />
+
+  <assignment category="context"
+              for="recensio.plone.interfaces.IReview"
+              manager="plone.rightcolumn"
+              name="recensio.plone.portlets.social_links"
+              title="Recensio Social Links Portlet"
+              type="recensio.plone.portlets.social_links"
+              i18n:attributes="title"
+  />
+
+</portlets>

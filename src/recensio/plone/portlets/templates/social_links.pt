@@ -1,0 +1,25 @@
+
+<div id="social-media-content">
+  <img id="social-media-buttons-content"
+       alt="Social Media Buttons"
+       src="${context/absolute_url}/++resource++recensio.theme.images/social-media-icons.png"
+       usemap="#socialmap-content"
+  />
+  <map name="socialmap-content">
+    <area alt="fb"
+          coords="0,0,30,30"
+          href="https://www.facebook.com/sharer/sharer.php?u=${context/absolute_url}"
+          shape="rect"
+    />
+    <area alt="twitter"
+          coords="30,0,60,30"
+          href="http://twitter.com/home?status=${context/absolute_url}"
+          shape="rect"
+    />
+    <area alt="twitter"
+          coords="60,0,90,30"
+          href="string:https://www.linkedin.com/shareArticle?mini=true&amp;url=${context/absolute_url}"
+          shape="rect"
+    />
+  </map>
+</div>

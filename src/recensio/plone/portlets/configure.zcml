@@ -1,0 +1,23 @@
+<!-- Add a Plone portlet that displays some text -->
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    >
+
+  <plone:portlet
+      name="recensio.plone.portlets.get_pdf"
+      interface=".get_pdf.IGetPDFPortlet"
+      assignment=".get_pdf.Assignment"
+      renderer=".get_pdf.Renderer"
+      addview=".get_pdf.AddForm"
+      />
+
+  <plone:portlet
+      name="recensio.plone.portlets.social_links"
+      interface=".social_links.ISocialLinksPortlet"
+      assignment=".social_links.Assignment"
+      renderer=".social_links.Renderer"
+      addview=".social_links.AddForm"
+      />
+
+</configure>

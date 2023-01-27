@@ -1,0 +1,38 @@
+<div tal:define="
+       review_view nocall:here/@@review_view;
+       pdf python:review_view.get_review_pdf();
+     ">
+  <div class="portlet"
+       id="portletDownload"
+       tal:define="
+         pdf_ob python:pdf and pdf['blob'];
+       "
+       tal:condition="pdf"
+  >
+    <p class="download pdf"
+       tal:condition="not:context/isUseExternalFulltext|nothing"
+    >
+      <a href="PartB.pdf"
+         target="_blank"
+         tal:attributes="
+           href python:context.absolute_url()+'/@@generate-pdf-recension?language='+context.portal_languages.getPreferredLanguage();
+         "
+         i18n:translate="download_as"
+      >Download as
+        <strong>PDF</strong><br />
+        <em class="discrete">(<span tal:replace="python: pdf_ob and pdf['size']/1024 or 0"
+                i18n:name="download_size"
+          ></span>
+          kb)</em></a>
+    </p>
+    <p class="external fulltext pdf"
+       tal:condition="context/isUseExternalFulltext|nothing"
+    >
+      <a href="${python: review_view.get_doi_url_if_active() or context.canonical_uri}"
+         target="_blank"
+         i18n:translate=""
+      >
+        Zum Volltext</a>
+    </p>
+  </div>
+</div>
