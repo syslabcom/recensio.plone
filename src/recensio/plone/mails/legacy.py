@@ -1,27 +1,8 @@
 """Contains code migrated from the old recensio packages."""
-from html import escape
 from plone import api
 from Products.Five import BrowserView
 from recensio.plone import _
-from recensio.plone.utils import getFormatter
-
-
-def get_formatted_names(
-    full_name_separator, name_part_separator, names, lastname_first=False
-):
-    name_part1 = "firstname"
-    name_part2 = "lastname"
-    if lastname_first:
-        name_part1 = "lastname"
-        name_part2 = "firstname"
-    return escape(
-        full_name_separator.join(
-            [
-                getFormatter(name_part_separator)(x[name_part1], x[name_part2])
-                for x in names
-            ]
-        )
-    )
+from recensio.plone.utils import get_formatted_names
 
 
 NOTIFICATION_LOG_ADDR = "maillog@recensio.net"
@@ -53,9 +34,7 @@ class MailNewPublication(BrowserView):
             args["title"] = self.context.title + (
                 self.context.subtitle and f": {self.context.subtitle}" or ""
             )
-            args["review_author"] = get_formatted_names(
-                " / ", " ", self.context.reviewAuthors
-            )
+            args["review_author"] = get_formatted_names(self.context.reviewAuthors)
             args["concept_url"] = f"{api.portal.get_url()}/ueberuns/konzept"
             args["context_url"] = self.context.absolute_url()
             pref_lang = author["preferred_language"]
