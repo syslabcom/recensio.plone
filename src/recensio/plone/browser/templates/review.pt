@@ -308,7 +308,7 @@
                 </h2>
                 <ul class="accordion-content">
                   <li>
-                    <p tal:content="structure context/getLicense|XXX|nothing">Dieser Beitrag
+                    <p tal:content="structure context/getLicense">Dieser Beitrag
    unterliegt der Creative-Commons-Lizenz
    Namensnennung-Keine kommerzielle Nutzung-Keine
    Bearbeitung (CC-BY-NC-ND), darf also unter diesen
