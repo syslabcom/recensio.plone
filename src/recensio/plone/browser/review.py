@@ -630,3 +630,56 @@ class ReviewMonographView(View):
         )
 
         return citation_string
+
+
+class ReviewJournalView(View):
+    def get_citation_string(self):
+        if self.context.customCitation:
+            return scrubHTML(self.context.customCitation).decode("utf8")
+
+        rev_details_formatter = getFormatter(", ", ", ", " ")
+        mag_year = getFormatter("/")(
+            self.context.officialYearOfPublication, self.context.yearOfPublication
+        )
+        mag_year = f"({mag_year})" if mag_year else None
+        item_string = rev_details_formatter(
+            self.context.title,
+            self.context.volumeNumber,
+            self.context.issueNumber,
+            mag_year,
+        )
+
+        reference_mag = getFormatter(", ", ", ")
+        reference_mag_string = reference_mag(
+            IParentGetter(self.context).get_title_from_parent_of_type("Publication"),
+            IParentGetter(self.context).get_title_from_parent_of_type("Volume"),
+            IParentGetter(self.context).get_title_from_parent_of_type("Issue"),
+        )
+
+        location = self.get_citation_location()
+
+        reviewer_string = get_formatted_names(
+            [rel.to_object for rel in self.context.reviewAuthors], lastname_first=True
+        )
+        args = {
+            "review_of": api.portal.translate(
+                _("text_review_of", default="review of:")
+            ),
+            "in": api.portal.translate(_("text_in", default="in:")),
+            "page": api.portal.translate(_("text_pages", default="p.")),
+            ":": api.portal.translate(_("text_colon", default=":")),
+        }
+        citation_formatter = getFormatter(
+            "%(:)s %(review_of)s " % args,
+            ", %(in)s " % args,
+            ", %(page)s " % args,
+            ", ",
+        )
+        citation_string = citation_formatter(
+            escape(reviewer_string),
+            escape(item_string),
+            escape(reference_mag_string),
+            "XXX",  # TODO self.page_start_end_in_print,
+            location,
+        )
+        return citation_string
