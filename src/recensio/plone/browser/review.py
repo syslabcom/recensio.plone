@@ -508,6 +508,7 @@ class View(BrowserView, CanonicalURLHelper):
         """XXX."""
 
     def getLicense(self):
+        # XXX It might need some tweaks if we port the presentations
         publication = IParentGetter(self.context).get_parent_object_of_type(
             "Publication"
         )
@@ -517,16 +518,26 @@ class View(BrowserView, CanonicalURLHelper):
             while current != publication.aq_parent:
                 licence_obj = getattr(current, "licence_ref", None)
                 if licence_obj:
-                    licence_obj = current.to_object
+                    licence_obj = licence_obj.to_object
                 if licence_obj:
-                    licence_translated = getTranslations(licence_obj)
+                    # XXX This needs to be rechecked, it seems that in the old
+                    # getTranslations() return a dict, butthe code was expected to be:
+                    # ```
+                    # licence_translated = licence_obj.getTranslation()
+                    # publication_licence = licence_translated.getText()
+                    # ```
+                    licence_translated = getTranslations(
+                        licence_obj, review_state=False
+                    )[""]
+                    licence_translated = licence_obj
                     publication_licence = licence_translated.text or ""
+                    if publication_licence:
+                        publication_licence = publication_licence.output_relative_to(
+                            licence_translated
+                        )
                 else:
                     publication_licence = getattr(current.aq_base, "licence", "")
                 if publication_licence:
-                    publication_licence = publication_licence.output_relative_to(
-                        current
-                    )
                     break
                 current = current.aq_parent
         return True and publication_licence or _("license-note-review")

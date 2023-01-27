@@ -1,6 +1,7 @@
 from functools import reduce
 from html import escape
 from plone import api
+from Products.CMFCore.WorkflowCore import WorkflowException
 
 
 def getFormatter(*specification):
@@ -126,7 +127,10 @@ def punctuated_title_and_subtitle(review):
 
 def getTranslations(obj, include_canonical=True, review_state=True, _is_canonical=None):
     if review_state:
-        state = api.content.get_state(obj)
+        try:
+            state = api.content.get_state(obj)
+        except WorkflowException:
+            state = None
         return {"": [obj, state]}
     else:
         return {"": obj}
