@@ -69,13 +69,11 @@ class ParentGetter:
         publication = self.get_parent_object_of_type("Publication")
         current = self.context
         value = not override_value
-        if publication is not None:
-            while current != publication.aq_parent:
-                schema = current.Schema()
-                if field_name in schema:
-                    field = schema.get(field_name)
-                    value = field.get(current)
-                    if value is override_value:
-                        break
-                current = current.aq_parent
+        while current != publication.aq_parent:
+            base_obj = current.aq_base
+            if hasattr(base_obj, field_name):
+                value = getattr(base_obj, field_name)
+                if value is override_value:
+                    break
+            current = current.aq_parent
         return value
