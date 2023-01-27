@@ -12,29 +12,3 @@ class IPresentationMonograph(model.Schema):
 @implementer(IPresentationMonograph, IReview)
 class PresentationMonograph(Item):
     """Content-type class for IPresentationMonograph."""
-
-    # A ordered list of fields used for the metadata area of the view.
-    metadata_fields = [
-        "metadata_review_type_code",
-        "metadata_presentation_author",
-        "languageReview",
-        "languageReviewedText",
-        "authors",
-        "editorial",
-        "title",
-        "subtitle",
-        "yearOfPublication",
-        "placeOfPublication",
-        "publisher",
-        "series",
-        "seriesVol",
-        "pages",
-        "isbn",
-        "ddcSubject",
-        "ddcTime",
-        "ddcPlace",
-        "subject",
-        "urn",
-        "metadata_recensioID",
-        "idBvb",
-    ]

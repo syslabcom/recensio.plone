@@ -30,45 +30,6 @@ class IReviewMonograph(model.Schema):
 class ReviewMonograph(Item):
     """Content-type class for IReviewMonograph."""
 
-    # A ordered list of fields used for the metadata area of the view.
-    metadata_fields = [
-        "metadata_review_type_code",
-        "get_journal_title",
-        "metadata_start_end_pages",
-        "metadata_review_author",
-        "languageReview",
-        "languageReviewedText",
-        "authors",
-        "editorial",
-        "title",
-        "subtitle",
-        "translatedTitle",
-        "yearOfPublication",
-        "placeOfPublication",
-        "publisher",
-        "yearOfPublicationOnline",
-        "placeOfPublicationOnline",
-        "publisherOnline",
-        "series",
-        "seriesVol",
-        "pages",
-        "isbn",
-        "isbn_online",
-        "url_monograph",
-        "urn_monograph",
-        "doi_monograph",
-        "ddcSubject",
-        "ddcTime",
-        "ddcPlace",
-        "subject",
-        "canonical_uri",
-        "urn",
-        "effectiveDate",
-        "metadata_recensioID",
-        "idBvb",
-        "doi",
-    ]
-
     def formatted_authors_editorial(self):
         authors_str = IAuthors(self).get_formatted_authors()
         editors_str = IEditorial(self).get_formatted_editorial()
