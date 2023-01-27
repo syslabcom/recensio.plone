@@ -1,12 +1,13 @@
-from plone import api
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.namedfile.field import NamedBlobFile
 from plone.namedfile.field import NamedBlobImage
+from plone.registry.interfaces import IRegistry
 from plone.supermodel import model
 from recensio.plone import _
 from recensio.plone.behaviors.directives import fieldset_review
+from recensio.plone.controlpanel.settings import IRecensioSettings
 from z3c.form.interfaces import IAddForm
 from z3c.form.interfaces import IEditForm
 from zope import schema
@@ -19,17 +20,17 @@ from zope.schema.interfaces import IContextAwareDefaultFactory
 
 @provider(IContextAwareDefaultFactory)
 def generateDoi(context):
-    """TODO: generate a DOI based on a prefix stored in the registry record
-    and the object's intid
+    """Generate a DOI based on a prefix stored in the registry record and the
+    object's intid.
 
-    Might not need to be called as a default factory, but just in the edit form
+    Might not need to be called as a default factory, but just in the
+    edit form
     """
-    # XXX prefix =
-    api
-    # api.portal.get_registry_record(
-    #    interface=IRecensioSettings, name="doi_prefix", default="FIXME"
-    # )
-    prefix = "FIXME"
+    registry = getUtility(IRegistry)
+    settings = registry.forInterface(
+        IRecensioSettings, prefix="recensio.plone.settings"
+    )
+    prefix = settings.doi_prefix
     intids = getUtility(IIntIds)
     obj_id = intids.register(context)
     return f"{prefix}{obj_id}"

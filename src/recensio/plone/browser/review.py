@@ -6,6 +6,7 @@ from Products.Five.browser import BrowserView
 from Products.PortalTransforms.libtransforms.utils import scrubHTML
 from recensio.plone import _
 from recensio.plone.adapter.parentgetter import IParentGetter
+from recensio.plone.behaviors.base_review import generateDoi
 from recensio.plone.browser.canonical import CanonicalURLHelper
 from recensio.plone.utils import get_formatted_names
 from recensio.plone.utils import getFormatter
@@ -17,7 +18,6 @@ class View(BrowserView, CanonicalURLHelper):
     """Moderation View."""
 
     metadata_fields = []  # XXX
-    ordered_fields = []  # XXX
     custom_metadata_field_labels = {
         "get_publication_title": _("Publication Title"),
         "get_journal_title": _("heading_metadata_journal"),
@@ -213,16 +213,16 @@ class View(BrowserView, CanonicalURLHelper):
     def get_doi_url_if_active(self):
         context = self.context
         try:
-            doi_active = self.context.isDoiRegistrationActive()
+            doi_active = context.doiRegistrationActive
         except AttributeError:
             doi_active = False
         # If DOI registration is not active and the object has only the
         # auto-generated DOI, i.e. the user has not supplied their own,
         # then we don't want to show the DOI. See #12126-86
-        if not doi_active and context.getDoi() == context.generateDoi():
+        if not doi_active and context.doi == generateDoi(context):
             return False
         else:
-            return f"http://dx.doi.org/{context.getDoi()}"
+            return f"http://dx.doi.org/{context.doi}"
         return False
 
     def get_metadata(self):  # noqa: C901
@@ -307,7 +307,7 @@ class View(BrowserView, CanonicalURLHelper):
                     value = '<a rel="doi" href="{}" title="{}">{}</a>'.format(
                         doi_url,
                         doi_url,
-                        context.getDoi(),
+                        context.doi,
                     )
                     label = self.get_label(fields, field, context.meta_type)
                 else:
@@ -332,22 +332,21 @@ class View(BrowserView, CanonicalURLHelper):
             elif field == "title":
                 label = self.get_label(fields, field, context.meta_type)
                 titles = [context.title]
-                if "additionalTitles" in context.schema:
+                additional_titles = getattr(context, "additionalTitles", [])
+                if additional_titles:
                     titles.extend(
-                        [
-                            additional["title"]
-                            for additional in context.getAdditionalTitles()
-                        ]
+                        [additional["title"] for additional in additional_titles]
                     )
                 value = " / ".join(titles)
             elif field == "subtitle":
                 label = self.get_label(fields, field, context.meta_type)
                 subtitles = [context.subtitle]
-                if "additionalTitles" in context.schema:
+                additional_titles = getattr(context, "additionalTitles", [])
+                if additional_titles:
                     subtitles.extend(
                         [
                             additional["subtitle"]
-                            for additional in context.getAdditionalTitles()
+                            for additional in additional_titles
                             if additional["subtitle"]
                         ]
                     )
@@ -355,7 +354,7 @@ class View(BrowserView, CanonicalURLHelper):
             elif field == "dates":
                 label = self.get_label(fields, field, context.meta_type)
                 values = getattr(context, field)
-                if context.isPermanentExhibition:
+                if getattr(context, "isPermanentExhibition", False):
                     permanent_ex = _("Dauerausstellung").encode("utf-8")
                     values = [
                         {
@@ -439,27 +438,26 @@ class View(BrowserView, CanonicalURLHelper):
         return introstr + "&" + make_query(new_terms)
 
     def get_online_review_urls(self):
-        existing_online_review_urls = []
-        if "existingOnlineReviews" in self.ordered_fields:
-            existingOnlineReviewUrls = self.context.getExistingOnlineReviews()
-            if existingOnlineReviewUrls != () and existingOnlineReviewUrls != (
-                {"name": "", "url": ""},
-            ):
-                existing_online_review_urls = [
-                    url
-                    for url in existingOnlineReviewUrls
-                    if url["name"].strip() != "" and url["url"].strip() != ""
-                ]
+        existing_online_review_urls = getattr(
+            self.context, "existingOnlineReviews", None
+        )
+        if existing_online_review_urls and existing_online_review_urls != (
+            {"name": "", "url": ""},
+        ):
+            existing_online_review_urls = [
+                url
+                for url in existing_online_review_urls
+                if url["name"].strip() != "" and url["url"].strip() != ""
+            ]
         return existing_online_review_urls
 
     def get_published_reviews(self):
-        published_reviews = []
-        if "publishedReviews" in self.ordered_fields:
-            publishedReviews = self.context.getPublishedReviews()
-            if publishedReviews != () and publishedReviews != ({"details": ""},):
+        published_reviews = getattr(self.context, "publishedReviews", [])
+        if published_reviews:
+            if published_reviews != ({"details": ""},):
                 published_reviews = [
                     review
-                    for review in publishedReviews
+                    for review in published_reviews
                     if review["details"].strip() != ""
                 ]
         return published_reviews
@@ -483,7 +481,7 @@ class View(BrowserView, CanonicalURLHelper):
         if not sm.checkPermission("Manage portal", self.context):
             return False
         try:
-            return self.context.isDoiRegistrationActive()
+            return self.context.doiRegistrationActive
         except AttributeError:
             return False
 
