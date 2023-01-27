@@ -5,6 +5,7 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from Products.PortalTransforms.libtransforms.utils import scrubHTML
 from recensio.plone import _
+from recensio.plone.adapter.parentgetter import IParentGetter
 from recensio.plone.browser.canonical import CanonicalURLHelper
 from recensio.plone.utils import get_formatted_names
 from recensio.plone.utils import getFormatter
@@ -544,12 +545,11 @@ class ReviewMonographView(View):
         )
 
         mag_number_formatter = getFormatter(", ", ", ")
-        mag_number_string = mag_number_formatter("XXX", "0", "0")
-        # TODO
-        #     self.get_publication_title(),
-        #     self.get_volume_title(),
-        #     self.get_issue_title(),
-        # )
+        mag_number_string = mag_number_formatter(
+            IParentGetter(self.context).get_title_from_parent_of_type("Publication"),
+            IParentGetter(self.context).get_title_from_parent_of_type("Volume"),
+            IParentGetter(self.context).get_title_from_parent_of_type("Issue"),
+        )
 
         location = "XXX"
         # TODO
