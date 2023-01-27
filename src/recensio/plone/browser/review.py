@@ -18,14 +18,6 @@ from ZTUtils import make_query
 class View(BrowserView, CanonicalURLHelper):
     """Moderation View."""
 
-    metadata_fields = []  # XXX
-    custom_metadata_field_labels = {
-        "get_publication_title": _("Publication Title"),
-        "get_journal_title": _("heading_metadata_journal"),
-        "get_volume_title": _("Volume Title"),
-        "get_issue_title": _("Issue Title"),
-    }
-
     openurl_terms = {
         "title": "rft.btitle",
         "issn": "rft.issn",
@@ -94,7 +86,6 @@ class View(BrowserView, CanonicalURLHelper):
     def get_label(self, fields, field, meta_type):  # noqa: C901
         """Return the metadata label for a field of a particular
         portal_type."""
-
         if field == "officialYearOfPublication":
             return _(
                 "label_metadata_official_year_of_publication",
@@ -230,14 +221,17 @@ class View(BrowserView, CanonicalURLHelper):
         context = self.context
         meta = {}
         fields = []  # XXX
-        for field in self.metadata_fields:
+
+        for field in self.context.metadata_fields:
             value = False  # A field is only displayed if it has a value
             is_macro = False
-            if field.startswith("get_"):
-                label = self.custom_metadata_field_labels[field]
-                value = getattr(context, field)()
+            if field == "get_journal_title":
+                label = _("heading_metadata_journal")
+                value = IParentGetter(self.context).get_title_from_parent_of_type(
+                    "Publication"
+                )
             elif field == "metadata_start_end_pages":
-                if "metadata_start_end_pages_article" in self.metadata_fields:
+                if "metadata_start_end_pages_article" in self.context.metadata_fields:
                     label = _("metadata_pages_review")
                 else:
                     label = _("metadata_pages")
@@ -393,7 +387,7 @@ class View(BrowserView, CanonicalURLHelper):
         terms = {}
         introstr = "ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook"
 
-        for field in self.metadata_fields:
+        for field in self.context.metadata_fields:
             if field in self.openurl_terms:
                 name = self.openurl_terms[field]
 

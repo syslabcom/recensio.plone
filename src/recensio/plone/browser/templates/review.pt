@@ -154,7 +154,7 @@
       </div>
 
       <div tal:define="
-             metadata_field_names view/metadata_fields;
+             metadata_field_names context/metadata_fields;
              metadata view/get_metadata;
            ">
         <span class="Z3988"

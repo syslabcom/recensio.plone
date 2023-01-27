@@ -48,6 +48,52 @@ class IReviewArticleCollection(model.Schema):
 class ReviewArticleCollection(Item):
     """Content-type class for IReviewArticleCollection."""
 
+    # A ordered list of fields used for the metadata area of the view.
+    metadata_fields = [
+        "metadata_review_type_code",
+        "get_journal_title",
+        "metadata_start_end_pages",
+        "metadata_review_author",
+        "languageReview",
+        "languageReviewedText",
+        "authors",
+        "title",
+        "subtitle",
+        "translatedTitle",
+        "metadata_start_end_pages_article",
+        "editorial",
+        "titleEditedVolume",
+        "subtitleEditedVolume",
+        "translatedTitleEditedVolume",
+        "yearOfPublication",
+        "placeOfPublication",
+        "publisher",
+        "yearOfPublicationOnline",
+        "placeOfPublicationOnline",
+        "publisherOnline",
+        "series",
+        "seriesVol",
+        "pages",
+        "isbn",
+        "isbn_online",
+        "url_monograph",
+        "urn_monograph",
+        "doi_monograph",
+        "url_article",
+        "urn_article",
+        "doi_article",
+        "ddcSubject",
+        "ddcTime",
+        "ddcPlace",
+        "subject",
+        "canonical_uri",
+        "urn",
+        "effectiveDate",
+        "metadata_recensioID",
+        "idBvb",
+        "doi",
+    ]
+
     def formatted_authors(self):
         # TODO This is here as a hint for the one implementing citations.
         # Please remove this method and use IAuthors instead.

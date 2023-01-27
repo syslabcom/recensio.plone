@@ -38,6 +38,44 @@ class IReviewJournal(model.Schema):
 class ReviewJournal(Item):
     """Content-type class for IReviewJournal."""
 
+    # A ordered list of fields used for the metadata area of the view.
+    metadata_fields = [
+        "metadata_review_type_code",
+        "get_journal_title",
+        "metadata_start_end_pages",
+        "metadata_review_author",
+        "languageReview",
+        "languageReviewedText",
+        "editor",
+        "title",
+        "translatedTitleJournal",
+        "shortnameJournal",
+        "yearOfPublication",
+        "officialYearOfPublication",
+        "volumeNumber",
+        "issueNumber",
+        "placeOfPublication",
+        "publisher",
+        "yearOfPublicationOnline",
+        "placeOfPublicationOnline",
+        "publisherOnline",
+        "issn",
+        "issn_online",
+        "url_journal",
+        "urn_journal",
+        "doi_journal",
+        "ddcSubject",
+        "ddcTime",
+        "ddcPlace",
+        "subject",
+        "canonical_uri",
+        "urn",
+        "effectiveDate",
+        "metadata_recensioID",
+        "idBvb",
+        "doi",
+    ]
+
     def getDecoratedTitle(self):
         item = getFormatter(" ", ", ", " ", ", ")
         mag_year = getFormatter("/")(

@@ -154,6 +154,33 @@ class IReviewExhibition(model.Schema):
 class ReviewExhibition(Item):
     """Content-type class for IReviewExhibition."""
 
+    # A ordered list of fields used for the metadata area of the view.
+    metadata_fields = [
+        "metadata_review_type_code",
+        "get_journal_title",
+        "metadata_start_end_pages",
+        "metadata_review_author",
+        "languageReview",
+        "languageReviewedText",
+        "exhibiting_institution",
+        "exhibiting_organisation",
+        "curators",
+        "titleProxy",
+        "subtitle",
+        "dates",
+        "url_exhibition",
+        "doi_exhibition",
+        "ddcSubject",
+        "ddcTime",
+        "ddcPlace",
+        "subject",
+        "canonical_uri",
+        "urn",
+        "effectiveDate",
+        "metadata_recensioID",
+        "doi",
+    ]
+
     @property
     def exhibitor(self):
         exhibitor = " / ".join(
