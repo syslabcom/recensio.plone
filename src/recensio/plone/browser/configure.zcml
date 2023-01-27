@@ -9,6 +9,21 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <browser:resourceDirectory
+      name="recensio.theme.javascript"
+      directory="javascript"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
+      name="homepage-view"
+      for="plone.app.contenttypes.interfaces.IDocument"
+      class=".homepage.HomepageView"
+      template="templates/homepage.pt"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
   <browser:page
       name="base_view"
       for="recensio.plone.content.person.IPerson"

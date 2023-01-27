@@ -1,5 +1,6 @@
 from functools import reduce
 from html import escape
+from plone import api
 
 
 def getFormatter(*specification):
@@ -121,3 +122,11 @@ def punctuated_title_and_subtitle(review):
     if getattr(review, "translatedTitle", None):
         title = f"{title} [{review.translatedTitle}]"
     return title
+
+
+def getTranslations(obj, include_canonical=True, review_state=True, _is_canonical=None):
+    if review_state:
+        state = api.content.get_state(obj)
+        return {"": [obj, state]}
+    else:
+        return {"": obj}

@@ -1,0 +1,187 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      xml:lang="en"
+      i18n:domain="recensio"
+>
+
+
+  <metal:javascript_head fill-slot="javascript_head_slot">
+    <script src="++resource++recensio.theme.javascript/jquery.ThreeDots.min.js"
+            type="text/javascript"
+    ></script>
+    <script src="++resource++recensio.theme.javascript/homepage.js"
+            type="text/javascript"
+    ></script>
+  </metal:javascript_head>
+
+  <body>
+    <metal:main fill-slot="main"
+                tal:define="
+                  ploneview python:context.restrictedTraverse('@@plone');
+                "
+    >
+
+      <div id="content_left"
+           tal:define="
+             portal context/portal_url;
+           "
+      >
+        <div class="boxrow"
+             id="rowTop"
+        >
+
+          <div class="box">
+            <a class="one-line"
+               tal:attributes="
+                 href string:${portal}/latest-review-items;
+               "
+            >
+              <svg xmlns="http://www.w3.org/2000/svg"
+                   xmlns:xlink="http://www.w3.org/1999/xlink"
+                   height="14"
+                   version="1.1"
+                   viewbox="0 0 11 14"
+                   width="11"
+              >
+                <path class="play-button"
+                      d="M10.812 7.242l-10.375 5.766q-0.18 0.102-0.309 0.023t-0.129-0.281v-11.5q0-0.203 0.129-0.281t0.309 0.023l10.375 5.766q0.18 0.102 0.18 0.242t-0.18 0.242z"
+                ></path>
+              </svg>
+              <h2 i18n:translate="label_latest_reviews">
+                Neueste Rezensionen online</h2>
+            </a>
+            <div id="latest_reviews_box"
+                 tal:define="
+                   results view/getReviewMonographs;
+                 "
+            >
+              <span tal:repeat="langres results">
+                <!-- <label><span tal:replace="langres/langname" /></label> -->
+                <ul class="list_reviews"
+                    id="list_reviews"
+                    tal:attributes="
+                      id string:list_reviews_${langres/language}_${langres/part};
+                    "
+                >
+                  <a href="search?portal_type:list=Review%20Monograph&portal_type:list=Review%20Journal&sort_on=effective&sort_order=reverse"
+                     tal:attributes="
+                       href string:search?${langres/query_str};
+                     "
+                  >
+                    <img src="++resource++recensio.theme.images/int.png"
+                         tal:attributes="
+                           src string:++resource++recensio.theme.images/${langres/language}.png;
+                           alt langres/language;
+                         "
+                    />
+                  </a>
+                  <tal:res repeat="res langres/results">
+                    <li tal:define="
+                          is_first python:repeat['res'].start and 'is_first' or 'not_first';
+                        "
+                        tal:attributes="
+                          class string:${is_first} ${res/meta_type};
+                        "
+                    >
+                      <span tal:content="res/authors"></span>
+                      <span>
+                        <a class="ellipsis_container"
+                           href="#"
+                           tal:attributes="
+                             href python: request.physicalPathToURL(res['path']);
+                             class string:ellipsis_container;
+                           "
+                        >
+                          <span class="ellipsis_text"
+                                tal:content="res/title"
+                          >
+                          </span>
+                        </a>
+                      </span>
+                      <div class="effective_date"
+                           tal:content="res/date"
+                      ></div>
+                    </li>
+                  </tal:res>
+                </ul>
+                <div class="visualClear"></div>
+              </span>
+            </div>
+          </div>
+
+
+          <div class="box right_box">
+            <a class="one-line"
+               href="#"
+               tal:attributes="
+                 href string:${portal}/latest-review-sections;
+               "
+            >
+              <svg xmlns="http://www.w3.org/2000/svg"
+                   xmlns:xlink="http://www.w3.org/1999/xlink"
+                   height="14"
+                   version="1.1"
+                   viewbox="0 0 11 14"
+                   width="11"
+              >
+                <path class="play-button"
+                      d="M10.812 7.242l-10.375 5.766q-0.18 0.102-0.309 0.023t-0.129-0.281v-11.5q0-0.203 0.129-0.281t0.309 0.023l10.375 5.766q0.18 0.102 0.18 0.242t-0.18 0.242z"
+                ></path>
+              </svg>
+              <h2 i18n:translate="label_latest_review_journals">
+                Neueste Rezensionsteile online</h2>
+            </a>
+            <div id="latest_reviewparts_box"
+                 tal:define="
+                   results view/getReviewJournals;
+                 "
+            >
+              <ul>
+                <li tal:repeat="res results">
+                  <span class="ellipsis_container">
+                    <a class="ellipsis_text"
+                       href="#"
+                       tal:attributes="
+                         href python: request.physicalPathToURL(res['review_path']);
+                       "
+                    >
+                      <span tal:replace="res/publication_title">title</span>,
+                      <span tal:condition="res/volume_title"
+                            tal:replace="res/volume_title"
+                      ></span><tal:comma tal:condition="res/Title">,</tal:comma>
+                      <span tal:replace="res/Title">title</span>
+                    </a>
+                  </span>
+                  <div class="effective_date"
+                       tal:content="res/effective_date"
+                  ></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="visualClear"></div>
+
+        <div id="participating-journals">
+          <h3 i18n:translate="heading_participating_publications">
+            Teilnehmende Zeitschriften</h3>
+          <tal:rep repeat="publication view/getPublications">
+            <a tal:content="publication/title"
+               tal:attributes="
+                 href python: request.physicalPathToURL(publication['path']);
+               "
+            >
+              Publication</a>
+            <span tal:condition="not:repeat/publication/end">|</span>
+          </tal:rep>
+        </div>
+      </div>
+
+    </metal:main>
+  </body>
+</html>
