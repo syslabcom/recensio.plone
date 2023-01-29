@@ -54,52 +54,6 @@ class IReviewArticleJournal(model.Schema, IReview):
 class ReviewArticleJournal(Item, BaseReview):
     """Content-type class for IReviewArticleJournal."""
 
-    # A ordered list of fields used for the metadata area of the view.
-    metadata_fields = [
-        "metadata_review_type_code",
-        "get_journal_title",
-        "metadata_start_end_pages",
-        "metadata_review_author",
-        "languageReview",
-        "languageReviewedText",
-        "authors",
-        "title",
-        "subtitle",
-        "translatedTitle",
-        "metadata_start_end_pages_article",
-        "editor",
-        "titleJournal",
-        "translatedTitleJournal",
-        "shortnameJournal",
-        "yearOfPublication",
-        "officialYearOfPublication",
-        "volumeNumber",
-        "issueNumber",
-        "placeOfPublication",
-        "yearOfPublicationOnline",
-        "placeOfPublicationOnline",
-        "publisherOnline",
-        "publisher",
-        "issn",
-        "issn_online",
-        "url_journal",
-        "urn_journal",
-        "doi_journal",
-        "url_article",
-        "urn_article",
-        "doi_article",
-        "ddcSubject",
-        "ddcTime",
-        "ddcPlace",
-        "subject",
-        "canonical_uri",
-        "urn",
-        "effectiveDate",
-        "metadata_recensioID",
-        "idBvb",
-        "doi",
-    ]
-
     def formatted_authors_editorial(self):
         authors_str = IAuthors(self).get_formatted_authors()
         editorial_apadter = IEditorial(self, None)
