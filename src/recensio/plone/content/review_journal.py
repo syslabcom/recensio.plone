@@ -13,7 +13,7 @@ from zope.interface import provider
 
 
 @provider(IFormFieldProvider)
-class IReviewJournal(model.Schema):
+class IReviewJournal(model.Schema, IReview):
     """Marker interface and Dexterity Python Schema for ReviewJournal."""
 
     editor = schema.TextLine(
@@ -35,7 +35,7 @@ class IReviewJournal(model.Schema):
 # * field `subtitle` from Printed Review is hidden
 
 
-@implementer(IReviewJournal, IReview)
+@implementer(IReviewJournal)
 class ReviewJournal(Item, BaseReview):
     """Content-type class for IReviewJournal."""
 

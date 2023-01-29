@@ -61,7 +61,7 @@ class IDatesRowSchema(interface.Interface):
     )
 
 
-class IReviewExhibition(model.Schema):
+class IReviewExhibition(model.Schema, IReview):
     """Marker interface and Dexterity Python Schema for ReviewExhibition."""
 
     subtitle = schema.TextLine(
@@ -151,7 +151,7 @@ class IReviewExhibition(model.Schema):
     )
 
 
-@implementer(IReviewExhibition, IReview)
+@implementer(IReviewExhibition)
 class ReviewExhibition(Item, BaseReview):
     """Content-type class for IReviewExhibition."""
 

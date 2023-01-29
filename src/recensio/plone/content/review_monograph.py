@@ -16,7 +16,7 @@ from zope.interface import provider
 
 
 @provider(IFormFieldProvider)
-class IReviewMonograph(model.Schema):
+class IReviewMonograph(model.Schema, IReview):
     """Marker interface and Dexterity Python Schema for ReviewMonograph."""
 
     translatedTitle = schema.TextLine(
@@ -27,7 +27,7 @@ class IReviewMonograph(model.Schema):
     fieldset_reviewed_text(["translatedTitle"])
 
 
-@implementer(IReviewMonograph, IReview)
+@implementer(IReviewMonograph)
 class ReviewMonograph(Item, BaseReview):
     """Content-type class for IReviewMonograph."""
 

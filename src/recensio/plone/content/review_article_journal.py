@@ -17,7 +17,7 @@ from zope.interface import provider
 
 
 @provider(IFormFieldProvider)
-class IReviewArticleJournal(model.Schema):
+class IReviewArticleJournal(model.Schema, IReview):
     """Marker interface and Dexterity Python Schema for
     ReviewArticleJournal."""
 
@@ -50,7 +50,7 @@ class IReviewArticleJournal(model.Schema):
 # * ReviewArticleJournalSchema["languageReviewedText"].label = _(u"Sprache (Aufsatz)")
 
 
-@implementer(IReviewArticleJournal, IReview)
+@implementer(IReviewArticleJournal)
 class ReviewArticleJournal(Item, BaseReview):
     """Content-type class for IReviewArticleJournal."""
 

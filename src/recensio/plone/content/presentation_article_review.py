@@ -4,11 +4,11 @@ from recensio.plone.interfaces import IReview
 from zope.interface import implementer
 
 
-class IPresentationArticleReview(model.Schema):
+class IPresentationArticleReview(model.Schema, IReview):
     """Marker interface and Dexterity Python Schema for
     PresentationArticleReview."""
 
 
-@implementer(IPresentationArticleReview, IReview)
+@implementer(IPresentationArticleReview)
 class PresentationArticleReview(Item):
     """Content-type class for IPresentationArticleReview."""

@@ -16,7 +16,7 @@ from zope.interface import provider
 
 
 @provider(IFormFieldProvider)
-class IReviewArticleCollection(model.Schema):
+class IReviewArticleCollection(model.Schema, IReview):
     """Marker interface and Dexterity Python Schema for
     ReviewArticleCollection."""
 
@@ -45,7 +45,7 @@ class IReviewArticleCollection(model.Schema):
 # * field `heading_presented_work` from Printed Review is hidden
 
 
-@implementer(IReviewArticleCollection, IReview)
+@implementer(IReviewArticleCollection)
 class ReviewArticleCollection(Item, BaseReview):
     """Content-type class for IReviewArticleCollection."""
 
