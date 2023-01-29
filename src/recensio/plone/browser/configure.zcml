@@ -82,10 +82,40 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <!-- Review views -->
+
   <browser:page
       name="review_view"
-      for="recensio.plone.interfaces.IReview"
-      class=".review.View"
+      for="recensio.plone.content.review_article_collection.IReviewArticleCollection"
+      class=".review.ReviewArticleCollectionView"
+      template="templates/review.pt"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+
+  <browser:page
+      name="review_view"
+      for="recensio.plone.content.review_article_journal.IReviewArticleJournal"
+      class=".review.ReviewArticleJournalView"
+      template="templates/review.pt"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
+      name="review_view"
+      for="recensio.plone.content.review_exhibition.IReviewExhibition"
+      class=".review.ReviewMonographView"
+      template="templates/review.pt"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
+      name="review_view"
+      for="recensio.plone.content.review_journal.IReviewJournal"
+      class=".review.ReviewJournalView"
       template="templates/review.pt"
       permission="zope2.View"
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
@@ -100,10 +130,39 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <!-- Presentation views -->
+
   <browser:page
       name="review_view"
-      for="recensio.plone.content.review_journal.IReviewJournal"
-      class=".review.ReviewJournalView"
+      for="recensio.plone.content.presentation_article_review.IPresentationArticleReview"
+      class=".review.PresentationArticleReviewView"
+      template="templates/review.pt"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
+      name="review_view"
+      for="recensio.plone.content.presentation_collection.IPresentationCollection"
+      class=".review.PresentationCollectionView"
+      template="templates/review.pt"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
+      name="review_view"
+      for="recensio.plone.content.presentation_monograph.IPresentationMonograph"
+      class=".review.PresentationMonographView"
+      template="templates/review.pt"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
+      name="review_view"
+      for="recensio.plone.content.presentation_online_resource.IPresentationOnlineResource"
+      class=".review.PresentationOnlineResourceView"
       template="templates/review.pt"
       permission="zope2.View"
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
