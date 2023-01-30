@@ -2,17 +2,15 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Item
 from plone.supermodel import model
 from recensio.plone import _
-from recensio.plone.behaviors.base import IBase
 from recensio.plone.behaviors.directives import fieldset_reviewed_text
 from recensio.plone.interfaces import IReview
-from recensio.plone.utils import getFormatter
 from zope import schema
 from zope.interface import implementer
 from zope.interface import provider
 
 
 @provider(IFormFieldProvider)
-class IReviewJournal(model.Schema):
+class IReviewJournal(model.Schema, IReview):
     """Marker interface and Dexterity Python Schema for ReviewJournal."""
 
     editor = schema.TextLine(
@@ -34,23 +32,6 @@ class IReviewJournal(model.Schema):
 # * field `subtitle` from Printed Review is hidden
 
 
-@implementer(IReviewJournal, IReview)
+@implementer(IReviewJournal)
 class ReviewJournal(Item):
     """Content-type class for IReviewJournal."""
-
-    def getDecoratedTitle(self):
-        item = getFormatter(" ", ", ", " ", ", ")
-        mag_year = getFormatter("/")(
-            self.officialYearOfPublication, self.yearOfPublication
-        )
-        mag_year = f"({mag_year})" if mag_year else None
-        translated_title = self.translatedTitleJournal
-        if translated_title:
-            translated_title = f"[{translated_title}]"
-        item_string = item(
-            self.title, translated_title, self.volumeNumber, mag_year, self.issueNumber
-        )
-
-        reviewer_string = IBase(self).get_formatted_review_authors()
-
-        return " ".join((item_string, reviewer_string))

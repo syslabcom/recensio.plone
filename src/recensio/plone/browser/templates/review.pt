@@ -9,7 +9,7 @@
 >
 
   <div metal:fill-slot="content-title">
-    <h2 tal:content="structure context/getDecoratedTitle">username: Title</h2>
+    <h2 tal:content="structure view/getDecoratedTitle">username: Title</h2>
   </div>
 
   <div metal:fill-slot="content-core">
