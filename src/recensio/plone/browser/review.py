@@ -313,16 +313,18 @@ class View(BrowserView, CanonicalURLHelper):
                     terms.update(
                         {
                             name: [
-                                "{} {}".format(au["firstname"], au["lastname"])
-                                for au in context.reviewAuthors
+                                f"{au.firstname} {au.lastname}"
+                                for au in [au.to_object for au in context.reviewAuthors]
                             ]
                         }
                     )
                 elif field == "title":
                     authors = ", ".join(
                         [
-                            "{} {}".format(au["firstname"], au["lastname"])
-                            for au in getattr(context, "authors", [])
+                            f"{au.firstname} {au.lastname}"
+                            for au in [
+                                au.to_object for au in getattr(context, "authors", [])
+                            ]
                         ]
                     )
                     terms.update({name: f"{authors}: {getattr(context, field)}"})
