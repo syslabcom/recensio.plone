@@ -1,6 +1,7 @@
 from AccessControl.SecurityManagement import getSecurityManager
 from html import escape
 from plone import api
+from plone.dexterity.utils import iterSchemata
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from Products.PortalTransforms.libtransforms.utils import scrubHTML
@@ -32,6 +33,23 @@ class View(BrowserView, CanonicalURLHelper):
         "get_journal_title": "rft.jtitle",
         "pages": "rft.pages",
     }
+
+    _fields = None
+
+    @property
+    def fields(self):
+        if self._fields is None:
+            self._fields = {}
+            schemata = iterSchemata(self.context)
+            for schema in schemata:
+                for attr in schema.names():
+                    self._fields[attr] = schema.get(attr)
+        return self._fields
+
+    def get_label(self, field):
+        """Return the metadata label for a field of a particular
+        portal_type."""
+        return self.fields[field].title
 
     def get_metadata_review_author(self):
         return get_formatted_names(
@@ -83,125 +101,6 @@ class View(BrowserView, CanonicalURLHelper):
         else:
             return ""
 
-    def get_label(self, fields, field, meta_type):  # noqa: C901
-        """Return the metadata label for a field of a particular
-        portal_type."""
-        if field == "officialYearOfPublication":
-            return _(
-                "label_metadata_official_year_of_publication",
-                default="Official year of publication",
-            )
-
-        if meta_type.startswith("Review"):
-            if field == "languageReview":
-                return _("label_metadata_language_review", default="Language (review)")
-        elif meta_type.startswith("Presentation"):
-            if field == "languageReview":
-                return _(
-                    "label_metadata_language_presentation",
-                    default="Language (presentation)",
-                )
-        if meta_type in ["ReviewMonograph", "PresentationMonograph"]:
-            if field == "languageReviewedText":
-                return _(
-                    "label_metadata_language_monograph",
-                    default="Language (monograph)",
-                )
-            if field == "authors":
-                return _("Author (monograph)", default="Author (monograph)")
-            if field == "editorial":
-                return _("Editor (monograph)", default="Editor (monograph)")
-        elif meta_type in ["PresentationArticleReview", "PresentationCollection"]:
-            if field == "languageReviewedText":
-                return _(
-                    "label_metadata_language_article", default="Language (article)"
-                )
-            if field == "authors":
-                return _("label_metadata_author_article", default="Author (article)")
-            if field == "editorial":
-                return _("label_metadata_editor_article", default="Editor (article)")
-            if field == "title":
-                return _("label_metadata_title_article", default="Title (article)")
-            if field == "titleCollectedEdition":
-                return _(
-                    "label_metadata_title_edited_volume",
-                    default="Title (edited volume)",
-                )
-        elif meta_type == "PresentationOnlineResource":
-            if field == "title":
-                return _(
-                    "label_metadata_name_resource", default="Name (Internet resource)"
-                )
-            if field == "languageReviewedText":
-                return _(
-                    "label_metadata_language_internet_resource",
-                    default="Language (Internet resource)",
-                )
-        elif meta_type == "ReviewJournal":
-            if field == "languageReviewedText":
-                return _(
-                    "label_metadata_language_review_journal",
-                    default="Language (Journal)",
-                )
-            if field == "editor":
-                return _("label_metadata_editor", default="Editor")
-        elif meta_type.startswith("ReviewArticle"):
-            if field == "languageReviewedText":
-                return _("label_metadata_language_article", default="Sprache (Aufsatz)")
-            elif field == "authors":
-                return _("label_metadata_authors_article", default="Autor (Aufsatz)")
-            elif field in ["editor", "editorial"]:
-                if meta_type == "ReviewArticleCollection":
-                    return _(
-                        "label_metadata_editor_edited_volume",
-                        default="Editor (edited volume)",
-                    )
-                elif meta_type == "ReviewArticleJournal":
-                    return _(
-                        "label_metadata_editor_journal", default="Editor (journal)"
-                    )
-            elif field == "title":
-                return _("label_metadata_title_article", default="Title (article)")
-            elif field == "subtitle":
-                return _(
-                    "label_metadata_subtitle_article",
-                    default="Subtitle (Article)",
-                )
-            elif field == "titleEditedVolume":
-                return _(
-                    "label_metadata_title_edited_volume",
-                    default="Title (edited volume)",
-                )
-            elif field == "subtitleEditedVolume":
-                return _(
-                    "label_metadata_subtitle_edited_volume",
-                    default="Subtitle (edited volume)",
-                )
-            elif field == "metadata_start_end_pages":
-                return _("metadata_pages_review", default="Pages (review)")
-            elif field == "translatedTitle":
-                return _(
-                    "label_metadata_translated_title_article",
-                    default="Übersetzter Titel (Aufsatz)",
-                )
-            elif field == "url_monograph":
-                return _(
-                    "label_metadata_url_edited_volume",
-                    default="URL (Sammelband)",
-                )
-            elif field == "urn_monograph":
-                return _(
-                    "label_metadata_urn_edited_volume",
-                    default="URN (Sammelband)",
-                )
-            elif field == "doi_monograph":
-                return _(
-                    "label_metadata_doi_edited_volume",
-                    default="DOI (Sammelband)",
-                )
-
-        return _(fields[field].widget.label)
-
     def get_doi_url_if_active(self):
         context = self.context
         try:
@@ -220,7 +119,6 @@ class View(BrowserView, CanonicalURLHelper):
     def get_metadata(self):  # noqa: C901
         context = self.context
         meta = {}
-        fields = []  # XXX
 
         for field in self.metadata_fields:
             value = False  # A field is only displayed if it has a value
@@ -229,7 +127,7 @@ class View(BrowserView, CanonicalURLHelper):
                 label = _("heading_metadata_journal")
                 value = IParentGetter(self.context).get_title_from_parent_of_type(
                     "Publication"
-                )
+                )  # noqa: E501
             elif field == "metadata_start_end_pages":
                 if "metadata_start_end_pages_article" in self.metadata_fields:
                     label = _("metadata_pages_review")
@@ -246,19 +144,20 @@ class View(BrowserView, CanonicalURLHelper):
                 label = _("label_metadata_presentation_author")
                 value = self.list_rows(context.reviewAuthors, "lastname", "firstname")
             elif field == "authors":
-                label = self.get_label(fields, field, context.meta_type)
+
+                label = self.get_label(field)
                 value = self.list_rows(getattr(context, field), "lastname", "firstname")
             elif field == "editorial":
-                label = self.get_label(fields, field, context.meta_type)
+                label = self.get_label(field)
                 value = self.list_rows(getattr(context, field), "lastname", "firstname")
             elif field == "editorsCollectedEdition":
-                label = self.get_label(fields, field, context.meta_type)
+                label = self.get_label(field)
                 value = self.list_rows(getattr(context, field), "lastname", "firstname")
             elif field == "curators":
-                label = self.get_label(fields, field, context.meta_type)
+                label = self.get_label(field)
                 value = self.list_rows(getattr(context, field), "lastname", "firstname")
             elif field in ["exhibiting_institution", "exhibiting_organisation"]:
-                label = self.get_label(fields, field, context.meta_type)
+                label = self.get_label(field)
                 value = self.list_rows(getattr(context, field), "name")
             elif field == "metadata_review_type_code":
                 label = _("metadata_review_type_code")
@@ -275,7 +174,7 @@ class View(BrowserView, CanonicalURLHelper):
             elif field == "canonical_uri":
                 url = context.canonical_uri
                 if url:
-                    label = self.get_label(fields, field, context.meta_type)
+                    label = self.get_label(field)
                     value = '<a rel="canonical_uri" href="{}" title="{}">{}</a>'.format(
                         url,
                         url,
@@ -294,7 +193,7 @@ class View(BrowserView, CanonicalURLHelper):
             ]:
                 url = getattr(context, field, None)
                 if url:
-                    label = self.get_label(fields, field, context.meta_type)
+                    label = self.get_label(field)
                     value = f'<a href="{url}" title="{url}">{url}</a>'
             elif field == "doi":
                 doi_url = self.get_doi_url_if_active()
@@ -304,7 +203,7 @@ class View(BrowserView, CanonicalURLHelper):
                         doi_url,
                         context.doi,
                     )
-                    label = self.get_label(fields, field, context.meta_type)
+                    label = self.get_label(field)
                 else:
                     label = None
             elif field in [
@@ -321,11 +220,11 @@ class View(BrowserView, CanonicalURLHelper):
                         doi_url,
                         doi,
                     )
-                    label = self.get_label(fields, field, context.meta_type)
+                    label = self.get_label(field)
                 else:
                     label = None
             elif field == "title":
-                label = self.get_label(fields, field, context.meta_type)
+                label = self.get_label(field)
                 titles = [context.title]
                 additional_titles = getattr(context, "additionalTitles", [])
                 if additional_titles:
@@ -334,7 +233,7 @@ class View(BrowserView, CanonicalURLHelper):
                     )
                 value = " / ".join(titles)
             elif field == "subtitle":
-                label = self.get_label(fields, field, context.meta_type)
+                label = self.get_label(field)
                 subtitles = [context.subtitle]
                 additional_titles = getattr(context, "additionalTitles", [])
                 if additional_titles:
@@ -347,7 +246,7 @@ class View(BrowserView, CanonicalURLHelper):
                     )
                 value = " / ".join(subtitles)
             elif field == "dates":
-                label = self.get_label(fields, field, context.meta_type)
+                label = self.get_label(field)
                 values = getattr(context, field)
                 if getattr(context, "isPermanentExhibition", False):
                     permanent_ex = _("Dauerausstellung").encode("utf-8")
@@ -373,7 +272,7 @@ class View(BrowserView, CanonicalURLHelper):
                 elif field == "ddcPlace":
                     label = _("Regional classification")
                 else:
-                    label = self.get_label(fields, field, context.meta_type)
+                    label = self.get_label(field)
                 # The macro is used in the template, the value is
                 # used to determine whether to display that row or not
                 value = getattr(context, field) and True or False
