@@ -629,8 +629,8 @@ class ReviewArticleCollectionView(View):
         )
 
     def get_citation_string(self):
-        if self.customCitation:
-            return scrubHTML(self.customCitation)
+        if self.context.customCitation:
+            return scrubHTML(self.context.customCitation)
 
         args = {
             "(Hg.)": api.portal.translate(_("label_abbrev_editor", default="(Hg.)")),
@@ -651,19 +651,21 @@ class ReviewArticleCollectionView(View):
             [rel.to_object for rel in self.context.reviewAuthors], lastname_first=True
         )
         authors_string = self.formatted_authors()
-        editors_string = get_formatted_names(self.getEditorial(), lastname_first=False)
+        editors_string = get_formatted_names(
+            [rel.to_object for rel in self.context.editorial]
+        )
         edited_volume = getFormatter(
             f" {args['(Hg.)']}{args[':']} ", ". ", ", ", f"{args[':']} ", ", "
         )
         edited_volume_string = edited_volume(
             editors_string,
-            self.titleEditedVolume,
-            self.subtitleEditedVolume,
-            self.placeOfPublication,
-            self.publisher,
-            self.yearOfPublication,
+            self.context.titleEditedVolume,
+            self.context.subtitleEditedVolume,
+            self.context.placeOfPublication,
+            self.context.publisher,
+            self.context.yearOfPublication,
         )
-        title_subtitle_string = self.punctuated_title_and_subtitle
+        title_subtitle_string = punctuated_title_and_subtitle(self.context)
         item_string = rev_details_formatter(
             authors_string,
             title_subtitle_string,
@@ -673,9 +675,9 @@ class ReviewArticleCollectionView(View):
 
         mag_number_formatter = getFormatter(", ", ", ")
         mag_number_string = mag_number_formatter(
-            self.get_publication_title(),
-            self.get_volume_title(),
-            self.get_issue_title(),
+            IParentGetter(self.context).get_title_from_parent_of_type("Publication"),
+            IParentGetter(self.context).get_title_from_parent_of_type("Volume"),
+            IParentGetter(self.context).get_title_from_parent_of_type("Issue"),
         )
 
         location = self.get_citation_location()
@@ -789,8 +791,8 @@ class ReviewArticleJournalView(View):
         )
 
     def get_citation_string(self):
-        if self.customCitation:
-            return scrubHTML(self.customCitation)
+        if self.context.customCitation:
+            return scrubHTML(self.context.customCitation)
 
         args = {
             "review_of": api.portal.translate(
@@ -817,7 +819,7 @@ class ReviewArticleJournalView(View):
         mag_year = mag_year and "(" + mag_year + ")" or None
         item_string = rev_details_formatter(
             self.formatted_authors(),
-            self.punctuated_title_and_subtitle,
+            punctuated_title_and_subtitle(self.context),
             self.titleJournal,
             self.volumeNumber,
             mag_year,
@@ -827,9 +829,9 @@ class ReviewArticleJournalView(View):
 
         reference_mag = getFormatter(", ", ", ")
         reference_mag_string = reference_mag(
-            self.get_publication_title(),
-            self.get_volume_title(),
-            self.get_issue_title(),
+            IParentGetter(self.context).get_title_from_parent_of_type("Publication"),
+            IParentGetter(self.context).get_title_from_parent_of_type("Volume"),
+            IParentGetter(self.context).get_title_from_parent_of_type("Issue"),
         )
 
         location = self.get_citation_location()
@@ -944,8 +946,8 @@ class ReviewExhibitionView(View):
         )
 
     def get_citation_string(self):
-        if self.customCitation:
-            return scrubHTML(self.customCitation)
+        if self.context.customCitation:
+            return scrubHTML(self.context.customCitation)
 
         args = {
             "review_of": api.portal.translate(
@@ -983,9 +985,9 @@ class ReviewExhibitionView(View):
 
         mag_number_formatter = getFormatter(", ", ", ")
         mag_number_string = mag_number_formatter(
-            self.get_publication_title(),
-            self.get_volume_title(),
-            self.get_issue_title(),
+            IParentGetter(self.context).get_title_from_parent_of_type("Publication"),
+            IParentGetter(self.context).get_title_from_parent_of_type("Volume"),
+            IParentGetter(self.context).get_title_from_parent_of_type("Issue"),
         )
 
         location = self.get_citation_location()
