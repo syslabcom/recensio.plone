@@ -81,34 +81,41 @@ class View(BrowserView, CanonicalURLHelper):
         )
 
     def list_rows(self, rows, *keys):
-        rows = [row for row in rows if any([row[key] for key in keys])]
-        if rows:
-            rows_ul = "<ul class='rows_list'>"
-            for row in rows:
-                inner = ", ".join(
-                    [safe_unicode(escape(row[key])) for key in keys if row[key]]
-                )
-                if hasattr(row, "UID"):
-                    inner = (
-                        '<a title="%s" href="%s/search?authorsUID:list='
-                        "%s&amp;advanced_search:boolean=True&amp;"
-                        'use_navigation_root:boolean=True">%s</a>'
-                    ) % (
-                        self.context.translate(_("label_search")),
-                        api.portal.get().absolute_url(),
-                        row.UID(),
-                        inner,
-                    )
-                rows_ul += "<li>{}{}</li>".format(
+        _keys = keys
+
+        def _gettr(row, key):
+            return getattr(row, key, row.get(key, ""))
+
+        # Get the target objects in case of a RelationValue object.
+        rows = map(lambda row: getattr(row, "to_object", row), rows)
+        # Remove empty rows.
+        rows = filter(lambda row: any([_gettr(row, key) for key in _keys]), rows)
+        result = ""
+        for row in rows:
+            inner = ", ".join(
+                [
+                    safe_unicode(escape(_gettr(row, key)))
+                    for key in keys
+                    if _gettr(row, key)
+                ]
+            )
+            if hasattr(row, "UID"):
+                inner = (
+                    '<a title="%s" href="%s/search?authorsUID:list='
+                    "%s&amp;advanced_search:boolean=True&amp;"
+                    'use_navigation_root:boolean=True">%s</a>'
+                ) % (
+                    self.context.translate(_("label_search")),
+                    api.portal.get().absolute_url(),
+                    row.UID(),
                     inner,
-                    self._get_gnd_link(row.getGndId())
-                    if getattr(row, "gndId", None)
-                    else "",
                 )
-            rows_ul += "</ul>"
-            return rows_ul
-        else:
-            return ""
+            result += "<li>{}{}</li>".format(
+                inner,
+                self._get_gnd_link(row.gndId) if getattr(row, "gndId", None) else "",
+            )
+
+        return f'<ul class="rows_list">{result}</ul>' if result else ""
 
     def get_doi_url_if_active(self):
         context = self.context
