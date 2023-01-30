@@ -1012,7 +1012,7 @@ class ReviewMonographView(View):
         reviewer_string = get_formatted_names(
             [rel.to_object for rel in self.context.reviewAuthors], lastname_first=True
         )
-        authors_string = self.context.formatted_authors_editorial()
+        authors_string = self.formatted_authors_editorial()
         title_subtitle_string = punctuated_title_and_subtitle(self.context)
         item_string = rev_details_formatter(
             authors_string,
