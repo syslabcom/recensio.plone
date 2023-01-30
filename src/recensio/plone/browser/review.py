@@ -143,7 +143,7 @@ class View(BrowserView, CanonicalURLHelper):
                 label = _("heading_metadata_journal")
                 value = IParentGetter(self.context).get_title_from_parent_of_type(
                     "Publication"
-                )  # noqa: E501
+                )
             elif field == "metadata_start_end_pages":
                 if "metadata_start_end_pages_article" in self.metadata_fields:
                     label = _("metadata_pages_review")
@@ -329,6 +329,10 @@ class View(BrowserView, CanonicalURLHelper):
                 elif field == "pages":
                     value = self.page_start_end_in_print
                     terms.update({name: value})
+                elif field == "get_journal_title":
+                    value = IParentGetter(self.context).get_title_from_parent_of_type(
+                        "Publication"
+                    )
                 else:
                     value = getattr(context, field)
                     if callable(value):
