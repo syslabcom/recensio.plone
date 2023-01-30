@@ -814,16 +814,16 @@ class ReviewArticleJournalView(View):
             ", %(page)s " % args,
         )
         mag_year = getFormatter("/")(
-            self.officialYearOfPublication, self.yearOfPublication
+            self.context.officialYearOfPublication, self.context.yearOfPublication
         )
-        mag_year = mag_year and "(" + mag_year + ")" or None
+        mag_year = "(" + mag_year + ")" if mag_year else None
         item_string = rev_details_formatter(
-            self.formatted_authors(),
+            IAuthors(self.context).get_formatted_authors(),
             punctuated_title_and_subtitle(self.context),
-            self.titleJournal,
-            self.volumeNumber,
+            self.context.titleJournal,
+            self.context.volumeNumber,
             mag_year,
-            self.issueNumber,
+            self.context.issueNumber,
             self.page_start_end_in_print_article,
         )
 
@@ -836,7 +836,9 @@ class ReviewArticleJournalView(View):
 
         location = self.get_citation_location()
 
-        rezensent_string = get_formatted_names(self.reviewAuthors, lastname_first=True)
+        rezensent_string = get_formatted_names(
+            [rel.to_object for rel in self.context.reviewAuthors], lastname_first=True
+        )
         citation_formatter = getFormatter(
             "%(:)s %(review_of)s " % args,
             ", %(review_in)s " % args,
@@ -958,7 +960,9 @@ class ReviewExhibitionView(View):
             ":": api.portal.translate(_("text_colon", default=":")),
         }
         rev_details_formatter = getFormatter("%(:)s " % args, ", ", " ")
-        rezensent_string = get_formatted_names(self.reviewAuthors, lastname_first=True)
+        rezensent_string = get_formatted_names(
+            [rel.to_object for rel in self.context.reviewAuthors], lastname_first=True
+        )
 
         dates_formatter = getFormatter(", ")
         dates_string = " / ".join(
@@ -967,15 +971,15 @@ class ReviewExhibitionView(View):
                     date["place"],
                     date["runtime"],
                 )
-                for date in self.dates
+                for date in self.context.dates
             ]
         )
         permanent_exhib_string = api.portal.translate(
             _("Dauerausstellung", default="Dauerausstellung")
         )
         title_string = getFormatter(". ")(
-            self.punctuated_title_and_subtitle,
-            permanent_exhib_string if self.isPermanentExhibition else "",
+            punctuated_title_and_subtitle(self.context),
+            permanent_exhib_string if self.context.isPermanentExhibition else "",
         )
         item_string = rev_details_formatter(
             self.exhibitor,
