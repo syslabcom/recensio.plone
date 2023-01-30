@@ -249,18 +249,19 @@ class View(BrowserView, CanonicalURLHelper):
                     )
                 value = " / ".join(titles)
             elif field == "subtitle":
-                label = self.get_label(field)
-                subtitles = [context.subtitle]
-                additional_titles = getattr(context, "additionalTitles", [])
-                if additional_titles:
-                    subtitles.extend(
-                        [
-                            additional["subtitle"]
-                            for additional in additional_titles
-                            if additional["subtitle"]
-                        ]
-                    )
-                value = " / ".join(subtitles)
+                if context.subtitle:
+                    label = self.get_label(field)
+                    subtitles = [context.subtitle]
+                    additional_titles = getattr(context, "additionalTitles", [])
+                    if additional_titles:
+                        subtitles.extend(
+                            [
+                                additional["subtitle"]
+                                for additional in additional_titles
+                                if additional["subtitle"]
+                            ]
+                        )
+                    value = " / ".join(subtitles)
             elif field == "dates":
                 label = self.get_label(field)
                 values = getattr(context, field)
