@@ -883,7 +883,7 @@ class ReviewJournalView(View):
 
     def get_citation_string(self):
         if self.context.customCitation:
-            return scrubHTML(self.context.customCitation).decode("utf8")
+            return scrubHTML(self.context.customCitation)
 
         rev_details_formatter = getFormatter(", ", ", ", " ")
         mag_year = getFormatter("/")(
@@ -998,7 +998,7 @@ class ReviewMonographView(View):
 
     def get_citation_string(self):
         if self.context.customCitation:
-            return scrubHTML(self.context.customCitation).decode("utf8")
+            return scrubHTML(self.context.customCitation)
 
         args = {
             "review_of": api.portal.translate(
