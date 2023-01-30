@@ -2,7 +2,6 @@ from AccessControl.SecurityManagement import getSecurityManager
 from html import escape
 from plone import api
 from plone.dexterity.utils import iterSchemata
-from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from Products.PortalTransforms.libtransforms.utils import scrubHTML
 from recensio.plone import _
@@ -93,11 +92,7 @@ class View(BrowserView, CanonicalURLHelper):
         result = ""
         for row in rows:
             inner = ", ".join(
-                [
-                    safe_unicode(escape(_gettr(row, key)))
-                    for key in keys
-                    if _gettr(row, key)
-                ]
+                [escape(_gettr(row, key)) for key in keys if _gettr(row, key)]
             )
             if hasattr(row, "UID"):
                 inner = (
