@@ -291,7 +291,12 @@ class View(BrowserView, CanonicalURLHelper):
                 # used to determine whether to display that row or not
                 value = getattr(context, field) and True or False
                 is_macro = True
-            meta[field] = {"label": label, "value": value, "is_macro": is_macro}
+            is_macro  # TODO: flake8 related statement. remove when is_macro is used.
+            meta[field] = {
+                "label": label,
+                "value": value,
+                "is_macro": False,  # is_macro,  # TODO: provide a widgets view.
+            }
         return meta
 
     def get_metadata_context_object(self):
