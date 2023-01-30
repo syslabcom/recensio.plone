@@ -48,6 +48,14 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <browser:page
+      name="base_view"
+      for="recensio.plone.content.publication.IPublication"
+      class=".publications.EnsureCanonical"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
   <!-- XXX: maybe we restrict this to a particular interface? -->
   <browser:page
       name="publications-view"
