@@ -18,13 +18,11 @@
       for="..content.volume.IVolume"
       />
 
-  <!-- XXX
   <adapter
-     factory=".parentgetter.ParentGetter"
-     provides=".parentgetter.IParentGetter"
-     for="recensio.theme.browser.interfaces.IRedirectToPublication"
-     />
-  -->
+      factory=".parentgetter.ParentGetter"
+      provides=".parentgetter.IParentGetter"
+      for="recensio.plone.browser.interfaces.IRedirectToPublication"
+      />
 
   <adapter
       factory=".parentgetter.ParentGetter"

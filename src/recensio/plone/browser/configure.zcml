@@ -32,6 +32,22 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <browser:page
+      name="redirect-to-publication"
+      for="recensio.plone.content.issue.IIssue"
+      class=".redirect_to_publication.RedirectToPublication"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
+      name="redirect-to-publication"
+      for="recensio.plone.content.volume.IVolume"
+      class=".redirect_to_publication.RedirectToPublication"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
   <!-- XXX: maybe we restrict this to a particular interface? -->
   <browser:page
       name="publications-view"
