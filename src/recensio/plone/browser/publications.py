@@ -21,7 +21,8 @@ class PublicationsView(BrowserView, CanonicalURLHelper):
             logourl = self.context.portal_url.getPortalPath() + "/empty_publication.jpg"
         if pubob.getDefaultPage():
             defob = getattr(pubob, pubob.getDefaultPage())
-            defob = defob.getTranslation(lang) or defob
+            # XXX restore this line when we have an alternative to getTranslation
+            # defob = defob.getTranslation(lang) or defob
         else:
             defob = pubob
         title = defob and defob.Title() != "" and defob.Title() or pubob.Title()
