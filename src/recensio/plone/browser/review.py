@@ -275,12 +275,14 @@ class View(BrowserView, CanonicalURLHelper):
                         for value in values
                     ]
                 value = self.list_rows(values, "place", "runtime")
-            elif field == "effectiveDate":
-                label = _("label_metadata_recensio_date")
-                ploneview = api.content.get_view(
-                    context=context, request=self.request, name="plone"
-                )
-                value = ploneview.toLocalizedTime(context[field], long_format=False)
+            elif field == "effective_date":
+                effective_date = getattr(context, "effective_date", None)
+                if effective_date:
+                    label = _("label_metadata_recensio_date")
+                    ploneview = api.content.get_view(
+                        context=context, request=self.request, name="plone"
+                    )
+                    value = ploneview.toLocalizedTime(effective_date, long_format=False)
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")
@@ -585,7 +587,7 @@ class ReviewArticleCollectionView(View):
         "subjects",
         "canonical_uri",
         "urn",
-        "effectiveDate",
+        "effective_date",
         "metadata_recensioID",
         "idBvb",
         "doi",
@@ -675,7 +677,7 @@ class ReviewArticleJournalView(View):
         "subjects",
         "canonical_uri",
         "urn",
-        "effectiveDate",
+        "effective_date",
         "metadata_recensioID",
         "idBvb",
         "doi",
@@ -748,7 +750,7 @@ class ReviewExhibitionView(View):
         "subjects",
         "canonical_uri",
         "urn",
-        "effectiveDate",
+        "effective_date",
         "metadata_recensioID",
         "doi",
     ]
@@ -851,7 +853,7 @@ class ReviewJournalView(View):
         "subjects",
         "canonical_uri",
         "urn",
-        "effectiveDate",
+        "effective_date",
         "metadata_recensioID",
         "idBvb",
         "doi",
@@ -963,7 +965,7 @@ class ReviewMonographView(View):
         "subjects",
         "canonical_uri",
         "urn",
-        "effectiveDate",
+        "effective_date",
         "metadata_recensioID",
         "idBvb",
         "doi",
