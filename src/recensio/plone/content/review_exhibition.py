@@ -1,24 +1,20 @@
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
-from plone import api
 from plone.app.vocabularies.catalog import CatalogSource
 from plone.app.z3cform.widget import RelatedItemsFieldWidget
 from plone.autoform.directives import widget
+from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Item
 from plone.supermodel import model
 from recensio.plone import _
-from recensio.plone.behaviors.base import IBase
 from recensio.plone.behaviors.directives import fieldset_exhibition
-from recensio.plone.content.base_review import BaseReview
 from recensio.plone.interfaces import IReview
-from recensio.plone.utils import get_formatted_names
-from recensio.plone.utils import getFormatter
-from recensio.plone.utils import punctuated_title_and_subtitle
 from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
 from zope import interface
 from zope import schema
 from zope.interface import implementer
+from zope.interface import provider
 
 
 class IExhibitingInstitutionRowSchema(interface.Interface):
@@ -61,6 +57,7 @@ class IDatesRowSchema(interface.Interface):
     )
 
 
+@provider(IFormFieldProvider)
 class IReviewExhibition(model.Schema, IReview):
     """Marker interface and Dexterity Python Schema for ReviewExhibition."""
 
@@ -152,67 +149,5 @@ class IReviewExhibition(model.Schema, IReview):
 
 
 @implementer(IReviewExhibition)
-class ReviewExhibition(Item, BaseReview):
+class ReviewExhibition(Item):
     """Content-type class for IReviewExhibition."""
-
-    @property
-    def exhibitor(self):
-        exhibitor = " / ".join(
-            [
-                institution["name"].strip()
-                for institution in self.exhibiting_institution
-                if institution["name"]
-            ]
-        )
-        if exhibitor:
-            return exhibitor
-        exhibitor = " / ".join(
-            [
-                organisation["name"].strip()
-                for organisation in self.exhibiting_organisation
-                if organisation["name"]
-            ]
-        )
-        if exhibitor:
-            return exhibitor
-        exhibitor = get_formatted_names(
-            [
-                person.to_object
-                for person in self.curators
-                if person.firstname or person.lastname
-            ],
-        )
-        return exhibitor
-
-    def getDecoratedTitle(self):
-        dates_formatter = getFormatter(", ")
-        dates_string = " / ".join(
-            [dates_formatter(date["place"], date["runtime"]) for date in self.dates]
-        )
-
-        permanent_exhib_string = api.portal.translate(
-            _("Dauerausstellung", default="Permanent Exhibition")
-        )
-        title_string = getFormatter(". ")(
-            punctuated_title_and_subtitle(self),
-            permanent_exhib_string if self.isPermanentExhibition else "",
-        )
-
-        full_title = getFormatter(": ", ", ", " ")
-
-        def message_callback(reviewers_formatted):
-            return _(
-                "exhibition_reviewed_by",
-                default="Exhibition reviewed by ${review_authors}",
-                mapping={"review_authors": reviewers_formatted},
-            )
-
-        reviewer_string = IBase(self).get_formatted_review_authors(
-            message_callback=message_callback
-        )
-        return full_title(
-            self.exhibitor,
-            title_string,
-            dates_string,
-            reviewer_string,
-        )

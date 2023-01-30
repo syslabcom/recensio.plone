@@ -7,7 +7,10 @@ from Products.Five.browser import BrowserView
 from Products.PortalTransforms.libtransforms.utils import scrubHTML
 from recensio.plone import _
 from recensio.plone.adapter.parentgetter import IParentGetter
+from recensio.plone.behaviors.authors import IAuthors
+from recensio.plone.behaviors.base import IBase
 from recensio.plone.behaviors.base_review import generateDoi
+from recensio.plone.behaviors.editorial import IEditorial
 from recensio.plone.browser.canonical import CanonicalURLHelper
 from recensio.plone.utils import get_formatted_names
 from recensio.plone.utils import getFormatter
@@ -139,10 +142,10 @@ class View(BrowserView, CanonicalURLHelper):
                     label = _("metadata_pages_review")
                 else:
                     label = _("metadata_pages")
-                value = context.page_start_end_in_print
+                value = self.page_start_end_in_print
             elif field == "metadata_start_end_pages_article":
                 label = _("metadata_pages_article")
-                value = context.page_start_end_in_print_article
+                value = self.page_start_end_in_print_article
             elif field == "metadata_review_author":
                 label = _("label_metadata_review_author")
                 value = self.list_rows(context.reviewAuthors, "lastname", "firstname")
@@ -314,7 +317,7 @@ class View(BrowserView, CanonicalURLHelper):
                     )
                     terms.update({name: f"{authors}: {getattr(context, field)}"})
                 elif field == "pages":
-                    value = self.context.page_start_end_in_print
+                    value = self.page_start_end_in_print
                     terms.update({name: value})
                 else:
                     value = getattr(context, field)
@@ -478,6 +481,52 @@ class View(BrowserView, CanonicalURLHelper):
 
         return ", ".join(location)
 
+    @property
+    def page_start_end_in_print(self):
+        """See #2630 PAJ/PAEV/RJ/RM have page start and end fields."""
+
+        page_start = getattr(
+            self.context,
+            "pageStartOfPresentedTextInPrint",
+            getattr(self.context, "pageStartOfReviewInJournal", ""),
+        )
+
+        page_end = getattr(
+            self.context,
+            "pageEndOfPresentedTextInPrint",
+            getattr(self.context, "pageEndOfReviewInJournal", ""),
+        )
+        return self.format_page_start_end(page_start, page_end)
+
+    @property
+    def page_start_end_in_print_article(self):
+        page_start = getattr(self.context, "pageStartOfArticle", "")
+        page_end = getattr(self.context, "pageEndOfArticle", "")
+        return self.format_page_start_end(page_start, page_end)
+
+    def format_page_start_end(self, page_start, page_end):
+        # page_start is set to 0 when it is left empty in the bulk
+        # import spreadsheet #4054
+        if page_start in (None, 0):
+            page_start = ""
+        page_start = str(page_start).strip()
+
+        # page_end is set to 0 when it is left empty in the bulk
+        # import spreadsheet #4054
+        if page_end in (None, 0):
+            page_end = ""
+        page_end = str(page_end).strip()
+
+        if page_start == page_end:
+            # both the same/empty
+            page_start_end = page_start
+        elif page_start and page_end:
+            page_start_end = f"{page_start}-{page_end}"
+        else:
+            # one is not empty
+            page_start_end = page_start or page_end
+        return page_start_end
+
     def __call__(self):
         canonical_url = self.get_canonical_url()
         if (
@@ -534,6 +583,49 @@ class ReviewArticleCollectionView(View):
         "doi",
     ]
 
+    def formatted_authors(self):
+        # TODO This is here as a hint for the one implementing citations.
+        # Please remove this method and use IAuthors instead.
+        authors_str = IAuthors(self.context).get_formatted_authors()
+        return authors_str
+
+    def getDecoratedTitle(self):
+        args = {
+            "(Hg.)": api.portal.translate(_("label_abbrev_editor", default="(Hg.)")),
+            "in": api.portal.translate(_("text_in", default="in:")),
+            "page": api.portal.translate(_("text_pages", default="p.")),
+            ":": api.portal.translate(_("text_colon", default=":")),
+        }
+
+        authors_string = self.formatted_authors()
+
+        reviewer_string = IBase(self.context).get_formatted_review_authors()
+        editors_string = get_formatted_names(
+            [rel.to_object for rel in self.context.editorial]
+        )
+
+        edited_volume = getFormatter(
+            f" {args['(Hg.)']}{args[':']} ", ". ", " ", f", {args['page']} "
+        )
+        translated_title = self.context.translatedTitleEditedVolume
+        if translated_title:
+            translated_title = f"[{translated_title}]"
+        edited_volume_string = edited_volume(
+            editors_string,
+            self.context.titleEditedVolume,
+            self.context.subtitleEditedVolume,
+            translated_title,
+            self.page_start_end_in_print_article,
+        )
+
+        full_citation = getFormatter(": ", ", in: ", " ")
+        return full_citation(
+            authors_string,
+            punctuated_title_and_subtitle(self.context),
+            edited_volume_string,
+            reviewer_string,
+        )
+
 
 class ReviewArticleJournalView(View):
     metadata_fields = [
@@ -581,6 +673,50 @@ class ReviewArticleJournalView(View):
         "doi",
     ]
 
+    def formatted_authors_editorial(self):
+        authors_str = IAuthors(self.context).get_formatted_authors()
+        editorial_apadter = IEditorial(self.context, None)
+        if editorial_apadter:
+            editors_str = IEditorial(self.context, None).get_formatted_editorial()
+        else:
+            editors_str = ""
+        return getFormatter(": ")(editors_str, authors_str)
+
+    def getDecoratedTitle(self):
+        args = {
+            "in:": api.portal.translate(_("text_in", default="in:")),
+            "page": api.portal.translate(_("text_pages", default="p.")),
+            ":": api.portal.translate(_("text_colon", default=":")),
+        }
+
+        item = getFormatter(" ", ", ", " ", ", ", f", {args['page']} ")
+        mag_year = getFormatter("/")(
+            self.context.officialYearOfPublication, self.context.yearOfPublication
+        )
+        mag_year = f"({mag_year})" if mag_year else None
+        translated_title_journal = self.context.translatedTitleJournal
+        if translated_title_journal:
+            translated_title_journal = f"[{translated_title_journal}]"
+        item_string = item(
+            self.context.titleJournal,
+            translated_title_journal,
+            self.context.volumeNumber,
+            mag_year,
+            self.context.issueNumber,
+            self.page_start_end_in_print_article,
+        )
+
+        authors_string = self.formatted_authors_editorial()
+        reviewer_string = IBase(self.context).get_formatted_review_authors()
+
+        full_citation = getFormatter(": ", f", {args['in:']} ", " ")
+        return full_citation(
+            authors_string,
+            punctuated_title_and_subtitle(self.context),
+            item_string,
+            reviewer_string,
+        )
+
 
 class ReviewExhibitionView(View):
     metadata_fields = [
@@ -608,6 +744,71 @@ class ReviewExhibitionView(View):
         "metadata_recensioID",
         "doi",
     ]
+
+    @property
+    def exhibitor(self):
+        exhibitor = " / ".join(
+            [
+                institution["name"].strip()
+                for institution in self.context.exhibiting_institution
+                if institution["name"]
+            ]
+        )
+        if exhibitor:
+            return exhibitor
+        exhibitor = " / ".join(
+            [
+                organisation["name"].strip()
+                for organisation in self.context.exhibiting_organisation
+                if organisation["name"]
+            ]
+        )
+        if exhibitor:
+            return exhibitor
+        exhibitor = get_formatted_names(
+            [
+                person.to_object
+                for person in self.context.curators
+                if person.firstname or person.lastname
+            ],
+        )
+        return exhibitor
+
+    def getDecoratedTitle(self):
+        dates_formatter = getFormatter(", ")
+        dates_string = " / ".join(
+            [
+                dates_formatter(date["place"], date["runtime"])
+                for date in self.context.dates
+            ]
+        )
+
+        permanent_exhib_string = api.portal.translate(
+            _("Dauerausstellung", default="Permanent Exhibition")
+        )
+        title_string = getFormatter(". ")(
+            punctuated_title_and_subtitle(self.context),
+            permanent_exhib_string if self.context.isPermanentExhibition else "",
+        )
+
+        full_title = getFormatter(": ", ", ", " ")
+
+        def message_callback(reviewers_formatted):
+            return _(
+                "exhibition_reviewed_by",
+                default="Exhibition reviewed by ${review_authors}",
+                mapping={"review_authors": reviewers_formatted},
+            )
+
+        reviewer_string = IBase(self.context).get_formatted_review_authors(
+            message_callback=message_callback
+        )
+        return full_title(
+            self.exhibitor,
+            title_string,
+            dates_string,
+            reviewer_string,
+        )
 
 
 class ReviewJournalView(View):
@@ -647,6 +848,27 @@ class ReviewJournalView(View):
         "idBvb",
         "doi",
     ]
+
+    def getDecoratedTitle(self):
+        item = getFormatter(" ", ", ", " ", ", ")
+        mag_year = getFormatter("/")(
+            self.context.officialYearOfPublication, self.context.yearOfPublication
+        )
+        mag_year = f"({mag_year})" if mag_year else None
+        translated_title = self.context.translatedTitleJournal
+        if translated_title:
+            translated_title = f"[{translated_title}]"
+        item_string = item(
+            self.context.title,
+            translated_title,
+            self.context.volumeNumber,
+            mag_year,
+            self.context.issueNumber,
+        )
+
+        reviewer_string = IBase(self.context).get_formatted_review_authors()
+
+        return " ".join((item_string, reviewer_string))
 
     def get_citation_string(self):
         if self.context.customCitation:
@@ -694,7 +916,7 @@ class ReviewJournalView(View):
             escape(reviewer_string),
             escape(item_string),
             escape(reference_mag_string),
-            self.context.page_start_end_in_print,
+            self.page_start_end_in_print,
             location,
         )
         return citation_string
@@ -738,6 +960,30 @@ class ReviewMonographView(View):
         "idBvb",
         "doi",
     ]
+
+    def formatted_authors_editorial(self):
+        authors_str = IAuthors(self.context).get_formatted_authors()
+        editors_str = IEditorial(self.context).get_formatted_editorial()
+        return getFormatter(": ")(editors_str, authors_str)
+
+    def getDecoratedTitle(self):
+        """Original Spec:
+
+            [Werkautor Vorname] [Werkautor Nachname]: [Werktitel]. [Werk-Untertitel]
+            (reviewed by [Rezensent Vorname] [Rezensent Nachname])
+
+        Analog, Werkautoren kann es mehrere geben (Siehe Citation)
+
+        Hans Meier: Geschichte des Abendlandes. Ein Abriss (reviewed by Klaus Müller)
+        """
+        authors_string = self.formatted_authors_editorial()
+
+        reviewer_string = IBase(self.context).get_formatted_review_authors()
+
+        full_citation = getFormatter(": ", " ")
+        return full_citation(
+            authors_string, punctuated_title_and_subtitle(self.context), reviewer_string
+        )
 
     def get_citation_string(self):
         if self.context.customCitation:
@@ -785,7 +1031,7 @@ class ReviewMonographView(View):
             escape(reviewer_string),
             escape(item_string),
             escape(mag_number_string),
-            self.context.page_start_end_in_print,
+            self.page_start_end_in_print,
             location,
         )
 
