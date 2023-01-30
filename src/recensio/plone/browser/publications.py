@@ -55,3 +55,19 @@ class PublicationsView(BrowserView, CanonicalURLHelper):
         # ):
         #     return self.request.response.redirect(canonical_url, status=301)
         return super().__call__()
+
+
+class EnsureCanonical(BrowserView, CanonicalURLHelper):
+    def __call__(self):
+        canonical_url = self.get_canonical_url()
+        if (
+            not self.request["HTTP_HOST"].startswith("admin.")
+            and canonical_url != self.request["ACTUAL_URL"]
+        ):
+            return self.request.response.redirect(canonical_url, status=301)
+        # XXX The old code was doing this:
+        # return self.context()
+        # But on object that have this view set has default view, this
+        # turns out to be an infinite recursion.
+        # So we do this instead:
+        return api.content.get_view("view", self.context, self.request)()
