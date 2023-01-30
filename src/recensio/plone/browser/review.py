@@ -342,15 +342,10 @@ class View(BrowserView, CanonicalURLHelper):
                     terms.update({name: value})
         new_terms = {}
         for key, value in terms.items():
-            if isinstance(value, unicode):
-                new_terms[key] = value.encode("utf-8")
-            elif isinstance(value, list):
+            if isinstance(value, list):
                 new_value = []
                 for inner_value in value:
-                    if isinstance(inner_value, unicode):
-                        new_value.append(inner_value.encode("utf-8"))
-                    else:
-                        new_value.append(inner_value)
+                    new_value.append(inner_value)
                 new_terms[key] = new_value
             else:
                 new_terms[key] = value
