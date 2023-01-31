@@ -45,14 +45,17 @@ class HomepageView(BrowserView):
     def format_authors(self, brain):
         ob = brain.getObject()
         authors = getattr(ob, "authors", "")
-        if len(authors) == 0 or authors == ({"lastname": "", "firstname": ""},):
+        if len(authors) == 0:
             authors = getattr(ob, "editorial", "")
         if len(authors) == 0:
             return ""
-        firstname = authors[0]["firstname"].strip()
-        initial = len(firstname) > 0 and firstname[0] + ". " or ""
-        lastname = authors[0]["lastname"]
-        et_al = len(authors) > 1 and " et al." or ""
+        first_author = authors[0].to_object
+        if not first_author:
+            return ""
+        firstname = first_author.firstname.strip()
+        initial = firstname[0] + ". " if len(firstname) > 0 else ""
+        lastname = first_author.lastname
+        et_al = " et al." if len(authors) > 1 else ""
         if len(lastname) > 0:
             return f"{initial}{lastname}{et_al}:"
         return ""
