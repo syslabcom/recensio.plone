@@ -15,6 +15,12 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <browser:resourceDirectory
+      name="recensio.theme.styles"
+      directory="styles"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
   <browser:page
       name="homepage-view"
       for="plone.app.contenttypes.interfaces.IDocument"
