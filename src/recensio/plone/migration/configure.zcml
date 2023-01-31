@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    >
+
+  <browser:page
+      name="import-page-pictures"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".import_pagePictures.ImportPagePicturesForm"
+      permission="cmf.ManagePortal"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+</configure>

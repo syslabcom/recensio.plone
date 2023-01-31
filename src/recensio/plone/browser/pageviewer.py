@@ -1,4 +1,3 @@
-from plone.namedfile.file import NamedBlobImage
 from Products.Five.browser import BrowserView
 
 
@@ -34,21 +33,14 @@ class Pageviewer(BrowserView):
 class GetPageImage(BrowserView):
     def __call__(self):
         """Return a page of the review text."""
-        # XXX Remove me
-        images_default = [
-            NamedBlobImage(
-                data=b"GIF89a\x01\x00\x01\x00\x80\x00\x00\xff\xff\xff\x00\x00\x00!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;",  # noqa: E501
-                filename="blank.gif",
-            )
-        ]
         no = self.request.get("no", 1)
         refresh = self.request.get("refresh", False)
 
-        images = getattr(self, "pagePictures", images_default)
+        images = getattr(self.context, "pagePictures", [])
 
         if images is None or refresh:
             review_pdf_updated_eventhandler(self, None)
-            images = getattr(self, "pagePictures", images_default)
+            images = getattr(self.context, "pagePictures", [])
 
         if no > len(images):
             no = 0
@@ -59,7 +51,7 @@ class GetPageImage(BrowserView):
         except (TypeError, AttributeError):
             # 17.8.2012 Fallback if upgrade is not done yet
             review_pdf_updated_eventhandler(self, None)
-            images = getattr(self, "pagePictures", images_default)
+            images = getattr(self.context, "pagePictures", [])
 
         image = images[no - 1]
         self.request.response.setHeader("Content-Type", "image/gif")
