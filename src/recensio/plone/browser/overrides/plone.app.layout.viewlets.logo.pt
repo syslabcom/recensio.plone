@@ -1,0 +1,21 @@
+<a id="portal-logo"
+   title="Home"
+   tal:define="
+     portal_state python:context.restrictedTraverse('@@plone_portal_state');
+     lang python:portal_state.language();
+   "
+   tal:attributes="
+     href view/navigation_root_url;
+     title view/navigation_root_title;
+   "
+   i18n:attributes="title"
+   i18n:domain="plone"
+>
+  <img alt=""
+       src="${here/portal_url}/++resource++recensio.theme.images/${lang}/logo_recensio.png"
+       tal:attributes="
+         alt view/logo_title;
+         title view/logo_title;
+       "
+  />
+</a>

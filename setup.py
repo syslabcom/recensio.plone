@@ -51,6 +51,7 @@ setup(
         "collective.vdexvocabulary",
         "collective.z3cform.datagridfield",
         "reportlab",
+        "z3c.jbot",
     ],
     extras_require={
         "test": [
