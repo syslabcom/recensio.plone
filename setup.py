@@ -50,6 +50,7 @@ setup(
         "plone.api",
         "collective.vdexvocabulary",
         "collective.z3cform.datagridfield",
+        "z3c.jbot",
     ],
     extras_require={
         "test": [
