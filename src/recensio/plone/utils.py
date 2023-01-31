@@ -126,6 +126,12 @@ def punctuated_title_and_subtitle(review):
 
 
 def getTranslations(obj, include_canonical=True, review_state=True, _is_canonical=None):
+    """This used to live on the container types (publication, volume, etc.) and
+    was meant to ensure that they are always language neutral.
+
+    Don't use this for items that are actually supposed to be
+    translated, like Pages (Documents).
+    """
     if review_state:
         try:
             state = api.content.get_state(obj)
