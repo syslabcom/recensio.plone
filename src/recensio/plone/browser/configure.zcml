@@ -106,7 +106,7 @@
   <browser:page
       name="review_view"
       for="recensio.plone.content.review_exhibition.IReviewExhibition"
-      class=".review.ReviewMonographView"
+      class=".review.ReviewExhibitionView"
       template="templates/review.pt"
       permission="zope2.View"
       layer="recensio.plone.interfaces.IRecensioPloneLayer"

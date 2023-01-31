@@ -13,7 +13,6 @@ from recensio.plone.behaviors.editorial import IEditorial
 from recensio.plone.browser.canonical import CanonicalURLHelper
 from recensio.plone.utils import get_formatted_names
 from recensio.plone.utils import getFormatter
-from recensio.plone.utils import getTranslations
 from recensio.plone.utils import punctuated_title_and_subtitle
 from ZTUtils import make_query
 
@@ -400,8 +399,7 @@ class View(BrowserView, CanonicalURLHelper):
             return False
 
     def get_citation_string(self):
-        # XXX specific to subtypes; implement in specific views
-        return "XXX"
+        raise NotImplementedError("specific to subtypes; implement in specific views")
 
     def is_url_shown_in_citation_note(self):
         is_external_fulltext = getattr(
@@ -433,16 +431,9 @@ class View(BrowserView, CanonicalURLHelper):
                 if licence_obj:
                     licence_obj = licence_obj.to_object
                 if licence_obj:
-                    # XXX This needs to be rechecked, it seems that in the old
-                    # getTranslations() return a dict, butthe code was expected to be:
-                    # ```
-                    # licence_translated = licence_obj.getTranslation()
-                    # publication_licence = licence_translated.getText()
-                    # ```
-                    licence_translated = getTranslations(
-                        licence_obj, review_state=False
-                    )[""]
                     licence_translated = licence_obj
+                    # TODO
+                    # licence_translated = licence_obj.getTranslation()
                     publication_licence = licence_translated.text or ""
                     if publication_licence:
                         publication_licence = publication_licence.output_relative_to(
@@ -637,6 +628,77 @@ class ReviewArticleCollectionView(View):
             reviewer_string,
         )
 
+    def get_citation_string(self):
+        if self.context.customCitation:
+            return scrubHTML(self.context.customCitation)
+
+        args = {
+            "(Hg.)": api.portal.translate(_("label_abbrev_editor", default="(Hg.)")),
+            "review_of": api.portal.translate(
+                _("text_review_of", default="review of:")
+            ),
+            "review_in": api.portal.translate(
+                _("text_review_in", default="review published in:")
+            ),
+            "in": api.portal.translate(_("text_in", default="in:")),
+            "page": api.portal.translate(_("text_pages", default="p.")),
+            ":": api.portal.translate(_("text_colon", default=":")),
+        }
+        rev_details_formatter = getFormatter(
+            ", ", ", %(in)s " % args, ", %(page)s " % args
+        )
+        reviewer_string = get_formatted_names(
+            [rel.to_object for rel in self.context.reviewAuthors], lastname_first=True
+        )
+        authors_string = self.formatted_authors()
+        editors_string = get_formatted_names(
+            [rel.to_object for rel in self.context.editorial]
+        )
+        edited_volume = getFormatter(
+            f" {args['(Hg.)']}{args[':']} ", ". ", ", ", f"{args[':']} ", ", "
+        )
+        edited_volume_string = edited_volume(
+            editors_string,
+            self.context.titleEditedVolume,
+            self.context.subtitleEditedVolume,
+            self.context.placeOfPublication,
+            self.context.publisher,
+            self.context.yearOfPublication,
+        )
+        title_subtitle_string = punctuated_title_and_subtitle(self.context)
+        item_string = rev_details_formatter(
+            authors_string,
+            title_subtitle_string,
+            edited_volume_string,
+            self.page_start_end_in_print_article,
+        )
+
+        mag_number_formatter = getFormatter(", ", ", ")
+        mag_number_string = mag_number_formatter(
+            IParentGetter(self.context).get_title_from_parent_of_type("Publication"),
+            IParentGetter(self.context).get_title_from_parent_of_type("Volume"),
+            IParentGetter(self.context).get_title_from_parent_of_type("Issue"),
+        )
+
+        location = self.get_citation_location()
+
+        citation_formatter = getFormatter(
+            "%(:)s %(review_of)s " % args,
+            ", %(review_in)s " % args,
+            ", %(page)s " % args,
+            ", ",
+        )
+
+        citation_string = citation_formatter(
+            escape(reviewer_string),
+            escape(item_string),
+            escape(mag_number_string),
+            self.page_start_end_in_print,
+            location,
+        )
+
+        return citation_string
+
 
 class ReviewArticleJournalView(View):
     metadata_fields = [
@@ -727,6 +789,70 @@ class ReviewArticleJournalView(View):
             item_string,
             reviewer_string,
         )
+
+    def get_citation_string(self):
+        if self.context.customCitation:
+            return scrubHTML(self.context.customCitation)
+
+        args = {
+            "review_of": api.portal.translate(
+                _("text_review_of", default="review of:")
+            ),
+            "review_in": api.portal.translate(
+                _("text_review_in", default="Review published in:")
+            ),
+            "in:": api.portal.translate(_("text_in", default="in:")),
+            "page": api.portal.translate(_("text_pages", default="p.")),
+            ":": api.portal.translate(_("text_colon", default=":")),
+        }
+        rev_details_formatter = getFormatter(
+            "%(:)s " % args,
+            ", %(in:)s " % args,
+            ", ",
+            " ",
+            ", ",
+            ", %(page)s " % args,
+        )
+        mag_year = getFormatter("/")(
+            self.context.officialYearOfPublication, self.context.yearOfPublication
+        )
+        mag_year = "(" + mag_year + ")" if mag_year else None
+        item_string = rev_details_formatter(
+            IAuthors(self.context).get_formatted_authors(),
+            punctuated_title_and_subtitle(self.context),
+            self.context.titleJournal,
+            self.context.volumeNumber,
+            mag_year,
+            self.context.issueNumber,
+            self.page_start_end_in_print_article,
+        )
+
+        reference_mag = getFormatter(", ", ", ")
+        reference_mag_string = reference_mag(
+            IParentGetter(self.context).get_title_from_parent_of_type("Publication"),
+            IParentGetter(self.context).get_title_from_parent_of_type("Volume"),
+            IParentGetter(self.context).get_title_from_parent_of_type("Issue"),
+        )
+
+        location = self.get_citation_location()
+
+        rezensent_string = get_formatted_names(
+            [rel.to_object for rel in self.context.reviewAuthors], lastname_first=True
+        )
+        citation_formatter = getFormatter(
+            "%(:)s %(review_of)s " % args,
+            ", %(review_in)s " % args,
+            ", %(page)s " % args,
+            ", ",
+        )
+        citation_string = citation_formatter(
+            escape(rezensent_string),
+            escape(item_string),
+            escape(reference_mag_string),
+            self.page_start_end_in_print,
+            location,
+        )
+        return citation_string
 
 
 class ReviewExhibitionView(View):
@@ -820,6 +946,72 @@ class ReviewExhibitionView(View):
             dates_string,
             reviewer_string,
         )
+
+    def get_citation_string(self):
+        if self.context.customCitation:
+            return scrubHTML(self.context.customCitation)
+
+        args = {
+            "review_of": api.portal.translate(
+                _("text_review_of", default="review of:")
+            ),
+            "in": api.portal.translate(_("text_in", default="in:")),
+            "page": api.portal.translate(_("text_pages", default="p.")),
+            ":": api.portal.translate(_("text_colon", default=":")),
+        }
+        rev_details_formatter = getFormatter("%(:)s " % args, ", ", " ")
+        rezensent_string = get_formatted_names(
+            [rel.to_object for rel in self.context.reviewAuthors], lastname_first=True
+        )
+
+        dates_formatter = getFormatter(", ")
+        dates_string = " / ".join(
+            [
+                dates_formatter(
+                    date["place"],
+                    date["runtime"],
+                )
+                for date in self.context.dates
+            ]
+        )
+        permanent_exhib_string = api.portal.translate(
+            _("Dauerausstellung", default="Dauerausstellung")
+        )
+        title_string = getFormatter(". ")(
+            punctuated_title_and_subtitle(self.context),
+            permanent_exhib_string if self.context.isPermanentExhibition else "",
+        )
+        item_string = rev_details_formatter(
+            self.exhibitor,
+            title_string,
+            dates_string,
+        )
+
+        mag_number_formatter = getFormatter(", ", ", ")
+        mag_number_string = mag_number_formatter(
+            IParentGetter(self.context).get_title_from_parent_of_type("Publication"),
+            IParentGetter(self.context).get_title_from_parent_of_type("Volume"),
+            IParentGetter(self.context).get_title_from_parent_of_type("Issue"),
+        )
+
+        location = self.get_citation_location()
+
+        citation_formatter = getFormatter(
+            "%(:)s %(review_of)s " % args,
+            ", %(in)s " % args,
+            ", %(page)s " % args,
+            ", ",
+        )
+
+        citation_string = citation_formatter(
+            escape(rezensent_string),
+            escape(item_string),
+            escape(mag_number_string),
+            self.page_start_end_in_print,
+            location,
+        )
+
+        return citation_string
 
 
 class ReviewJournalView(View):
