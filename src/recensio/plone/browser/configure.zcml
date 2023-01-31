@@ -177,4 +177,12 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <browser:page
+      name="generate-pdf-recension"
+      for="recensio.plone.interfaces.IReview"
+      class=".pdfgen.GeneratePdfRecension"
+      allowed_interface=".pdfgen.IGeneratePdfRecension"
+      permission="zope2.View"
+      />
+
 </configure>

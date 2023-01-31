@@ -416,7 +416,33 @@ class View(BrowserView, CanonicalURLHelper):
         )
 
     def get_review_pdf(self):
-        """XXX."""
+        """Return the uploaded pdf if that doesn't exist return the
+        generatedPdf Blob object otherwise return None.
+
+        Also return the size since it is not easy to get this from the
+        blob directly
+        """
+        pdf = {}
+        size = 0
+        pdf_attribute = getattr(self.context, "pdf", None)
+
+        if pdf_attribute:
+            size = pdf_attribute.getSize()
+            if size > 0:
+                pdf["size"] = size
+                pdf["blob"] = pdf_attribute._blob
+
+        generated_pdf = getattr(self.context, "generatedPdf", None)
+        if size == 0 and generated_pdf:
+            size = generated_pdf.getSize()
+            if size > 0:
+                pdf["size"] = size
+                pdf["blob"] = generated_pdf._blob
+
+        if pdf == {}:
+            return None
+        else:
+            return pdf
 
     def getLicense(self):
         # XXX It might need some tweaks if we port the presentations
