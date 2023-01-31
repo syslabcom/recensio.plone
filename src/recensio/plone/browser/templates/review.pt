@@ -106,11 +106,8 @@
           <p class="download pdf"
              tal:condition="not:context/isUseExternalFulltext|nothing"
           >
-            <a href="PartB.pdf"
+            <a href="${here/absolute_url}/@@generate-pdf-recension?language=${lang}"
                target="_blank"
-               tal:attributes="
-                 href python:context.absolute_url()+'/@@generate-pdf-recension?language='+context.portal_languages.getPreferredLanguage();
-               "
                i18n:translate="download_as"
             >Download as
               <strong>PDF</strong><br />

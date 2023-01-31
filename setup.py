@@ -50,6 +50,7 @@ setup(
         "plone.api",
         "collective.vdexvocabulary",
         "collective.z3cform.datagridfield",
+        "reportlab",
     ],
     extras_require={
         "test": [
