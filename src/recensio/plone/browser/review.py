@@ -14,6 +14,11 @@ from recensio.plone.browser.canonical import CanonicalURLHelper
 from recensio.plone.utils import get_formatted_names
 from recensio.plone.utils import getFormatter
 from recensio.plone.utils import punctuated_title_and_subtitle
+from z3c.form.field import Fields
+from z3c.form.form import DisplayForm
+from z3c.form.interfaces import DISPLAY_MODE
+from z3c.form.interfaces import IWidgets
+from zope.component import getMultiAdapter
 from ZTUtils import make_query
 
 
@@ -45,18 +50,50 @@ class View(BrowserView, CanonicalURLHelper):
 
     @property
     def fields(self):
+        """Get all the fields of all schemata, including behaviors."""
         if self._fields is None:
-            self._fields = {}
+            self._fields = []
             schemata = iterSchemata(self.context)
             for schema in schemata:
                 for attr in schema.names():
-                    self._fields[attr] = schema.get(attr)
+                    self._fields.append(schema.get(attr))
         return self._fields
+
+    _widgets = None
+
+    @property
+    def widgets(self):
+        """Get all the widgets for all the fields fields in display mode.
+
+        Difference to the plone.dexterity DefaultView:
+        - Shows all widgets, regardless of their omit settings.
+        - Does not group the widgets in main and fieldset groups.
+
+        See also:
+        - plone.dexterity.browser.view.DefaultView
+        - plone.autoform.view.WidgetsView
+        - z3c.form.form.DisplayForm
+        """
+        if self._widgets is None:
+            form = DisplayForm(self.context, self.request)
+            form.fields = Fields(*self.fields)
+            widgets = getMultiAdapter((form, self.request, self.context), IWidgets)
+            widgets.mode = DISPLAY_MODE
+            widgets.ignoreContext = False
+            widgets.ignoreReadonly = False
+            widgets.ignoreRequest = True
+            widgets.prefix = ""
+            widgets.update()
+
+            self._widgets = widgets
+            return self._widgets
+
+        return self._widgets
 
     def get_label(self, field):
         """Return the metadata label for a field of a particular
         portal_type."""
-        return self.fields[field].title
+        return self.widgets[field].label
 
     def get_metadata_review_author(self):
         return get_formatted_names(
@@ -132,7 +169,7 @@ class View(BrowserView, CanonicalURLHelper):
 
         for field in self.metadata_fields:
             value = False  # A field is only displayed if it has a value
-            is_macro = False
+            use_widget_view = False
             if field == "get_journal_title":
                 label = _("heading_metadata_journal")
                 value = IParentGetter(self.context).get_title_from_parent_of_type(
@@ -154,7 +191,6 @@ class View(BrowserView, CanonicalURLHelper):
                 label = _("label_metadata_presentation_author")
                 value = self.list_rows(context.reviewAuthors, "lastname", "firstname")
             elif field == "authors":
-
                 label = self.get_label(field)
                 value = self.list_rows(getattr(context, field), "lastname", "firstname")
             elif field == "editorial":
@@ -289,12 +325,11 @@ class View(BrowserView, CanonicalURLHelper):
                 # The macro is used in the template, the value is
                 # used to determine whether to display that row or not
                 value = getattr(context, field) and True or False
-                is_macro = True
-            is_macro  # TODO: flake8 related statement. remove when is_macro is used.
+                use_widget_view = True
             meta[field] = {
                 "label": label,
                 "value": value,
-                "is_macro": False,  # is_macro,  # TODO: provide a widgets view.
+                "use_widget_view": use_widget_view,
             }
         return meta
 
