@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<portlets>
+
+  <assignment category="context"
+              key="/"
+              manager="plone.leftcolumn"
+              name="navigation"
+              remove="True"
+              type="portlets.Classic"
+              visible="False"
+  />
+
+  <assignment category="context"
+              key="/"
+              manager="plone.rightcolumn"
+              name="news"
+              remove="True"
+              type="portlets.News"
+              visible="False"
+  />
+
+  <assignment category="context"
+              key="/"
+              manager="plone.rightcolumn"
+              name="events"
+              remove="True"
+              type="portlets.Events"
+              visible="False"
+  />
+</portlets>
