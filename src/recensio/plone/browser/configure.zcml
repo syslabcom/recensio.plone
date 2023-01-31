@@ -40,6 +40,38 @@
       />
 
   <browser:page
+      name="sorting-menu"
+      for="*"
+      class=".listing.SortingMenuView"
+      template="templates/sorting-menu.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="results-listing"
+      for="*"
+      class=".listing.ResultsListing"
+      template="templates/results-listing.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="latest-review-sections"
+      for="*"
+      class=".listing.ReviewSectionsListing"
+      template="templates/latest-items.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="latest-review-items"
+      for="*"
+      class=".listing.ReviewItemsListing"
+      template="templates/latest-items.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
       name="base_view"
       for="recensio.plone.content.person.IPerson"
       class=".person.BaseView"

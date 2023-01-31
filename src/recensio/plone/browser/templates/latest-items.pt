@@ -1,0 +1,51 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      xml:lang="en"
+      i18n:domain="recensio"
+>
+
+  <body>
+    <metal:main fill-slot="main">
+      <div id="content-core"
+           tal:define="
+             results view/items;
+             rss_url view/rss_url;
+           "
+      >
+        <h1 class="documentFirstHeading">
+          <span tal:content="view/title">
+                Heading
+          </span>
+        </h1>
+
+        <p class="num_search_results">
+          <span i18n:translate="heading_search_results">
+                Search results
+          </span>
+          <span class="discreet">
+            &mdash;
+            <span i18n:translate="batch_x_reviews_matching_your_criteria"><span tal:content="python:len(results)"
+                    tal:omit-tag=""
+                    i18n:name="number"
+              >234</span>
+              reviews matching</span>
+          </span>
+        </p>
+
+        <p metal:use-macro="context/results-listing/macros/rss-link"
+           tal:condition="context/syndication-util/context_allowed"
+        ></p>
+
+        <div metal:use-macro="context/results-listing/macros/results-listing"
+             tal:condition="results"
+        ></div>
+
+      </div>
+
+    </metal:main>
+  </body>
+</html>
