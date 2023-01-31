@@ -1,0 +1,41 @@
+.template-homepage-view .homepage-card img {
+    float: left;
+    margin-top: 4px;
+    margin-right: 10px;
+}
+
+.template-homepage-view .homepage-card {
+    margin-bottom: 1rem;
+    box-shadow: None;
+}
+
+.template-homepage-view .homepage-card a {
+    color:var(--bs-card-color);
+}
+
+.template-homepage-view .homepage-card .card-header a::before {
+    content: "▶";
+    font-size: 1rem;
+}
+
+.template-homepage-view .homepage-card .card-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.template-homepage-view .homepage-card ul {
+    list-style-type: none;
+}
+
+.template-homepage-view .homepage-card a {
+    text-decoration: none;
+}
+
+.template-homepage-view .homepage-card .card-body a:hover {
+    text-decoration: underline;
+}
+
+.template-homepage-view .homepage-card .effective_date {
+    font-size: 0.9rem;
+    color: var(--bs-card-color);
+}
