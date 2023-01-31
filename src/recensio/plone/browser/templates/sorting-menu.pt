@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      xml:lang="en"
+      i18n:domain="recensio"
+>
+  <label class="results-listing__sort_on">
+    <span i18n:translate="sort_by">Sort by</span>
+    <select id="sort_on"
+            name="sort_on"
+    >
+      <tal:loop repeat="item view/sort_options">
+        <option tal:content="item/title"
+                tal:attributes="
+                  value item/url;
+                  selected item/current|nothing;
+                "
+        >title</option>
+      </tal:loop>
+    </select>
+    <script charset="utf-8">
+      var sort_on = document.querySelector("#sort_on");
+      sort_on.addEventListener("change", function (e) {
+            window.location.href = e.target.value;
+      });
+    </script>
+  </label>
+</html>
