@@ -2,6 +2,7 @@ from AccessControl.SecurityManagement import getSecurityManager
 from html import escape
 from plone import api
 from plone.dexterity.utils import iterSchemata
+from plone.memoize.view import memoize
 from Products.Five.browser import BrowserView
 from Products.PortalTransforms.libtransforms.utils import scrubHTML
 from recensio.plone import _
@@ -46,22 +47,19 @@ class View(BrowserView, CanonicalURLHelper):
         # view, depending on the content type.
         raise NotImplementedError("Subclasses must implement this method")
 
-    _fields = None
-
     @property
+    @memoize
     def fields(self):
         """Get all the fields of all schemata, including behaviors."""
-        if self._fields is None:
-            self._fields = []
-            schemata = iterSchemata(self.context)
-            for schema in schemata:
-                for attr in schema.names():
-                    self._fields.append(schema.get(attr))
-        return self._fields
-
-    _widgets = None
+        fields = []
+        schemata = iterSchemata(self.context)
+        for schema in schemata:
+            for attr in schema.names():
+                fields.append(schema.get(attr))
+        return fields
 
     @property
+    @memoize
     def widgets(self):
         """Get all the widgets for all the fields fields in display mode.
 
@@ -74,21 +72,17 @@ class View(BrowserView, CanonicalURLHelper):
         - plone.autoform.view.WidgetsView
         - z3c.form.form.DisplayForm
         """
-        if self._widgets is None:
-            form = DisplayForm(self.context, self.request)
-            form.fields = Fields(*self.fields)
-            widgets = getMultiAdapter((form, self.request, self.context), IWidgets)
-            widgets.mode = DISPLAY_MODE
-            widgets.ignoreContext = False
-            widgets.ignoreReadonly = False
-            widgets.ignoreRequest = True
-            widgets.prefix = ""
-            widgets.update()
+        form = DisplayForm(self.context, self.request)
+        form.fields = Fields(*self.fields)
+        widgets = getMultiAdapter((form, self.request, self.context), IWidgets)
+        widgets.mode = DISPLAY_MODE
+        widgets.ignoreContext = False
+        widgets.ignoreReadonly = False
+        widgets.ignoreRequest = True
+        widgets.prefix = ""
+        widgets.update()
 
-            self._widgets = widgets
-            return self._widgets
-
-        return self._widgets
+        return widgets
 
     def get_label(self, field):
         """Return the metadata label for a field of a particular
