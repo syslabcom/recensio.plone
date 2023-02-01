@@ -4,6 +4,7 @@ from Products.CMFPlone.utils import normalizeString
 from Products.Five.browser import BrowserView
 from recensio.plone import _
 from recensio.plone.config import REVIEW_TYPES
+from recensio.plone.utils import punctuated_title_and_subtitle
 from zope.annotation.interfaces import IAnnotations
 from ZTUtils import make_query
 
@@ -21,6 +22,9 @@ class ResultsListing(BrowserView):
 
 class ListingBase(BrowserView):
     """Base class for listing views."""
+
+    def punctuated_title_and_subtitle(self, obj):
+        return punctuated_title_and_subtitle(obj)
 
     @property
     def rss_url(self):
@@ -106,9 +110,9 @@ class SortingMenuView(BrowserView):
     def _url(self, sortkey, reverse=False):
         q = {}
         q.update(self.request.form)
-        if "sort_on" in q.keys():
+        if "sort_on" in q:
             del q["sort_on"]
-        if "sort_order" in q.keys():
+        if "sort_order" in q:
             del q["sort_order"]
         if sortkey:
             q["sort_on"] = sortkey
