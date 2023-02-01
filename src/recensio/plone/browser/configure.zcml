@@ -31,6 +31,15 @@
       />
 
   <browser:page
+      name="recensio-helper-view"
+      for="*"
+      class=".helper.RecensioHelperView"
+      allowed_interface=".helper.IRecensioHelperView"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
       name="homepage-view"
       for="plone.app.contenttypes.interfaces.IDocument"
       class=".homepage.HomepageView"
