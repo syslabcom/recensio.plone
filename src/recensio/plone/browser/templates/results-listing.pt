@@ -151,9 +151,9 @@
                         </tal:c>
                       </tal:block>
                     </tal:block>
-                    <tal:title-punctuated condition="python: result.punctuated_title_and_subtitle"
-                                          content="python: result.punctuated_title_and_subtitle"
-                    /><tal:title-fallback condition="python: not (re and result_obj.isPermanentExhibition) and not result.punctuated_title_and_subtitle"><tal:block tal:content="python:rhv.punctuated_title(result.pretty_title_or_id(), result.subtitle)" /><tal:block replace="result/subtitle | nothing" /></tal:title-fallback><tal:exhibition condition="re"><tal:permanent-exhibition tal:condition="python: result_obj.isPermanentExhibition"><tal:separator condition="python: result.punctuated_title_and_subtitle">.
+                    <tal:title-punctuated condition="python: view.punctuated_title_and_subtitle(result_obj)"
+                                          content="python: view.punctuated_title_and_subtitle(result_obj)"
+                    /><tal:title-fallback condition="python: not (re and result_obj.isPermanentExhibition) and not view.punctuated_title_and_subtitle(result_obj)"><tal:block tal:content="python:rhv.punctuated_title(result.pretty_title_or_id(), result.subtitle)" /><tal:block replace="result/subtitle | nothing" /></tal:title-fallback><tal:exhibition condition="re"><tal:permanent-exhibition tal:condition="python: result_obj.isPermanentExhibition"><tal:separator condition="python: result.punctuated_title_and_subtitle">.
                         </tal:separator><span i18n:translate="">Dauerausstellung</span></tal:permanent-exhibition></tal:exhibition></a><tal:dates condition="result/listDates|nothing">,
                     <span tal:content="result/listDates"></span></tal:dates><tal:block tal:condition="python: not (rj or re) and year or False">,</tal:block>
                   <tal:rj tal:condition="rj"><span tal:content="string:${result_obj/getVolumeNumber}"

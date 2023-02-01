@@ -48,6 +48,8 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <!-- Listing views -->
+
   <browser:page
       name="sorting-menu"
       for="*"

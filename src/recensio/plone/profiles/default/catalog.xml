@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object meta_type="Plone Catalog Tool"
+        name="portal_catalog"
+>
+  <index meta_type="KeywordIndex"
+         name="authorsUID"
+  >
+    <indexed_attr value="getAllAuthorDataUID" />
+  </index>
+  <column value="listAuthorsAndEditors" />
+  <column value="authorsUID" />
+</object>
