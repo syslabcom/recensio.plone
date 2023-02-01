@@ -40,6 +40,15 @@
       />
 
   <browser:page
+      name="gnd-view"
+      for="*"
+      class=".gnd.GNDView"
+      allowed_attributes="createPerson"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
       name="sorting-menu"
       for="*"
       class=".listing.SortingMenuView"
