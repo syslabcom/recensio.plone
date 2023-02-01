@@ -15,6 +15,7 @@
   <div metal:fill-slot="content-core">
     <div class="row">
       <div class="col-8">
+
         <div id="review"
              tal:define="
                searchresults context/getSearchresults | nothing;
@@ -159,6 +160,7 @@
         <div tal:define="
                metadata_field_names view/metadata_fields;
                metadata view/get_metadata;
+               widgets view/widgets;
              ">
           <span class="Z3988"
                 title="${view/get_metadata_context_object}"
@@ -185,19 +187,26 @@
                   <div class="card-body accordion-content">
                     <dl>
                       <tal:field_names repeat="field_name metadata_field_names">
-                        <tal:has_value condition="python:metadata[field_name]['value']">
-                          <dt tal:content="python:metadata[field_name]['label']">
-                            Editor (name or institution)
+                        <tal:def define="
+                                   data python:metadata[field_name];
+                                   use_widget_view data/use_widget_view;
+                                   widget python:widgets.get(field_name);
+                                 "
+                                 condition="data/value"
+                        >
+                          <dt>
+                              ${data/label}
                           </dt>
-                          <dd tal:condition="python: metadata[field_name]['is_macro']">
-                            <metal:val use-macro="python: context.widget(field_name, mode='view')" />
-                          </dd>
-                          <dd tal:condition="python: not metadata[field_name]['is_macro']"
-                              tal:content="structure python: metadata[field_name]['value']"
-                          >
-                            Frank Severin
-                          </dd>
-                        </tal:has_value>
+
+                          <tal:widget switch="python:bool(use_widget_view and widget)">
+                            <dd tal:case="True">
+                              <tal:rep replace="structure widget/render" />
+                            </dd>
+                            <dd tal:case="default">
+                              <tal:rep replace="structure data/value" />
+                            </dd>
+                          </tal:widget>
+                        </tal:def>
                       </tal:field_names>
                     </dl>
                   </div>
