@@ -29,3 +29,15 @@
 .pat-structure .itemRow.folder .title a {
     color: var(--bs-link-color);
 }
+
+#edit-zone .dropdown-header {
+    background: var(--bs-primary);
+}
+
+#edit-zone .dropdown-item:focus,
+#edit-zone .dropdown-item:hover,
+#edit-zone .nav-link:focus,
+#edit-zone .nav-link:hover {
+    background: var(--bs-primary);
+    color: var(--plone-toolbar-text-color);
+}
