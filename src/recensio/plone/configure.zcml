@@ -40,6 +40,7 @@
   <include package=".migration" />
   <include package=".subscribers" />
   <include package=".upgrades" />
+  <include package=".viewlets" />
   <include package=".vocabularies" />
 
   <utility

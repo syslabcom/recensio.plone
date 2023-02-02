@@ -1,0 +1,31 @@
+:root {
+    --bs-primary: #e8e1d0;
+    --bs-link-color: #7f4b2b;
+    --plone-toolbar-text-color: var(--bs-dark);
+    --plone-link-color: #7f4b2b;
+}
+
+.navbar-barceloneta {
+    --bs-navbar-background: #e8e1d0;
+    --bs-navbar-color: #7f4b2b;
+}
+
+.btn-outline-light {
+    --bs-btn-color: #7f4b2b;
+}
+
+#edit-zone .dropdown-item,
+#edit-zone .nav-link {
+    color: var(--bs-white);
+}
+
+#portal-footer-wrapper {
+    background-color: #f4f1ea;
+    color: #58595b;
+    text-align: center;
+    padding: 1rem;
+}
+
+.pat-structure .itemRow.folder .title a {
+    color: var(--bs-link-color);
+}

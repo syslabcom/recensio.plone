@@ -1,0 +1,6 @@
+<!-- add a css file to the page, might need a cache buster -->
+<link href="${here/portal_url}/++resource++recensio.theme.styles/main.css"
+      media="all"
+      rel="stylesheet"
+      type="text/css"
+/>
