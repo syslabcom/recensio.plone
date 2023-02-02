@@ -8,6 +8,7 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from recensio.plone.browser.helper import CrossPlatformMixin
+from string import ascii_uppercase
 
 import logging
 
@@ -29,34 +30,7 @@ class AuthorSearchView(BrowserView, CrossPlatformMixin):
     """Dynamic elements on the homepage."""
 
     template = ViewPageTemplateFile("templates/authorsearch.pt")
-    ALPHABET = [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M",
-        "N",
-        "O",
-        "P",
-        "Q",
-        "R",
-        "S",
-        "T",
-        "U",
-        "V",
-        "W",
-        "X",
-        "Y",
-        "Z",
-    ]
+    ALPHABET = ascii_uppercase
 
     def __call__(self):
         self.request.set("disable_border", True)
@@ -71,12 +45,13 @@ class AuthorSearchView(BrowserView, CrossPlatformMixin):
             letter = self.request.get("letter")
             if not letter:
                 return 0
+            # XXX this is way too clever
             letter = letter.lower()
             catalog = getToolByName(self.context, "portal_catalog")
             query = {
                 "portal_type": "Person",
                 "b_start": 0,
-                "b_size": 0,
+                "b_size": int(self.request.get("b_size", 30)),
                 "sort_on": "sortable_title",
                 "fl": "Title",
             }

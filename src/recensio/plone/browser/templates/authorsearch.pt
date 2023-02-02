@@ -61,20 +61,18 @@
       >
 
         <form class="crossportalsearchform">
-          <input name="authors"
+          <input ;=""
+                 name="authors"
                  type="hidden"
-                 tal:attributes="
-                   value request/authors|nothing;
-                 "
+                 value="${request/authors|nothing}"
           />
+          <!-- XXX pat-forward? -->
           <input id="use_navigation_root"
+                 checked="${python:((not request.get('use_navigation_root', 1)) ) and 'checked' or ''}"
                  name="use_navigation_root:boolean"
                  onclick="jq('.crossportalsearchform').submit()"
                  type="checkbox"
                  value="False"
-                 tal:attributes="
-                   checked python:((not request.get('use_navigation_root', 1)) ) and 'checked' or '';
-                 "
           />
           <label for="use_navigation_root"
                  i18n:translate=""
@@ -114,7 +112,7 @@
             <a href="#"
                tal:content="letter"
                tal:attributes="
-                 href python:context.absolute_url() + '?letter=' + letter + '&use_navigation_root:boolean=' + str(request.get('use_navigation_root', True));
+                 href python:request.getURL() + '?letter=' + letter + '&use_navigation_root:boolean=' + str(request.get('use_navigation_root', True));
                "
             ></a>
           </tal:block>
@@ -144,13 +142,8 @@
                   <div class="authorsearch_placeholder"></div>
                 </li>
                 <li class="inline_listing">
-                  <a href="."
+                  <a href="${portal_url}/search?authorsUID=${author/UID}&amp;advanced_search:boolean=True&amp;use_navigation_root:boolean=${use_navigation_root}"
                      title="All reviews of this author"
-                     tal:attributes="
-                       href string:$portal_url/search?authorsUID=%22${author/UID}%22&amp;
-                       advanced_search:boolean=True&amp;
-                       use_navigation_root:boolean=${use_navigation_root};
-                     "
                      i18n:attributes="title label_all_reviews_author"
                   >
                     <img alt="All reviews of this author"
@@ -163,14 +156,9 @@
                   <div class="authorsearch_placeholder"></div>
                 </li>
                 <li class="inline_listing authorname">
-                  <a href="."
+                  <a href="${portal_url}/search?authorsUID=${author/UID}&amp;advanced_search:boolean=True&amp;use_navigation_root:boolean=${use_navigation_root}"
                      title="All items of this author"
                      tal:content="author/Title"
-                     tal:attributes="
-                       href string:$portal_url/search?authorsUID=%22${author/UID}%22&amp;
-                       advanced_search:boolean=True&amp;
-                       use_navigation_root:boolean=${use_navigation_root};
-                     "
                      i18n:attributes="title label_all_items_author"
                   >Author</a>
                 </li>
