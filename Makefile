@@ -26,7 +26,7 @@ py3/bin/pip3:
 check: .installed.cfg
 	./py3/bin/pre-commit run --all-files
 	./bin/coverage run ./bin/test -s recensio.plone
-	./bin/coverage report --fail-under=1 -i
+	./bin/coverage report --fail-under=10 -i
 
 
 .PHONY: clean
