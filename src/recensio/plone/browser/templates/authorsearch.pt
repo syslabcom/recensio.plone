@@ -52,7 +52,7 @@
              Batch python:modules['Products.CMFPlone'].Batch;
              b_size python:30;
              b_size request/b_size | b_size;
-             b_start python:view.get_b_start();
+             b_start request/b_start|python:0;
              batch python:Batch(view.authors, b_size, int(b_start), orphan=0);
              column_size python:int(b_size/3);
              columns python:[Batch(batch, column_size, start) for start in range(0, len(batch), column_size)];
@@ -112,7 +112,7 @@
             <a href="#"
                tal:content="letter"
                tal:attributes="
-                 href python:request.getURL() + '?letter=' + letter + '&use_navigation_root:boolean=' + str(request.get('use_navigation_root', True));
+                 href python:request.getURL() + '?authors=' + letter + '*&use_navigation_root:boolean=' + str(request.get('use_navigation_root', True));
                "
             ></a>
           </tal:block>
