@@ -6,4 +6,16 @@
       handler=".simple_publication_workflow.mail_after_publication"
       />
 
+  <subscriber
+      for="recensio.plone.interfaces.IReview
+           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+      handler=".review.review_pdf_updated_eventhandler"
+      />
+
+  <subscriber
+      for="recensio.plone.interfaces.IReview
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".review.review_pdf_updated_eventhandler"
+      />
+
 </configure>
