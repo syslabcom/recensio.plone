@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    >
+
+  <browser:viewlet
+      name="recensio.plone.styles"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IHtmlHeadLinks"
+      template="templates/recensio_styles.pt"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+</configure>
