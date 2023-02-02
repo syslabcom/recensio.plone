@@ -4,9 +4,7 @@
 >
   <index meta_type="KeywordIndex"
          name="authorsUID"
-  >
-    <indexed_attr value="getAllAuthorDataUID" />
-  </index>
+  />
   <column value="listAuthorsAndEditors" />
   <column value="authorsUID" />
 </object>
