@@ -1,3 +1,24 @@
+/* pat-toggle accordion */
+
+.accordion-item .accordion-content {
+    transition: height 0.5s ease-out;
+}
+.accordion-item.closed .accordion-content {
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+}
+.accordion-item .card-header .pat-toggle:before {
+    content: "▼";
+    width: 1.5em;
+    display: inline-block;
+}
+.accordion-item.closed .card-header .pat-toggle:before {
+    content: "▶";
+}
+
+/* pat-collapsible */
+
 .pat-collapsible {
     margin-bottom: 0.5em;
 }
