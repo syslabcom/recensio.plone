@@ -13,6 +13,12 @@
       />
 
   <browser:resourceDirectory
+      name="recensio.theme.bundles"
+      directory="bundles"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:resourceDirectory
       name="recensio.theme.images"
       directory="images"
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
