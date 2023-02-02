@@ -1,0 +1,193 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      xml:lang="en"
+      i18n:domain="recensio"
+>
+
+  <head>
+    <metal:block fill-slot="top_slot"
+                 tal:define="
+                   dummy python:request.set('disable_border',1);
+                   disable_column_one python:request.set('disable_plone.leftcolumn',1);
+                   disable_column_two python:request.set('disable_plone.rightcolumn',1);
+                 "
+    />
+  </head>
+  <body>
+
+    <metal:main fill-slot="main"
+                tal:define="
+                  ploneview python:context.restrictedTraverse('@@plone');
+                "
+    >
+      <div id="authorsearch-description">
+        <h1 i18n:translate="">Autorensuche</h1>
+        <p class="description"
+           i18n:translate="description_authorsearch_1"
+        >
+          Sie finden hier die Autorinnen und Autoren von auf
+          <span tal:replace="view/portal_title"
+                i18n:name="portal_title"
+          >recensio.net</span>
+          publizierten Rezensionen
+          <span tal:omit-tag=""
+                i18n:name="and_comments"
+          ></span>
+          sowie die Autoren von hier rezensierten Werken.
+        </p>
+        <p class="description"
+           i18n:translate="description_authorsearch_2"
+        >
+          Mit einem Klick auf den Autornamen erhalten Sie alle von
+          einem Autor publizierten Texte.
+        </p>
+      </div>
+
+      <div class="authorsearch"
+           tal:define="
+             Batch python:modules['Products.CMFPlone'].Batch;
+             b_size python:30;
+             b_size request/b_size | b_size;
+             b_start python:view.get_b_start();
+             batch python:Batch(view.authors, b_size, int(b_start), orphan=0);
+             column_size python:int(b_size/3);
+             columns python:[Batch(batch, column_size, start) for start in range(0, len(batch), column_size)];
+             portal_url context/portal_url;
+           "
+      >
+
+        <form class="crossportalsearchform">
+          <input name="authors"
+                 type="hidden"
+                 tal:attributes="
+                   value request/authors|nothing;
+                 "
+          />
+          <input id="use_navigation_root"
+                 name="use_navigation_root:boolean"
+                 onclick="jq('.crossportalsearchform').submit()"
+                 type="checkbox"
+                 value="False"
+                 tal:attributes="
+                   checked python:((not request.get('use_navigation_root', 1)) ) and 'checked' or '';
+                 "
+          />
+          <label for="use_navigation_root"
+                 i18n:translate=""
+          >Portal&uuml;bergreifender Autorenindex:
+          </label><tal:portals replace="structure view/get_portal_link_snippet"><a href="http://www.recensio.net">recensio.net</a>,
+            <a href="http://www.recensio.antiquitatis.net">recensio.antiquitatis</a></tal:portals>
+        </form>
+
+        <div id="authorsearch-query">
+          <form class="authorsearchform">
+            <input class="text"
+                   name="authors"
+                   placeholder="authorsearch_placeholder"
+                   type="text"
+                   tal:attributes="
+                     value request/authors|nothing;
+                   "
+                   i18n:attributes="placeholder"
+            />
+            <input name="use_navigation_root:boolean"
+                   type="hidden"
+                   value="True"
+                   tal:attributes="
+                     value request/use_navigation_root|python:True;
+                   "
+            />
+            <input class="submit"
+                   type="submit"
+                   value="Search"
+                   i18n:attributes="value"
+            />
+          </form>
+        </div>
+
+        <div id="authorsearch-alphabet">
+          <tal:block repeat="letter view/ALPHABET">
+            <a href="#"
+               tal:content="letter"
+               tal:attributes="
+                 href python:context.absolute_url() + '?letter=' + letter + '&use_navigation_root:boolean=' + str(request.get('use_navigation_root', True));
+               "
+            ></a>
+          </tal:block>
+        </div>
+
+        <div id="no_authors"
+             tal:condition="not: view/authors"
+             i18n:translate="label_no_authors_found"
+        >
+          Es wurden keine Autoren gefunden, die Ihren Kriterien entsprechen.
+        </div>
+
+        <div class="column"
+             tal:repeat="column columns"
+        >
+          <ul class="authors"
+              tal:define="
+                use_navigation_root request/use_navigation_root|python:True;
+              "
+              tal:condition="view/authors"
+          >
+            <li class="author"
+                tal:repeat="author column"
+            >
+              <ul tal:condition="author/UID|nothing">
+                <li class="inline_listing">
+                  <div class="authorsearch_placeholder"></div>
+                </li>
+                <li class="inline_listing">
+                  <a href="."
+                     title="All reviews of this author"
+                     tal:attributes="
+                       href string:$portal_url/search?authorsUID=%22${author/UID}%22&amp;
+                       advanced_search:boolean=True&amp;
+                       use_navigation_root:boolean=${use_navigation_root};
+                     "
+                     i18n:attributes="title label_all_reviews_author"
+                  >
+                    <img alt="All reviews of this author"
+                         src="++resource++recensio.theme.images/Aufsaetze.png"
+                         i18n:attributes="alt label_all_reviews_author"
+                    />
+                  </a>
+                </li>
+                <li class="inline_listing">
+                  <div class="authorsearch_placeholder"></div>
+                </li>
+                <li class="inline_listing authorname">
+                  <a href="."
+                     title="All items of this author"
+                     tal:content="author/Title"
+                     tal:attributes="
+                       href string:$portal_url/search?authorsUID=%22${author/UID}%22&amp;
+                       advanced_search:boolean=True&amp;
+                       use_navigation_root:boolean=${use_navigation_root};
+                     "
+                     i18n:attributes="title label_all_items_author"
+                  >Author</a>
+                </li>
+              </ul>
+            </li>
+            <div class="visualClear"></div>
+          </ul>
+        </div>
+
+        <div class="visualClear"></div>
+
+
+        <div metal:use-macro="context/batch_macros/macros/navigation"></div>
+
+      </div>
+
+    </metal:main>
+
+  </body>
+</html>

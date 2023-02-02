@@ -57,6 +57,14 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <browser:page
+      name="authorsearch"
+      for="*"
+      class=".authorsearch.AuthorSearchView"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
   <!-- Listing views -->
 
   <browser:page
