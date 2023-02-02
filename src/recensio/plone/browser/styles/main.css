@@ -26,6 +26,7 @@
     padding: 1rem;
 }
 
+.pat-structure table.dataTable tr td.actionmenu-container .btn,
 .pat-structure .itemRow.folder .title a {
     color: var(--bs-link-color);
 }
