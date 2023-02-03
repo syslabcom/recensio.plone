@@ -1,8 +1,5 @@
 from Products.Five.browser import BrowserView
-
-
-def review_pdf_updated_eventhandler(obj, event):
-    """XXX: replace me with the proper handler"""
+from recensio.plone.subscribers.review import review_pdf_updated_eventhandler
 
 
 class Pageviewer(BrowserView):
