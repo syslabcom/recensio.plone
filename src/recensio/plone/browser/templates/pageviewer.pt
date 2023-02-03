@@ -1,0 +1,16 @@
+<tal:def define="
+           base_url context/absolute_url;
+           num_pages view/get_no_pages;
+         ">
+  <tal:loop tal:repeat="cnt python:range(num_pages)">
+    <div style="${python: 'display: none' if id != 1 else ''}"
+         tal:define="
+           id python: cnt+1;
+         "
+    >
+      <img alt="Review page ${id}"
+           src="${base_url}/get_page_image?no:int=${id}"
+      />
+    </div>
+  </tal:loop>
+</tal:def>
