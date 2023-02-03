@@ -404,14 +404,12 @@ class View(BrowserView, CanonicalURLHelper):
                 ]
         return published_reviews
 
-    def get_preview_img_url(self):
+    def cover_picture_url(self):
         """Return cover picture or first page."""
         coverPicture = getattr(self.context, "coverPicture", None)
         if coverPicture:
-            target = "coverPicture"
-        else:
-            target = "get_page_image?no:int=1"
-        return f"{self.context.absolute_url()}/{target}"
+            return f"{self.context.absolute_url()}/coverPicture"
+        return None
 
     @property
     def do_visit_canonical_uri(self):

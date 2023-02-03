@@ -159,6 +159,7 @@
       name="pageviewer"
       for="recensio.plone.interfaces.IReview"
       class=".pageviewer.Pageviewer"
+      template="templates/pageviewer.pt"
       permission="zope2.View"
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />

@@ -26,15 +26,25 @@
       ${searchresults}
           </p>
 
-          <tal:if condition="context/@@pageviewer/get_no_pages">
-            <a class="iframe"
-               id="preview-image"
-               href="${here/absolute_url}/@@pageviewer"
-               rel="contactSheet"
-               tal:condition="not:view/isUseExternalFulltext"
+          <tal:if condition="not:view/isUseExternalFulltext">
+            <tal:images define="
+                          pageviewer nocall:context/@@pageviewer;
+                          num_pages pageviewer/get_no_pages;
+                          cover_picture_url context/coverPicture|nothing;
+                        "
+                        condition="python: num_pages or cover_picture_url"
             >
-              <img src="${view/get_preview_img_url}" />
-            </a>
+              <div class="pat-gallery"
+                   data-pat-gallery="item-selector: img"
+              >
+                <img src="${cover_picture_url}"
+                     tal:condition="cover_picture_url"
+                />
+                <tal:gallery condition="num_pages"
+                             replace="structure pageviewer"
+                />
+              </div>
+            </tal:images>
           </tal:if>
 
           <a id="cover-image"
