@@ -37,7 +37,7 @@
              id="rowTop"
         >
 
-          <div class="col-6">
+          <div class="col-md-6">
             <div class="card homepage-card">
               <div class="card-header">
                 <a class="one-line"
@@ -102,7 +102,7 @@
             </div>
           </div>
 
-          <div class="col-6">
+          <div class="col-md-6">
             <div class="card homepage-card">
               <div class="card-header">
                 <a class="one-line"
