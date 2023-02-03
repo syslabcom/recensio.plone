@@ -1,0 +1,65 @@
+<section xmlns="http://www.w3.org/1999/xhtml"
+         xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+         xmlns:tal="http://xml.zope.org/namespaces/tal"
+         id="section-next-prev"
+         tal:define="
+           enabled view/enabled|nothing;
+           isViewTemplate view/isViewTemplate|nothing;
+         "
+         tal:condition="python:enabled and isViewTemplate"
+         i18n:domain="recensio"
+>
+
+  <tal:block define="
+               portal_url view/site_url;
+             ">
+
+    <nav class="pagination justify-content-${python: 'between' if previous else 'end'}"
+         tal:define="
+           next view/next;
+           previous view/previous;
+         "
+         tal:condition="python:previous is not None or next is not None"
+    >
+
+      <tal:previous condition="previous">
+        <a class="btn btn-sm btn-outline-secondary align-self-start previous"
+           title="Go to previous item"
+           tal:attributes="
+             href previous/url;
+           "
+           i18n:attributes="title title_previous_item"
+        >
+          &laquo;
+          <span tal:omit-tag=""
+                i18n:domain="recensio"
+                i18n:translate="label_previous_review_item"
+          >
+            Previous:
+          </span>
+        </a>
+      </tal:previous>
+
+
+      <a class="btn btn-sm btn-outline-secondary align-self-end next"
+         href=""
+         title="Go to next item"
+         tal:condition="next"
+         tal:attributes="
+           href next/url;
+         "
+         i18n:attributes="title title_next_item"
+      >
+        <span tal:omit-tag=""
+              i18n:domain="recensio"
+              i18n:translate="label_next_review_item"
+        >
+          Next:
+        </span>
+        &raquo;
+      </a>
+    </nav>
+
+  </tal:block>
+
+</section>

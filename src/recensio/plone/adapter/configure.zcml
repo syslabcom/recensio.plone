@@ -35,4 +35,7 @@
       name="authorsUID"
       />
 
+  <adapter factory=".nextprevious.RecensioVolumeNextPrevious" />
+  <adapter factory=".nextprevious.RecensioIssueNextPrevious" />
+
 </configure>

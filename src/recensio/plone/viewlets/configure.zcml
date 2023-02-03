@@ -12,4 +12,14 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <browser:viewlet
+      name="plone.nextprevious"
+      for="recensio.plone.interfaces.IReview"
+      manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+      class="plone.app.layout.nextprevious.view.NextPreviousViewlet"
+      template="templates/nextprevious.pt"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
 </configure>
