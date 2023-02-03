@@ -1,3 +1,9 @@
+/* pat-gallery */
+
+.pat-gallery img {
+    cursor: pointer;
+}
+
 /* pat-toggle accordion */
 
 /* Note:
