@@ -175,7 +175,7 @@
 
                     <a class="pat-toggle"
                        href="#metadata"
-                       data-pat-toggle="selector: #metadata; value: closed"
+                       data-pat-toggle="target: #metadata; value: closed"
                     >
                       <tal:heading i18n:translate="metadata">Metadata</tal:heading>
                     </a>
@@ -216,7 +216,7 @@
                   <div class="card-header">
                     <a class="pat-toggle"
                        href="#citation"
-                       data-pat-toggle="selector: #citation; value: closed"
+                       data-pat-toggle="target: #citation; value: closed"
                     >
                       <tal:heading i18n:translate="citation_note">Zitierhinweise</tal:heading>
                     </a>
@@ -252,7 +252,7 @@
                   <div class="card-header">
                     <a class="pat-toggle"
                        href="#license"
-                       data-pat-toggle="selector: #license; value: closed"
+                       data-pat-toggle="target: #license; value: closed"
                     >
                       <tal:heading i18n:translate="license-note-heading">Lizenzhinweis:</tal:heading>
                     </a>
@@ -283,7 +283,7 @@
                   <div class="card-header">
                     <a class="pat-toggle"
                        href="#online-publication"
-                       data-pat-toggle="selector: #online-publication; value: closed"
+                       data-pat-toggle="target: #online-publication; value: closed"
                     >
                       <tal:heading i18n:translate="links-box-heading">Links</tal:heading>
                     </a>
