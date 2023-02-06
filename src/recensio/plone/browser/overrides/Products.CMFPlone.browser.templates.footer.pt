@@ -1,0 +1,39 @@
+<div class="row"
+     tal:define="
+       portal_url context/portal_url;
+     "
+     i18n:domain="recensio"
+>
+  <div class="column_footer col-xs-12">
+
+    <div>
+      <a href="http://www.bsb-muenchen.de/"><img alt="Logo der Bayerischen Staatsbibliothek"
+             src="${here/portal_url}/++resource++recensio.theme.images/logos/bsb_logo.gif"
+        /></a>
+    </div>
+  </div>
+  <div id="notes"
+       tal:define="
+         language context/@@plone_portal_state/language;
+         lang_suffix python:language != 'de' and '-'+language or '';
+       "
+  >
+    <a href="#"
+       tal:attributes="
+         href string:${portal_url}/impressum${lang_suffix};
+       "
+    >Impressum</a>
+    <a href="#"
+       tal:attributes="
+         href string:${portal_url}/datenschutz${lang_suffix};
+       "
+       i18n:translate="label_footer_datenschutz"
+    >Datenschutzerkl&auml;rung</a>
+    <a href="#"
+       tal:attributes="
+         href string:${portal_url}/accessibility${lang_suffix};
+       "
+       i18n:translate="label_footer_accessibility"
+    >Barrierefreiheit</a>
+  </div>
+</div>
