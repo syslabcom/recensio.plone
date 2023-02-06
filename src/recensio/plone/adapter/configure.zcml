@@ -35,6 +35,21 @@
       name="authorsUID"
       />
 
+  <adapter
+      factory=".indexer.listAuthors"
+      name="listAuthors"
+      />
+
+  <adapter
+      factory=".indexer.listAuthorsAndEditors"
+      name="listAuthorsAndEditors"
+      />
+
+  <adapter
+      factory=".indexer.listReviewAuthors"
+      name="listReviewAuthors"
+      />
+
   <adapter factory=".nextprevious.RecensioVolumeNextPrevious" />
   <adapter factory=".nextprevious.RecensioIssueNextPrevious" />
 

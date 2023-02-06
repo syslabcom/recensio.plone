@@ -5,6 +5,8 @@
   <index meta_type="KeywordIndex"
          name="authorsUID"
   />
-  <column value="listAuthorsAndEditors" />
   <column value="authorsUID" />
+  <column value="listAuthors" />
+  <column value="listAuthorsAndEditors" />
+  <column value="listReviewAuthors" />
 </object>
