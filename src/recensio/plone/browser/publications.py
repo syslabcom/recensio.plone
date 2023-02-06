@@ -16,9 +16,11 @@ class PublicationsView(BrowserView, CanonicalURLHelper):
     def brain_to_pub(self, brain, lang):
         pubob = brain.getObject()
         if "logo" in pubob.objectIds():
-            logourl = brain.getPath() + "/logo/image_thumb"
+            logo_path = brain.getPath() + "/logo/image_thumb"
         else:
-            logourl = self.context.portal_url.getPortalPath() + "/empty_publication.jpg"
+            logo_path = (
+                self.context.portal_url.getPortalPath() + "/empty_publication.jpg"
+            )
         if pubob.getDefaultPage():
             defob = getattr(pubob, pubob.getDefaultPage())
             # XXX restore this line when we have an alternative to getTranslation
@@ -27,8 +29,8 @@ class PublicationsView(BrowserView, CanonicalURLHelper):
             defob = pubob
         title = defob and defob.Title() != "" and defob.Title() or pubob.Title()
         desc = defob and defob.Description() or pubob.Description()
-        morelink = defob and "/".join(defob.getPhysicalPath()) or ""
-        return dict(title=title, desc=desc, logo=logourl, link=morelink)
+        path = defob and "/".join(defob.getPhysicalPath()) or ""
+        return dict(title=title, desc=desc, logo_path=logo_path, path=path)
 
     def publications(self):
         pc = self.context.portal_catalog
@@ -42,8 +44,8 @@ class PublicationsView(BrowserView, CanonicalURLHelper):
         )
         for pub in pubs:
             info = self.brain_to_pub(pub, currlang)
-            info["logo"] = self.request.physicalPathToURL(info["logo"])
-            info["link"] = self.request.physicalPathToURL(info["link"])
+            info["logo"] = self.request.physicalPathToURL(info["logo_path"])
+            info["link"] = self.request.physicalPathToURL(info["path"])
             publist.append(info)
         return publist
 
