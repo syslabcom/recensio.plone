@@ -4,6 +4,40 @@
      "
      i18n:domain="recensio"
 >
+  <div id="socialmedia-fuss col-xs-12"
+       tal:define="
+         portal_title here/plone_portal_state/portal_title;
+       "
+  >
+    <a href="https://www.facebook.com/sharer/sharer.php?u=${portal_url}"
+       target="_blank"
+       title="${portal_title}' auf Facebook teilen"
+    >
+      <img alt="facebook"
+           height="36px"
+           src="${portal_url}/++resource++recensio.theme.images/socialmedia_fuss/fb_fuss.jpg"
+           width="42px"
+      /></a>
+    <a href="http://twitter.com/home?status=${portal_url}"
+       target="_blank"
+       title="'${portal_title}' auf Twitter teilen"
+    >
+      <img alt="Twitter"
+           height="36px"
+           src="${portal_url}/++resource++recensio.theme.images/socialmedia_fuss/twitter_fuss.jpg"
+           width="55px"
+      /></a>
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=${portal_url}"
+       target="_blank"
+       title="'${portal_title}' auf linkedin teilen"
+    >
+      <img alt="linkedin"
+           height="36px"
+           src="${portal_url}/++resource++recensio.theme.images/socialmedia_fuss/linkedin_fuss.jpg"
+           width="53px"
+      /></a>
+  </div>
+
   <div class="column_footer col-xs-12">
 
     <div>
