@@ -34,6 +34,7 @@
           <langstring language="fr">Islande</langstring>
         </caption>
       </term>
+      <!-- ValueError: Term values must be unique: '48'
       <term>
         <termIdentifier>48</termIdentifier>
         <caption>
@@ -42,6 +43,7 @@
           <langstring language="fr">Pays scandinaves</langstring>
         </caption>
       </term>
+      -->
       <term>
         <termIdentifier>479</termIdentifier>
         <caption>
@@ -98,6 +100,7 @@
           <langstring language="fr">Belgique</langstring>
         </caption>
       </term>
+      <!-- ValueError: Term values must be unique: '493'
       <term>
         <termIdentifier>493</termIdentifier>
         <caption>
@@ -106,6 +109,7 @@
           <langstring language="fr">Luxembourg</langstring>
         </caption>
       </term>
+      -->
       <term>
         <termIdentifier>44</termIdentifier>
         <caption>
@@ -563,6 +567,7 @@
       <langstring language="en">America</langstring>
       <langstring language="fr">Am&#233;rique</langstring>
     </caption>
+      <!-- ValueError: Term values must be unique: '7'
     <term>
       <termIdentifier>7</termIdentifier>
       <caption>
@@ -570,6 +575,7 @@
         <langstring language="en">North America</langstring>
         <langstring language="fr">Am&#233;rique du Nord</langstring>
       </caption>
+      -->
       <term>
         <termIdentifier>73</termIdentifier>
         <caption>
@@ -586,7 +592,9 @@
           <langstring language="fr">Canada</langstring>
         </caption>
       </term>
+      <!-- ValueError: Term values must be unique: '7'
     </term>
+      -->
     <term>
       <termIdentifier>72</termIdentifier>
       <caption>
