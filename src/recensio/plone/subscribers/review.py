@@ -215,6 +215,8 @@ def update_generated_pdf(obj):
                 review = obj.review
                 # Insert the review into a template so we have a
                 # valid html file
+                if not review:
+                    return
                 data = HTML_TEMPLATE.substitute(body=review.output_relative_to(obj))
 
                 with NamedTemporaryFile() as tmp_input:
