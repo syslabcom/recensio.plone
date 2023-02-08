@@ -5,6 +5,21 @@
   <index meta_type="KeywordIndex"
          name="authorsUID"
   />
+  <index meta_type="KeywordIndex"
+         name="ddcSubject"
+  >
+    <indexed_attr value="ddcSubject" />
+  </index>
+  <index meta_type="KeywordIndex"
+         name="ddcTime"
+  >
+    <indexed_attr value="ddcTime" />
+  </index>
+  <index meta_type="KeywordIndex"
+         name="ddcPlace"
+  >
+    <indexed_attr value="ddcPlace" />
+  </index>
   <column value="authorsUID" />
   <column value="listAuthors" />
   <column value="listAuthorsAndEditors" />
