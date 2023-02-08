@@ -40,6 +40,17 @@ def ddcPlace(obj):
     )
 
 
+@indexer(IReview)
+def isbn(obj):
+    isbn = getattr(obj, "isbn", "") or getattr(obj, "issn", "")
+    isbn = "".join(isbn.split("-"))
+    isbn = "".join(isbn.split(" "))
+    isbn_online = getattr(obj, "isbn_online", "") or getattr(obj, "issn_online", "")
+    isbn_online = "".join(isbn_online.split("-"))
+    isbn_online = "".join(isbn_online.split(" "))
+    return [val for val in [isbn, isbn_online] if val]
+
+
 def _listAuthors(obj, listEditors=False):
     if not getattr(obj, "authors", None):
         return []
