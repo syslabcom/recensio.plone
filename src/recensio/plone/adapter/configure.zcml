@@ -45,6 +45,11 @@
       />
 
   <adapter
+      factory=".indexer.isbn"
+      name="isbn"
+      />
+
+  <adapter
       factory=".indexer.listAuthors"
       name="listAuthors"
       />

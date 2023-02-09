@@ -20,6 +20,12 @@
   >
     <indexed_attr value="ddcPlace" />
   </index>
+  <index meta_type="KeywordIndex"
+         name="isbn"
+  >
+    <indexed_attr value="isbn" />
+  </index>
+
   <column value="authorsUID" />
   <column value="listAuthors" />
   <column value="listAuthorsAndEditors" />

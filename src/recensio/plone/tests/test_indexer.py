@@ -2,9 +2,16 @@ from plone import api
 from plone.app.testing.interfaces import SITE_OWNER_NAME
 from recensio.plone.adapter.indexer import ddcPlace
 from recensio.plone.adapter.indexer import ddcTime
+from recensio.plone.adapter.indexer import isbn
 from recensio.plone.testing import RECENSIO_PLONE_INTEGRATION_TESTING
 
 import unittest
+
+
+class ReviewStub:
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
 
 
 class TestIndexer(unittest.TestCase):
@@ -51,3 +58,35 @@ class TestIndexer(unittest.TestCase):
     def test_ddcTime(self):
         self.review.ddcTime = ["09032", "09033"]
         self.assertSetEqual(set(ddcTime(self.review)()), {"0903", "09032", "09033"})
+
+    def test_isbn_and_isbn_online(self):
+        result = isbn(ReviewStub(isbn="12-34", isbn_online="5-678"))()
+        self.assertEqual(result, ["1234", "5678"])
+
+    def test_isbn_only(self):
+        result = isbn(ReviewStub(isbn="12-34"))()
+        self.assertEqual(result, ["1234"])
+
+    def test_isbn_online_only(self):
+        result = isbn(ReviewStub(isbn_online="834 5562 88"))()
+        self.assertEqual(result, ["834556288"])
+
+    def test_no_isbn_whatsoever(self):
+        result = isbn(ReviewStub())()
+        self.assertEqual(result, [])
+
+    def test_issn_and_issn_online(self):
+        result = isbn(ReviewStub(issn="12-34", issn_online="5-678"))()
+        self.assertEqual(result, ["1234", "5678"])
+
+    def test_issn_only(self):
+        result = isbn(ReviewStub(issn="12-34"))()
+        self.assertEqual(result, ["1234"])
+
+    def test_issn_online_only(self):
+        result = isbn(ReviewStub(issn_online="834 5562 88"))()
+        self.assertEqual(result, ["834556288"])
+
+    def test_no_issn_whatsoever(self):
+        result = isbn(ReviewStub())()
+        self.assertEqual(result, [])
