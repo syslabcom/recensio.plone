@@ -3,11 +3,21 @@
     xmlns:vdex="http://namespaces.zope.org/vdex"
     >
 
-  <vdex:vocabulary directory="vdex/" />
+  <vdex:treevocabulary directory="vdex/" />
 
   <utility
       name="recensio.plone.vocabularies.honorifics"
       component=".honorifics.honorifics_factory"
+      />
+
+  <adapter
+      factory=".terms.TreeTermsVocabulary"
+      for="zope.interface.Interface
+           z3c.form.interfaces.IFormLayer
+           zope.interface.Interface
+           zope.schema.interfaces.ICollection
+           zope.schema.interfaces.ITreeVocabulary
+           z3c.form.interfaces.IWidget"
       />
 
 </configure>
