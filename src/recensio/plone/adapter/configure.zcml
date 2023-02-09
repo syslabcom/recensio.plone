@@ -36,6 +36,15 @@
       />
 
   <adapter
+      factory=".indexer.ddcPlace"
+      name="ddcPlace"
+      />
+  <adapter
+      factory=".indexer.ddcTime"
+      name="ddcTime"
+      />
+
+  <adapter
       factory=".indexer.listAuthors"
       name="listAuthors"
       />
