@@ -50,7 +50,9 @@ setup(
         "plone.api",
         "collective.vdexvocabulary",
         "collective.z3cform.datagridfield",
+        "pypdf",
         "reportlab",
+        "xlrd",
         "z3c.jbot",
     ],
     extras_require={

@@ -1,0 +1,122 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      xml:lang="en"
+      i18n:domain="recensio"
+>
+  <body>
+
+    <metal:content-core fill-slot="content-core">
+      <div id="mag-upload">
+        <h1 i18n:translate="upload_translations_view">Dieser View dient dem Upload von Rezensionen</h1>
+        <div i18n:translate="msg_excel_or_zip_upload">Entweder, Sie laden hier eine Excel und eine PDF Datei hoch, oder sie laden eine ZIP Datei hoch, welche genau eine Excel Datei und beliebig viele Word Dateien enth&auml;lt.
+        Im Falle der Excel und PDF Variante, werden die Seiten entsprechend den Informationen aus der Excel Datei aus dem PDF herausgeschnitten.
+        </div>
+        <div><span i18n:translate="msg_excel_upload_templates">Vorlagen f&uuml;r die Excel-Datei k&ouml;nnen Sie hier herunterladen:</span><br />
+          <a href="++plone++recensio/RecensioUpload-DE.xls">RecensioUpload-DE.xls (Deutsch)</a><br />
+          <a href="++plone++recensio/RecensioUpload-EN.xls">RecensioUpload-EN.xls (English)</a>
+        </div>
+        <form enctype="multipart/form-data"
+              method="POST"
+              name="mag_upload"
+              tal:condition="not: view/import_successful"
+        >
+          <p>
+            <label for="pdf"
+                   i18n:translate="pdf_file"
+            >PDF-Datei</label>
+            <input name="pdf"
+                   type="file"
+            />
+          </p>
+          <p>
+            <label for="xls"
+                   i18n:translate="xls_file"
+            >XLS-Datei</label>
+            <input name="xls"
+                   type="file"
+            />
+          </p>
+          <p>
+            <label for="zip"
+                   i18n:translate="label_zip_file"
+            >ZIP-Datei</label>
+            <input name="zip"
+                   type="file"
+            />
+          </p>
+          <p>
+            <input type="submit"
+                   value="Importieren"
+                   i18n:attributes="value import_label_submit"
+            />
+          </p>
+          <div class="errors"
+               tal:condition="view/header_error"
+          >
+            <p i18n:translate="wrong_excel_file_format">
+Das Format der Excel Datei scheint falsch zu sein.
+            </p>
+            <p i18n:translate="wrong_excel_file_format_explanation">
+Die erste Zeile muss die Information enthalten, was die Spalten bedeuten.
+Es m&uuml;ssen genau %i Spalten sein. Auch zus&auml;tzliche Spalten die nur Leerzeichen
+enthalten sind nicht zul&auml;ssig. Die Gross.- und Kleinschreibung bei den
+Spaltenbeschreibungen in der ersten Spalte ist nicht wichtig, auch
+Leerzeichen, Tabs oder CRs an Anfang und Ende des Spaltentextes werden
+ignoriert.
+Hier ist das Ergebnis der Auswertung:
+            </p>
+            <table>
+              <tr>
+                <th i18n:translate="target">Soll</th>
+                <th i18n:translate="actual">Ist</th>
+                <th i18n:translate="accepted">Akzeptiert</th>
+              </tr>
+              <tr class=""
+                  tal:repeat="row view/header_error"
+                  tal:attributes="
+                    class row/css_class;
+                  "
+              >
+                <td tal:repeat="column row/columns"
+                    tal:content="column"
+                ></td>
+              </tr>
+            </table>
+          </div>
+        </form>
+        <div class="warning"
+             tal:condition="view/warnings"
+        >
+          <p i18n:translate="msg_warnings_on_import">Bei einigen Dokumenten konnten nicht alle Informationen verarbeitet werden</p>
+          <ul>
+            <li tal:repeat="warning view/warnings"
+                tal:content="warning"
+            >Warnung</li>
+          </ul>
+        </div>
+        <div class="success"
+             tal:condition="view/import_successful"
+        >
+          <p i18n:translate="all_documents_imported">Alle Dokumente konnten importiert werden. Dies sind die neuen Dokumente:</p>
+          <ul>
+            <li tal:repeat="result view/results">
+              <a href=""
+                 tal:content="result/name"
+                 tal:attributes="
+                   href result/url;
+                 "
+              >
+                        Title
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </metal:content-core>
+
+  </body>
+</html>
