@@ -125,47 +125,37 @@
           Es wurden keine Autoren gefunden, die Ihren Kriterien entsprechen.
         </div>
 
-        <div class="column"
-             tal:repeat="column columns"
-        >
-          <ul class="authors"
-              tal:define="
-                use_navigation_root request/use_navigation_root|python:True;
-              "
-              tal:condition="view/authors"
+        <div class="row">
+          <div class="column col-md-4"
+               tal:repeat="column columns"
           >
-            <li class="author"
-                tal:repeat="author column"
+            <ul class="authors"
+                tal:define="
+                  use_navigation_root request/use_navigation_root|python:True;
+                "
+                tal:condition="view/authors"
             >
-              <ul tal:condition="author/UID|nothing">
-                <li class="inline_listing">
-                  <div class="authorsearch_placeholder"></div>
-                </li>
-                <li class="inline_listing">
-                  <a href="${portal_url}/search?authorsUID=${author/UID}&amp;advanced_search:boolean=True&amp;use_navigation_root:boolean=${use_navigation_root}"
-                     title="All reviews of this author"
-                     i18n:attributes="title label_all_reviews_author"
-                  >
-                    <img alt="All reviews of this author"
-                         src="++resource++recensio.theme.images/Aufsaetze.png"
-                         i18n:attributes="alt label_all_reviews_author"
-                    />
-                  </a>
-                </li>
-                <li class="inline_listing">
-                  <div class="authorsearch_placeholder"></div>
-                </li>
-                <li class="inline_listing authorname">
-                  <a href="${portal_url}/search?authorsUID=${author/UID}&amp;advanced_search:boolean=True&amp;use_navigation_root:boolean=${use_navigation_root}"
-                     title="All items of this author"
-                     tal:content="author/Title"
-                     i18n:attributes="title label_all_items_author"
-                  >Author</a>
-                </li>
-              </ul>
-            </li>
-            <div class="visualClear"></div>
-          </ul>
+              <li class="author"
+                  tal:repeat="author column"
+              >
+                <div tal:condition="author/UID|nothing">
+                  <span class="inline_listing">
+                    <a href="${portal_url}/search?authorsUID=${author/UID}&amp;advanced_search:boolean=True&amp;use_navigation_root:boolean=${use_navigation_root}"
+                       title="All reviews of this author"
+                       i18n:attributes="title label_all_reviews_author"
+                    >
+                      <img alt="All reviews of this author"
+                           src="++resource++recensio.theme.images/Aufsaetze.png"
+                           i18n:attributes="alt label_all_reviews_author"
+                      />
+                      <tal:authorname>${author/Title}</tal:authorname>
+                    </a>
+                  </span>
+                </div>
+              </li>
+              <div class="visualClear"></div>
+            </ul>
+          </div>
         </div>
 
         <div class="visualClear"></div>
