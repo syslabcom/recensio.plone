@@ -16,7 +16,7 @@ class PublicationsView(BrowserView, CanonicalURLHelper):
     def brain_to_pub(self, brain, lang):
         pubob = brain.getObject()
         if "logo" in pubob.objectIds():
-            logo_path = brain.getPath() + "/logo/image_thumb"
+            logo_path = brain.getPath() + "/logo/@@images/image/thumb"
         else:
             logo_path = (
                 self.context.portal_url.getPortalPath() + "/empty_publication.jpg"
