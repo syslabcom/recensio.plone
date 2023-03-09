@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<registry>
+
+  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           prefix="plone.bundles/recensio-bundle"
+  >
+    <value key="enabled">True</value>
+    <value key="jscompilation">++resource++recensio.theme.bundles/recensio-bundle-remote.min.js</value>
+    <value key="csscompilation">++resource++recensio.theme.styles/recensio-bundle-styles.css</value>
+  </records>
+
+</registry>

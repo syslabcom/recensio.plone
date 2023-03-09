@@ -173,12 +173,10 @@
                 >
                   <div class="card-header">
 
-                    <a class="pat-switch"
+                    <a class="pat-toggle"
                        href="#metadata"
-                       data-pat-switch="selector: .accordion-content; class: hidden"
+                       data-pat-toggle="target: #metadata; value: closed"
                     >
-                      <tal:icon tal:replace="structure python:icons.tag('caret-right-fill')" />
-                      <tal:icon tal:replace="structure python:icons.tag('caret-down-fill')" />
                       <tal:heading i18n:translate="metadata">Metadata</tal:heading>
                     </a>
                   </div>
@@ -210,15 +208,16 @@
                     </dl>
                   </div>
                 </div>
-                <div class="card portlet accordion-item"
+                <div class="card portlet accordion-item closed"
                      id="citation"
                      title="Zitierhinweise"
                      i18n:attributes="title citation_note"
                 >
                   <div class="card-header">
-                    <a class="trigger">
-                      <tal:icon tal:replace="structure python:icons.tag('caret-right-fill')" />
-                      <tal:icon tal:replace="structure python:icons.tag('caret-down-fill')" />
+                    <a class="pat-toggle"
+                       href="#citation"
+                       data-pat-toggle="target: #citation; value: closed"
+                    >
                       <tal:heading i18n:translate="citation_note">Zitierhinweise</tal:heading>
                     </a>
                   </div>
@@ -245,15 +244,16 @@
                     </dl>
                   </div>
                 </div>
-                <div class="card portlet accordion-item"
+                <div class="card portlet accordion-item closed"
                      id="license"
                      title="Lizenzhinweis:"
                      i18n:attributes="title license-note-heading"
                 >
                   <div class="card-header">
-                    <a class="trigger">
-                      <tal:icon tal:replace="structure python:icons.tag('caret-right-fill')" />
-                      <tal:icon tal:replace="structure python:icons.tag('caret-down-fill')" />
+                    <a class="pat-toggle"
+                       href="#license"
+                       data-pat-toggle="target: #license; value: closed"
+                    >
                       <tal:heading i18n:translate="license-note-heading">Lizenzhinweis:</tal:heading>
                     </a>
                   </div>
@@ -274,15 +274,20 @@
                     </div>
                   </div>
                 </div>
-                <div class="card portlet accordion-item"
+                <div class="card portlet accordion-item closed"
                      id="online-publication"
                      title="Links"
                      tal:condition="python:context.Type().startswith('Presentation')"
                      i18n:attributes="title links-box-heading"
                 >
-                  <div class="card-header"
-                       i18n:translate="links-box-heading"
-                  >Links</div>
+                  <div class="card-header">
+                    <a class="pat-toggle"
+                       href="#online-publication"
+                       data-pat-toggle="target: #online-publication; value: closed"
+                    >
+                      <tal:heading i18n:translate="links-box-heading">Links</tal:heading>
+                    </a>
+                  </div>
                   <div class="card-body accordion-content">
                     <div tal:define="
                            online_review_urls view/get_online_review_urls;
