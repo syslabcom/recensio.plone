@@ -6,15 +6,15 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
+    rev: v3.4.0
     hooks:
       - id: pyupgrade
         args: [--py38-plus]
-  - repo: https://github.com/ambv/black
-    rev: 22.12.0
+  - repo: https://github.com/psf/black
+    rev: 23.3.0
     hooks:
       - id: black
-  - repo: https://github.com/pycqa/isort
+  - repo: https://github.com/PyCQA/isort
     rev: 5.12.0
     hooks:
       - id: isort
@@ -23,7 +23,7 @@ repos:
     hooks:
       - id: flake8
   - repo: https://github.com/PyCQA/bandit
-    rev: 1.7.4
+    rev: 1.7.5
     hooks:
       - id: bandit
         exclude: /tests/
@@ -32,10 +32,10 @@ repos:
           - --confidence-level=medium
           - --skip=B608
   - repo: https://github.com/collective/zpretty
-    rev: 2.4.1
+    rev: 3.1.0a2
     hooks:
       - id: zpretty
-  - repo: https://github.com/myint/docformatter
-    rev: v1.5.0
+  - repo: https://github.com/PyCQA/docformatter
+    rev: v1.6.5
     hooks:
       - id: docformatter
