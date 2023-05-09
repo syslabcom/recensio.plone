@@ -361,7 +361,7 @@ class ReviewPDF:
     __repr__ = __str__
 
     def generatePageImages(self, later=True):
-        """generate an image for each page of the pdf."""
+        """Generate an image for each page of the pdf."""
         result = ""
         status = 1
         result = _getAllPageImages(self.context, (800, 1131))

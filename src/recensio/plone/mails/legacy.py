@@ -70,7 +70,6 @@ class MailNewPublication(BrowserView):
         mail_from,
         subject,
     ):
-
         bcc_to = []
         if NOTIFICATION_LOG_ADDR:
             msg = (
