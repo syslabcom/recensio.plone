@@ -30,3 +30,6 @@ reports/
 share/
 var/
 venv/
+node_modules/
+downloads/
+.python-version
