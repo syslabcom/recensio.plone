@@ -311,7 +311,8 @@ class View(BrowserView, CanonicalURLHelper):
                 label = self.get_label(field)
                 # NOTE: the behavior field is `subjects` but it's stored as
                 #       `subject` on the context.
-                value = "<br/>".join(getattr(context, "subject", []))
+                value = True if getattr(context, "subject", []) else False
+                use_widget_view = True
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")

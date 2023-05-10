@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
     >
 
   <include
@@ -265,5 +266,20 @@
       allowed_interface=".pdfgen.IGeneratePdfRecension"
       permission="zope2.View"
       />
+
+  <!-- Custom textlines display wigget to show the items in a list instead of
+       a unseperated string. -->
+  <z3c:widgetTemplate
+      widget="plone.z3cform.textlines.textlines.ITextLinesWidget"
+      template="templates/widget__textlines_display.pt"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      mode="display"
+      />
+  <!--z3c:widgetTemplate
+      widget="z3c.form.interfaces.ITextLinesWidget"
+      template="templates/widget__textlines_display.pt"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      mode="display"
+      /-->
 
 </configure>
