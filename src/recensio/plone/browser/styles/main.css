@@ -42,3 +42,7 @@
     background: var(--bs-primary);
     color: var(--plone-toolbar-text-color);
 }
+
+img.gnd {
+    width: 1.5em;
+}
