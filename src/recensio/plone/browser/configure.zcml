@@ -37,6 +37,14 @@
       />
 
   <browser:page
+      name="contact-info"
+      for="*"
+      class=".contact_info.RecensioContactInfoRedirect"
+      permission="zope.Public"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
       name="recensio-helper-view"
       for="*"
       class=".helper.RecensioHelperView"
