@@ -168,7 +168,7 @@
                 </span>
 
                 <span class="review-author"
-                      tal:condition="is_review"
+                      tal:condition="python:is_review and review_authors"
                 >
                   <br />
                   <tal:author i18n:translate="reviewed_by">Reviewed by
@@ -193,15 +193,24 @@
                   </tal:block>
                 </span>
 
-                <tal:author tal:condition="is_presentation">
+                <tal:author tal:define="
+                              review_authors result/listReviewAuthorsFirstnameFirst|nothing;
+                            "
+                            tal:condition="python:is_presentation and review_authors"
+                >
                   <br />
                   <span class="review-author"
                         i18n:translate="presented_by"
                   >
                             Presented by
-                    <tal:nameblock i18n:name="review_authors"><tal:repeatblock repeat="reviewAuthor result/listReviewAuthorsFirstnameFirst"><tal:block tal:replace="reviewAuthor" /><tal:c condition="not: repeat/reviewAuthor/end">
-                          /
-                        </tal:c></tal:repeatblock></tal:nameblock>
+                    <tal:nameblock i18n:name="review_authors">
+                      <tal:repeatblock repeat="reviewAuthor review_authors">
+                        <tal:block tal:replace="reviewAuthor" />
+                        <tal:c condition="not: repeat/reviewAuthor/end">
+                            /
+                        </tal:c>
+                      </tal:repeatblock>
+                    </tal:nameblock>
                   </span>
                 </tal:author>
               </div>
