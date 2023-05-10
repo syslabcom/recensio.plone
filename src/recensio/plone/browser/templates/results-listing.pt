@@ -59,7 +59,7 @@
                        raev python:result_type == 'Review Article Collection';
                        re python:result_type == 'Review Exhibition';
                        editorial python:getattr(result_obj, 'formatted_editorial', lambda:None)();
-                       year python:(hasattr(result_obj, 'getYearOfPublication') and result_obj.getYearOfPublication()) or (hasattr(result_obj, 'getOfficialYearOfPublication') and result_obj.getOfficialYearOfPublication());
+                       year result_obj/yearOfPublication|result_obj/officialYearOfPublication|nothing;
                        portal_path context/portal_url/getPortalPath;
                        result_portal python:result.getPath().split('/')[1];
                        result_foreign python:result_portal != portal_path[1:];
@@ -165,7 +165,7 @@
                           tal:content="string: (${year})"
                     ></span><span tal:condition="python:result_obj.issueNumber">,
                     </span><span tal:content="python:result_obj.issueNumber"></span></tal:rj><span class="year"
-                        tal:condition="python: not (rj or raj or raev or re)"
+                        tal:condition="python:year and not (rj or raj or raev or re)"
                         tal:content="year"
                   ></span>
                   <tal:raj tal:condition="python: raj or raev">
