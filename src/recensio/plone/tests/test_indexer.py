@@ -15,7 +15,6 @@ class ReviewStub:
 
 
 class TestIndexer(unittest.TestCase):
-
     layer = RECENSIO_PLONE_INTEGRATION_TESTING
 
     def setUp(self):

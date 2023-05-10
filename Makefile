@@ -2,33 +2,32 @@
 all: .installed.cfg
 
 
-py3/bin/buildout: py3/bin/pip3 py3/bin/pre-commit
-	./py3/bin/pip3 uninstall -y setuptools
-	./py3/bin/pip3 install -IUr https://dist.plone.org/release/6-latest/requirements.txt
+py/bin/buildout: py/bin/pip3 py/bin/pre-commit
+	./py/bin/pip3 uninstall -y setuptools
+	./py/bin/pip3 install -IUr https://dist.plone.org/release/6-latest/requirements.txt
 
 
-.PHONY: pre-commit
-pre-commit: py3/bin/pre-commit
-py3/bin/pre-commit: py3/bin/pip3
-	./py3/bin/pip3 install pre-commit
-	./py3/bin/pre-commit install
+pre-commit: py/bin/pre-commit
+py/bin/pre-commit: py/bin/pip3
+	./py/bin/pip3 install pre-commit
+	./py/bin/pre-commit install
 
 
-py3/bin/pip3:
-	python3 -m venv py3
+py/bin/pip3:
+	python3 -m venv py
 
 
-.installed.cfg: py3/bin/buildout
-	./py3/bin/buildout
+.installed.cfg: py/bin/buildout
+	./py/bin/buildout
 
 
 .PHONY: check
 check: .installed.cfg
-	./py3/bin/pre-commit run --all-files
+	./py/bin/pre-commit run --all-files
 	./bin/coverage run ./bin/test -s recensio.plone
 	./bin/coverage report --fail-under=10 -i
 
 
 .PHONY: clean
 clean:
-	rm -rf ./py3
+	rm -rf ./py

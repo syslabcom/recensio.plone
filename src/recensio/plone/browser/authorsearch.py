@@ -25,7 +25,6 @@ def _render_cachekey(_, self):
 
 
 class AuthorSearchView(BrowserView, CrossPlatformMixin):
-
     """Dynamic elements on the homepage."""
 
     template = ViewPageTemplateFile("templates/authorsearch.pt")

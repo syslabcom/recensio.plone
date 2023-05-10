@@ -11,21 +11,11 @@
     <p class="discreet"
        metal:define-macro="rss-link"
     >
-      <a href=""
-         tal:attributes="
-           href rss_url;
-         "
-      ><img alt="RSS icon"
-             src="/++resource++recensio.theme.images/icon_rss_feed.gif"
-             tal:attributes="
-               src string:${portal_url}/++resource++recensio.theme.images/icon_rss_feed.gif;
-             "
+      <a href="${rss_url}"><img alt="RSS icon"
+             src="${portal_url}/++resource++recensio.theme.images/icon_rss_feed.gif"
         /></a>
       <a class="link-feed"
-         href=""
-         tal:attributes="
-           href rss_url;
-         "
+         href="${rss_url}"
          i18n:translate="title_rss_feed"
       >
         Subscribe to an always-updated feed of these search terms</a>
@@ -77,47 +67,32 @@
                        authors_and_editors python:[item for item in people if item and item.Title in (result.listAuthorsAndEditors or [])];
                        review_authors python:[item for item in people if item and item.Title in (result.listReviewAuthors or [])];
                      ">
-            <dt tal:define="
+            <dt class="${result_class}"
+                tal:define="
                   item_wf_state_class string:state-${result/review_state};
-                "
-                tal:attributes="
-                  class result_class;
                 "
             >
 
-              <img height="32"
+              <img alt="${result_type}"
+                   height="32"
+                   src="${portal_url}/${python:'++resource++recensio.theme.images/Ausstellung32.png' if re else '++resource++recensio.theme.images/Aufsatz32.png' if is_review else '++resource++recensio.theme.images/Internetresource32.png'}"
+                   title="${result_type}"
                    width="32"
                    tal:condition="python:is_review or is_presentation"
-                   tal:attributes="
-                     src python:(re and '%s/++resource++recensio.theme.images/Ausstellung32.png' or is_review and '%s/++resource++recensio.theme.images/Aufsatz32.png' or '%s/++resource++recensio.theme.images/Internetresource32.png') % portal_url;
-                     alt result_type;
-                     title result_type;
-                   "
                    i18n:attributes="alt; title;"
               />
               <div class="metadata">
 
                 <tal:block condition="result/listAuthorsAndEditors">
-                  <span class="authors"
-                        tal:attributes="
-                          class string:authors;
-                        "
-                  >
+                  <span class="authors">
                     <span class="author"
                           tal:repeat="author authors_and_editors"
-                          tal:attributes="
-                            class string:author;
-                          "
                     >
                       <tal:author tal:define="
                                     author_name author/Title;
                                   ">
-                        <a tal:content="author_name"
-                           tal:attributes="
-                             href string:$portal_url/search?authorsUID:list=${author/UID}&amp;
-                             advanced_search:boolean=True&amp;
-                             use_navigation_root:boolean=${use_navigation_root};
-                           "
+                        <a href="${portal_url}/search?authorsUID:list=${author/UID}&amp;advanced_search:boolean=True&amp;use_navigation_root:boolean=${use_navigation_root};"
+                           tal:content="author_name"
                         ></a><tal:ed tal:condition="python:not author_name in (result.get('listAuthors') or [])">
                           <tal:ed i18n:translate="label_abbrev_editor">(Hg.)</tal:ed></tal:ed><tal:c condition="not: repeat/author/end">
                           /
@@ -129,13 +104,10 @@
                 ><tal:authors tal:replace="structure result/exhibitor">Aussteller</tal:authors>:</span>
 
                 <span class="title">
-                  <a href="#"
+                  <a class="${item_wf_state_class}"
+                     href="${url}"
                      tal:define="
                        full_title python: view.punctuated_title_and_subtitle(result_obj);
-                     "
-                     tal:attributes="
-                       href url;
-                       class string:$item_wf_state_class;
                      "
                   >
                     <tal:block condition="python:result_type == 'Issue'">
@@ -197,18 +169,13 @@
 
                 <span class="review-author"
                       tal:condition="is_review"
-                      tal:attributes="
-                        class string:review-author;
-                      "
                 >
                   <br />
                   <tal:author i18n:translate="reviewed_by">Reviewed by
-                    <tal:nameblock i18n:name="review_authors"><tal:repeatblock repeat="reviewAuthor review_authors"><a tal:content="python:' '.join(reversed(reviewAuthor.Title.split(', ')))"
-                           tal:attributes="
-                             href string:$portal_url/search?authorsUID:list=${reviewAuthor/UID}&amp;
-                             advanced_search:boolean=True&amp;
-                             use_navigation_root:boolean=${use_navigation_root};
-                           "
+                    <tal:nameblock i18n:name="review_authors">
+                      <tal:repeatblock repeat="reviewAuthor review_authors">
+                        <a href="${portal_url}/search?authorsUID:list=${reviewAuthor/UID}&amp;advanced_search:boolean=True&amp;use_navigation_root:boolean=${use_navigation_root}"
+                           tal:content="python:' '.join(reversed(reviewAuthor.Title.split(', ')))"
                         ></a><tal:c condition="not: repeat/reviewAuthor/end">
                           /
                         </tal:c></tal:repeatblock></tal:nameblock></tal:author><tal:block tal:condition="result/get_publication_title | nothing">,
@@ -229,9 +196,6 @@
                 <tal:author tal:condition="is_presentation">
                   <br />
                   <span class="review-author"
-                        tal:attributes="
-                          class string:review-author;
-                        "
                         i18n:translate="presented_by"
                   >
                             Presented by
@@ -243,9 +207,7 @@
               </div>
             </dt>
 
-            <dd tal:attributes="
-                  class result_class;
-                ">
+            <dd class="${result_class}">
 
               <span class="documentByLine">
 
@@ -269,17 +231,10 @@
                   <tal:filedunder i18n:translate="label_filed_under">Schlagw&ouml;rter:</tal:filedunder>
                   <span tal:repeat="tag tags">
                     <a class="link-tag"
-                       href=""
+                       href="${context/@@plone_portal_state/navigation_root_url}/search?Subject%3Alist=${tag}&amp;advanced_search:boolean=True&amp;use_navigation_root:boolean=${use_navigation_root}"
                        rel="tag"
                        tal:content="tag"
-                       tal:attributes="
-                         href string:${context/@@plone_portal_state/navigation_root_url}/search?Subject%3Alist=${tag}&amp;
-                         advanced_search:boolean=True&amp;
-                         use_navigation_root:boolean=${use_navigation_root};
-                       "
-                    >
-                                   Tag
-                    </a><tal:separator condition="not: repeat/tag/end">,</tal:separator>
+                    >Tag</a><tal:separator condition="not: repeat/tag/end">,</tal:separator>
                   </span>
                 </span>
 

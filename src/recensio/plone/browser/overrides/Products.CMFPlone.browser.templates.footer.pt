@@ -27,7 +27,7 @@
            src="${portal_url}/++resource++recensio.theme.images/socialmedia_fuss/twitter_fuss.jpg"
            width="55px"
       /></a>
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=${portal_url}"
+    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=${portal_url}"
        target="_blank"
        title="'${portal_title}' auf linkedin teilen"
     >
