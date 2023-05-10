@@ -42,3 +42,10 @@
     background: var(--bs-primary);
     color: var(--plone-toolbar-text-color);
 }
+
+.preview-images {
+    width: 20em;
+    float: right;
+    margin: 0 0 1em 1em;
+    box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.2);
+}
