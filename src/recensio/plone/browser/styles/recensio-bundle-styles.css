@@ -1,0 +1,116 @@
+/* pat-gallery */
+
+.pat-gallery img {
+    cursor: pointer;
+}
+
+/* pat-toggle accordion */
+
+/* Note:
+ * - The animation is on max-height with keyframes because a transition of
+ *   height with an unknown end value does not work. See:
+ *   https://stackoverflow.com/a/8331169/1337474
+ * - On closing there is an animation on padding with an step-end timing
+ *   function to remove the padding at the END of the transition in order to
+ *   fully close the accordion.
+ * - We rotate the "▶" sign because the "▼" looks different and we can animate
+ *   the rotation.
+ */
+@keyframes animate_close {
+    from {
+        max-height: 1000px;
+    }
+    to {
+        max-height: 0;
+    }
+}
+@keyframes animate_open {
+    from {
+        max-height: 0;
+    }
+    to {
+        max-height: 1000px;
+    }
+}
+.accordion-item .accordion-content {
+    overflow: hidden;
+    animation-duration: 0.5s;
+}
+.accordion-item.closed .accordion-content {
+    max-height: 0;
+    padding: 0;
+    animation-name: animate_close;
+    transition: padding 0.5s step-end;
+}
+.accordion-item:not(.closed) .accordion-content {
+    animation-name: animate_open;
+}
+.accordion-item .card-header .pat-toggle:before {
+    content: "▶";
+    display: inline-block;
+    transition: transform 0.3s;
+}
+.accordion-item:not(.closed) .card-header .pat-toggle:before {
+    transform: rotate(90deg);
+}
+
+/* pat-collapsible */
+
+.pat-collapsible {
+    margin-bottom: 0.5em;
+}
+
+.pat-collapsible > *:first-child:before {
+    content: "▼";
+    width: 1.5em;
+    display: inline-block;
+}
+
+.pat-collapsible.closed > *:first-child:before {
+    content: "▶";
+}
+
+.pat-collapsible > .panel-content {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    width: 100% !important;
+}
+
+.pat-collapsible > *:first-child {
+    font-family: "Source Sans Pro", sans-serif;
+    margin: 0 0.5em 0 0;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    cursor: default;
+    border-radius: 0.2em;
+    background-image: -moz-linear-gradient(
+        bottom,
+        rgba(0, 0, 0, 0.2) 0%,
+        rgba(255, 255, 255, 0.2) 100%
+    );
+    background-image: -webkit-linear-gradient(
+        bottom,
+        rgba(0, 0, 0, 0.2) 0%,
+        rgba(255, 255, 255, 0.2) 100%
+    );
+    background-image: linear-gradient(
+        bottom,
+        rgba(0, 0, 0, 0.2) 0%,
+        rgba(255, 255, 255, 0.2) 100%
+    );
+    text-decoration: none !important;
+    line-height: 1.5;
+    white-space: nowrap;
+    background-color: transparent;
+    display: inline-block;
+    padding-top: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+    font-size: 0.98em;
+
+    font-weight: normal;
+    width: 100%;
+
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}

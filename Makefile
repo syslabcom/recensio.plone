@@ -31,3 +31,14 @@ check: .installed.cfg
 .PHONY: clean
 clean:
 	rm -rf ./py
+
+
+# Build custom JavaScript bundle
+
+yarn.lock:
+	npx yarn install
+
+
+.PHONY: bundle
+bundle: yarn.lock
+	npx yarn build
