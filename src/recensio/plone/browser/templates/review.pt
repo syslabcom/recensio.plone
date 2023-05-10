@@ -204,18 +204,20 @@
                                  "
                                  condition="data/value"
                         >
-                          <dt>
+                          <dt class="${field_name}__label">
                               ${data/label}
                           </dt>
 
-                          <tal:widget switch="python:bool(use_widget_view and widget)">
-                            <dd tal:case="True">
-                              <tal:rep replace="structure widget/render" />
-                            </dd>
-                            <dd tal:case="default">
-                              <tal:rep replace="structure data/value" />
-                            </dd>
-                          </tal:widget>
+                          <dd class="${field_name}__value">
+                            <tal:widget switch="python:bool(use_widget_view and widget)">
+                              <tal:rep case="True"
+                                       replace="structure widget/render"
+                              />
+                              <tal:rep case="default"
+                                       replace="structure data/value"
+                              />
+                            </tal:widget>
+                          </dd>
                         </tal:def>
                       </tal:field_names>
                     </dl>
