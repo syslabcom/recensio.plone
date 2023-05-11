@@ -46,3 +46,10 @@
 img.gnd {
     width: 1.5em;
 }
+
+.preview-images {
+    width: 20em;
+    float: right;
+    margin: 0 0 1em 1em;
+    box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.2);
+}
