@@ -307,6 +307,11 @@ class View(BrowserView, CanonicalURLHelper):
                         context=context, request=self.request, name="plone"
                     )
                     value = ploneview.toLocalizedTime(effective_date, long_format=False)
+            elif field == "subjects":
+                label = self.get_label(field)
+                # NOTE: the behavior field is `subjects` but it's stored as
+                #       `subject` on the context.
+                value = "<br/>".join(getattr(context, "subject", []))
             else:
                 if field == "ddcSubject":
                     label = _("Subject classification")
@@ -318,7 +323,7 @@ class View(BrowserView, CanonicalURLHelper):
                     label = self.get_label(field)
                 # The macro is used in the template, the value is
                 # used to determine whether to display that row or not
-                value = getattr(context, field) and True or False
+                value = True if getattr(context, field) else False
                 use_widget_view = True
             meta[field] = {
                 "label": label,
