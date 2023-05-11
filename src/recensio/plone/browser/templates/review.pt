@@ -26,43 +26,6 @@
       ${searchresults}
           </p>
 
-          <tal:if condition="not:view/isUseExternalFulltext">
-            <tal:images define="
-                          pageviewer nocall:context/@@pageviewer;
-                          num_pages pageviewer/get_no_pages;
-                          cover_picture_url context/coverPicture|nothing;
-                        "
-                        condition="python: num_pages or cover_picture_url"
-            >
-              <div class="pat-gallery"
-                   data-pat-gallery="item-selector: img"
-              >
-                <img src="${cover_picture_url}"
-                     tal:condition="cover_picture_url"
-                />
-                <tal:gallery condition="num_pages"
-                             replace="structure pageviewer"
-                />
-              </div>
-            </tal:images>
-          </tal:if>
-
-          <a id="cover-image"
-             href="${python:view.get_doi_url_if_active() or context.canonical_uri}"
-             tal:define="
-               custom_cover context/customCoverImage|nothing;
-             "
-             tal:condition="context/isUseExternalFulltext|nothing"
-          >
-            <img src="${context/absolute_url}/@@images/customCoverImage/mini"
-                 tal:condition="custom_cover"
-            />
-            <p tal:condition="not:custom_cover"
-               i18n:translate=""
-            >
-              Zum Volltext</p>
-          </a>
-
           <br />
 
           <p tal:condition="view/show_dara_update">
@@ -87,6 +50,46 @@
                  tal:condition="python:hasattr(context, 'tableOfContents')"
                  tal:content="structure context/tableOfContents"
             ></pre></div>
+
+          <aside class="preview-images">
+            <tal:if condition="not:view/isUseExternalFulltext">
+              <tal:images define="
+                            pageviewer nocall:context/@@pageviewer;
+                            num_pages pageviewer/get_no_pages;
+                            cover_picture_url context/coverPicture|nothing;
+                          "
+                          condition="python: num_pages or cover_picture_url"
+              >
+                <div class="pat-gallery"
+                     data-pat-gallery="item-selector: img"
+                >
+                  <img src="${cover_picture_url}"
+                       tal:condition="cover_picture_url"
+                  />
+                  <tal:gallery condition="num_pages"
+                               replace="structure pageviewer"
+                  />
+                </div>
+              </tal:images>
+            </tal:if>
+
+            <a id="cover-image"
+               href="${python:view.get_doi_url_if_active() or context.canonical_uri}"
+               tal:define="
+                 custom_cover context/customCoverImage|nothing;
+               "
+               tal:condition="context/isUseExternalFulltext|nothing"
+            >
+              <img src="${context/absolute_url}/@@images/customCoverImage/mini"
+                   tal:condition="custom_cover"
+              />
+              <p tal:condition="not:custom_cover"
+                 i18n:translate=""
+              >
+                Zum Volltext</p>
+            </a>
+          </aside>
+
           <div id="reviewhtml"
                tal:condition="python:getattr(context, 'review', None)"
                tal:content="structure python:context.review.output_relative_to(view.context)"
