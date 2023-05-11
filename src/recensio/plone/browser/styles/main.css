@@ -43,6 +43,10 @@
     color: var(--plone-toolbar-text-color);
 }
 
+img.gnd {
+    width: 1.5em;
+}
+
 .preview-images {
     width: 20em;
     float: right;
