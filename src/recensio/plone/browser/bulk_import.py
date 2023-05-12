@@ -117,7 +117,7 @@ class FrontendException(Exception):
 
 
 def batch_import(context, batch):
-    for (uuid, urn) in batch:
+    for uuid, urn in batch:
         brain = uuidToCatalogBrain(uuid)
         document = context.restrictedTraverse(brain["path_string"])
         document.setUrn(urn)

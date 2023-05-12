@@ -412,7 +412,10 @@ class ExcelConverter:
                 "lastname": data["lastname_review_authors_1"],
             },
         ]
-        (data["pageStartOfReviewInJournal"], data["pageEndOfReviewInJournal"],) = map(
+        (
+            data["pageStartOfReviewInJournal"],
+            data["pageEndOfReviewInJournal"],
+        ) = map(
             int,
             [
                 data["pageStartOfReviewInJournal"] or 0,
