@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      xml:lang="en"
+      i18n:domain="recensio"
+>
+  <body>
+
+    <metal:content-core fill-slot="content-core">
+      <div id="urn-upload">
+        <h1>Dieser view dient dem Upload von URN Informationen</h1>
+        <div>Bitte ber&uuml;cksichtigen Sie, das der Upload asynchron statt findet. Das bedeutet, nachdem Sie ihre Excel Liste mit URN Informationen hoch geladen haben, noch nicht das Ergebnis vorliegt.
+        </div>
+        <form enctype="multipart/form-data"
+              method="POST"
+              name="urn_upload"
+              tal:condition="not: view/import_successful"
+        >
+          <p>
+            <label for="xls"
+                   i18n:translate="xls_file"
+            >XLS-Datei</label>
+            <input name="xls"
+                   type="file"
+            />
+          </p>
+          <p>
+            <input type="submit"
+                   value="Importieren"
+                   i18n:attributes="value import_label_submit"
+            />
+          </p>
+          <div class="errors"
+               tal:condition="view/errors"
+          >
+            <ul>
+              <li tal:repeat="error view/errors"
+                  tal:content="error"
+              ></li>
+            </ul>
+          </div>
+        </form>
+        <div class="success"
+             tal:condition="view/import_successful"
+        >
+          <p>Das Format der Excel Datei ist in Ordnung, die Daten werden nun nach und nach eingetragen.</p>
+        </div>
+      </div>
+    </metal:content-core>
+
+  </body>
+</html>

@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
     >
 
   <include
@@ -264,6 +265,20 @@
       class=".pdfgen.GeneratePdfRecension"
       allowed_interface=".pdfgen.IGeneratePdfRecension"
       permission="zope2.View"
+      />
+
+  <browser:page
+      name="magazine_import"
+      for="plone.app.contenttypes.interfaces.IFolder"
+      class=".bulk_import.MagazineImport"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <plone:static
+      directory="resources"
+      name="recensio"
+      type="plone"
       />
 
 </configure>
