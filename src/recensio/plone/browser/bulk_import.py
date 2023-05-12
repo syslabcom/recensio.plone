@@ -4,7 +4,6 @@ from plone import api
 from plone.app.uuid.utils import uuidToCatalogBrain
 from plone.namedfile.file import NamedBlobFile
 from plone.registry.interfaces import IRegistry
-from plone.testing.z2 import Browser
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
@@ -67,6 +66,10 @@ class Import(BrowserView):
     """
 
     def __call__(self, url, user, password):
+        # TODO: This import implies to have the testing framework installed.
+        #       We need to rework this so that this import isn't needed.
+        from plone.testing.z2 import Browser
+
         count = 0
         browser = Browser(url)
         browser.getControl(name="__ac_name").value = user
