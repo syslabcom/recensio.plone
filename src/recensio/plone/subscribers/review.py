@@ -23,7 +23,8 @@ logger = getLogger(__name__)
 HTML_TEMPLATE = Template(
     """
 <?xml version="1.0"?>
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <body>$body</body>
 </html>
 """.strip()
