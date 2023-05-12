@@ -51,11 +51,13 @@ setup(
         "collective.vdexvocabulary",
         "collective.z3cform.datagridfield",
         "pypdf",
-        "reportlab",
         "xlrd",
         "z3c.jbot",
     ],
     extras_require={
+        "pdfgen": [
+            "reportlab",
+        ],
         "test": [
             "plone.app.testing",
             "plone.testing>=5.0.0",

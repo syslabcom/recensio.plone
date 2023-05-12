@@ -2,6 +2,7 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     >
 
   <include
@@ -265,6 +266,7 @@
       class=".pdfgen.GeneratePdfRecension"
       allowed_interface=".pdfgen.IGeneratePdfRecension"
       permission="zope2.View"
+      zcml:condition="installed reportlab"
       />
 
   <browser:page
