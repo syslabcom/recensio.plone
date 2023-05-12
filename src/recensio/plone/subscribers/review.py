@@ -22,7 +22,7 @@ logger = getLogger(__name__)
 
 HTML_TEMPLATE = Template(
     """
-<!DOCTYPE html>
+<?xml version="1.0"?>
 <html>
 <body>$body</body>
 </html>
