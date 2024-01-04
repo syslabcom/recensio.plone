@@ -22,4 +22,12 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <browser:viewlet
+      name="publicationlisting"
+      manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+      class=".viewlets.Publicationlisting"
+      template="templates/publicationlisting.pt"
+      permission="zope2.View"
+      />
+
 </configure>
