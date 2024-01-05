@@ -47,6 +47,7 @@
     <element value="recensio.cover_picture" />
     <element value="recensio.editorial" />
     <element value="recensio.licence" />
+    <element value="recensio.pages_of_review_in_journal" />
     <element value="recensio.printed_review" />
     <element value="recensio.serial" />
     <element value="recensio.settings_url_in_citation" />
