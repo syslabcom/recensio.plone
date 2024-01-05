@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        meta_type="Plone Actions Tool"
+        name="portal_actions"
+>
+  <object meta_type="CMF Action Category"
+          name="object"
+  >
+    <object meta_type="CMF Action"
+            name="magazine_import"
+            i18n:domain="recensio"
+    >
+      <property name="title"
+                i18n:translate=""
+      >Import</property>
+      <property name="description"
+                i18n:translate=""
+      />
+      <property name="url_expr">string:${globals_view/getCurrentFolderUrl}/magazine_import</property>
+      <property name="link_target" />
+      <property name="icon_expr" />
+      <property name="available_expr">python: object.portal_type in ['Issue', 'Volume']</property>
+      <property name="permissions">
+        <element value="Add portal content" />
+      </property>
+      <property name="visible">True</property>
+    </object>
+  </object>
+</object>
