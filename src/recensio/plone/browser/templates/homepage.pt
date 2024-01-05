@@ -34,6 +34,17 @@
            "
       >
         <div class="row"
+             id="rowBanner"
+             tal:define="
+               language context/plone_portal_state/language;
+             "
+        >
+          <img id="page_image"
+               alt="Banner ${language}"
+               src="${here/portal_url}/++resource++recensio.theme.images/${language}/mainimage_${language}.png"
+          />
+        </div>
+        <div class="row"
              id="rowTop"
         >
 
