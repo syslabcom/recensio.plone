@@ -12,10 +12,12 @@ from recensio.plone.browser.excel_converter import ExcelConverter
 from recensio.plone.browser.excel_converter import ExcelURNExtractor
 from recensio.plone.browser.pdf_cut import cutPDF
 from recensio.plone.browser.zip_extractor import ZipExtractor
+from z3c.relationfield.relation import RelationValue
 from ZODB.POSException import ConflictError
 from zope import schema
 from zope.component import getUtility
 from zope.interface import Interface
+from zope.intid.interfaces import IIntIds
 
 import transaction
 import xmlrpc
@@ -238,7 +240,10 @@ class MagazineImport:
                             lastname=lastname,
                         )
                     )
-            result["reviewAuthors"] = authors
+            intids = getUtility(IIntIds)
+            result["reviewAuthors"] = [
+                RelationValue(intids.getId(author)) for author in authors
+            ]
 
             result_item = api.content.create(self.context, **result)
             self.results.append(

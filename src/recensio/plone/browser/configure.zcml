@@ -269,7 +269,7 @@
 
   <browser:page
       name="magazine_import"
-      for="plone.app.contenttypes.interfaces.IFolder"
+      for="OFS.interfaces.IFolder"
       class=".bulk_import.MagazineImport"
       permission="zope2.View"
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
