@@ -1,0 +1,138 @@
+<div id="publicationlisting"
+     tal:define="
+       language context/@@plone_portal_state/language;
+       portal_url context/portal_url;
+     "
+     tal:condition="view/visible"
+     i18n:domain="recensio"
+>
+
+  <a name="publicationslisting"></a>
+  <tal:volumes repeat="volume view/volumes | nothing">
+    <div class="review_container"
+         tal:define="
+           volume_expanded python:view.is_expanded(volume['UID']);
+           is_container python:volume['css_classes'] and 'review_container' in volume['css_classes'];
+         "
+         tal:attributes="
+           id volume/UID;
+           class volume/css_classes;
+         "
+    >
+      <a class="container_trigger"
+         href="#"
+         tal:condition="is_container"
+         tal:attributes="
+           href volume/toggle_link;
+         "
+      >
+        <h2 tal:content="volume/Title"></h2>
+      </a>
+      <h2 tal:condition="not:is_container"
+          tal:content="volume/Title"
+      ></h2>
+
+      <span class="pdf"
+            tal:condition="volume/pdf | nothing"
+      >
+        <a href=""
+           tal:attributes="
+             href string:${volume/pdf}/at_download/file;
+           "
+        >
+          <img alt=""
+               src="pdf.png"
+          />&nbsp;
+          <span i18n:translate="label_download_complete_pdf">download Gesamt-pdf</span>
+        </a>
+        <span class="discreet">
+                &mdash;
+          <span>PDF</span>,
+          <tal:size content="volume/pdfsize">?</tal:size>
+        </span>
+      </span>
+
+      <ul tal:condition="is_container">
+        <li tal:condition="volume_expanded"
+            tal:repeat="review python:view.reviews(volume=volume['id'])"
+        >
+          <a tal:content="review/getDecoratedTitle"
+             tal:attributes="
+               href review/absolute_url;
+             "
+          ></a>
+        </li>
+      </ul>
+    </div>
+
+    <tal:issues repeat="issue python:view.issues(volume=volume['id'])">
+      <div class="review_container"
+           tal:define="
+             issue_expanded python:view.is_expanded(issue['UID']);
+             is_container python:issue['css_classes'] and 'review_container' in issue['css_classes'];
+           "
+           tal:attributes="
+             id issue/UID;
+             class issue/css_classes;
+           "
+      >
+        <a class="container_trigger"
+           href="#"
+           tal:condition="is_container"
+           tal:attributes="
+             href issue/toggle_link;
+           "
+        >
+          <h3 tal:content="issue/Title"></h3>
+        </a>
+        <h3 tal:condition="not:is_container"
+            tal:content="issue/Title"
+        ></h3>
+
+
+        <span class="pdf"
+              tal:condition="issue/pdf | nothing"
+        >
+          <a href=""
+             tal:attributes="
+               href string:${issue/pdf}/at_download/file;
+             "
+          >
+            <img alt=""
+                 src="pdf.png"
+            />&nbsp;
+            <span i18n:translate="label_download_complete_pdf">download Gesamt-pdf</span>
+          </a>
+          <span class="discreet">
+                  &mdash;
+            <span>PDF</span>,
+            <tal:size content="issue/pdfsize">?</tal:size>
+          </span>
+        </span>
+
+        <tal:comment replace="nothing">
+          An image would be nicer, but not my expertise :(
+          <img class="loading"
+               src="++resource++recensio.theme.images/fancy_loading.png"
+               tal:condition="is_container"
+               tal:attributes="
+                 src string:${context/portal_url}/++resource++recensio.theme.images/fancy_loading.png;
+               "
+          />&nbsp;
+        </tal:comment>
+        <ul tal:condition="is_container">
+          <li tal:condition="issue_expanded"
+              tal:repeat="review python:view.reviews(volume=volume['id'],issue=issue['id'])"
+          >
+            <a tal:content="review/getDecoratedTitle"
+               tal:attributes="
+                 href review/absolute_url;
+               "
+            ></a>
+          </li>
+        </ul>
+      </div>
+    </tal:issues>
+  </tal:volumes>
+
+</div>
