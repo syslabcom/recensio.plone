@@ -4,13 +4,25 @@ from plone import api
 from recensio.plone import _
 from recensio.plone.controlpanel.settings import IRecensioSettings
 
+import os
+
 
 logger = getLogger(__name__)
+
+
+DISABLED = os.environ.get("RECENSIO_DISABLE_SUBSCRIBERS", False)
+if DISABLED:
+    DISABLED = DISABLED.lower() in ("true", "1")
 
 
 def mail_after_publication(obj, event):
     """Send an email if the workflow of the obj is simple publication workflow
     and the object is published."""
+
+    if DISABLED:
+        # Don't run subscribers if disabled, e.g. while migrating
+        return
+
     wf = api.portal.get_tool("portal_workflow")
 
     if wf.getChainFor(obj)[0] != "simple_publication_workflow":

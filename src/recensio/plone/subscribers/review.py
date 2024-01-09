@@ -14,6 +14,10 @@ import subprocess
 import tempfile
 
 
+DISABLED = os.environ.get("RECENSIO_DISABLE_SUBSCRIBERS", False)
+if DISABLED:
+    DISABLED = DISABLED.lower() in ("true", "1")
+
 # XXX restore me
 # RUN_SHELL_COMMANDS = os.environ.get("RUN_SHELL_COMMANDS", False)
 RUN_SHELL_COMMANDS = True
@@ -379,6 +383,10 @@ class ReviewPDF:
 def review_pdf_updated_eventhandler(obj, evt):
     """Re-generate the pdf version of the review, then update the cover image
     of the pdf if necessary."""
+
+    if DISABLED:
+        # Don't run subscribers if disabled, e.g. while migrating
+        return
 
     # Re-generate the pdf
     update_generated_pdf(obj)
