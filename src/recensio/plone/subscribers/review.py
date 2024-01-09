@@ -278,7 +278,7 @@ def _getAllPageImages(context, size=(320, 452)):
     review_view = api.content.get_view(name="review_view", context=context)
     pdf = review_view.get_review_pdf()
     if pdf:
-        with pdf["blob"].open() as f:
+        with pdf.open() as f:
             pdf_data = f.read()
     if not pdf or not pdf_data:
         return "%s has no pdf" % (context.absolute_url()), None
