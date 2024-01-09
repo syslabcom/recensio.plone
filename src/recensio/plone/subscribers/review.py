@@ -379,9 +379,9 @@ class ReviewPDF:
 def review_pdf_updated_eventhandler(obj, evt):
     """Re-generate the pdf version of the review, then update the cover image
     of the pdf if necessary."""
-    if not obj.REQUEST.get("pdf_file"):
-        update_generated_pdf(obj)
 
-    # Terrible hack, if this method gets called without a real
-    # object, we assume that the caller wants htis to happen now
+    # Re-generate the pdf
+    update_generated_pdf(obj)
+
+    # Update the cover image
     ReviewPDF(obj).generatePageImages(later=evt is not None)
