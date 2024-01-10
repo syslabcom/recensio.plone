@@ -33,3 +33,8 @@ After successful migration import the page pictures, which were not in the Recen
 The blob home environment variable must be set to import the page pictures.
 
 `http://localhost:8080/recensio/@@import-page-pictures`
+
+
+Order of import:
+
+1) Users / Members

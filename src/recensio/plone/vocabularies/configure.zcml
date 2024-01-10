@@ -20,4 +20,14 @@
            z3c.form.interfaces.IWidget"
       />
 
+  <utility
+      name="recensio.plone.vocabularies.languages.available_user_languages"
+      component=".languages.AvailableUserLanguagesFactory"
+      />
+
+  <utility
+      name="recensio.plone.vocabularies.available_content_languages"
+      component=".languages.AvailableContentLanguagesFactory"
+      />
+
 </configure>
