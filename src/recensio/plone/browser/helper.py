@@ -63,8 +63,10 @@ class CrossPlatformMixin:
         external_url = None
         with SwitchPortal(other_portal):
             registry = getUtility(IRegistry)
-            recensio_settings = registry.forInterface(IRecensioSettings)
-            external_url = recensio_settings.external_portal_url
+            settings = registry.forInterface(
+                IRecensioSettings, prefix="recensio.plone.settings"
+            )
+            external_url = settings.external_portal_url
         return external_url
 
     def get_foreign_url(self, result):
