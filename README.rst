@@ -37,4 +37,17 @@ The blob home environment variable must be set to import the page pictures.
 
 Order of import:
 
-1) Users / Members
+ 1) Create fresh Plone instance "recensio"
+ 2) Apply profile `recensio.plone:default`
+
+ 3) Import users (< 5m):           http://localhost:8080/recensio/@@import_members
+ 4) Import content: (3.5-4h):      http://localhost:8080/recensio/@@import_content
+ 5) Import relations: (5 minutes): http://localhost:8080/recensio/@@import_relations
+ 6) Import translations (0):       http://localhost:8080/recensio/@@import_translations
+ 7) Import local roles (< 5m):     http://localhost:8080/recensio/@@import_localroles
+ 8) Import default pages (< 5m):   http://localhost:8080/recensio/@@import_defaultpages
+ 9) Import ordering (~ 20m):       http://localhost:8080/recensio/@@import_ordering
+10) Import portlets (< 5m):        http://localhost:8080/recensio/@@import_portlets
+11) Reset dates (< 5m):            http://localhost:8080/recensio/@@reset_dates
+12) Fix collections (0m):          http://localhost:8080/recensio/@@fix_collection_queries
+13) Fix html (< 5m):               http://localhost:8080/recensio/@@fix_html
