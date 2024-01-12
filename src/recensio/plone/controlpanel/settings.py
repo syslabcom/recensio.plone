@@ -7,20 +7,21 @@ from zope.interface import Interface
 class IRecensioSettings(Interface):
     """Global recensio settings.
 
-    This describes records stored in the configuration registry and
-    obtainable via plone.registry.
+    This describes records stored in the configuration registry and obtainable
+    via plone.registry.
     """
 
     review_submitted_email = schema.TextLine(
         title=_(
             "label_review_submitted_email",
-            default="E-mail " "address for submitted reviews.",
+            default="E-mail address for submitted reviews.",
         ),
         description=_(
             "description_review_submitted_email",
-            default="Enter "
-            "an e-mail address to which notifications will be sent, if a user "
-            "submits a review for publication.",
+            default="""
+Enter an e-mail address to which notifications will be sent, if a user submits
+a review for publication.
+""",
         ),
         required=False,
         default="",
@@ -30,9 +31,10 @@ class IRecensioSettings(Interface):
         title=_("label_external_portal_url", default="External URL of this portal"),
         description=_(
             "description_external_portal_url",
-            default="The URL "
-            "that will be used in the cross-portal search on other "
-            "portals to link to contents inside this portal.",
+            default="""
+The URL that will be used in the cross-portal search on other portals to link
+to contents inside this portal.
+""",
         ),
         required=False,
         default="",
@@ -41,13 +43,14 @@ class IRecensioSettings(Interface):
     available_content_languages = schema.Text(
         title=_(
             "label_available_content_languages",
-            default="Available " "languages for content in the site.",
+            default="Available languages for content in the site.",
         ),
         description=_(
             "description_available_content_languages",
-            default="Enter one language (2 letter code) per line. These "
-            'languages will be used for the fields "Language of '
-            'Presentation" and "Language of reviewed text".',
+            default="""
+Enter one language (2 letter code) per line. These languages will be used for
+the fields "Language of Presentation" and "Language of reviewed text".
+""",
         ),
         required=False,
         default="",
@@ -56,7 +59,9 @@ class IRecensioSettings(Interface):
     show_thematic_search = schema.Bool(
         title=_(
             "label_show_thematic_search",
-            default='Show "Thematic search" section in the advanced ' "search",
+            default="""
+Show "Thematic search" section in the advanced search
+""",
         ),
         default=True,
     )
@@ -65,8 +70,10 @@ class IRecensioSettings(Interface):
         title=_("label_xml_export_server", default="Server name for Chronicon export"),
         description=_(
             "description_xml_export_server",
-            default="Enter the server name that should be used for "
-            "exporting XML metadata to Chronicon over SFTP.",
+            default="""
+Enter the server name that should be used for exporting XML metadata to
+Chronicon over SFTP.
+""",
         ),
         required=False,
         default="",
@@ -76,8 +83,10 @@ class IRecensioSettings(Interface):
         title=_("label_xml_export_username", default="User name for Chronicon export"),
         description=_(
             "description_xml_export_username",
-            default="Enter the user name that should be used for "
-            "exporting XML metadata to Chronicon over SFTP.",
+            default="""
+Enter the user name that should be used for exporting XML metadata to Chronicon
+over SFTP.
+""",
         ),
         required=False,
         default="",
@@ -87,7 +96,9 @@ class IRecensioSettings(Interface):
         title=_("label_xml_export_password", default="Password for Chronicon export"),
         description=_(
             "description_xml_export_password",
-            default="Enter the password that belongs to the above " "SFTP user name.",
+            default="""
+Enter the password that belongs to the above SFTP user name.
+""",
         ),
         required=False,
         default="",
@@ -100,9 +111,10 @@ class IRecensioSettings(Interface):
         ),
         description=_(
             "description_xml_export_filename_prefix",
-            default="Enter a prefix for the name of the file that "
-            "is uploaded to the Chronicon server. The final name "
-            'will follow the schema "[prefix]_[date]_all.zip".',
+            default="""
+Enter a prefix for the name of the file that is uploaded to the Chronicon
+server. The final name will follow the schema "[prefix]_[date]_all.zip".
+""",
         ),
         required=False,
         default="recensio",
@@ -134,7 +146,7 @@ class IRecensioSettings(Interface):
         ),
         description=_(
             "description_doi_registration_username",
-            default="User name to use as login for registration of " "DOIs",
+            default="User name to use as login for registration of DOIs",
         ),
         required=False,
         default="",
@@ -146,8 +158,9 @@ class IRecensioSettings(Interface):
         ),
         description=_(
             "description_doi_registration_password",
-            default="Password that belongs to the above user name "
-            "for registration of DOIs",
+            default="""
+Password that belongs to the above user name for registration of DOIs
+""",
         ),
         required=False,
         default="",

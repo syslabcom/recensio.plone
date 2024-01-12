@@ -198,78 +198,79 @@ def update_generated_pdf(obj):
     contents of the review text (html)
     """
     has_custom_pdf = getattr(obj, "pdf", None) and obj.pdf.getSize() > 0
-    if not has_custom_pdf:
-        # Generate the pdf file and save it as a blob
-        try:
-            create_pdf = RunSubprocess(
-                "abiword",
-                input_params="--plugin=AbiCommand -t pdf",
-                output_params="-o",
-            )
-            create_pdf.create_tmp_ouput()
-            doc = getattr(obj, "doc", None)
-            if doc:
-                with doc.open() as open_blob:
-                    blob_path = open_blob.name
-                create_pdf.run(input_path=blob_path)
-            else:
-                review = obj.review
-                # Insert the review into a template so we have a
-                # valid html file
-                if not review:
-                    return
-                data = HTML_TEMPLATE.substitute(body=review.output_relative_to(obj))
+    if has_custom_pdf:
+        # PDF already there.
+        return
 
-                with NamedTemporaryFile() as tmp_input:
-                    with NamedTemporaryFile() as tmp_output:
-                        tmp_input.write(safe_bytes(data))
-                        tmp_input.flush()
-                        try:
-                            SimpleSubprocess(
-                                "tidy",
-                                "-utf8",
-                                "-numeric",
-                                "-o",
-                                tmp_output.name,
-                                tmp_input.name,
-                                exitcodes=[0, 1],
-                            )
-                            tmp_output.seek(0)
-                            data = tmp_output.read()
-                        except RuntimeError:
-                            logger.error(
-                                "Tidy was unable to tidy the html for %s",
-                                obj.absolute_url(),
-                                exc_info=True,
-                            )
-                    create_pdf.create_tmp_input(suffix=".html", data=data)
-                try:
-                    create_pdf.run()
-                except RuntimeError:
-                    logger.error(
-                        "Abiword was unable to generate a pdf for %s and created an error pdf",
-                        obj.absolute_url(),
-                        exc_info=True,
-                    )
-                    create_pdf.create_tmp_input(
-                        suffix=".html", data="Could not create PDF"
-                    )
-                    create_pdf.run()
+    # Generate the pdf file and save it as a blob
+    try:
+        create_pdf = RunSubprocess(
+            "abiword",
+            input_params="--plugin=AbiCommand -t pdf",
+            output_params="-o",
+        )
+        create_pdf.create_tmp_ouput()
+        doc = getattr(obj, "doc", None)
+        if doc:
+            with doc.open() as open_blob:
+                blob_path = open_blob.name
+            create_pdf.run(input_path=blob_path)
+        else:
+            review = obj.review
+            # Insert the review into a template so we have a
+            # valid html file
+            if not review:
+                return
+            data = HTML_TEMPLATE.substitute(body=review.output_relative_to(obj))
 
-            with open(create_pdf.output_path, "br") as pdf_file:
-                pdf_data = pdf_file.read()
+            with NamedTemporaryFile() as tmp_input:
+                with NamedTemporaryFile() as tmp_output:
+                    tmp_input.write(safe_bytes(data))
+                    tmp_input.flush()
+                    try:
+                        SimpleSubprocess(
+                            "tidy",
+                            "-utf8",
+                            "-numeric",
+                            "-o",
+                            tmp_output.name,
+                            tmp_input.name,
+                            exitcodes=[0, 1],
+                        )
+                        tmp_output.seek(0)
+                        data = tmp_output.read()
+                    except RuntimeError:
+                        logger.error(
+                            "Tidy was unable to tidy the html for %s",
+                            obj.absolute_url(),
+                            exc_info=True,
+                        )
+                create_pdf.create_tmp_input(suffix=".html", data=data)
+            try:
+                create_pdf.run()
+            except RuntimeError:
+                logger.error(
+                    "Abiword was unable to generate a pdf for %s and created an error pdf",
+                    obj.absolute_url(),
+                    exc_info=True,
+                )
+                create_pdf.create_tmp_input(suffix=".html", data="Could not create PDF")
+                create_pdf.run()
 
-            create_pdf.clean_up()
+        with open(create_pdf.output_path, "br") as pdf_file:
+            pdf_data = pdf_file.read()
 
-            obj.generatedPdf = NamedBlobFile(
-                filename=f"{obj.id}.pdf",
-                data=pdf_data,
-            )
-        except SubprocessException:
-            logger.error(
-                "The application Abiword does not seem to be available",
-                exc_info=True,
-            )
+        create_pdf.clean_up()
+
+        obj.generatedPdf = NamedBlobFile(
+            filename=f"{obj.id}.pdf",
+            data=pdf_data,
+        )
+    except SubprocessException:
+        logger.error(
+            "The application Abiword does not seem to be available",
+            exc_info=True,
+        )
 
 
 def _getAllPageImages(context, size=(320, 452)):
