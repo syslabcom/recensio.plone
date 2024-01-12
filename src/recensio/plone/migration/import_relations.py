@@ -1,4 +1,13 @@
-from collective.exportimport.import_other import ImportRelations as OrigImportRelations
+try:
+    from collective.exportimport.import_other import (
+        ImportRelations as OrigImportRelations,
+    )
+except ImportError:
+    # Just a dummy import to not break this module when c.exportimport is not
+    # installed.
+    from Products.Five.browser import BrowserView
+
+    OrigImportRelations = BrowserView
 
 
 class ImportRelations(OrigImportRelations):
