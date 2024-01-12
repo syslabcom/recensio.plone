@@ -24,41 +24,5 @@
     <value key="use_subdomain_negotiation">False</value>
   </records>
 
-  <record name="recensio.plone.settings.available_content_languages">
-    <value>sq&#13;
-hy&#13;
-az&#13;
-bs&#13;
-bg&#13;
-ca&#13;
-hr&#13;
-cs&#13;
-da&#13;
-nl&#13;
-en&#13;
-et&#13;
-fi&#13;
-fr&#13;
-ka&#13;
-de&#13;
-el&#13;
-hu&#13;
-it&#13;
-la&#13;
-lv&#13;
-lt&#13;
-no&#13;
-pl&#13;
-pt&#13;
-ro&#13;
-ru&#13;
-sr&#13;
-sk&#13;
-sl&#13;
-es&#13;
-sv&#13;
-tr&#13;
-uk</value>
-  </record>
 
 </registry>
