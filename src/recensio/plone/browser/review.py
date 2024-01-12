@@ -457,12 +457,12 @@ class View(BrowserView, CanonicalURLHelper):
         review_pdf = None
 
         uploaded_pdf = getattr(self.context, "pdf", None)
-        if uploaded_pdf and uploaded_pdf.getSize() > 0:
+        if uploaded_pdf and uploaded_pdf.size > 0:
             review_pdf = uploaded_pdf
 
         if not review_pdf:
             generated_pdf = getattr(self.context, "generatedPdf", None)
-            if generated_pdf.getSize() > 0:
+            if generated_pdf and generated_pdf.size > 0:
                 review_pdf = generated_pdf
 
         return review_pdf
