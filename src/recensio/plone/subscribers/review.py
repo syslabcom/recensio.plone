@@ -14,6 +14,10 @@ import subprocess
 import tempfile
 
 
+DISABLED = os.environ.get("RECENSIO_DISABLE_SUBSCRIBERS", False)
+if DISABLED:
+    DISABLED = DISABLED.lower() in ("true", "1")
+
 # XXX restore me
 # RUN_SHELL_COMMANDS = os.environ.get("RUN_SHELL_COMMANDS", False)
 RUN_SHELL_COMMANDS = True
@@ -278,7 +282,7 @@ def _getAllPageImages(context, size=(320, 452)):
     review_view = api.content.get_view(name="review_view", context=context)
     pdf = review_view.get_review_pdf()
     if pdf:
-        with pdf["blob"].open() as f:
+        with pdf.open() as f:
             pdf_data = f.read()
     if not pdf or not pdf_data:
         return "%s has no pdf" % (context.absolute_url()), None
@@ -379,9 +383,13 @@ class ReviewPDF:
 def review_pdf_updated_eventhandler(obj, evt):
     """Re-generate the pdf version of the review, then update the cover image
     of the pdf if necessary."""
-    if not obj.REQUEST.get("pdf_file"):
-        update_generated_pdf(obj)
 
-    # Terrible hack, if this method gets called without a real
-    # object, we assume that the caller wants htis to happen now
+    if DISABLED:
+        # Don't run subscribers if disabled, e.g. while migrating
+        return
+
+    # Re-generate the pdf
+    update_generated_pdf(obj)
+
+    # Update the cover image
     ReviewPDF(obj).generatePageImages(later=evt is not None)

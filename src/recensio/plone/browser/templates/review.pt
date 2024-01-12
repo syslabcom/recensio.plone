@@ -107,13 +107,11 @@
       <div class="col-md-4"
            tal:define="
              pdf python:view.get_review_pdf();
+             pdf_size python:pdf and pdf.getSize();
            "
       >
         <div class="card portlet"
              id="portletDownload"
-             tal:define="
-               pdf_ob python:pdf and pdf['blob'];
-             "
              tal:condition="pdf"
         >
           <div class="card-body download pdf"
@@ -124,7 +122,7 @@
                i18n:translate="download_as"
             >Download as
               <strong>PDF</strong><br />
-              <em class="discrete">(<span tal:replace="python: pdf_ob and pdf['size']/1024 or 0"
+              <em class="discrete">(<span tal:replace="python: round(pdf_size/1024) if pdf_size else 0"
                       i18n:name="download_size"
                 ></span>
                 kb)</em></a>

@@ -454,27 +454,18 @@ class View(BrowserView, CanonicalURLHelper):
         Also return the size since it is not easy to get this from the
         blob directly
         """
-        pdf = {}
-        size = 0
-        pdf_attribute = getattr(self.context, "pdf", None)
+        review_pdf = None
 
-        if pdf_attribute:
-            size = pdf_attribute.getSize()
-            if size > 0:
-                pdf["size"] = size
-                pdf["blob"] = pdf_attribute._blob
+        uploaded_pdf = getattr(self.context, "pdf", None)
+        if uploaded_pdf and uploaded_pdf.size > 0:
+            review_pdf = uploaded_pdf
 
-        generated_pdf = getattr(self.context, "generatedPdf", None)
-        if size == 0 and generated_pdf:
-            size = generated_pdf.getSize()
-            if size > 0:
-                pdf["size"] = size
-                pdf["blob"] = generated_pdf._blob
+        if not review_pdf:
+            generated_pdf = getattr(self.context, "generatedPdf", None)
+            if generated_pdf and generated_pdf.size > 0:
+                review_pdf = generated_pdf
 
-        if pdf == {}:
-            return None
-        else:
-            return pdf
+        return review_pdf
 
     def getLicense(self):
         # XXX It might need some tweaks if we port the presentations

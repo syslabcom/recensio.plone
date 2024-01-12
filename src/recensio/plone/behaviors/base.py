@@ -55,7 +55,7 @@ class IBase(model.Schema):
     languageReview = schema.List(
         title=_("Language(s) (review)"),
         value_type=schema.Choice(
-            vocabulary="plone.app.vocabularies.SupportedContentLanguages"
+            vocabulary="recensio.plone.vocabularies.available_content_languages"
         ),
         required=False,
         defaultFactory=list,
@@ -65,7 +65,7 @@ class IBase(model.Schema):
     languageReviewedText = schema.List(
         title=_("Language(s) (text)"),
         value_type=schema.Choice(
-            vocabulary="plone.app.vocabularies.SupportedContentLanguages"
+            vocabulary="recensio.plone.vocabularies.available_content_languages"
         ),
         required=False,
         defaultFactory=list,

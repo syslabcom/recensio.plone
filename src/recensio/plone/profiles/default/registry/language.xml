@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<registry>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="recensio"
+>
   <records interface="plone.i18n.interfaces.ILanguageSchema"
            prefix="plone"
   >
@@ -21,4 +23,6 @@
     <value key="use_request_negotiation">False</value>
     <value key="use_subdomain_negotiation">False</value>
   </records>
+
+
 </registry>
