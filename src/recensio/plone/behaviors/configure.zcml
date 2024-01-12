@@ -36,6 +36,14 @@
       />
 
   <plone:behavior
+      name="recensio.pages_of_review_in_journal"
+      title="Pages of Review in Journal Behavior"
+      factory=".pages_of_review_in_journal.PagesOfReviewInJournal"
+      provides=".pages_of_review_in_journal.IPagesOfReviewInJournal"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
+  <plone:behavior
       name="recensio.editorial"
       title="Editorial Behavior"
       factory=".editorial.Editorial"
