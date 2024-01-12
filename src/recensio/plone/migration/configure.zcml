@@ -11,4 +11,16 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <configure package="collective.exportimport">
+    <browser:page
+        name="import_relations"
+        for="zope.interface.Interface"
+        class="recensio.plone.migration.import_relations.ImportRelations"
+        template="templates/import_relations.pt"
+        permission="cmf.ManagePortal"
+        layer="recensio.plone.interfaces.IRecensioPloneLayer"
+        />
+  </configure>
+
+
 </configure>
