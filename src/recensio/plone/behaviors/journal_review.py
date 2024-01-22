@@ -1,7 +1,9 @@
+from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.behaviors.directives import fieldset_edited_volume
 from recensio.plone.behaviors.directives import fieldset_reviewed_text
 from zope import schema
 from zope.component import adapter
@@ -43,6 +45,7 @@ class IJournalReview(model.Schema):
         required=False,
     )
 
+    directives.order_after(shortnameJournal="IReviewJournal.translatedTitleJournal")
     shortnameJournal = schema.TextLine(
         title=_("Shortname"),
         required=False,
@@ -62,8 +65,92 @@ class IJournalReview(model.Schema):
         title=_("Official year of publication (if different)"),
         required=False,
     )
-
+    # customizations
+    directives.order_before(issn="IBase.languageReviewedText")
+    directives.order_before(issn_online="IBase.languageReviewedText")
+    directives.order_before(url_journal="IBase.languageReviewedText")
+    directives.order_before(urn_journal="IBase.languageReviewedText")
+    directives.order_before(doi_journal="IBase.languageReviewedText")
+    directives.order_after(officialYearOfPublication="IPrintedReview.yearOfPublication")
     fieldset_reviewed_text(
+        [
+            "issn",
+            "issn_online",
+            "url_journal",
+            "urn_journal",
+            "doi_journal",
+            "shortnameJournal",
+            "volumeNumber",
+            "issueNumber",
+            "officialYearOfPublication",
+        ],
+    )
+
+
+@provider(IFormFieldProvider)
+class IJournalArticleReview(model.Schema):
+    issn = schema.TextLine(
+        title=_("ISSN"),
+        description=_(
+            "description_issn",
+            default=("With or without hyphens."),
+        ),
+        required=False,
+    )
+
+    issn_online = schema.TextLine(
+        title=_("ISSN Online"),
+        description=_(
+            "description_issn_online",
+            default=("With or without hyphens."),
+        ),
+        required=False,
+    )
+
+    url_journal = schema.TextLine(
+        title=_("URL (Zeitschrift)"),
+        required=False,
+    )
+
+    urn_journal = schema.TextLine(
+        title=_("URN (Zeitschrift)"),
+        required=False,
+    )
+
+    doi_journal = schema.TextLine(
+        title=_("DOI (Zeitschrift)"),
+        required=False,
+    )
+
+    directives.order_after(shortnameJournal="IReviewJournal.translatedTitleJournal")
+    shortnameJournal = schema.TextLine(
+        title=_("Shortname"),
+        required=False,
+    )
+
+    volumeNumber = schema.TextLine(
+        title=_("Vol."),
+        required=False,
+    )
+
+    issueNumber = schema.TextLine(
+        title=_("Number"),
+        required=False,
+    )
+
+    officialYearOfPublication = schema.TextLine(
+        title=_("Official year of publication (if different)"),
+        required=False,
+    )
+    # customizations
+    directives.order_after(
+        officialYearOfPublication="IPrintedReviewEditedVolume.yearOfPublication"
+    )
+    directives.order_after(
+        volumeNumber="IJournalArticleReview.officialYearOfPublication"
+    )
+    directives.order_after(issueNumber="IJournalArticleReview.volumeNumber")
+    fieldset_edited_volume(
         [
             "issn",
             "issn_online",

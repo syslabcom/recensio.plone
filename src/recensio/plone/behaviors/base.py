@@ -1,4 +1,5 @@
 from plone import api
+from plone.app.dexterity import _ as _DX
 from plone.app.dexterity.textindexer import searchable
 from plone.app.textfield import RichText as RichTextField
 from plone.app.vocabularies.catalog import CatalogSource
@@ -39,6 +40,9 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class IBase(model.Schema):
+    directives.order_after(title="IAuthors.authors")
+    title = schema.TextLine(title=_DX("label_title", default="Title"), required=True)
+
     directives.widget(
         "reviewAuthors",
         RelatedItemsFieldWidget,
@@ -62,6 +66,7 @@ class IBase(model.Schema):
     )
 
     directives.widget("languageReviewedText", SelectFieldWidget)
+    directives.order_before(languageReviewedText="IAuthors.authors")
     languageReviewedText = schema.List(
         title=_("Language(s) (text)"),
         value_type=schema.Choice(
@@ -83,6 +88,7 @@ class IBase(model.Schema):
     directives.omitted("generatedPdf")
 
     directives.widget("review", RichTextFieldWidget)
+    directives.order_after(review="IBaseReview.doc")
     searchable("review")
     review = RichTextField(
         title=_("Core Statements"),
@@ -90,12 +96,14 @@ class IBase(model.Schema):
         allowed_mime_types=["text/html"],
     )
 
+    directives.order_after(urn="IBase.canonical_uri")
     urn = schema.TextLine(
         title=_("URN"),
         description=_("description_urn", default="Filled in by the editorial staff"),
         required=False,
     )
 
+    directives.order_after(bv="IBase.urn")
     bv = schema.TextLine(
         title=_("BV Number"),
         description=_(
@@ -104,6 +112,7 @@ class IBase(model.Schema):
         required=False,
     )
 
+    directives.order_after(ppn="IBase.bv")
     ppn = schema.TextLine(
         title=_("PPN"),
         description=_(
@@ -112,6 +121,7 @@ class IBase(model.Schema):
         required=False,
     )
 
+    directives.order_after(canonical_uri="IBaseReview.customCitation")
     canonical_uri = schema.TextLine(
         title=_("Original Source URL"),
         description=_(
@@ -123,6 +133,7 @@ class IBase(model.Schema):
 
     # TODO
     # size=10,
+    directives.order_after(ddcSubject="ICoverPicture.coverPicture")
     ddcSubject = schema.List(
         title=_("ddc subject"),
         value_type=schema.Choice(vocabulary="recensio.plone.vocabularies.topic_values"),
@@ -132,6 +143,7 @@ class IBase(model.Schema):
 
     # TODO
     # size=10,
+    directives.order_after(ddcTime="IBase.ddcSubject")
     ddcTime = schema.List(
         title=_("ddc time"),
         value_type=schema.Choice(vocabulary="recensio.plone.vocabularies.epoch_values"),
@@ -141,6 +153,7 @@ class IBase(model.Schema):
 
     # TODO
     # size=10,
+    directives.order_after(ddcPlace="IBase.ddcTime")
     ddcPlace = schema.List(
         title=_("ddc place"),
         value_type=schema.Choice(
@@ -153,6 +166,7 @@ class IBase(model.Schema):
     fieldset_reviewed_text(
         [
             "languageReviewedText",
+            "title",
             "ddcSubject",
             "ddcTime",
             "ddcPlace",
@@ -178,6 +192,14 @@ class Base:
 
     def __init__(self, context):
         self.context = context
+
+    @property
+    def title(self):
+        return self.context.title
+
+    @title.setter
+    def title(self, value):
+        self.context.title = value
 
     @property
     def reviewAuthors(self):
@@ -304,3 +326,9 @@ class Base:
     @ddcPlace.setter
     def ddcPlace(self, value):
         self.context.ddcPlace = value
+
+
+@provider(IFormFieldProvider)
+class IBaseExhibition(IBase):
+    directives.omitted("title")
+    directives.omitted("languageReviewedText")

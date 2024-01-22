@@ -29,11 +29,10 @@
 
   <!-- Enabled behaviors -->
   <property name="behaviors">
-    <element value="plone.basic" />
     <element value="plone.categorization" />
     <element value="plone.locking" />
     <element value="plone.namefromtitle" />
-    <element value="recensio.base" />
+    <element value="recensio.base_exhibition" />
     <element value="recensio.base_review" />
     <element value="recensio.licence" />
     <element value="recensio.settings_url_in_citation" />

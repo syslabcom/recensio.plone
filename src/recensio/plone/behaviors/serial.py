@@ -1,7 +1,9 @@
+from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.behaviors.directives import fieldset_edited_volume
 from recensio.plone.behaviors.directives import fieldset_reviewed_text
 from zope import schema
 from zope.component import adapter
@@ -10,22 +12,48 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class ISerial(model.Schema):
+    directives.order_after(series="IPrintedReview.publisherOnline")
     series = schema.TextLine(
         title=_("Series"),
         required=False,
     )
 
+    directives.order_after(seriesVol="ISerial.series")
     seriesVol = schema.TextLine(
         title=_("Series (vol.)"),
         required=False,
     )
 
+    directives.order_after(pages="ISerial.seriesVol")
     pages = schema.TextLine(
         title=_("Pages"),
         required=False,
     )
-
+    # customizations
     fieldset_reviewed_text(["series", "seriesVol", "pages"])
+
+
+@provider(IFormFieldProvider)
+class ISerialEditedVolume(model.Schema):
+    directives.order_after(series="IPrintedReview.publisherOnline")
+    series = schema.TextLine(
+        title=_("Series"),
+        required=False,
+    )
+
+    directives.order_after(seriesVol="ISerial.series")
+    seriesVol = schema.TextLine(
+        title=_("Series (vol.)"),
+        required=False,
+    )
+
+    directives.order_after(pages="ISerial.seriesVol")
+    pages = schema.TextLine(
+        title=_("Pages"),
+        required=False,
+    )
+    # customizations
+    fieldset_edited_volume(["series", "seriesVol", "pages"])
 
 
 @adapter(IDexterityContent)

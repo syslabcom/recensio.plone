@@ -5,6 +5,7 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.behaviors.directives import fieldset_edited_volume
 from recensio.plone.behaviors.directives import fieldset_reviewed_text
 from recensio.plone.utils import getFormatter
 from z3c.relationfield.schema import RelationChoice
@@ -18,6 +19,7 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class IEditorial(model.Schema):
+    directives.order_after(help_authors_or_editors="IBase.languageReviewedText")
     help_authors_or_editors = schema.TextLine(
         title=_(
             "help_authors_or_editors",
@@ -44,8 +46,52 @@ class IEditorial(model.Schema):
         RelatedItemsFieldWidget,
         pattern_options={"mode": "auto", "favorites": []},
     )
+    # customizations
+    directives.order_after(editorial="IAuthors.authors")
+    fieldset_reviewed_text(
+        [
+            "help_authors_or_editors",
+            "editorial",
+        ]
+    )
 
-    fieldset_reviewed_text(["help_authors_or_editors", "editorial"])
+
+@provider(IFormFieldProvider)
+class IEditorialEditedVolume(model.Schema):
+    directives.order_after(help_authors_or_editors="IBase.languageReviewedText")
+    help_authors_or_editors = schema.TextLine(
+        title=_(
+            "help_authors_or_editors",
+            default=(
+                "Please fill in either authors OR editors "
+                "(exception: Complete Works etc.)"
+            ),
+        ),
+        required=False,
+    )
+    # This is just use to show a label in the form
+    # XXX It is probably better to use a custom widget with a schema.Field,
+    # but I have to think more about it
+    directives.mode(help_authors_or_editors="display")
+
+    editorial = RelationList(
+        title=_("label_editorial", default="Editor(s) of the presented monograph"),
+        defaultFactory=list,
+        value_type=RelationChoice(source=CatalogSource(portal_type="Person")),
+        required=False,
+    )
+    directives.widget(
+        "editorial",
+        RelatedItemsFieldWidget,
+        pattern_options={"mode": "auto", "favorites": []},
+    )
+    # customizations
+    directives.omitted("help_authors_or_editors")
+    fieldset_edited_volume(
+        [
+            "editorial",
+        ]
+    )
 
 
 @adapter(IDexterityContent)

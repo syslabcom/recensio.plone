@@ -36,7 +36,6 @@
 
   <!-- Enabled behaviors -->
   <property name="behaviors">
-    <element value="plone.basic" />
     <element value="plone.categorization" />
     <element value="plone.locking" />
     <element value="plone.namefromtitle" />

@@ -42,6 +42,7 @@ def generateDoi(context):
 
 @provider(IFormFieldProvider)
 class IBaseReview(model.Schema):
+    directives.order_after(pdf="IBase.languageReview")
     pdf = NamedBlobFile(
         title=_("PDF"),
         required=False,
@@ -50,11 +51,28 @@ class IBaseReview(model.Schema):
     directives.no_omit(IAddForm, "pdf")
     directives.no_omit(IEditForm, "pdf")
 
+    directives.order_after(pageStart="IBaseReview.pdf")
+    pageStart = schema.Int(
+        title=_("label_page_start_in_pdf", default="Page number (start)"),
+        description=_(
+            "description_page_number",
+            default="Please fill in only if the review is part of a larger pdf-file",
+        ),
+        required=False,
+    )
+    directives.order_after(pageEnd="IBaseReview.pageStart")
+    pageEnd = schema.Int(
+        title=_("label_page_end_in_pdf", default="Page number (end)"),
+        required=False,
+    )
+
+    directives.order_after(doc="IPagesOfReviewInJournal.pageEndOfReviewInJournal")
     doc = NamedBlobFile(
         title=_("Word Document"),
         required=False,
     )
 
+    directives.order_after(customCitation="IBase.review")
     customCitation = schema.Text(
         title=_("Optional citation format"),
         description=_(
@@ -68,6 +86,7 @@ class IBaseReview(model.Schema):
     )
 
     # XXX: Might need a custom widget to show the proposed DOI
+    directives.order_after(doi="ILicence.licence")
     doi = schema.TextLine(
         title=_("label_doi", default=("DOI")),
         description=_(
@@ -81,6 +100,7 @@ class IBaseReview(model.Schema):
         defaultFactory=generateDoi,
     )
 
+    directives.order_after(customCoverImage="IBaseReview.doi")
     customCoverImage = NamedBlobImage(
         title=_("Custom cover image"),
         description=_(
@@ -95,6 +115,8 @@ class IBaseReview(model.Schema):
     fieldset_review(
         [
             "pdf",
+            "pageStart",
+            "pageEnd",
             "doc",
             "customCitation",
             "doi",
@@ -117,6 +139,22 @@ class BaseReview:
     @pdf.setter
     def pdf(self, value):
         self.context.pdf = value
+
+    @property
+    def pageStart(self):
+        return self.context.pageStart
+
+    @pageStart.setter
+    def pageStart(self, value):
+        self.context.pageStart = value
+
+    @property
+    def pageEnd(self):
+        return self.context.pageEnd
+
+    @pageEnd.setter
+    def pageEnd(self, value):
+        self.context.pageEnd = value
 
     @property
     def doc(self):

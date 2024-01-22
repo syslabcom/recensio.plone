@@ -1,3 +1,4 @@
+from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
@@ -29,6 +30,7 @@ class ISettingsURLInCitation(model.Schema):
     # condition="python:object.aq_parent.isURLShownInCitationNote() if object.aq_parent != object else True",
     # Show only as label, if:
     #     condition="python:not object.aq_parent.isURLShownInCitationNote() if object.aq_parent != object else False",
+    directives.order_after(URLShownInCitationNote="IBaseReview.customCoverImage")
     URLShownInCitationNote = schema.Bool(
         title=_(
             "label_is_url_shown_in_citation_note",

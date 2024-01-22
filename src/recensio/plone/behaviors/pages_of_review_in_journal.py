@@ -1,3 +1,4 @@
+from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
@@ -10,9 +11,13 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class IPagesOfReviewInJournal(model.Schema):
+    directives.order_after(pageStartOfReviewInJournal="IBaseReview.pageEnd")
     pageStartOfReviewInJournal = schema.Int(
         title=_("label_page_start_of_review_in_journal", default="First page"),
         required=False,
+    )
+    directives.order_after(
+        pageEndOfReviewInJournal="IPagesOfReviewInJournal.pageStartOfReviewInJournal"
     )
     pageEndOfReviewInJournal = schema.Int(
         title=_("label_page_end_of_review_in_journal", default="Last page"),

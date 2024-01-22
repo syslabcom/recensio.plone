@@ -29,7 +29,6 @@
 
   <!-- Enabled behaviors -->
   <property name="behaviors">
-    <element value="plone.basic" />
     <element value="plone.categorization" />
     <element value="plone.locking" />
     <element value="plone.namefromtitle" />
@@ -37,12 +36,12 @@
     <element value="recensio.authors" />
     <element value="recensio.base" />
     <element value="recensio.base_review" />
-    <element value="recensio.book_review" />
-    <element value="recensio.cover_picture" />
-    <element value="recensio.editorial" />
+    <element value="recensio.cover_picture_edited_volume" />
+    <element value="recensio.edited_volume" />
+    <element value="recensio.editorial_edited_volume" />
     <element value="recensio.licence" />
-    <element value="recensio.printed_review" />
-    <element value="recensio.serial" />
+    <element value="recensio.printed_review_edited_volume" />
+    <element value="recensio.serial_edited_volume" />
     <element value="recensio.settings_url_in_citation" />
   </property>
 
