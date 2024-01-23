@@ -1,6 +1,7 @@
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
+from plone.dexterity.utils import iterSchemata
 from plone.namedfile.field import NamedBlobFile
 from plone.namedfile.field import NamedBlobImage
 from plone.registry.interfaces import IRegistry
@@ -26,6 +27,9 @@ def generateDoi(context):
     Might not need to be called as a default factory, but just in the
     edit form
     """
+    if IBaseReview not in iterSchemata(context):
+        # XXX When adding new content we get the container as context
+        return None
     registry = getUtility(IRegistry)
     settings = registry.forInterface(
         IRecensioSettings, prefix="recensio.plone.settings"
