@@ -164,10 +164,10 @@
       />
 
   <plone:behavior
-      name="recensio.base_exhibition"
-      title="Recensio base exhibition behavior"
-      factory=".base.Base"
-      provides=".base.IBaseExhibition"
+      name="recensio.text_review"
+      title="Recensio text review behavior"
+      factory=".text_review.TextReview"
+      provides=".text_review.ITextReview"
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 

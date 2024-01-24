@@ -1,5 +1,4 @@
 from plone import api
-from plone.app.dexterity import _ as _DX
 from plone.app.dexterity.textindexer import searchable
 from plone.app.textfield import RichText as RichTextField
 from plone.app.vocabularies.catalog import CatalogSource
@@ -40,9 +39,6 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class IBase(model.Schema):
-    directives.order_after(title="IAuthors.authors")
-    title = schema.TextLine(title=_DX("label_title", default="Title"), required=True)
-
     directives.widget(
         "reviewAuthors",
         RelatedItemsFieldWidget,
@@ -58,17 +54,6 @@ class IBase(model.Schema):
     directives.widget("languageReview", SelectFieldWidget)
     languageReview = schema.List(
         title=_("Language(s) (review)"),
-        value_type=schema.Choice(
-            vocabulary="recensio.plone.vocabularies.available_content_languages"
-        ),
-        required=False,
-        defaultFactory=list,
-    )
-
-    directives.widget("languageReviewedText", SelectFieldWidget)
-    directives.order_before(languageReviewedText="IAuthors.authors")
-    languageReviewedText = schema.List(
-        title=_("Language(s) (text)"),
         value_type=schema.Choice(
             vocabulary="recensio.plone.vocabularies.available_content_languages"
         ),
@@ -165,8 +150,6 @@ class IBase(model.Schema):
 
     fieldset_reviewed_text(
         [
-            "languageReviewedText",
-            "title",
             "ddcSubject",
             "ddcTime",
             "ddcPlace",
@@ -192,14 +175,6 @@ class Base:
 
     def __init__(self, context):
         self.context = context
-
-    @property
-    def title(self):
-        return self.context.title
-
-    @title.setter
-    def title(self, value):
-        self.context.title = value
 
     @property
     def reviewAuthors(self):
@@ -238,14 +213,6 @@ class Base:
     @languageReview.setter
     def languageReview(self, value):
         self.context.languageReview = value
-
-    @property
-    def languageReviewedText(self):
-        return self.context.languageReviewedText
-
-    @languageReviewedText.setter
-    def languageReviewedText(self, value):
-        self.context.languageReviewedText = value
 
     @property
     def recensioID(self):
@@ -326,9 +293,3 @@ class Base:
     @ddcPlace.setter
     def ddcPlace(self, value):
         self.context.ddcPlace = value
-
-
-@provider(IFormFieldProvider)
-class IBaseExhibition(IBase):
-    directives.omitted("title")
-    directives.omitted("languageReviewedText")
