@@ -6,6 +6,7 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.behaviors.directives import fieldset_edited_volume
 from recensio.plone.behaviors.directives import fieldset_reviewed_text
 from zope import schema
 from zope.component import adapter
@@ -22,6 +23,11 @@ class IAdditionalTitleRowSchema(Interface):
 
 @provider(IFormFieldProvider)
 class IBookReview(model.Schema):
+    subtitle = schema.TextLine(
+        title=_("Subtitle"),
+        required=False,
+    )
+
     additionalTitles = schema.List(
         title=_("Paralleltitel (andere Sprachen)"),
         value_type=DictRow(schema=IAdditionalTitleRowSchema, required=False),
@@ -69,9 +75,17 @@ class IBookReview(model.Schema):
         title=_("DOI (Monographie)"),
         required=False,
     )
-
+    # customizations
+    directives.order_after(subtitle="IBase.title")
+    directives.order_after(additionalTitles="IBookReview.subtitle")
+    directives.order_before(isbn="IBase.languageReviewedText")
+    directives.order_before(isbn_online="IBase.languageReviewedText")
+    directives.order_before(url_monograph="IBase.languageReviewedText")
+    directives.order_before(urn_monograph="IBase.languageReviewedText")
+    directives.order_before(doi_monograph="IBase.languageReviewedText")
     fieldset_reviewed_text(
         [
+            "subtitle",
             "additionalTitles",
             "isbn",
             "isbn_online",
@@ -82,12 +96,85 @@ class IBookReview(model.Schema):
     )
 
 
+@provider(IFormFieldProvider)
+class IEditedVolume(model.Schema):
+    # `subtitle` skipped
+    # IReviewArticleCollection has its own `subtitleEditedVolume` field
+
+    additionalTitles = schema.List(
+        title=_("Paralleltitel (andere Sprachen)"),
+        value_type=DictRow(schema=IAdditionalTitleRowSchema, required=False),
+        required=False,
+        defaultFactory=list,
+    )
+    directives.widget(additionalTitles=DataGridFieldFactory)
+    textindexer.searchable("additionalTitles")
+
+    isbn = schema.TextLine(
+        title=_("ISBN"),
+        description=_(
+            "description_isbn",
+            default=(
+                "With or without hyphens. In case of several numbers please "
+                "choose the hard cover edition."
+            ),
+        ),
+        required=False,
+    )
+
+    isbn_online = schema.TextLine(
+        title=_("ISBN (Online)"),
+        description=_(
+            "description_isbn_online",
+            default=(
+                "With or without hyphens. In case of several numbers please "
+                "choose the hard cover edition."
+            ),
+        ),
+        required=False,
+    )
+
+    url_monograph = schema.TextLine(
+        title=_("URL (Monographie)"),
+        required=False,
+    )
+
+    urn_monograph = schema.TextLine(
+        title=_("URN (Monographie)"),
+        required=False,
+    )
+
+    doi_monograph = schema.TextLine(
+        title=_("DOI (Monographie)"),
+        required=False,
+    )
+    # customizations
+    directives.omitted("additionalTitles")
+    fieldset_edited_volume(
+        [
+            "isbn",
+            "isbn_online",
+            "url_monograph",
+            "urn_monograph",
+            "doi_monograph",
+        ]
+    )
+
+
 @adapter(IDexterityContent)
 class BookReview:
     """Adapter for IBookReview."""
 
     def __init__(self, context):
         self.context = context
+
+    @property
+    def subtitle(self):
+        return self.context.subtitle
+
+    @subtitle.setter
+    def subtitle(self, value):
+        self.context.subtitle = value
 
     @property
     def additionalTitles(self):

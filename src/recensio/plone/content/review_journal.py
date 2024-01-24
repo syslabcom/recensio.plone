@@ -1,3 +1,4 @@
+from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Item
 from plone.supermodel import model
@@ -13,10 +14,12 @@ from zope.interface import provider
 class IReviewJournal(model.Schema, IReview):
     """Marker interface and Dexterity Python Schema for ReviewJournal."""
 
+    directives.order_after(editor="IBase.languageReviewedText")
     editor = schema.TextLine(
         title=_("Editor (name or institution)"),
     )
 
+    directives.order_after(translatedTitleJournal="IBase.title")
     translatedTitleJournal = schema.TextLine(
         title=_(
             "label_translated_title_journal",

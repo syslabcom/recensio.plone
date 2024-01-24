@@ -32,5 +32,15 @@ class fieldset_review(fieldset):
 
 
 class fieldset_exhibition(fieldset):
-    id = ("exhibition",)
-    label = (_("label_schema_exhibition", default="Ausstellung"),)
+    id = "exhibition"
+    label = _("label_schema_exhibition", default="Ausstellung")
+
+
+class fieldset_article(fieldset):
+    id = "article"
+    label = _("label_schema_article", default="Aufsatz")
+
+
+class fieldset_edited_volume(fieldset):
+    id = "edited_volume"
+    label = _("label_schema_collection", default="Sammelband / Zeitschrift")

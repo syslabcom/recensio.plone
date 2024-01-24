@@ -36,7 +36,6 @@
 
   <!-- Enabled behaviors -->
   <property name="behaviors">
-    <element value="plone.basic" />
     <element value="plone.categorization" />
     <element value="plone.locking" />
     <element value="plone.namefromtitle" />
@@ -45,8 +44,9 @@
     <element value="recensio.base" />
     <element value="recensio.base_review" />
     <element value="recensio.cover_picture" />
-    <element value="recensio.journal_review" />
+    <element value="recensio.journal_article_review" />
     <element value="recensio.licence" />
+    <element value="recensio.pages_of_review_in_journal" />
     <element value="recensio.printed_review" />
     <element value="recensio.settings_url_in_citation" />
   </property>

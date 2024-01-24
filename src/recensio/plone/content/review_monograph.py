@@ -1,3 +1,4 @@
+from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Item
 from plone.supermodel import model
@@ -13,6 +14,7 @@ from zope.interface import provider
 class IReviewMonograph(model.Schema, IReview):
     """Marker interface and Dexterity Python Schema for ReviewMonograph."""
 
+    directives.order_after(translatedTitle="IBookReview.additionalTitles")
     translatedTitle = schema.TextLine(
         title=_("Translated Title"),
         required=False,

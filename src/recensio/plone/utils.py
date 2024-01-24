@@ -104,7 +104,8 @@ def format_title_and_subtitle(title, subtitle):
 
 
 def punctuated_title_and_subtitle(review):
-    titles = [(review.title, getattr(review, "subtitle", None))]
+    title = getattr(review, "titleProxy", review.title)
+    titles = [(title, getattr(review, "subtitle", None))]
     if getattr(review, "additionalTitles", None):
         titles = titles + [
             (

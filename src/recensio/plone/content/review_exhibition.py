@@ -2,12 +2,13 @@ from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
 from plone.app.vocabularies.catalog import CatalogSource
 from plone.app.z3cform.widget import RelatedItemsFieldWidget
+from plone.autoform import directives
 from plone.autoform.directives import widget
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Item
 from plone.supermodel import model
 from recensio.plone import _
-from recensio.plone.behaviors.directives import fieldset_exhibition
+from recensio.plone.behaviors.directives import fieldset_reviewed_text
 from recensio.plone.interfaces import IReview
 from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
@@ -61,6 +62,7 @@ class IDatesRowSchema(interface.Interface):
 class IReviewExhibition(model.Schema, IReview):
     """Marker interface and Dexterity Python Schema for ReviewExhibition."""
 
+    directives.order_after(subtitle="titleProxy")
     subtitle = schema.TextLine(
         title=_("Subtitle"),
         required=False,
@@ -133,8 +135,9 @@ class IReviewExhibition(model.Schema, IReview):
         required=False,
     )
 
-    fieldset_exhibition(
+    fieldset_reviewed_text(
         [
+            "subtitle",
             "exhibiting_institution",
             "dates",
             "years",
@@ -151,3 +154,11 @@ class IReviewExhibition(model.Schema, IReview):
 @implementer(IReviewExhibition)
 class ReviewExhibition(Item):
     """Content-type class for IReviewExhibition."""
+
+    def _get_title(self):
+        return self.titleProxy or "Ausstellung"
+
+    def _set_title(self, value):
+        self.titleProxy = value
+
+    title = property(_get_title, _set_title)

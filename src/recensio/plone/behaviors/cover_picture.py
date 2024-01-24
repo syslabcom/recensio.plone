@@ -1,8 +1,10 @@
+from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.namedfile.field import NamedBlobImage
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.behaviors.directives import fieldset_edited_volume
 from recensio.plone.behaviors.directives import fieldset_reviewed_text
 from zope.component import adapter
 from zope.interface import provider
@@ -14,8 +16,18 @@ class ICoverPicture(model.Schema):
         title=_("Cover picture"),
         required=False,
     )
-
+    directives.order_after(coverPicture="IPrintedReview.placeOfPublication")
     fieldset_reviewed_text(["coverPicture"])
+
+
+@provider(IFormFieldProvider)
+class ICoverPictureEditedVolume(model.Schema):
+    coverPicture = NamedBlobImage(
+        title=_("Cover picture"),
+        required=False,
+    )
+    directives.order_after(coverPicture="IPrintedReviewEditedVolume.publisherOnline")
+    fieldset_edited_volume(["coverPicture"])
 
 
 @adapter(IDexterityContent)

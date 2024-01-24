@@ -20,6 +20,14 @@
       />
 
   <plone:behavior
+      name="recensio.cover_picture_edited_volume"
+      title="Cover Picture Behavior - variant for edited volumes"
+      factory=".cover_picture.CoverPicture"
+      provides=".cover_picture.ICoverPictureEditedVolume"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
+  <plone:behavior
       name="recensio.reference_authors"
       title="Reference Authors Behavior"
       factory=".reference_authors.ReferenceAuthors"
@@ -52,10 +60,26 @@
       />
 
   <plone:behavior
+      name="recensio.editorial_edited_volume"
+      title="Editorial Behavior - variant for edited volumes"
+      factory=".editorial.Editorial"
+      provides=".editorial.IEditorialEditedVolume"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
+  <plone:behavior
       name="recensio.serial"
       title="Serial Behavior"
       factory=".serial.Serial"
       provides=".serial.ISerial"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
+  <plone:behavior
+      name="recensio.serial_edited_volume"
+      title="Serial Behavior - variant for edited volumes"
+      factory=".serial.Serial"
+      provides=".serial.ISerialEditedVolume"
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 
@@ -76,6 +100,14 @@
       />
 
   <plone:behavior
+      name="recensio.printed_review_edited_volume"
+      title="Printed Review Behavior - variant for edited volumes"
+      factory=".printed_review.PrintedReview"
+      provides=".printed_review.IPrintedReviewEditedVolume"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
+  <plone:behavior
       name="recensio.base_review"
       title="Base Review Behavior"
       factory=".base_review.BaseReview"
@@ -85,9 +117,17 @@
 
   <plone:behavior
       name="recensio.book_review"
-      title="Printed Review Behavior"
+      title="Book Review Behavior"
       factory=".book_review.BookReview"
       provides=".book_review.IBookReview"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
+  <plone:behavior
+      name="recensio.edited_volume"
+      title="Edited Volume Review Behavior"
+      factory=".book_review.BookReview"
+      provides=".book_review.IEditedVolume"
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 
@@ -96,6 +136,14 @@
       title="Journal Review Behavior"
       factory=".journal_review.JournalReview"
       provides=".journal_review.IJournalReview"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
+  <plone:behavior
+      name="recensio.journal_article_review"
+      title="Journal Article Review Behavior"
+      factory=".journal_review.JournalReview"
+      provides=".journal_review.IJournalArticleReview"
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 
@@ -112,6 +160,14 @@
       title="Recensio base behavior"
       factory=".base.Base"
       provides=".base.IBase"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
+  <plone:behavior
+      name="recensio.base_exhibition"
+      title="Recensio base exhibition behavior"
+      factory=".base.Base"
+      provides=".base.IBaseExhibition"
       for="plone.dexterity.interfaces.IDexterityContent"
       />
 

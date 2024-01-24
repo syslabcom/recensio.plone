@@ -5,6 +5,7 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
 from recensio.plone import _
+from recensio.plone.behaviors.directives import fieldset_review
 from z3c.relationfield.schema import RelationChoice
 from zope import schema
 from zope.component import adapter
@@ -15,6 +16,7 @@ from zope.interface import provider
 class ILicence(model.Schema):
     # TODO
     # rows=3,
+    directives.order_after(licence="IBase.ppn")
     licence = schema.Text(
         title=_("label_publication_licence", default="Publication Licence"),
         description=_(
@@ -34,6 +36,7 @@ class ILicence(model.Schema):
         RelatedItemsFieldWidget,
         pattern_options={"mode": "auto", "favorites": []},
     )
+    directives.order_after(licence_ref="ISettingsURLInCitation.URLShownInCitationNote")
     licence_ref = RelationChoice(
         title=_(
             "label_publication_licence_ref",
@@ -51,6 +54,7 @@ class ILicence(model.Schema):
         source=CatalogSource(portal_type="Document"),
         required=False,
     )
+    fieldset_review(["licence", "licence_ref"])
 
 
 @adapter(IDexterityContent)
