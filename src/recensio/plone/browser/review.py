@@ -1,8 +1,11 @@
 from AccessControl.SecurityManagement import getSecurityManager
 from html import escape
 from plone import api
+from plone.autoform.interfaces import WIDGETS_KEY
+from plone.autoform.utils import _process_widgets
 from plone.dexterity.utils import iterSchemata
 from plone.memoize.view import memoize
+from plone.supermodel.utils import mergedTaggedValueDict
 from Products.Five.browser import BrowserView
 from Products.PortalTransforms.libtransforms.utils import scrubHTML
 from recensio.plone import _
@@ -74,6 +77,12 @@ class View(BrowserView, CanonicalURLHelper):
         """
         form = DisplayForm(self.context, self.request)
         form.fields = Fields(*self.fields)
+
+        # honor widget hints so that DataGridField works
+        for schema in iterSchemata(self.context):
+            widget_hints = mergedTaggedValueDict(schema, WIDGETS_KEY)
+            _process_widgets(form, widget_hints, {}, form.fields)
+
         widgets = getMultiAdapter((form, self.request, self.context), IWidgets)
         widgets.mode = DISPLAY_MODE
         widgets.ignoreContext = False
@@ -290,7 +299,7 @@ class View(BrowserView, CanonicalURLHelper):
                 label = self.get_label(field)
                 values = getattr(context, field)
                 if getattr(context, "isPermanentExhibition", False):
-                    permanent_ex = _("Dauerausstellung").encode("utf-8")
+                    permanent_ex = _("Dauerausstellung")
                     values = [
                         {
                             "place": value["place"],
