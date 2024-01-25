@@ -27,7 +27,7 @@ def generateDoi(context):
     Might not need to be called as a default factory, but just in the
     edit form
     """
-    if IBaseReview not in iterSchemata(context):
+    if not context or IBaseReview not in iterSchemata(context):
         # XXX When adding new content we get the container as context
         return None
     registry = getUtility(IRegistry)
