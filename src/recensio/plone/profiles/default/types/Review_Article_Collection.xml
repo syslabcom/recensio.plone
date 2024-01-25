@@ -43,6 +43,7 @@
     <element value="recensio.printed_review_edited_volume" />
     <element value="recensio.serial_edited_volume" />
     <element value="recensio.settings_url_in_citation" />
+    <element value="recensio.text_review" />
   </property>
 
   <!-- View information -->

@@ -920,7 +920,6 @@ class ReviewExhibitionView(View):
         "metadata_start_end_pages",
         "metadata_review_author",
         "languageReview",
-        "languageReviewedText",
         "exhibiting_institution",
         "exhibiting_organisation",
         "curators",
