@@ -167,6 +167,10 @@ class IBase(model.Schema):
             "canonical_uri",
         ],
     )
+    model.fieldset(
+        "dates",
+        order=1000,
+    )
 
 
 @adapter(IDexterityContent)

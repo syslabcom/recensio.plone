@@ -32,6 +32,7 @@
     <element value="plone.categorization" />
     <element value="plone.locking" />
     <element value="plone.namefromtitle" />
+    <element value="plone.publication" />
     <element value="recensio.article" />
     <element value="recensio.authors" />
     <element value="recensio.base" />
