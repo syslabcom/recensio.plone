@@ -76,7 +76,7 @@ class IBookReview(model.Schema):
         required=False,
     )
     # customizations
-    directives.order_after(subtitle="IBase.title")
+    directives.order_after(subtitle="ITextReview.title")
     directives.order_after(additionalTitles="IBookReview.subtitle")
     directives.order_before(isbn="IBase.languageReviewedText")
     directives.order_before(isbn_online="IBase.languageReviewedText")

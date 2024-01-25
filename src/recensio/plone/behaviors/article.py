@@ -26,7 +26,7 @@ class IArticle(model.Schema):
         required=False,
     )
 
-    directives.order_after(subtitle="IBase.title")
+    directives.order_after(subtitle="ITextReview.title")
     subtitle = schema.TextLine(
         title=_("Subtitle"),
         required=False,
