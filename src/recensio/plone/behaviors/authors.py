@@ -20,7 +20,6 @@ class IAuthors(model.Schema):
         RelatedItemsFieldWidget,
         pattern_options={"mode": "auto", "favorites": []},
     )
-    directives.order_after(authors="IEditorial.help_authors_or_editors")
     authors = RelationList(
         title=_("Authors"),
         defaultFactory=list,

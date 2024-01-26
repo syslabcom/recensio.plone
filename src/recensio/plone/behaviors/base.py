@@ -81,31 +81,6 @@ class IBase(model.Schema):
         allowed_mime_types=["text/html"],
     )
 
-    directives.order_after(urn="IBase.canonical_uri")
-    urn = schema.TextLine(
-        title=_("URN"),
-        description=_("description_urn", default="Filled in by the editorial staff"),
-        required=False,
-    )
-
-    directives.order_after(bv="IBase.urn")
-    bv = schema.TextLine(
-        title=_("BV Number"),
-        description=_(
-            "description_bv_number", default="Filled in by the editorial staff"
-        ),
-        required=False,
-    )
-
-    directives.order_after(ppn="IBase.bv")
-    ppn = schema.TextLine(
-        title=_("PPN"),
-        description=_(
-            "description_bv_number", default="Filled in by the editorial staff"
-        ),
-        required=False,
-    )
-
     directives.order_after(canonical_uri="IBaseReview.customCitation")
     canonical_uri = schema.TextLine(
         title=_("Original Source URL"),
@@ -116,9 +91,30 @@ class IBase(model.Schema):
         required=False,
     )
 
+    urn = schema.TextLine(
+        title=_("URN"),
+        description=_("description_urn", default="Filled in by the editorial staff"),
+        required=False,
+    )
+
+    bv = schema.TextLine(
+        title=_("BV Number"),
+        description=_(
+            "description_bv_number", default="Filled in by the editorial staff"
+        ),
+        required=False,
+    )
+
+    ppn = schema.TextLine(
+        title=_("PPN"),
+        description=_(
+            "description_bv_number", default="Filled in by the editorial staff"
+        ),
+        required=False,
+    )
+
     # TODO
     # size=10,
-    directives.order_after(ddcSubject="ICoverPicture.coverPicture")
     ddcSubject = schema.List(
         title=_("ddc subject"),
         value_type=schema.Choice(vocabulary="recensio.plone.vocabularies.topic_values"),
@@ -128,7 +124,6 @@ class IBase(model.Schema):
 
     # TODO
     # size=10,
-    directives.order_after(ddcTime="IBase.ddcSubject")
     ddcTime = schema.List(
         title=_("ddc time"),
         value_type=schema.Choice(vocabulary="recensio.plone.vocabularies.epoch_values"),
@@ -138,7 +133,6 @@ class IBase(model.Schema):
 
     # TODO
     # size=10,
-    directives.order_after(ddcPlace="IBase.ddcTime")
     ddcPlace = schema.List(
         title=_("ddc place"),
         value_type=schema.Choice(

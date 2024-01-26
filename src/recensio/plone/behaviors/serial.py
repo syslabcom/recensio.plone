@@ -1,4 +1,3 @@
-from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
@@ -12,19 +11,16 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class ISerial(model.Schema):
-    directives.order_after(series="IPrintedReview.publisherOnline")
     series = schema.TextLine(
         title=_("Series"),
         required=False,
     )
 
-    directives.order_after(seriesVol="ISerial.series")
     seriesVol = schema.TextLine(
         title=_("Series (vol.)"),
         required=False,
     )
 
-    directives.order_after(pages="ISerial.seriesVol")
     pages = schema.TextLine(
         title=_("Pages"),
         required=False,
@@ -35,19 +31,16 @@ class ISerial(model.Schema):
 
 @provider(IFormFieldProvider)
 class ISerialEditedVolume(model.Schema):
-    directives.order_after(series="IPrintedReview.publisherOnline")
     series = schema.TextLine(
         title=_("Series"),
         required=False,
     )
 
-    directives.order_after(seriesVol="ISerial.series")
     seriesVol = schema.TextLine(
         title=_("Series (vol.)"),
         required=False,
     )
 
-    directives.order_after(pages="ISerial.seriesVol")
     pages = schema.TextLine(
         title=_("Pages"),
         required=False,

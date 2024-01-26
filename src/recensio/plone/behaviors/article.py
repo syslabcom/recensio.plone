@@ -37,9 +37,6 @@ class IArticle(model.Schema):
         required=False,
     )
 
-    directives.order_after(
-        heading__page_number_of_article_in_journal_or_edited_volume="IArticle.translatedTitle"
-    )
     heading__page_number_of_article_in_journal_or_edited_volume = schema.TextLine(
         title=_(
             "description_page_number_of_article_in_journal_or_edited_volume",
@@ -54,15 +51,11 @@ class IArticle(model.Schema):
         heading__page_number_of_article_in_journal_or_edited_volume="display"
     )
 
-    directives.order_after(
-        pageStartOfArticle="IArticle.heading__page_number_of_article_in_journal_or_edited_volume"
-    )
     pageStartOfArticle = schema.Int(
         title=_("label_page_start_of_article_in_journal_or_edited_volume"),
         required=False,
     )
 
-    directives.order_after(pageEndOfArticle="IArticle.pageStartOfArticle")
     pageEndOfArticle = schema.Int(
         title=_("label_page_end_of_article_in_journal_or_edited_volume"),
         required=False,

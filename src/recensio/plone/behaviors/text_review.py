@@ -13,11 +13,7 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class ITextReview(model.Schema):
-    directives.order_after(title="IAuthors.authors")
-    title = schema.TextLine(title=_DX("label_title", default="Title"), required=True)
-
     directives.widget("languageReviewedText", SelectFieldWidget)
-    directives.order_before(languageReviewedText="IAuthors.authors")
     languageReviewedText = schema.List(
         title=_("Language(s) (text)"),
         value_type=schema.Choice(
@@ -26,6 +22,9 @@ class ITextReview(model.Schema):
         required=False,
         defaultFactory=list,
     )
+
+    title = schema.TextLine(title=_DX("label_title", default="Title"), required=True)
+
     fieldset_reviewed_text(
         [
             "languageReviewedText",
