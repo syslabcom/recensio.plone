@@ -45,9 +45,14 @@ class IJournalReview(model.Schema):
         required=False,
     )
 
-    directives.order_after(shortnameJournal="IReviewJournal.translatedTitleJournal")
+    directives.order_after(shortnameJournal="translatedTitleJournal")
     shortnameJournal = schema.TextLine(
         title=_("Shortname"),
+        required=False,
+    )
+
+    officialYearOfPublication = schema.TextLine(
+        title=_("Official year of publication (if different)"),
         required=False,
     )
 
@@ -60,17 +65,9 @@ class IJournalReview(model.Schema):
         title=_("Number"),
         required=False,
     )
-
-    officialYearOfPublication = schema.TextLine(
-        title=_("Official year of publication (if different)"),
-        required=False,
-    )
     # customizations
-    directives.order_before(issn="IBase.languageReviewedText")
-    directives.order_before(issn_online="IBase.languageReviewedText")
-    directives.order_before(url_journal="IBase.languageReviewedText")
-    directives.order_before(urn_journal="IBase.languageReviewedText")
-    directives.order_before(doi_journal="IBase.languageReviewedText")
+    directives.order_after(issueNumber="IPrintedReview.yearOfPublication")
+    directives.order_after(volumeNumber="IPrintedReview.yearOfPublication")
     directives.order_after(officialYearOfPublication="IPrintedReview.yearOfPublication")
     fieldset_reviewed_text(
         [
@@ -122,7 +119,7 @@ class IJournalArticleReview(model.Schema):
         required=False,
     )
 
-    directives.order_after(shortnameJournal="IReviewJournal.translatedTitleJournal")
+    directives.order_after(shortnameJournal="translatedTitleJournal")
     shortnameJournal = schema.TextLine(
         title=_("Shortname"),
         required=False,

@@ -1,7 +1,6 @@
 from plone.app.dexterity.behaviors.id import IShortName
 from plone.app.dexterity.behaviors.metadata import ICategorization
 from plone.autoform.interfaces import OMITTED_KEY
-from plone.autoform.interfaces import ORDER_KEY
 from plone.supermodel.interfaces import FIELDSETS_KEY
 from plone.supermodel.model import Fieldset
 from recensio.plone import _
@@ -24,6 +23,5 @@ reviewed_text_categorization = Fieldset(
     label=_("label_schema_reviewed_text", default="Reviewed Text"),
     fields=["subjects"],
 )
-ICategorization.setTaggedValue(ORDER_KEY, [("subjects", "after", "IBase.ddcPlace")])
 ICategorization.setTaggedValue(FIELDSETS_KEY, [reviewed_text_categorization])
 ICategorization.setTaggedValue(OMITTED_KEY, [(Interface, "language", "true")])

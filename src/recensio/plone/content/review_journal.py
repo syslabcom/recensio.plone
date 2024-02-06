@@ -14,12 +14,12 @@ from zope.interface import provider
 class IReviewJournal(model.Schema, IReview):
     """Marker interface and Dexterity Python Schema for ReviewJournal."""
 
-    directives.order_after(editor="IBase.languageReviewedText")
+    directives.order_after(editor="IJournalReview.doi_journal")
     editor = schema.TextLine(
         title=_("Editor (name or institution)"),
     )
 
-    directives.order_after(translatedTitleJournal="IBase.title")
+    directives.order_after(translatedTitleJournal="ITextReview.title")
     translatedTitleJournal = schema.TextLine(
         title=_(
             "label_translated_title_journal",

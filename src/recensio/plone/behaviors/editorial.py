@@ -19,7 +19,7 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class IEditorial(model.Schema):
-    directives.order_after(help_authors_or_editors="IBase.languageReviewedText")
+    directives.order_before(help_authors_or_editors="IAuthors.authors")
     help_authors_or_editors = schema.TextLine(
         title=_(
             "help_authors_or_editors",
@@ -58,22 +58,6 @@ class IEditorial(model.Schema):
 
 @provider(IFormFieldProvider)
 class IEditorialEditedVolume(model.Schema):
-    directives.order_after(help_authors_or_editors="IBase.languageReviewedText")
-    help_authors_or_editors = schema.TextLine(
-        title=_(
-            "help_authors_or_editors",
-            default=(
-                "Please fill in either authors OR editors "
-                "(exception: Complete Works etc.)"
-            ),
-        ),
-        required=False,
-    )
-    # This is just use to show a label in the form
-    # XXX It is probably better to use a custom widget with a schema.Field,
-    # but I have to think more about it
-    directives.mode(help_authors_or_editors="display")
-
     editorial = RelationList(
         title=_("label_editorial", default="Editor(s) of the presented monograph"),
         defaultFactory=list,
@@ -86,7 +70,6 @@ class IEditorialEditedVolume(model.Schema):
         pattern_options={"mode": "auto", "favorites": []},
     )
     # customizations
-    directives.omitted("help_authors_or_editors")
     fieldset_edited_volume(
         [
             "editorial",

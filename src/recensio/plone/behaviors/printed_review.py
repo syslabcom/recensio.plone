@@ -57,15 +57,6 @@ class IPrintedReview(model.Schema):
         required=False,
     )
     directives.omitted("idBvb")
-    # customizations
-    directives.order_after(yearOfPublication="IJournalReview.shortnameJournal")
-    directives.order_after(placeOfPublication="IJournalReview.issueNumber")
-    directives.order_after(publisher="IPrintedReview.placeOfPublication")
-    directives.order_after(yearOfPublicationOnline="IPrintedReview.publisher")
-    directives.order_after(
-        placeOfPublicationOnline="IPrintedReview.yearOfPublicationOnline"
-    )
-    directives.order_after(publisherOnline="IPrintedReview.placeOfPublicationOnline")
     fieldset_reviewed_text(
         [
             # "heading_presented_work",
@@ -126,21 +117,6 @@ class IPrintedReviewEditedVolume(model.Schema):
         required=False,
     )
     directives.omitted("idBvb")
-    # customizations
-    directives.order_after(yearOfPublication="IJournalArticleReview.shortnameJournal")
-    directives.order_after(
-        placeOfPublication="IPrintedReviewEditedVolume.yearOfPublication"
-    )
-    directives.order_after(publisher="IPrintedReviewEditedVolume.placeOfPublication")
-    directives.order_after(
-        yearOfPublicationOnline="IPrintedReviewEditedVolume.publisher"
-    )
-    directives.order_after(
-        placeOfPublicationOnline="IPrintedReviewEditedVolume.yearOfPublicationOnline"
-    )
-    directives.order_after(
-        publisherOnline="IPrintedReviewEditedVolume.placeOfPublicationOnline"
-    )
     fieldset_edited_volume(
         [
             # "heading_presented_work",

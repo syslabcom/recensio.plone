@@ -23,20 +23,6 @@ class IAdditionalTitleRowSchema(Interface):
 
 @provider(IFormFieldProvider)
 class IBookReview(model.Schema):
-    subtitle = schema.TextLine(
-        title=_("Subtitle"),
-        required=False,
-    )
-
-    additionalTitles = schema.List(
-        title=_("Paralleltitel (andere Sprachen)"),
-        value_type=DictRow(schema=IAdditionalTitleRowSchema, required=False),
-        required=False,
-        defaultFactory=list,
-    )
-    directives.widget(additionalTitles=DataGridFieldFactory)
-    textindexer.searchable("additionalTitles")
-
     isbn = schema.TextLine(
         title=_("ISBN"),
         description=_(
@@ -75,23 +61,33 @@ class IBookReview(model.Schema):
         title=_("DOI (Monographie)"),
         required=False,
     )
+
+    subtitle = schema.TextLine(
+        title=_("Subtitle"),
+        required=False,
+    )
+
+    additionalTitles = schema.List(
+        title=_("Paralleltitel (andere Sprachen)"),
+        value_type=DictRow(schema=IAdditionalTitleRowSchema, required=False),
+        required=False,
+        defaultFactory=list,
+    )
+    directives.widget(additionalTitles=DataGridFieldFactory)
+    textindexer.searchable("additionalTitles")
+
     # customizations
     directives.order_after(subtitle="ITextReview.title")
     directives.order_after(additionalTitles="IBookReview.subtitle")
-    directives.order_before(isbn="IBase.languageReviewedText")
-    directives.order_before(isbn_online="IBase.languageReviewedText")
-    directives.order_before(url_monograph="IBase.languageReviewedText")
-    directives.order_before(urn_monograph="IBase.languageReviewedText")
-    directives.order_before(doi_monograph="IBase.languageReviewedText")
     fieldset_reviewed_text(
         [
-            "subtitle",
-            "additionalTitles",
             "isbn",
             "isbn_online",
             "url_monograph",
             "urn_monograph",
             "doi_monograph",
+            "subtitle",
+            "additionalTitles",
         ],
     )
 

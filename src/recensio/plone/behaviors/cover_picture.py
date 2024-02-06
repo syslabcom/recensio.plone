@@ -1,4 +1,3 @@
-from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.namedfile.field import NamedBlobImage
@@ -16,7 +15,6 @@ class ICoverPicture(model.Schema):
         title=_("Cover picture"),
         required=False,
     )
-    directives.order_after(coverPicture="IPrintedReview.placeOfPublication")
     fieldset_reviewed_text(["coverPicture"])
 
 
@@ -26,7 +24,6 @@ class ICoverPictureEditedVolume(model.Schema):
         title=_("Cover picture"),
         required=False,
     )
-    directives.order_after(coverPicture="IPrintedReviewEditedVolume.publisherOnline")
     fieldset_edited_volume(["coverPicture"])
 
 
