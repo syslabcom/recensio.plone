@@ -1,4 +1,6 @@
+from eea.facetednavigation.browser.app.query import FacetedQueryHandler
 from plone import api
+from plone.app.contentlisting.interfaces import IContentListing
 from Products.CMFPlone.browser.navtree import getNavigationRoot
 from Products.CMFPlone.utils import normalizeString
 from Products.Five.browser import BrowserView
@@ -7,6 +9,13 @@ from recensio.plone.config import REVIEW_TYPES
 from recensio.plone.utils import punctuated_title_and_subtitle
 from zope.annotation.interfaces import IAnnotations
 from ZTUtils import make_query
+
+
+class RecensioFacetedQueryHandler(FacetedQueryHandler):
+    """Add recensio capabilities"""
+
+    def punctuated_title_and_subtitle(self, obj):
+        return punctuated_title_and_subtitle(obj)
 
 
 class ResultsListing(BrowserView):
@@ -36,6 +45,7 @@ class ListingBase(BrowserView):
         catalog = api.portal.get_tool("portal_catalog")
         results = catalog(self.query)
         IAnnotations(self.request)["recensio.query_results"] = results
+        results = IContentListing(results)
         return results
 
     def translate(self, msgid):
