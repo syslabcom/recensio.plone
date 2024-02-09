@@ -11,13 +11,6 @@ from zope.annotation.interfaces import IAnnotations
 from ZTUtils import make_query
 
 
-class RecensioFacetedQueryHandler(FacetedQueryHandler):
-    """Add recensio capabilities"""
-
-    def punctuated_title_and_subtitle(self, obj):
-        return punctuated_title_and_subtitle(obj)
-
-
 class ResultsListing(BrowserView):
     """Lists search results."""
 
@@ -34,6 +27,14 @@ class ListingBase(BrowserView):
 
     def punctuated_title_and_subtitle(self, obj):
         return punctuated_title_and_subtitle(obj)
+
+    def publication_reference(self, item):
+        obj = item.getObject()
+        view = api.content.get_view(
+            context=obj, request=self.request, name="breadcrumbs_view"
+        )
+        breadcrumbs = list(view.breadcrumbs())[2:-1]
+        return ", ".join([crumb["Title"] for crumb in breadcrumbs])
 
     @property
     def rss_url(self):
@@ -54,6 +55,10 @@ class ListingBase(BrowserView):
             msgid=msgid,
             context=self.request,
         )
+
+
+class RecensioFacetedQueryHandler(FacetedQueryHandler, ListingBase):
+    """Add recensio capabilities"""
 
 
 class ReviewSectionsListing(ListingBase):
