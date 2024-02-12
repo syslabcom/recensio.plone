@@ -11,7 +11,7 @@
         action="@@search"
         role="search"
         tal:attributes="
-          action string:${navigation_root_url}/@@search;
+          action string:${navigation_root_url}/themen-epochen-regionen;
           data-pat-livesearch string:ajaxUrl:${navigation_root_url}/@@ajax-search;
         "
   >
