@@ -60,6 +60,12 @@ class ListingBase(BrowserView):
 class RecensioFacetedQueryHandler(FacetedQueryHandler, ListingBase):
     """Add recensio capabilities"""
 
+    def criteria(self, **kwargs):
+        """Don't restrict language"""
+        criteria = super().criteria(**kwargs)
+        del criteria["Language"]
+        return criteria
+
 
 class ReviewSectionsListing(ListingBase):
     @property
