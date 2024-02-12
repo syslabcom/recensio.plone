@@ -34,7 +34,7 @@
                b_size request/b_size | b_size;
                b_start python:0;
                b_start request/b_start | b_start;
-               batch python:isinstance(results, Batch) and results or Batch(results, b_size, int(b_start), orphan=0);
+               batch python:results if isinstance(results, Batch) else Batch(results, b_size, int(b_start), orphan=0);
                use_navigation_root use_navigation_root|python:True;
                gnd_view nocall:context/@@gnd-view;
              ">
