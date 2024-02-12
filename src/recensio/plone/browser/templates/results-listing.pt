@@ -171,6 +171,9 @@
                     </span>
 
                     <span class="review-author"
+                          tal:define="
+                            publication_reference python: view.publication_reference(result);
+                          "
                           tal:condition="python:is_review and review_authors"
                     >
                       <br />
@@ -183,13 +186,9 @@
                           /
                             </tal:c></tal:repeatblock></tal:nameblock></tal:author><tal:block tal:condition="result/get_publication_title | nothing">,
                       </tal:block>
-                      <tal:block tal:condition="result/get_publication_title | nothing">
-                        <tal:journal tal:condition="result/get_publication_title | nothing"
-                                     i18n:translate="source_journal"
-                        >in:
-                          <tal:block i18n:name="publication_volume_issue"><tal:publication tal:replace="result/get_publication_title" />,
-                            <tal:block replace="result/get_volume_title" /><tal:comma tal:condition="result/get_issue_title|nothing">,
-                            </tal:comma><tal:block replace="result/get_issue_title" /></tal:block>
+                      <tal:block tal:condition="publication_reference">
+                        <tal:journal i18n:translate="source_journal">in:
+                          <tal:block i18n:name="publication_volume_issue"><tal:publication tal:replace="publication_reference" /></tal:block>
                         </tal:journal><tal:pages tal:condition="result_obj/page_start_end_in_print|nothing">,
                           <tal:block i18n:translate="text_pages">p.</tal:block>
                           <tal:block tal:replace="result_obj/page_start_end_in_print" /></tal:pages>
