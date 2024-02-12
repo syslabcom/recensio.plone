@@ -17,6 +17,7 @@ class IReviewJournal(model.Schema, IReview):
     directives.order_after(editor="IJournalReview.doi_journal")
     editor = schema.TextLine(
         title=_("Editor (name or institution)"),
+        required=False,
     )
 
     directives.order_after(translatedTitleJournal="ITextReview.title")
@@ -25,6 +26,7 @@ class IReviewJournal(model.Schema, IReview):
             "label_translated_title_journal",
             default="Translated title (Journal)",
         ),
+        required=False,
     )
 
     fieldset_reviewed_text(["editor", "translatedTitleJournal"])
