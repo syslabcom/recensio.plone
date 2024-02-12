@@ -40,7 +40,7 @@
            tal:condition="context/syndication-util/context_allowed"
         ></p>
 
-        <div metal:use-macro="context/results-listing/macros/results-listing"
+        <div metal:use-macro="context/results-listing/macros/content-core"
              tal:condition="results"
         ></div>
 

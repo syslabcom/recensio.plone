@@ -46,6 +46,7 @@ setup(
     python_requires=">=3.8",
     install_requires=[
         "setuptools",
+        "eea.facetednavigation",
         "ftw.upgrade",
         "plone.api",
         "collective.vdexvocabulary",

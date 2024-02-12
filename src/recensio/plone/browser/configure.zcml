@@ -1,11 +1,16 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:faceted="http://namespaces.zope.org/faceted"
     xmlns:plone="http://namespaces.plone.org/plone"
     >
 
   <include
       package="z3c.jbot"
+      file="meta.zcml"
+      />
+  <include
+      package="eea.facetednavigation"
       file="meta.zcml"
       />
   <browser:jbot
@@ -82,6 +87,17 @@
 
   <!-- Listing views -->
 
+  <configure package="eea.facetednavigation.browser">
+    <browser:page
+        name="faceted_query"
+        for="..interfaces.IFacetedNavigable"
+        class="recensio.plone.browser.listing.RecensioFacetedQueryHandler"
+        template="template/query.pt"
+        permission="zope2.View"
+        layer="recensio.plone.interfaces.IRecensioPloneLayer"
+        />
+  </configure>
+
   <browser:page
       name="sorting-menu"
       for="*"
@@ -90,8 +106,9 @@
       permission="zope2.View"
       />
 
-  <browser:page
+  <faceted:view
       name="results-listing"
+      title="Review Results Listing"
       for="*"
       class=".listing.ResultsListing"
       template="templates/results-listing.pt"
