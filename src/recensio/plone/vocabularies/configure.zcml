@@ -30,4 +30,9 @@
       component=".languages.AvailableContentLanguagesFactory"
       />
 
+  <utility
+      factory=".sort_options.SortOptionsVocabulary"
+      name="recensio.plone.vocabularies.sort_options"
+      />
+
 </configure>
