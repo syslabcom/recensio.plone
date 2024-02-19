@@ -258,7 +258,9 @@ def update_generated_pdf(obj):
                     obj.absolute_url(),
                     exc_info=True,
                 )
-                create_pdf.create_tmp_input(suffix=".html", data="Could not create PDF")
+                create_pdf.create_tmp_input(
+                    suffix=".html", data=b"Could not create PDF"
+                )
                 create_pdf.run()
 
         with open(create_pdf.output_path, "br") as pdf_file:

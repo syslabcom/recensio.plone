@@ -46,8 +46,10 @@ setup(
     python_requires=">=3.8",
     install_requires=[
         "setuptools",
+        "beautifulsoup4",
         "eea.facetednavigation",
         "ftw.upgrade",
+        "guess-language>0.2",
         "plone.api",
         "collective.vdexvocabulary",
         "collective.z3cform.datagridfield",

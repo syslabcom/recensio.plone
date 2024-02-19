@@ -378,6 +378,14 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <browser:page
+      name="sehepunkte-import"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".sehepunkte.Import"
+      permission="zope.Public"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
   <plone:static
       directory="resources"
       name="recensio"
