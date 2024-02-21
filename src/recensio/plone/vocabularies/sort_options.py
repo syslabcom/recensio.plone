@@ -9,7 +9,7 @@ from zope.schema.vocabulary import SimpleVocabulary
 class SortOptionsVocabulary:
     def __call__(self, *args, **kwargs):
         options = {
-            "relevance": _("Relevance"),
+            "relevance": _("label_relevance", default="Relevanz"),
             "sortable_title": _("Titel/alphabetisch"),
             "modified": _("label_modification_date"),
             "created": _("label_creation_date", default="Erstellungsdatum"),
