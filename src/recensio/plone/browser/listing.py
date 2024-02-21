@@ -112,7 +112,7 @@ class SortingMenuView(BrowserView):
     def sort_options(self):
         return [
             {
-                "title": _("Relevance"),
+                "title": _("label_relevance", default="Relevanz"),
                 "url": self._url(None),
                 "current": self._current(None),
             },
