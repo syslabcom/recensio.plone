@@ -119,6 +119,8 @@ class View(BrowserView, CanonicalURLHelper):
         )
 
     def list_rows(self, rows, *keys):
+        if not rows:
+            return ""
         _keys = keys
 
         def _gettr(row, key):
@@ -973,7 +975,7 @@ class ReviewExhibitionView(View):
         dates_string = " / ".join(
             [
                 dates_formatter(date["place"], date["runtime"])
-                for date in self.context.dates
+                for date in self.context.dates or []
             ]
         )
 
@@ -1028,7 +1030,7 @@ class ReviewExhibitionView(View):
                     date["place"],
                     date["runtime"],
                 )
-                for date in self.context.dates
+                for date in self.context.dates or []
             ]
         )
         permanent_exhib_string = api.portal.translate(
