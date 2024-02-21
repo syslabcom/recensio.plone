@@ -194,7 +194,7 @@ class ExcelConverter:
             "doi": "doi",
         },
         "raj": {
-            "type": "ReviewArticleJournal",
+            "type": "Review Article Journal",
             "isbn/issn": "issn",
             "jahr": "yearOfPublication",
             "rez. vorname": "firstname_review_authors_1",
