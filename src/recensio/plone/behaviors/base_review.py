@@ -1,43 +1,16 @@
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
-from plone.dexterity.utils import iterSchemata
 from plone.namedfile.field import NamedBlobFile
 from plone.namedfile.field import NamedBlobImage
-from plone.registry.interfaces import IRegistry
 from plone.supermodel import model
 from recensio.plone import _
 from recensio.plone.behaviors.directives import fieldset_review
-from recensio.plone.controlpanel.settings import IRecensioSettings
 from z3c.form.interfaces import IAddForm
 from z3c.form.interfaces import IEditForm
 from zope import schema
 from zope.component import adapter
-from zope.component import getUtility
 from zope.interface import provider
-from zope.intid.interfaces import IIntIds
-from zope.schema.interfaces import IContextAwareDefaultFactory
-
-
-@provider(IContextAwareDefaultFactory)
-def generateDoi(context):
-    """Generate a DOI based on a prefix stored in the registry record and the
-    object's intid.
-
-    Might not need to be called as a default factory, but just in the
-    edit form
-    """
-    if not context or IBaseReview not in iterSchemata(context):
-        # XXX When adding new content we get the container as context
-        return None
-    registry = getUtility(IRegistry)
-    settings = registry.forInterface(
-        IRecensioSettings, prefix="recensio.plone.settings"
-    )
-    prefix = settings.doi_prefix
-    intids = getUtility(IIntIds)
-    obj_id = intids.register(context)
-    return f"{prefix}{obj_id}"
 
 
 @provider(IFormFieldProvider)
@@ -85,19 +58,14 @@ class IBaseReview(model.Schema):
         required=False,
     )
 
-    # XXX: Might need a custom widget to show the proposed DOI
     directives.order_after(doi="ILicence.licence")
     doi = schema.TextLine(
         title=_("label_doi", default=("DOI")),
         description=_(
             "description_doi",
-            default=(
-                "Digital Object Identifier. Leave empty to use the "
-                "automatically generated value."
-            ),
+            default=("Digital Object Identifier"),
         ),
         required=False,
-        defaultFactory=generateDoi,
     )
 
     directives.order_after(customCoverImage="IBaseReview.doi")
