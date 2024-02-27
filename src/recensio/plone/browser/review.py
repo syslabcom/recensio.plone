@@ -12,7 +12,6 @@ from recensio.plone import _
 from recensio.plone.adapter.parentgetter import IParentGetter
 from recensio.plone.behaviors.authors import IAuthors
 from recensio.plone.behaviors.base import IBase
-from recensio.plone.behaviors.base_review import generateDoi
 from recensio.plone.behaviors.editorial import IEditorial
 from recensio.plone.browser.canonical import CanonicalURLHelper
 from recensio.plone.utils import get_formatted_names
@@ -155,18 +154,9 @@ class View(BrowserView, CanonicalURLHelper):
 
     def get_doi_url_if_active(self):
         context = self.context
-        try:
-            doi_active = context.doiRegistrationActive
-        except AttributeError:
-            doi_active = False
-        # If DOI registration is not active and the object has only the
-        # auto-generated DOI, i.e. the user has not supplied their own,
-        # then we don't want to show the DOI. See #12126-86
-        if not doi_active and context.doi == generateDoi(context):
+        if not context.doi:
             return False
-        else:
-            return f"http://dx.doi.org/{context.doi}"
-        return False
+        return f"http://dx.doi.org/{context.doi}"
 
     def get_metadata(self):  # noqa: C901
         context = self.context
@@ -520,15 +510,10 @@ class View(BrowserView, CanonicalURLHelper):
 
     def get_citation_location(self):
         location = []
-        doi_active = self.isDoiRegistrationActive()
-        # If DOI registration is not active and the object has only the
-        # auto-generated DOI, i.e. the user has not supplied their own,
-        # then we don't want to show the DOI. See #12126-86
-        has_doi = doi_active or self.context.doi != generateDoi(self.context)
-        has_canonical_uri = getattr(self.context, "canonical_uri", False)
-        if has_doi:
-            doi = self.context.doi
+        doi = self.context.doi
+        if doi:
             location.append(f'DOI: <a href="http://dx.doi.org/{doi}">{doi}</a>')
+        has_canonical_uri = getattr(self.context, "canonical_uri", False)
         if has_canonical_uri and not self.isUseExternalFulltext():  # 3102 #REC-984
             location.append(
                 api.portal.translate(
@@ -538,7 +523,7 @@ class View(BrowserView, CanonicalURLHelper):
                     )
                 )
             )
-        if not has_canonical_uri and not has_doi:
+        if not has_canonical_uri and not doi:
             location.append(self.getUUIDUrl())
 
         return ", ".join(location)

@@ -967,7 +967,7 @@ msgid "label_doi"
 msgstr ""
 
 #: recensio.contenttypes:/content/schemata.py:396
-#. Default: "Digital Object Identifier. Leave empty to use the automatically generated value."
+#. Default: "Digital Object Identifier"
 msgid "description_doi"
 msgstr ""
 
