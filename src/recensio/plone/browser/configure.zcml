@@ -132,6 +132,15 @@
       />
 
   <browser:page
+      name="search"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      class=".listing.RecensioSearch"
+      template="templates/search.pt"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
       name="base_view"
       for="recensio.plone.content.person.IPerson"
       class=".person.BaseView"
