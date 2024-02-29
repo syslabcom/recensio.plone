@@ -64,6 +64,8 @@
       name="listReviewAuthors"
       />
 
+  <adapter factory=".converters.AuthorsDexterityTextIndexFieldConverter" />
+
   <adapter factory=".nextprevious.RecensioVolumeNextPrevious" />
   <adapter factory=".nextprevious.RecensioIssueNextPrevious" />
 

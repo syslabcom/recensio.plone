@@ -33,6 +33,7 @@
     <element value="plone.locking" />
     <element value="plone.namefromtitle" />
     <element value="plone.publication" />
+    <element value="plone.textindexer" />
     <element value="recensio.base" />
     <element value="recensio.base_review" />
     <element value="recensio.licence" />
