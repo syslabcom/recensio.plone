@@ -39,7 +39,9 @@
                gnd_view nocall:context/@@gnd-view;
              ">
 
-          <dl class="searchResults">
+          <dl class="searchResults"
+              id="search-results"
+          >
             <tal:results repeat="result batch">
               <tal:entry define="
                            result_url result/getURL;
@@ -61,7 +63,7 @@
                            use_view_action site_properties/typesUseViewActionInListings|python:();
                            url python:result_url+'/view' if result_type in use_view_action else result_url+'/';
                            searchterm request/SearchableText|nothing;
-                           url python:url if searchterm is None else u'%s?searchterm=%s' % (url, searchterm.decode('utf-8'));
+                           url python:url if searchterm is None else u'%s?searchterm=%s' % (url, searchterm);
                            normalizeString nocall: context/plone_utils/normalizeString;
                            result_class python:'contenttype-' + normalizeString(result.portal_type);
                            result_class python:result_foreign and (result_class + ' foreign portal-' + result_portal) or result_class;

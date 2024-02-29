@@ -2,6 +2,7 @@ from eea.facetednavigation.browser.app.query import FacetedQueryHandler
 from plone import api
 from plone.app.contentlisting.interfaces import IContentListing
 from Products.CMFPlone.browser.navtree import getNavigationRoot
+from Products.CMFPlone.browser.search import Search
 from Products.CMFPlone.utils import normalizeString
 from Products.Five.browser import BrowserView
 from recensio.plone import _
@@ -65,6 +66,10 @@ class RecensioFacetedQueryHandler(FacetedQueryHandler, ListingBase):
         criteria = super().criteria(**kwargs)
         del criteria["Language"]
         return criteria
+
+
+class RecensioSearch(Search, ListingBase):
+    """Add recensio capabilities"""
 
 
 class ReviewSectionsListing(ListingBase):
