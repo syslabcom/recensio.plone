@@ -37,7 +37,7 @@
       >
         <a href=""
            tal:attributes="
-             href string:${volume/pdf}/at_download/file;
+             href string:${volume/pdf}/@@download/file;
            "
         >
           <img alt=""
@@ -95,7 +95,7 @@
         >
           <a href=""
              tal:attributes="
-               href string:${issue/pdf}/at_download/file;
+               href string:${issue/pdf}/@@download/file;
              "
           >
             <img alt=""
