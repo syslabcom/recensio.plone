@@ -39,6 +39,7 @@ class AuthorSearchView(BrowserView, CrossPlatformMixin):
     def authors(self):
         catalog = getToolByName(self.context, "portal_catalog")
         author_string = safe_unicode(self.request.get("authors"))
+        letter = safe_unicode(self.request.get("letter"))
         b_start = int(self.request.get("b_start", 0))
         b_size = int(self.request.get("b_size", 30))
         query = {
@@ -53,6 +54,10 @@ class AuthorSearchView(BrowserView, CrossPlatformMixin):
             query["path"] = navigation_root
         if author_string:
             query["SearchableText"] = author_string.strip("\"'")
+        if letter and letter in self.ALPHABET:
+            # XXX conflicts with navigation root
+            context_path = "/".join(self.context.getPhysicalPath())
+            query["path"] = f"{context_path}/gnd/{letter.lower()}"
         return catalog(query)
 
     @property

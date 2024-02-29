@@ -60,7 +60,9 @@
            "
       >
 
-        <form class="crossportalsearchform">
+        <form class="crossportalsearchform"
+              tal:condition="python:False"
+        >
           <input ;=""
                  name="authors"
                  type="hidden"
@@ -112,7 +114,7 @@
             <a href="#"
                tal:content="letter"
                tal:attributes="
-                 href python:request.getURL() + '?authors=' + letter + '*&use_navigation_root:boolean=' + str(request.get('use_navigation_root', True));
+                 href python:request.getURL() + '?letter=' + letter + '&use_navigation_root:boolean=' + str(request.get('use_navigation_root', True));
                "
             ></a>
           </tal:block>
