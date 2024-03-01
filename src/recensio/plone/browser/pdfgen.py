@@ -174,7 +174,8 @@ class GeneratePdfRecension(BrowserView):
             error_code = None
             new_path = None
             if pdf:
-                original = pdf.filename
+                with pdf.open() as blob_file:
+                    original = blob_file.name
                 fd, new_path = tempfile.mkstemp(prefix="final", suffix=".pdf")
                 os.close(fd)  # 2463
                 # nosec: bandit complains about the use of os.system (B605)
