@@ -175,6 +175,7 @@ class GeneratePdfRecension(BrowserView):
             new_path = None
             if pdf:
                 with pdf.open() as blob_file:
+                    # use blob file path
                     original = blob_file.name
                 fd, new_path = tempfile.mkstemp(prefix="final", suffix=".pdf")
                 os.close(fd)  # 2463
