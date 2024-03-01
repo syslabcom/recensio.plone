@@ -44,6 +44,7 @@ class IBase(model.Schema):
         RelatedItemsFieldWidget,
         pattern_options={"mode": "auto", "favorites": []},
     )
+    searchable("reviewAuthors")
     reviewAuthors = RelationList(
         title=_("label_review_authors"),
         defaultFactory=list,

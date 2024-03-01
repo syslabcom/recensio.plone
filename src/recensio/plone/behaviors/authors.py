@@ -1,3 +1,4 @@
+from plone.app.dexterity.textindexer import searchable
 from plone.app.vocabularies.catalog import CatalogSource
 from plone.app.z3cform.widget import RelatedItemsFieldWidget
 from plone.autoform import directives
@@ -20,6 +21,7 @@ class IAuthors(model.Schema):
         RelatedItemsFieldWidget,
         pattern_options={"mode": "auto", "favorites": []},
     )
+    searchable("authors")
     authors = RelationList(
         title=_("Authors"),
         defaultFactory=list,
