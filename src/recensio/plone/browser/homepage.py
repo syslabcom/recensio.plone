@@ -22,6 +22,7 @@ log = logging.getLogger("recensio.theme")
 class HomepageView(BrowserView):
     """Dynamic elements on the homepage."""
 
+    resource_directory = "++resource++recensio.theme.images"
     review_languages = ["en", "de", ""]
 
     def _render_cachekey(method, self, lang=""):

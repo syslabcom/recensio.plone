@@ -41,7 +41,7 @@
         >
           <img id="page_image"
                alt="Banner ${language}"
-               src="${here/portal_url}/++resource++recensio.theme.images/${language}/mainimage_${language}.png"
+               src="${here/portal_url}/${view/resource_directory}/${language}/mainimage_${language}.png"
           />
         </div>
         <div class="row"
