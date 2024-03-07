@@ -8,10 +8,13 @@ from plone.supermodel import model
 from recensio.plone import _
 from recensio.plone.behaviors.directives import fieldset_edited_volume
 from recensio.plone.behaviors.directives import fieldset_reviewed_text
+from z3c.form.object import registerFactoryAdapter
 from zope import schema
 from zope.component import adapter
+from zope.interface import implementer
 from zope.interface import Interface
 from zope.interface import provider
+from zope.schema.fieldproperty import FieldProperty
 
 
 class IAdditionalTitleRowSchema(Interface):
@@ -19,6 +22,15 @@ class IAdditionalTitleRowSchema(Interface):
 
     title = schema.TextLine(title=_("Title"), required=False)
     subtitle = schema.TextLine(title=_("Subtitle"), required=False)
+
+
+@implementer(IAdditionalTitleRowSchema)
+class AdditionalTitleRow:
+    title = FieldProperty(IAdditionalTitleRowSchema["title"])
+    subtitle = FieldProperty(IAdditionalTitleRowSchema["subtitle"])
+
+
+registerFactoryAdapter(IAdditionalTitleRowSchema, AdditionalTitleRow)
 
 
 @provider(IFormFieldProvider)
