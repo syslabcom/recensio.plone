@@ -10,12 +10,14 @@ from plone.supermodel import model
 from recensio.plone import _
 from recensio.plone.behaviors.directives import fieldset_reviewed_text
 from recensio.plone.interfaces import IReview
+from z3c.form.object import registerFactoryAdapter
 from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
 from zope import interface
 from zope import schema
 from zope.interface import implementer
 from zope.interface import provider
+from zope.schema.fieldproperty import FieldProperty
 
 
 class IExhibitingInstitutionRowSchema(interface.Interface):
@@ -29,11 +31,28 @@ class IExhibitingInstitutionRowSchema(interface.Interface):
     )
 
 
+@implementer(IExhibitingInstitutionRowSchema)
+class ExhibitingInstitutionRow:
+    name = FieldProperty(IExhibitingInstitutionRowSchema["name"])
+    gnd = FieldProperty(IExhibitingInstitutionRowSchema["gnd"])
+
+
+registerFactoryAdapter(IExhibitingInstitutionRowSchema, ExhibitingInstitutionRow)
+
+
 class IYearsRowSchema(interface.Interface):
     years = schema.TextLine(
         title=_("Years"),
         required=False,
     )
+
+
+@implementer(IYearsRowSchema)
+class YearsRow:
+    years = FieldProperty(IYearsRowSchema["years"])
+
+
+registerFactoryAdapter(IYearsRowSchema, YearsRow)
 
 
 class IExhibitingOrganisationRowSchema(interface.Interface):
@@ -45,6 +64,15 @@ class IExhibitingOrganisationRowSchema(interface.Interface):
         title=_("GND der Ausstellenden Organisation"),
         required=False,
     )
+
+
+@implementer(IExhibitingOrganisationRowSchema)
+class ExhibitingOrganisationRow:
+    name = FieldProperty(IExhibitingOrganisationRowSchema["name"])
+    gnd = FieldProperty(IExhibitingOrganisationRowSchema["gnd"])
+
+
+registerFactoryAdapter(IExhibitingOrganisationRowSchema, ExhibitingOrganisationRow)
 
 
 class IDatesRowSchema(interface.Interface):
