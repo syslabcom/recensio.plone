@@ -67,6 +67,15 @@ class ImportPagePicturesForm(form.Form):
                         pagePictures.append(
                             NamedBlobImage(data=f.read(), filename=f"{blob_idx+1}.gif")
                         )
+                elif isinstance(blob_path, str):
+                    # Looks like, when export_page_pictures was called TTW, the
+                    # whole blob path was stored as string. No need to use
+                    # COLLECTIVE_EXPORTIMPORT_BLOB_HOME in that case.
+                    with open(blob_path, "rb") as f:
+                        pagePictures.append(
+                            NamedBlobImage(data=f.read(), filename=f"{blob_idx+1}.gif")
+                        )
+
             obj.pagePictures = pagePictures
 
         self.status = _("File uploaded")
