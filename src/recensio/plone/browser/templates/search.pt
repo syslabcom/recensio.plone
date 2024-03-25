@@ -146,6 +146,7 @@
 
           <div class="nav-item dropdown"
                id="search-filter"
+               tal:condition="python: False"
           >
             <a class="nav-link dropdown-toggle"
                id="search-filter-toggle"
@@ -284,7 +285,9 @@
             </div>
           </div>
 
-          <div class="nav-item dropdown">
+          <div class="nav-item dropdown"
+               tal:condition="python: False"
+          >
             <a class="nav-link dropdown-toggle"
                aria-expanded="false"
                href="#"
