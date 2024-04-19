@@ -5,7 +5,7 @@
   <index meta_type="KeywordIndex"
          name="authorsUID"
   >
-    <indexed_attr value="authorsUID"/>
+    <indexed_attr value="authorsUID" />
   </index>
   <index meta_type="KeywordIndex"
          name="ddcSubject"
