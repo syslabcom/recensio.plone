@@ -83,14 +83,6 @@ class Article:
         self.context = context
 
     @property
-    def translatedTitle(self):
-        return self.context.translatedTitle
-
-    @translatedTitle.setter
-    def translatedTitle(self, value):
-        self.context.translatedTitle = value
-
-    @property
     def url_article(self):
         return self.context.url_article
 
@@ -113,6 +105,22 @@ class Article:
     @doi_article.setter
     def doi_article(self, value):
         self.context.doi_article = value
+
+    @property
+    def translatedTitle(self):
+        return self.context.translatedTitle
+
+    @translatedTitle.setter
+    def translatedTitle(self, value):
+        self.context.translatedTitle = value
+
+    @property
+    def subtitle(self):
+        return self.context.subtitle
+
+    @subtitle.setter
+    def subtitle(self, value):
+        self.context.subtitle = value
 
     @property
     def heading__page_number_of_article_in_journal_or_edited_volume(self):
