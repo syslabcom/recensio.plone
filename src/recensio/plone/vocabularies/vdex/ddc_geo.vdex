@@ -146,6 +146,134 @@
           <langstring language="en">Germany</langstring>
           <langstring language="fr">Allemagne</langstring>
         </caption>
+        <term>
+            <termIdentifier>42.5.0</termIdentifier>
+            <caption>
+            <langstring language="de">Berlin</langstring>
+            <langstring language="en">Berlin</langstring>
+            <langstring language="fr">Berlin</langstring>
+            </caption>
+        </term>
+        <term>
+            <termIdentifier>42.5.1</termIdentifier>
+            <caption>
+            <langstring language="de">Brandenburg</langstring>
+            <langstring language="en">Brandenburg</langstring>
+            <langstring language="fr">Brandenburg</langstring>
+            </caption>
+        </term>
+        <term>
+            <termIdentifier>42.5.2</termIdentifier>
+            <caption>
+            <langstring language="de">Baden-Württemberg</langstring>
+            <langstring language="en">Baden-Württemberg</langstring>
+            <langstring language="fr">Baden-Württemberg</langstring>
+            </caption>
+        </term>
+        <term>
+            <termIdentifier>42.5.3</termIdentifier>
+            <caption>
+            <langstring language="de">Bayern</langstring>
+            <langstring language="en">Bavaria</langstring>
+            <langstring language="fr">Bayern</langstring>
+            </caption>
+        </term>
+        <term>
+            <termIdentifier>42.5.4</termIdentifier>
+            <caption>
+            <langstring language="de">Bremen</langstring>
+            <langstring language="en">Bremen</langstring>
+            <langstring language="fr">Bremen</langstring>
+            </caption>
+        </term>
+        <term>
+            <termIdentifier>42.5.5</termIdentifier>
+            <caption>
+            <langstring language="de">Hessen</langstring>
+            <langstring language="en">Hesse</langstring>
+            <langstring language="fr">Hessen</langstring>
+            </caption>
+        </term>
+        <term>
+            <termIdentifier>42.5.6</termIdentifier>
+            <caption>
+            <langstring language="de">Hamburg</langstring>
+            <langstring language="en">Hamburg</langstring>
+            <langstring language="fr">Hamburg</langstring>
+            </caption>
+        </term>
+        <term>
+            <termIdentifier>42.5.7</termIdentifier>
+            <caption>
+            <langstring language="de">Mecklenburg-Vorpommern</langstring>
+            <langstring language="en">Mecklenburg-West Pomerania</langstring>
+            <langstring language="fr">Mecklenburg-Vorpommern</langstring>
+            </caption>
+        </term>
+        <term>
+            <termIdentifier>42.5.8</termIdentifier>
+            <caption>
+            <langstring language="de">Niedersachsen</langstring>
+            <langstring language="en">Lower Saxony</langstring>
+            <langstring language="fr">Niedersachsen</langstring>
+            </caption>
+        </term>
+        <term>
+            <termIdentifier>42.5.9</termIdentifier>
+            <caption>
+            <langstring language="de">Nordrhein-Westfalen</langstring>
+            <langstring language="en">North Rhine-Westphalia</langstring>
+            <langstring language="fr">Nordrhein-Westfalen</langstring>
+            </caption>
+        </term>
+        <term>
+            <termIdentifier>42.5.10</termIdentifier>
+            <caption>
+            <langstring language="de">Rheinland-Pfalz</langstring>
+            <langstring language="en">Rhineland-Palatinate</langstring>
+            <langstring language="fr">Rheinland-Pfalz</langstring>
+            </caption>
+        </term>
+        <term>
+            <termIdentifier>42.5.11</termIdentifier>
+            <caption>
+            <langstring language="de">Schleswig-Holstein</langstring>
+            <langstring language="en">Schleswig-Holstein</langstring>
+            <langstring language="fr">Schleswig-Holstein</langstring>
+            </caption>
+        </term>
+        <term>
+            <termIdentifier>42.5.12</termIdentifier>
+            <caption>
+            <langstring language="de">Saarland</langstring>
+            <langstring language="en">Saarland</langstring>
+            <langstring language="fr">Saarland</langstring>
+            </caption>
+        </term>
+        <term>
+            <termIdentifier>42.5.13</termIdentifier>
+            <caption>
+            <langstring language="de">Sachsen</langstring>
+            <langstring language="en">Saxony</langstring>
+            <langstring language="fr">Sachsen</langstring>
+            </caption>
+        </term>
+        <term>
+            <termIdentifier>42.5.14</termIdentifier>
+            <caption>
+            <langstring language="de">Sachsen-Anhalt</langstring>
+            <langstring language="en">Saxony-Anhalt</langstring>
+            <langstring language="fr">Sachsen-Anhalt</langstring>
+            </caption>
+        </term>
+        <term>
+            <termIdentifier>42.5.15</termIdentifier>
+            <caption>
+            <langstring language="de">Thüringen</langstring>
+            <langstring language="en">Thuringia</langstring>
+            <langstring language="fr">Thüringen</langstring>
+            </caption>
+        </term>
       </term>
       <term>
         <termIdentifier>42.6</termIdentifier>
