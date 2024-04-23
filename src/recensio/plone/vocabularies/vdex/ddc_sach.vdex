@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      language="en"
+      orderSignificant="true"
+      profileType="flatTokenTerms"
       xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0
                           imsvdex_v1p0.xsd imsvdex_v1p0_thesaurus.xsd
                           http://www.imsglobal.org/xsd/imsmd_rootv1p2p1
                           imsmd_rootv1p2p1.xsd"
-      orderSignificant="true"
-      profileType="flatTokenTerms"
-      language="en">
+>
+&gt;
   <vocabName>
-      <langstring language="en">International Standard Classification of Occupations, ISCO-88</langstring>
+    <langstring language="en">International Standard Classification of Occupations, ISCO-88</langstring>
   </vocabName>
   <vocabIdentifier>recensio.plone.vocabularies.topic_values</vocabIdentifier>
 
@@ -354,5 +356,63 @@
       <langstring language="fr">Histoire économique</langstring>
     </caption>
   </term>
+
+  <term>
+    <termIdentifier>1001</termIdentifier>
+    <caption>
+      <langstring language="de">Ägyptologie</langstring>
+      <langstring language="en">Egyptology</langstring>
+    </caption>
+
+  </term>
+  <term>
+    <termIdentifier>1002</termIdentifier>
+    <caption>
+      <langstring language="de">Alte Geschichte</langstring>
+      <langstring language="en">Ancient History</langstring>
+    </caption>
+
+  </term>
+  <term>
+    <termIdentifier>1003</termIdentifier>
+    <caption>
+      <langstring language="de">Byzantinistik</langstring>
+      <langstring language="en">Byzantine Studies</langstring>
+    </caption>
+
+  </term>
+  <term>
+    <termIdentifier>1004</termIdentifier>
+    <caption>
+      <langstring language="de">Klassische Archäologie</langstring>
+      <langstring language="en">Classical Archaeology</langstring>
+    </caption>
+
+  </term>
+  <term>
+    <termIdentifier>1005</termIdentifier>
+    <caption>
+      <langstring language="de">Klassische Philologie</langstring>
+      <langstring language="en">Classical Philology</langstring>
+    </caption>
+
+  </term>
+  <term>
+    <termIdentifier>1006</termIdentifier>
+    <caption>
+      <langstring language="de">Mittel- und Neulateinische Philologie</langstring>
+      <langstring language="en">Medieval and Neo-Latin Philology</langstring>
+    </caption>
+
+  </term>
+  <term>
+    <termIdentifier>1007</termIdentifier>
+    <caption>
+      <langstring language="de">Vor- und Frühgeschichte</langstring>
+      <langstring language="en">Pre- and Early History</langstring>
+    </caption>
+
+  </term>
+
 
 </vdex>
