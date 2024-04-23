@@ -53,15 +53,21 @@ class ImportPagePicturesForm(form.Form):
 
         for brain_idx, brain in enumerate(brains):
             obj = brain.getObject()
+            if getattr(obj, "pagePictures", False):
+                logger.info("Page pictures already set for %r", obj)
+                continue
             pagePictures = []
             logger.info(
                 "%4d/%4d: Importing pagePictures for %r", brain_idx + 1, total, obj
             )
             for blob_idx, blob_path in enumerate(data[brain.UID]):
                 if COLLECTIVE_EXPORTIMPORT_BLOB_HOME:
+                    partition_tag = (
+                        "blobstorage/" if "blobstorage/" in blob_path else "blobs/"
+                    )
                     blob_path = (
                         COLLECTIVE_EXPORTIMPORT_BLOB_HOME
-                        / blob_path.partition("blobs/")[-1]
+                        / blob_path.partition(partition_tag)[-1]
                     )
                     with blob_path.open("rb") as f:
                         pagePictures.append(
