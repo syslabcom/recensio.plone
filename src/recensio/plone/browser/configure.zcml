@@ -60,6 +60,14 @@
       />
 
   <browser:page
+      name="vocabulary-helper"
+      for="*"
+      class=".helper.VocabularyHelper"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
       name="homepage-view"
       for="plone.app.contenttypes.interfaces.IDocument"
       class=".homepage.HomepageView"
