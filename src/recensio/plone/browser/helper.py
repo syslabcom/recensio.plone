@@ -8,6 +8,7 @@ from zope.component.hooks import getSite
 from zope.component.hooks import setSite
 from zope.interface import implementer
 from zope.interface import Interface
+from zope.schema.interfaces import IVocabularyFactory
 from ZTUtils import make_query
 
 import logging
@@ -179,3 +180,21 @@ class RecensioHelperView(BrowserView, CrossPlatformMixin):
         """
         subtree = value[1][1] or {}
         return subtree.items()
+
+
+class VocabularyHelper(BrowserView):
+    def get_named_vocabulary(self, name):
+        factory = getUtility(IVocabularyFactory, name)
+        return factory(self.context)
+
+    @property
+    def ddcSubject(self):
+        return self.get_named_vocabulary("recensio.plone.vocabularies.topic_values")
+
+    @property
+    def ddcTime(self):
+        return self.get_named_vocabulary("recensio.plone.vocabularies.epoch_values")
+
+    @property
+    def ddcPlace(self):
+        return self.get_named_vocabulary("recensio.plone.vocabularies.region_values")

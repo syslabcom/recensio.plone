@@ -20,7 +20,9 @@ from zope import schema
 from zope.component import adapter
 from zope.i18n import translate
 from zope.i18nmessageid import Message
+from zope.interface import implementer
 from zope.interface import provider
+from zope.schema.interfaces import IContextSourceBinder
 
 
 # TODO, maybe:
@@ -35,6 +37,16 @@ from zope.interface import provider
 # - uri: Partner URL is no longer used for reviews but was being kept to
 #        avoid breakage
 #        this is still used in presentations. #3103
+
+
+@implementer(IContextSourceBinder)
+class DDCVocabulary:
+    def __init__(self, name):
+        self.name = name
+
+    def __call__(self, context):
+        helper = api.content.get_view(context=context, name="vocabulary-helper")
+        return getattr(helper, self.name)
 
 
 @provider(IFormFieldProvider)
@@ -118,7 +130,7 @@ class IBase(model.Schema):
     # size=10,
     ddcSubject = schema.List(
         title=_("ddc subject"),
-        value_type=schema.Choice(vocabulary="recensio.plone.vocabularies.topic_values"),
+        value_type=schema.Choice(source=DDCVocabulary("ddcSubject")),
         required=False,
         defaultFactory=list,
     )
@@ -127,7 +139,7 @@ class IBase(model.Schema):
     # size=10,
     ddcTime = schema.List(
         title=_("ddc time"),
-        value_type=schema.Choice(vocabulary="recensio.plone.vocabularies.epoch_values"),
+        value_type=schema.Choice(source=DDCVocabulary("ddcTime")),
         required=False,
         defaultFactory=list,
     )
@@ -136,9 +148,7 @@ class IBase(model.Schema):
     # size=10,
     ddcPlace = schema.List(
         title=_("ddc place"),
-        value_type=schema.Choice(
-            vocabulary="recensio.plone.vocabularies.region_values",
-        ),
+        value_type=schema.Choice(source=DDCVocabulary("ddcPlace")),
         required=False,
         defaultFactory=list,
     )

@@ -1,7 +1,6 @@
 from plone.indexer.decorator import indexer
+from recensio.plone.behaviors.base import DDCVocabulary
 from recensio.plone.interfaces import IReview
-from zope.component import getUtility
-from zope.schema.interfaces import IVocabularyFactory
 
 
 @indexer(IReview)
@@ -20,24 +19,22 @@ def authorsUID(obj):
     return uids
 
 
-def get_self_and_parents(value, vocab_name):
-    vocab = getUtility(IVocabularyFactory, vocab_name)(None)
+def get_self_and_parents(obj, name):
+    vocab = DDCVocabulary(name)(obj)
     values = set()
-    for term in value:
+    for term in getattr(obj, name):
         values.update(vocab.getTermPath(term))
     return list(values)
 
 
 @indexer(IReview)
 def ddcTime(obj):
-    return get_self_and_parents(obj.ddcTime, "recensio.plone.vocabularies.epoch_values")
+    return get_self_and_parents(obj, "ddcTime")
 
 
 @indexer(IReview)
 def ddcPlace(obj):
-    return get_self_and_parents(
-        obj.ddcPlace, "recensio.plone.vocabularies.region_values"
-    )
+    return get_self_and_parents(obj, "ddcPlace")
 
 
 @indexer(IReview)
