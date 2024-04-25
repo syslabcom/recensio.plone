@@ -53,7 +53,7 @@ class HomepageView(BrowserView):
         first_author = authors[0].to_object
         if not first_author:
             return ""
-        firstname = first_author.firstname.strip()
+        firstname = first_author.firstname.strip() if first_author.firstname else ""
         initial = firstname[0] + ". " if len(firstname) > 0 else ""
         lastname = first_author.lastname
         et_al = " et al." if len(authors) > 1 else ""
