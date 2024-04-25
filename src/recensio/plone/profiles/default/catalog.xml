@@ -27,6 +27,11 @@
   >
     <indexed_attr value="isbn" />
   </index>
+  <index meta_type="KeywordIndex"
+         name="languageReview"
+  >
+    <indexed_attr value="languageReview" />
+  </index>
 
   <column value="authorsUID" />
   <column value="listAuthors" />
