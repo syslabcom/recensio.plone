@@ -26,6 +26,8 @@ class ResultsListing(BrowserView):
 class ListingBase(BrowserView):
     """Base class for listing views."""
 
+    limit = 150
+
     def punctuated_title_and_subtitle(self, obj):
         return punctuated_title_and_subtitle(obj)
 
@@ -45,7 +47,7 @@ class ListingBase(BrowserView):
     @property
     def items(self):
         catalog = api.portal.get_tool("portal_catalog")
-        results = catalog(self.query)
+        results = catalog(self.query, sort_limit=self.limit)[: self.limit]
         IAnnotations(self.request)["recensio.query_results"] = results
         results = IContentListing(results)
         return results
