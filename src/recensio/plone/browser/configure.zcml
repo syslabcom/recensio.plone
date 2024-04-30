@@ -403,6 +403,14 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <browser:view
+      name="r"
+      for="*"
+      class="plone.app.uuid.browser.RedirectToUUIDView"
+      permission="zope.Public"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
   <plone:static
       directory="resources"
       name="recensio"
