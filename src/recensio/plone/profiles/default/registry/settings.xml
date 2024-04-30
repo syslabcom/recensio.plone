@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <registry>
+  <records interface="recensio.plone.controlpanel.settings.IRecensioSettings"
+           prefix="recensio.plone.settings"
+  >
+</records>
   <record name="recensio.plone.settings.available_content_languages">
     <value>sq&#13;
 hy&#13;
