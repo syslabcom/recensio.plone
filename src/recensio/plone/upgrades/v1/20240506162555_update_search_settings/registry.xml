@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<registry>
+  <record name="plone.types_not_searched">
+    <value purge="False">
+      <element>Collection</element>
+      <element>Document</element>
+      <element>Event</element>
+      <element>File</element>
+      <element>Folder</element>
+      <element>Image</element>
+      <element>Link</element>
+      <element>News Item</element>
+      <element>Person</element>
+      <element>Presentation Article Review</element>
+      <element>Presentation Collection</element>
+      <element>Presentation Monograph</element>
+      <element>Presentation Online Resource</element>
+      <element>Publication</element>
+      <element>Topic</element>
+    </value>
+  </record>
+</registry>
