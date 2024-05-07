@@ -1,5 +1,6 @@
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
+from plone.app.dexterity import textindexer
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
@@ -42,6 +43,7 @@ class IReferenceAuthors(model.Schema):
         value_type=DictRow(schema=IReferenceAuthorRowSchema, required=False),
         required=False,
     )
+    textindexer.searchable("editorial")
 
     fieldset_review(["referenceAuthors"])
 

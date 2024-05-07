@@ -1,3 +1,4 @@
+from plone.app.dexterity import textindexer
 from plone.app.vocabularies.catalog import CatalogSource
 from plone.app.z3cform.widget import RelatedItemsFieldWidget
 from plone.autoform import directives
@@ -47,6 +48,7 @@ class IEditorial(model.Schema):
         pattern_options={"mode": "auto", "favorites": []},
     )
     # customizations
+    textindexer.searchable("editorial")
     directives.order_after(editorial="IAuthors.authors")
     fieldset_reviewed_text(
         [
@@ -69,6 +71,7 @@ class IEditorialEditedVolume(model.Schema):
         RelatedItemsFieldWidget,
         pattern_options={"mode": "auto", "favorites": []},
     )
+    textindexer.searchable("editorial")
     # customizations
     fieldset_edited_volume(
         [
