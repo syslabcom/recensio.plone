@@ -149,6 +149,7 @@ class IReviewExhibition(model.Schema, IReview):
         value_type=RelationChoice(source=CatalogSource(portal_type="Person")),
         required=False,
     )
+    textindexer.searchable("curators")
 
     isPermanentExhibition = schema.Bool(
         title=_("Dauerausstellung"),

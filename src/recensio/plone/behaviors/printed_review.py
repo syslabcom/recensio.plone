@@ -24,11 +24,13 @@ class IPrintedReview(model.Schema):
         title=_("Year of publication"),
         required=False,
     )
+    textindexer.searchable("yearOfPublication")
 
     placeOfPublication = schema.TextLine(
         title=_("Place of publication"),
         required=False,
     )
+    textindexer.searchable("placeOfPublication")
 
     publisher = schema.TextLine(
         title=_("Publisher"),
@@ -40,11 +42,13 @@ class IPrintedReview(model.Schema):
         title=_("Year of publication (Online)"),
         required=False,
     )
+    textindexer.searchable("yearOfPublicationOnline")
 
     placeOfPublicationOnline = schema.TextLine(
         title=_("Place of publication (Online)"),
         required=False,
     )
+    textindexer.searchable("placeOfPublicationOnline")
 
     publisherOnline = schema.TextLine(
         title=_("Publisher (Online)"),
@@ -84,11 +88,13 @@ class IPrintedReviewEditedVolume(model.Schema):
         title=_("Year of publication"),
         required=False,
     )
+    textindexer.searchable("yearOfPublication")
 
     placeOfPublication = schema.TextLine(
         title=_("Place of publication"),
         required=False,
     )
+    textindexer.searchable("placeOfPublication")
 
     publisher = schema.TextLine(
         title=_("Publisher"),
@@ -100,11 +106,13 @@ class IPrintedReviewEditedVolume(model.Schema):
         title=_("Year of publication (Online)"),
         required=False,
     )
+    textindexer.searchable("yearOfPublicationOnline")
 
     placeOfPublicationOnline = schema.TextLine(
         title=_("Place of publication (Online)"),
         required=False,
     )
+    textindexer.searchable("placeOfPublicationOnline")
 
     publisherOnline = schema.TextLine(
         title=_("Publisher (Online)"),
