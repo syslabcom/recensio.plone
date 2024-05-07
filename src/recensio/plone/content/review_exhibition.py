@@ -92,6 +92,7 @@ class IReviewExhibition(model.Schema, IReview):
     """Marker interface and Dexterity Python Schema for ReviewExhibition."""
 
     directives.order_after(subtitle="titleProxy")
+    textindexer.searchable("subtitle")
     subtitle = schema.TextLine(
         title=_("Subtitle"),
         required=False,
