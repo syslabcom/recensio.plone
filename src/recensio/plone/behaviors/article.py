@@ -1,3 +1,4 @@
+from plone.app.dexterity import textindexer
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
@@ -27,6 +28,7 @@ class IArticle(model.Schema):
     )
 
     directives.order_after(subtitle="ITextReview.title")
+    textindexer.searchable("subtitle")
     subtitle = schema.TextLine(
         title=_("Subtitle"),
         required=False,

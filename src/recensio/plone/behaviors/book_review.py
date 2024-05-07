@@ -74,6 +74,7 @@ class IBookReview(model.Schema):
         required=False,
     )
 
+    textindexer.searchable("subtitle")
     subtitle = schema.TextLine(
         title=_("Subtitle"),
         required=False,

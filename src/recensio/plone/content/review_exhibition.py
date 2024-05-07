@@ -1,5 +1,6 @@
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.row import DictRow
+from plone.app.dexterity import textindexer
 from plone.app.vocabularies.catalog import CatalogSource
 from plone.app.z3cform.widget import RelatedItemsFieldWidget
 from plone.autoform import directives
@@ -104,6 +105,7 @@ class IReviewExhibition(model.Schema, IReview):
         required=False,
     )
     widget(exhibiting_institution=DataGridFieldFactory)
+    textindexer.searchable("exhibiting_institution")
 
     dates = schema.List(
         title=_("Ausstellung"),
@@ -113,6 +115,7 @@ class IReviewExhibition(model.Schema, IReview):
         required=False,
     )
     widget(dates=DataGridFieldFactory)
+    textindexer.searchable("dates")
 
     years = schema.List(
         title=_("Ausstellungsjahr"),
@@ -131,6 +134,7 @@ class IReviewExhibition(model.Schema, IReview):
         required=False,
     )
     widget(exhibiting_organisation=DataGridFieldFactory)
+    textindexer.searchable("exhibiting_organisation")
 
     # FIXME: This was using the custom GNDReferenceBrowserWidget
     # Use the standard RelatedItemsFieldWidget for now

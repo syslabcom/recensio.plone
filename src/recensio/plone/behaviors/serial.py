@@ -1,3 +1,4 @@
+from plone.app.dexterity import textindexer
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
@@ -15,6 +16,7 @@ class ISerial(model.Schema):
         title=_("Series"),
         required=False,
     )
+    textindexer.searchable("series")
 
     seriesVol = schema.TextLine(
         title=_("Series (vol.)"),
@@ -35,6 +37,7 @@ class ISerialEditedVolume(model.Schema):
         title=_("Series"),
         required=False,
     )
+    textindexer.searchable("series")
 
     seriesVol = schema.TextLine(
         title=_("Series (vol.)"),
