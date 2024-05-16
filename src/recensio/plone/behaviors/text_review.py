@@ -1,4 +1,5 @@
 from plone.app.dexterity import _ as _DX
+from plone.app.dexterity import textindexer
 from plone.app.z3cform.widget import SelectFieldWidget
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
@@ -23,6 +24,7 @@ class ITextReview(model.Schema):
         defaultFactory=list,
     )
 
+    textindexer.searchable("title")
     title = schema.TextLine(title=_DX("label_title", default="Title"), required=True)
 
     fieldset_reviewed_text(

@@ -160,6 +160,8 @@ class IReviewExhibition(model.Schema, IReview):
         title=_("Title"),
         required=False,
     )
+    textindexer.searchable("titleProxy")
+
     url_exhibition = schema.TextLine(
         title=_("URL der Ausstellungswebsite"),
         required=False,
