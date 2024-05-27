@@ -1,5 +1,6 @@
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
+from plone.app.dexterity.textindexer import searchable
 from plone.dexterity.interfaces import IDexterityContent
 from plone.namedfile.field import NamedBlobFile
 from plone.namedfile.field import NamedBlobImage
@@ -20,6 +21,7 @@ class IBaseReview(model.Schema):
         title=_("PDF"),
         required=False,
     )
+    searchable("pdf")
     directives.omitted("pdf")
     directives.no_omit(IAddForm, "pdf")
     directives.no_omit(IEditForm, "pdf")
