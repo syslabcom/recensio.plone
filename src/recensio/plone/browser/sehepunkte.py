@@ -4,6 +4,7 @@ from guess_language import guessLanguage as originalGuessLanguage
 from itertools import chain
 from plone import api
 from plone.app.textfield.value import RichTextValue
+from plone.protect.interfaces import IDisableCSRFProtection
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from recensio.plone.sehepunkte import sehepunkte_parser
@@ -11,6 +12,7 @@ from recensio.plone.tools import convertToString
 from z3c.relationfield.relation import RelationValue
 from zope.component import getUtility
 from zope.event import notify
+from zope.interface import alsoProvides
 from zope.intid.interfaces import IIntIds
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
@@ -126,6 +128,8 @@ class Import(BrowserView):
             total,
             total and review_count / total or review_count,
         )
+        if review_count > 0:
+            alsoProvides(self.request, IDisableCSRFProtection)
         return "Success"
 
     def _getTargetURLs(self):
