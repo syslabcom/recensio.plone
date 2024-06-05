@@ -1,5 +1,6 @@
 from plone.app.dexterity.behaviors.id import IShortName
 from plone.app.dexterity.behaviors.metadata import ICategorization
+from plone.app.dexterity.textindexer.directives import SEARCHABLE_KEY
 from plone.autoform.interfaces import OMITTED_KEY
 from plone.supermodel.interfaces import FIELDSETS_KEY
 from plone.supermodel.model import Fieldset
@@ -25,3 +26,4 @@ reviewed_text_categorization = Fieldset(
 )
 ICategorization.setTaggedValue(FIELDSETS_KEY, [reviewed_text_categorization])
 ICategorization.setTaggedValue(OMITTED_KEY, [(Interface, "language", "true")])
+ICategorization.setTaggedValue(SEARCHABLE_KEY, [(Interface, "subjects", "true")])
