@@ -35,6 +35,7 @@ registerFactoryAdapter(IAdditionalTitleRowSchema, AdditionalTitleRow)
 
 @provider(IFormFieldProvider)
 class IBookReview(model.Schema):
+    textindexer.searchable("isbn")
     isbn = schema.TextLine(
         title=_("ISBN"),
         description=_(
