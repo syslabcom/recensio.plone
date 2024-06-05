@@ -34,6 +34,7 @@ class IArticle(model.Schema):
         required=False,
     )
     directives.order_after(translatedTitle="IArticle.subtitle")
+    textindexer.searchable("translatedTitle")
     translatedTitle = schema.TextLine(
         title=_("Translated Title"),
         required=False,

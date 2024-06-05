@@ -1,5 +1,4 @@
 from plone import api
-from plone.app.dexterity import textindexer
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
@@ -26,7 +25,6 @@ class IBasePresentation(model.Schema):
         required=False,
     )
     directives.mode(labelPresentationAuthor="display")
-    textindexer.searchable("labelPresentationAuthor")
 
     reviewAuthorHonorific = schema.Choice(
         title=_("Honorific Title"),

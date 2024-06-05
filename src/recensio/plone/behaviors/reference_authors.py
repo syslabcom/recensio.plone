@@ -43,7 +43,7 @@ class IReferenceAuthors(model.Schema):
         value_type=DictRow(schema=IReferenceAuthorRowSchema, required=False),
         required=False,
     )
-    textindexer.searchable("editorial")
+    textindexer.searchable("referenceAuthors")
 
     fieldset_review(["referenceAuthors"])
 

@@ -48,6 +48,7 @@ class IBookReview(model.Schema):
         required=False,
     )
 
+    textindexer.searchable("isbn_online")
     isbn_online = schema.TextLine(
         title=_("ISBN (Online)"),
         description=_(
@@ -120,6 +121,7 @@ class IEditedVolume(model.Schema):
     directives.widget(additionalTitles=DataGridFieldFactory)
     textindexer.searchable("additionalTitles")
 
+    textindexer.searchable("isbn")
     isbn = schema.TextLine(
         title=_("ISBN"),
         description=_(
@@ -132,6 +134,7 @@ class IEditedVolume(model.Schema):
         required=False,
     )
 
+    textindexer.searchable("isbn_online")
     isbn_online = schema.TextLine(
         title=_("ISBN (Online)"),
         description=_(
