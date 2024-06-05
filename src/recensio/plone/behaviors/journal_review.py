@@ -1,3 +1,4 @@
+from plone.app.dexterity import textindexer
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
@@ -12,6 +13,7 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class IJournalReview(model.Schema):
+    textindexer.searchable("issn")
     issn = schema.TextLine(
         title=_("ISSN"),
         description=_(
@@ -21,6 +23,7 @@ class IJournalReview(model.Schema):
         required=False,
     )
 
+    textindexer.searchable("issn_online")
     issn_online = schema.TextLine(
         title=_("ISSN Online"),
         description=_(
@@ -86,6 +89,7 @@ class IJournalReview(model.Schema):
 
 @provider(IFormFieldProvider)
 class IJournalArticleReview(model.Schema):
+    textindexer.searchable("issn")
     issn = schema.TextLine(
         title=_("ISSN"),
         description=_(
@@ -95,6 +99,7 @@ class IJournalArticleReview(model.Schema):
         required=False,
     )
 
+    textindexer.searchable("issn_online")
     issn_online = schema.TextLine(
         title=_("ISSN Online"),
         description=_(
