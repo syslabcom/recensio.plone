@@ -83,7 +83,6 @@ class IBase(model.Schema):
         title=_("Generated Pdf"),
         required=False,
     )
-    searchable("generatedPdf")
     directives.omitted("generatedPdf")
 
     directives.widget("review", RichTextFieldWidget)
