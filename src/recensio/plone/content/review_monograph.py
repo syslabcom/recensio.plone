@@ -1,3 +1,4 @@
+from plone.app.dexterity import textindexer
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Item
@@ -15,6 +16,7 @@ class IReviewMonograph(model.Schema, IReview):
     """Marker interface and Dexterity Python Schema for ReviewMonograph."""
 
     directives.order_after(translatedTitle="IBookReview.additionalTitles")
+    textindexer.searchable("translatedTitle")
     translatedTitle = schema.TextLine(
         title=_("Translated Title"),
         required=False,

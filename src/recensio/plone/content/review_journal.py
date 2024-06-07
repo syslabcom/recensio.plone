@@ -1,3 +1,4 @@
+from plone.app.dexterity import textindexer
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Item
@@ -15,12 +16,14 @@ class IReviewJournal(model.Schema, IReview):
     """Marker interface and Dexterity Python Schema for ReviewJournal."""
 
     directives.order_after(editor="IJournalReview.doi_journal")
+    textindexer.searchable("editor")
     editor = schema.TextLine(
         title=_("Editor (name or institution)"),
         required=False,
     )
 
     directives.order_after(translatedTitleJournal="ITextReview.title")
+    textindexer.searchable("translatedTitleJournal")
     translatedTitleJournal = schema.TextLine(
         title=_(
             "label_translated_title_journal",
