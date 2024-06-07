@@ -1,3 +1,4 @@
+from plone.app.dexterity.textindexer import searchable
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
@@ -20,6 +21,7 @@ class IBaseReview(model.Schema):
         title=_("PDF"),
         required=False,
     )
+    searchable("pdf")
     directives.omitted("pdf")
     directives.no_omit(IAddForm, "pdf")
     directives.no_omit(IEditForm, "pdf")
