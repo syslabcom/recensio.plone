@@ -1,6 +1,6 @@
+from plone.app.dexterity.textindexer import searchable
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
-from plone.app.dexterity.textindexer import searchable
 from plone.dexterity.interfaces import IDexterityContent
 from plone.namedfile.field import NamedBlobFile
 from plone.namedfile.field import NamedBlobImage
