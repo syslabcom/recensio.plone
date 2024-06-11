@@ -2,8 +2,13 @@ graft src/recensio
 graft docs
 include *.md
 include *.rst
-exclude *.txt
 exclude *.cfg
-exclude .github.cfg
+exclude *.js
+exclude *.txt
+exclude .*
+exclude Makefile
+exclude package.json
+exclude yarn.lock
 prune .github
+prune resources
 global-exclude *.pyc
