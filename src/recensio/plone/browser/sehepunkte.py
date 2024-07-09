@@ -21,7 +21,7 @@ import datetime
 import html.entities
 import logging
 import re
-import urllib
+import requests
 
 
 log = logging.getLogger(__name__)
@@ -105,7 +105,8 @@ class Import(BrowserView):
         review_count = 0
         for url in self._getTargetURLs():
             try:
-                sehepunkte_xml = urllib.request.urlopen(url).read()  # nosec B310
+                response = requests.get(url)
+                sehepunkte_xml = response.content
                 data.append(sehepunkte_parser.parse(sehepunkte_xml))
             except OSError:
                 pass  # The library takes care of logging a failure
@@ -133,7 +134,7 @@ class Import(BrowserView):
         return "Success"
 
     def _getTargetURLs(self):
-        base = "http://www.sehepunkte.de/export/sehepunkte_%s.xml"
+        base = "https://www.sehepunkte.de/export/sehepunkte_%s.xml"
         now = datetime.datetime.now()
         past_months = int(self.request.get("past_months", 1))
         for idx in reversed(range(past_months + 1)):
@@ -225,7 +226,8 @@ class Import(BrowserView):
 
     def _extractAndSanitizeHTML(self, review):
         # XXX check scheme? (bandit)
-        html = urllib.request.urlopen(review["canonical_uri"]).read()  # nosec B310
+        response = requests.get(review["canonical_uri"])
+        html = response.content
         soup = BeautifulSoup(html, "lxml")
         dirt = soup.findAll("div", {"class": "box"})
         for div in dirt:
