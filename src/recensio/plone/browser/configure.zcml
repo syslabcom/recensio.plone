@@ -403,6 +403,14 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <browser:page
+      name="getVocabulary"
+      for="*"
+      class=".vocabulary.RecensioVocabularyView"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
   <browser:view
       name="r"
       for="*"
