@@ -21,7 +21,7 @@ import itertools
 
 
 class RecensioVocabularyView(VocabularyView):
-    def __call__(self):
+    def __call__(self):  # noqa: C901
         """
         Accepts GET parameters of:
         name: Name of the vocabulary
