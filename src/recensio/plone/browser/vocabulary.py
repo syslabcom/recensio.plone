@@ -14,6 +14,7 @@ from plone.base.utils import safe_text
 from Products.CMFCore.utils import getToolByName
 from Products.MimetypesRegistry.MimeTypeItem import guess_icon_path
 from Products.MimetypesRegistry.MimeTypeItem import PREFIX
+from Products.PortalTransforms.transforms.safe_html import hasScript
 from Products.PortalTransforms.transforms.safe_html import SafeHTML
 from zope.i18n import translate
 
@@ -21,6 +22,12 @@ import itertools
 
 
 class RecensioVocabularyView(VocabularyView):
+    def maybe_scrub(self, value):
+        if value and (hasScript(value) or "<" in value):
+            transform = SafeHTML()
+            return transform.scrub_html(value)
+        return value
+
     def __call__(self):  # noqa: C901
         """
         Accepts GET parameters of:
@@ -103,7 +110,6 @@ class RecensioVocabularyView(VocabularyView):
             attributes = attributes.split(",")
 
         translate_ignored = self.get_translated_ignored()
-        transform = SafeHTML()
         if attributes:
             base_path = self.get_base_path(context)
             sm = getSecurityManager()
@@ -154,8 +160,10 @@ class RecensioVocabularyView(VocabularyView):
         else:
             items = [
                 {
-                    "id": item.value,
-                    "text": (item.title if item.title else ""),
+                    "id": unescape(self.maybe_scrub(item.value)),
+                    "text": (
+                        unescape(self.maybe_scrub(item.title)) if item.title else ""
+                    ),
                 }
                 for item in results
             ]
@@ -163,6 +171,4 @@ class RecensioVocabularyView(VocabularyView):
         if total == 0:
             total = len(items)
 
-        return unescape(
-            transform.scrub_html(json_dumps({"results": items, "total": total}))
-        )
+        return json_dumps({"results": items, "total": total})
