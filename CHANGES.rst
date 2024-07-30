@@ -2,10 +2,12 @@ Changelog
 =========
 
 
-1.0.3 (unreleased)
+1.0.3 (2024-07-30)
 ------------------
 
-- Nothing changed yet.
+- Fixed error when editing keywords
+  `#2408 <https://github.com/syslabcom/scrum/issues/2408>`_
+  [reinhardt]
 
 
 1.0.2 (2024-07-26)
