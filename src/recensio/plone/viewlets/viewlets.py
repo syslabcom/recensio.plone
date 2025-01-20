@@ -79,11 +79,9 @@ class Publicationlisting(ViewletBase):
 
     def _get_css_classes(self, obj):
         css_classes = []
-        reviews = [
-            obj
-            for obj in obj.objectValues()
-            if obj.portal_type in ("Review Monograph", "Review Journal")
-        ]
+        reviews = api.content.find(
+            context=obj, portal_type=["Review Monograph", "Review Journal"], depth=1
+        )
         if len(reviews) > 0:
             css_classes.append("review_container")
             if self.is_expanded(obj.UID()):

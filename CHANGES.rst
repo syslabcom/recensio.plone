@@ -5,7 +5,9 @@ Changelog
 1.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Performance improvements
+  `#3067 <https://github.com/syslabcom/scrum/issues/3067>`_
+  [ale-rt]
 
 
 1.0.3 (2024-07-30)

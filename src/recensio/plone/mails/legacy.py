@@ -1,4 +1,5 @@
 """Contains code migrated from the old recensio packages."""
+
 from plone import api
 from Products.Five import BrowserView
 from recensio.plone import _
