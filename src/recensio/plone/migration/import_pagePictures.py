@@ -71,7 +71,9 @@ class ImportPagePicturesForm(form.Form):
                     )
                     with blob_path.open("rb") as f:
                         pagePictures.append(
-                            NamedBlobImage(data=f.read(), filename=f"{blob_idx+1}.gif")
+                            NamedBlobImage(
+                                data=f.read(), filename=f"{blob_idx + 1}.gif"
+                            )
                         )
                 elif isinstance(blob_path, str):
                     # Looks like, when export_page_pictures was called TTW, the
@@ -79,7 +81,9 @@ class ImportPagePicturesForm(form.Form):
                     # COLLECTIVE_EXPORTIMPORT_BLOB_HOME in that case.
                     with open(blob_path, "rb") as f:
                         pagePictures.append(
-                            NamedBlobImage(data=f.read(), filename=f"{blob_idx+1}.gif")
+                            NamedBlobImage(
+                                data=f.read(), filename=f"{blob_idx + 1}.gif"
+                            )
                         )
 
             obj.pagePictures = pagePictures
