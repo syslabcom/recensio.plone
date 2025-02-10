@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.4 (unreleased)
+1.0.4 (2025-02-10)
 ------------------
 
 - Performance improvements
