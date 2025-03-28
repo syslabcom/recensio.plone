@@ -55,16 +55,16 @@ def _listAuthors(obj, listEditors=False):
     if getattr(obj, "curators", None):
         for curator in obj.curators:
             curator_obj = curator.to_object
-            if curator_obj.lastname or curator_obj.firstname:
+            if curator_obj and (curator_obj.lastname or curator_obj.firstname):
                 retval.append(f"{curator_obj.lastname}, {curator_obj.firstname}")
     if listEditors and getattr(obj, "editorial", None):
         for editor in obj.editorial:
             editor_obj = editor.to_object
-            if editor_obj.lastname or editor_obj.firstname:
+            if editor_obj and (editor_obj.lastname or editor_obj.firstname):
                 retval.append(f"{editor_obj.lastname}, {editor_obj.firstname}")
     for author in obj.authors:
         author_obj = author.to_object
-        if author_obj.lastname or author_obj.firstname:
+        if author_obj and (author_obj.lastname or author_obj.firstname):
             retval.append(f"{author_obj.lastname}, {author_obj.firstname}")
     return retval
 

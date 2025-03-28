@@ -128,6 +128,7 @@ class View(BrowserView, CanonicalURLHelper):
         # Get the target objects in case of a RelationValue object.
         rows = map(lambda row: getattr(row, "to_object", row), rows)
         # Remove empty rows.
+        rows = filter(None, rows)
         rows = filter(lambda row: any([_gettr(row, key) for key in _keys]), rows)
         result = ""
         for row in rows:
@@ -344,24 +345,21 @@ class View(BrowserView, CanonicalURLHelper):
                 name = self.openurl_terms[field]
 
                 if field == "metadata_review_author":
+                    authors = filter(
+                        None, [au.to_object for au in context.reviewAuthors if au]
+                    )
                     terms.update(
-                        {
-                            name: [
-                                f"{au.firstname} {au.lastname}"
-                                for au in [au.to_object for au in context.reviewAuthors]
-                            ]
-                        }
+                        {name: [f"{au.firstname} {au.lastname}" for au in authors]}
                     )
                 elif field == "title":
-                    authors = ", ".join(
-                        [
-                            f"{au.firstname} {au.lastname}"
-                            for au in [
-                                au.to_object for au in getattr(context, "authors", [])
-                            ]
-                        ]
+                    authors = filter(
+                        None,
+                        [au.to_object for au in getattr(context, "authors", []) if au],
                     )
-                    terms.update({name: f"{authors}: {getattr(context, field)}"})
+                    names = ", ".join(
+                        [f"{au.firstname} {au.lastname}" for au in authors]
+                    )
+                    terms.update({name: f"{names}: {getattr(context, field)}"})
                 elif field == "pages":
                     value = self.page_start_end_in_print
                     terms.update({name: value})
