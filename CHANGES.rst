@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.5 (unreleased)
+1.0.5 (2025-03-28)
 ------------------
 
 - Fix errors caused by missing person references

@@ -12,7 +12,7 @@ long_description = "\n\n".join(
 
 setup(
     name="recensio.plone",
-    version="1.0.5.dev0",
+    version="1.0.5",
     description="Base package of the Recensio Plone portal.",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
