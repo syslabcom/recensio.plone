@@ -5,7 +5,9 @@ Changelog
 1.0.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix errors caused by missing person references
+  `#3373 <https://github.com/syslabcom/scrum/issues/3373>`_
+  [reinhardt]
 
 
 1.0.4 (2025-02-10)

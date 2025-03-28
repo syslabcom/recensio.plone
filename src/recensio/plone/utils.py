@@ -89,6 +89,7 @@ def get_formatted_names(names, lastname_first=False, full_name_separator=" / "):
                     getattr(x, name_part1), getattr(x, name_part2)
                 )
                 for x in names
+                if x
             ]
         )
     )

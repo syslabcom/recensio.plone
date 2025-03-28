@@ -128,6 +128,7 @@ class View(BrowserView, CanonicalURLHelper):
         # Get the target objects in case of a RelationValue object.
         rows = map(lambda row: getattr(row, "to_object", row), rows)
         # Remove empty rows.
+        rows = filter(None, rows)
         rows = filter(lambda row: any([_gettr(row, key) for key in _keys]), rows)
         result = ""
         for row in rows:
@@ -348,7 +349,11 @@ class View(BrowserView, CanonicalURLHelper):
                         {
                             name: [
                                 f"{au.firstname} {au.lastname}"
-                                for au in [au.to_object for au in context.reviewAuthors]
+                                for au in [
+                                    au.to_object
+                                    for au in context.reviewAuthors
+                                    if au and au.to_object
+                                ]
                             ]
                         }
                     )
@@ -357,7 +362,9 @@ class View(BrowserView, CanonicalURLHelper):
                         [
                             f"{au.firstname} {au.lastname}"
                             for au in [
-                                au.to_object for au in getattr(context, "authors", [])
+                                au.to_object
+                                for au in getattr(context, "authors", [])
+                                if au and au.to_object
                             ]
                         ]
                     )
