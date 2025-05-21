@@ -176,6 +176,7 @@ class MagazineImport:
                     messages.addStatusMessage(error, type="error")
             else:
                 uploaded_file = self.request.form["pdf"]
+                uploaded_file.seek(0)
                 file_obj = NamedBlobFile(
                     filename=uploaded_file.filename,
                     data=uploaded_file.read(),

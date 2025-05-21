@@ -5,7 +5,9 @@ Changelog
 1.0.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix mangled issue PDF in bulk upload
+  `#3152 <https://github.com/syslabcom/scrum/issues/3152>`_
+  [reinhardt]
 
 
 1.0.5 (2025-03-28)
