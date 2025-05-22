@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.6 (unreleased)
+1.0.6 (2025-05-22)
 ------------------
 
 - Fix mangled issue PDF in bulk upload
