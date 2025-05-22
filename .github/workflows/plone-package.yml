@@ -9,7 +9,6 @@ jobs:
     strategy:
       matrix:
         config:
-          - ["Py3.9-Plone6", "3.9"]
           - ["Py3.10-Plone6", "3.10"]
           - ["Py3.11-Plone6", "3.11"]
     runs-on: ubuntu-latest
