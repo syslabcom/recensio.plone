@@ -136,8 +136,10 @@ class Publicationlisting(ViewletBase):
                 {"portal_type": ["Review Monograph", "Review Journal"]},
                 full_objects=True,
             )
-        review_objs = sorted(review_objs, key=lambda v: listAuthorsAndEditors(v)())
         reviews = [self._make_dict(rev) for rev in review_objs]
+        reviews = sorted(
+            reviews, key=lambda r: r["listAuthorsAndEditors"], reverse=True
+        )
         return reviews
 
     def _formatsize(self, size):
