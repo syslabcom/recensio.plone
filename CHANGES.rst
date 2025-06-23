@@ -5,7 +5,8 @@ Changelog
 1.0.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Avoid computing ``listAuthorsAndEditors`` twice
+  `#3678 <https://github.com/syslabcom/scrum/issues/3678>`_
 
 
 1.0.6 (2025-05-22)
