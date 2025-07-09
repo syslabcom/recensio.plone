@@ -7,6 +7,8 @@ Changelog
 
 - Avoid computing ``listAuthorsAndEditors`` twice
   `#3678 <https://github.com/syslabcom/scrum/issues/3678>`_
+- Set redirect-to-publication as default view for Issue and Volume
+  `#3151 <https://github.com/syslabcom/scrum/issues/3151>`_
 
 
 1.0.6 (2025-05-22)
