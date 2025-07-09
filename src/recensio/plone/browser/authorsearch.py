@@ -1,8 +1,8 @@
 #!/usr/bin/python
 from datetime import datetime
+from plone.base.navigationroot import get_navigation_root
 from plone.memoize import instance
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.browser.navtree import getNavigationRoot
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -20,7 +20,7 @@ def _render_cachekey(_, self):
     b_start = self.request.get("b_start", "0")
     letter = self.request.get("letter")
     use_navigation_root = self.request.get("use_navigation_root", True)
-    navigation_root = getNavigationRoot(self.context)
+    navigation_root = get_navigation_root(self.context)
     return (b_start, letter, hour, use_navigation_root, navigation_root)
 
 
@@ -49,7 +49,7 @@ class AuthorSearchView(BrowserView, CrossPlatformMixin):
             "sort_on": "sortable_title",
             "fl": "Title,UID,path_string",
         }
-        navigation_root = getNavigationRoot(self.context)
+        navigation_root = get_navigation_root(self.context)
         if self.request.get("use_navigation_root", True):
             query["path"] = navigation_root
         if author_string:

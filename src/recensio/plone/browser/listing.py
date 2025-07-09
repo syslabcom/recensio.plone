@@ -1,7 +1,7 @@
 from eea.facetednavigation.browser.app.query import FacetedQueryHandler
 from plone import api
 from plone.app.contentlisting.interfaces import IContentListing
-from Products.CMFPlone.browser.navtree import getNavigationRoot
+from plone.base.navigationroot import get_navigation_root
 from Products.CMFPlone.browser.search import Search
 from Products.CMFPlone.utils import normalizeString
 from Products.Five.browser import BrowserView
@@ -81,7 +81,7 @@ class ReviewSectionsListing(ListingBase):
 
     @property
     def query(self):
-        navigation_root = getNavigationRoot(self.context)
+        navigation_root = get_navigation_root(self.context)
         query = dict(
             portal_type=["Volume", "Issue"],
             path=navigation_root,
@@ -99,7 +99,7 @@ class ReviewItemsListing(ListingBase):
 
     @property
     def query(self):
-        navigation_root = getNavigationRoot(self.context)
+        navigation_root = get_navigation_root(self.context)
         query = dict(
             portal_type=REVIEW_TYPES,
             path=navigation_root,
