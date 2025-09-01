@@ -9,6 +9,7 @@ Changelog
   `#3678 <https://github.com/syslabcom/scrum/issues/3678>`_
 - Set redirect-to-publication as default view for Issue and Volume
   `#3151 <https://github.com/syslabcom/scrum/issues/3151>`_
+- Fix ResourceWarning on unclosed file handles in tests [gyst]
 
 
 1.0.6 (2025-05-22)
