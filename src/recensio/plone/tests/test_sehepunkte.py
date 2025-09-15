@@ -1123,9 +1123,7 @@ class TestSehepunkteImport(unittest.TestCase):
 
     def testImportGood(self):
         with open(testdata_filename, "rb") as fh:
-            data = [
-                x for x in sehepunkte_parser.parse(fh.read())
-            ]
+            data = [x for x in sehepunkte_parser.parse(fh.read())]
         self.maxDiff = None
         self.assertEqual(testdata_parsed, list(data))
 
