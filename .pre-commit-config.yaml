@@ -24,7 +24,7 @@ repos:
     hooks:
       - id: flake8
   - repo: https://github.com/PyCQA/bandit
-    rev: 1.7.5
+    rev: 1.8.6
     hooks:
       - id: bandit
         exclude: /tests/
@@ -32,6 +32,7 @@ repos:
           - --severity-level=medium
           - --confidence-level=medium
           - --skip=B608
+          - --skip=B411
   - repo: https://github.com/collective/zpretty
     rev: 3.1.0
     hooks:

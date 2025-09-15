@@ -3,8 +3,10 @@ all: .installed.cfg
 
 
 py3/bin/buildout: py3/bin/pip3 py3/bin/pre-commit
+	# To really be sure we have the desired setuptools we need to uninstall it first
 	./py3/bin/pip3 uninstall -y setuptools
-	./py3/bin/pip3 install -IUr https://dist.plone.org/release/6-latest/requirements.txt
+	# ... and reinstall it later
+	./py3/bin/pip3 install -IUr requirements.txt -c constraints.txt
 
 
 .PHONY: pre-commit

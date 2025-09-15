@@ -11,6 +11,8 @@ Changelog
   `#3151 <https://github.com/syslabcom/scrum/issues/3151>`_
 - Fix ResourceWarning on unclosed file handles in tests [gyst]
 
+- Upgrade github CI pre-commit action to 3.0.1 [gyst]
+- Fix the CI build [gyst]
 
 1.0.6 (2025-05-22)
 ------------------
