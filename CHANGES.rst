@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.7 (unreleased)
+2.0.0 (unreleased)
 ------------------
 
 - Avoid computing ``listAuthorsAndEditors`` twice
@@ -11,6 +11,7 @@ Changelog
   `#3151 <https://github.com/syslabcom/scrum/issues/3151>`_
 - Upgrade github CI pre-commit action to 3.0.1 [gyst]
 - Fix the CI build [gyst]
+- Upgrade to Plone 6.1.2 [reinhardt, gyst]
 
 1.0.6 (2025-05-22)
 ------------------

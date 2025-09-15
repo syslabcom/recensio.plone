@@ -3,11 +3,8 @@ all: .installed.cfg
 
 
 py3/bin/buildout: py3/bin/pip3 py3/bin/pre-commit
-	# To really be sure we have the desired setuptools we need to uninstall it first
 	./py3/bin/pip3 uninstall -y setuptools
-	# ... and reinstall it later
-	./py3/bin/pip3 install -IUr requirements.txt -c constraints.txt
-
+	./py3/bin/pip3 install -IUr requirements.txt
 
 .PHONY: pre-commit
 pre-commit: py3/bin/pre-commit
