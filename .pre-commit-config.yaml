@@ -1,26 +1,26 @@
 exclude: "^$|src/recensio/plone/browser/bundles"
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.19.1
+    rev: v3.20.0
     hooks:
       - id: pyupgrade
         args: [--py38-plus]
   - repo: https://github.com/psf/black
-    rev: 24.10.0
+    rev: 25.1.0
     hooks:
       - id: black
   - repo: https://github.com/PyCQA/isort
-    rev: 5.13.2
+    rev: 6.0.1
     hooks:
       - id: isort
   - repo: https://github.com/PyCQA/flake8
-    rev: 7.1.1
+    rev: 7.3.0
     hooks:
       - id: flake8
   - repo: https://github.com/PyCQA/bandit
@@ -34,7 +34,7 @@ repos:
           - --skip=B608
           - --skip=B411
   - repo: https://github.com/collective/zpretty
-    rev: 3.1.0
+    rev: 3.1.1
     hooks:
       - id: zpretty
 #  - repo: https://github.com/PyCQA/docformatter
