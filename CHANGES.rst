@@ -10,10 +10,10 @@ Changelog
 - Set redirect-to-publication as default view for Issue and Volume
   `#3151 <https://github.com/syslabcom/scrum/issues/3151>`_
 - Fix ResourceWarning on unclosed file handles in tests [gyst]
-
 - Upgrade github CI pre-commit action to 3.0.1 [gyst]
 - Fix the CI build [gyst]
 - Upgrade to Plone 6.1.2 [reinhardt, gyst]
+- Update the pre-commit linters [gyst]
 
 1.0.6 (2025-05-22)
 ------------------
