@@ -6,5 +6,6 @@
   <dependencies>
     <dependency>profile-ftw.upgrade:default</dependency>
     <dependency>profile-collective.z3cform.datagridfield:default</dependency>
+    <dependency>profile-plone.app.discussion:default</dependency>
   </dependencies>
 </metadata>
