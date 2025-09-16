@@ -1122,14 +1122,14 @@ class TestSehepunkteImport(unittest.TestCase):
         pass
 
     def testImportGood(self):
-        data = [
-            x for x in sehepunkte_parser.parse(open(testdata_filename, "rb").read())
-        ]
+        with open(testdata_filename, "rb") as fh:
+            data = [x for x in sehepunkte_parser.parse(fh.read())]
         self.maxDiff = None
         self.assertEqual(testdata_parsed, list(data))
 
     def testImportBad(self):
-        data1 = open(testdata_filename, "rb").read()
+        with open(testdata_filename, "rb") as fh:
+            data1 = fh.read()
         data2 = data1.replace(b'<review id="17542">', b"<somethingelse>")
         data2 = data2.replace(b"</review>", b"</somethingelse>", 1)
         data1 = sehepunkte_parser.parse(data1)
