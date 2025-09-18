@@ -63,6 +63,7 @@ setup(
             "plone.app.testing",
             "plone.testing>=5.0.0",
             "plone.app.contenttypes",
+            "plone.app.robotframework",
         ],
     },
     entry_points="""
