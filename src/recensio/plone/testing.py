@@ -10,9 +10,15 @@ class RecensioPloneLayer(PloneSandboxLayer):
     defaultBases = (PLONE_FIXTURE,)
 
     def setUpZope(self, app, configurationContext):
+        # This re-implements PLONE_APP_CONTENTTYPES_FIXTURE
+        # in order to avoid depending on robotframework
+        import plone.app.contenttypes
+
+        self.loadZCML(package=plone.app.contenttypes)
         self.loadZCML(package=recensio.plone)
 
     def setUpPloneSite(self, portal):
+        portal.portal_workflow.setDefaultChain("simple_publication_workflow")
         applyProfile(portal, "recensio.plone:default")
 
 
