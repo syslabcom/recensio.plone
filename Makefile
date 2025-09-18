@@ -30,7 +30,7 @@ check: .installed.cfg
 
 .PHONY: clean
 clean:
-	rm -rf ./py3
+	rm -rf ./py3 .installed.cfg
 
 
 # Build custom JavaScript bundle
