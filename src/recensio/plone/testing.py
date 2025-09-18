@@ -3,6 +3,7 @@ from plone.app.testing import applyProfile
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 
+import collective.solr
 import recensio.plone
 
 
@@ -10,6 +11,7 @@ class RecensioPloneLayer(PloneSandboxLayer):
     defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
 
     def setUpZope(self, app, configurationContext):
+        self.loadZCML(package=collective.solr)
         self.loadZCML(package=recensio.plone)
 
     def setUpPloneSite(self, portal):
