@@ -21,6 +21,7 @@
       description="Installs the recensio.plone add-on."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       directory="profiles/default"
+      post_handler="recensio.plone.setuphandlers.default"
       />
 
   <genericsetup:registerProfile

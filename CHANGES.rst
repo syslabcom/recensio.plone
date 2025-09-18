@@ -14,6 +14,7 @@ Changelog
 - Fix the CI build [gyst]
 - Upgrade to Plone 6.1.2 [reinhardt, gyst]
 - Update the pre-commit linters [gyst]
+- Don't error out on main nav on a clean install [gyst]
 
 1.0.6 (2025-05-22)
 ------------------
