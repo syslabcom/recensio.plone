@@ -27,6 +27,9 @@
     <fieldType name="pdate" class="solr.DatePointField" docValues="true"/>
     <fieldType name="pdates" class="solr.DatePointField" docValues="true" multiValued="true"/>
 
+    <!-- Synonym integer for int to make it backwards compatible for buildouts -->
+    <fieldType name="integer" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"/>
+
     <!-- A specialized field for geospatial search. If indexed, this fieldType must not be multivalued. -->
     <fieldType name="location" class="solr.LatLonPointSpatialField" docValues="true"/>
 
@@ -152,6 +155,456 @@
       geospatial solr features
     -->
     <field name="geolocation" type="location" indexed="true" stored="true" />
+
+    <!-- fields taken from old recensio solr schema.xml -->
+                  <field name="CreationDate" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+           <!--        <field name="Creator" type="string" indexed="true" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+           <!--        <field name="Date" type="date" indexed="true" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+           <!--        <field name="Description" type="text" indexed="true" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+                  <field name="EffectiveDate" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="ExpirationDate" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+           <!--        <field name="Language" type="string" indexed="true" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+                  <field name="ModificationDate" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+           <!--        <field name="SearchableText" type="text" indexed="true" -->
+           <!-- stored="false" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+           <!--        <field name="Subject" type="string" indexed="true" -->
+           <!-- stored="true" required="false" multiValued="true" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+           <!--        <field name="Title" type="text" indexed="true" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+           <!--        <field name="Type" type="string" indexed="true" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+           <!--        <field name="UID" type="string" indexed="true" -->
+           <!-- stored="true" required="true" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+           <!--        <field name="allowedRolesAndUsers" type="string" indexed="true" -->
+           <!-- stored="false" required="false" multiValued="true" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+                   <field name="author_name" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="authors" type="string" indexed="true"
+           stored="false" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="authorsFulltext" type="text" indexed="true"
+           stored="false" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="authorsUID" type="string" indexed="true"
+           stored="true" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="cmf_uid" type="integer" indexed="true"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="commentators" type="string" indexed="true"
+           stored="true" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+           <!--        <field name="created" type="date" indexed="true" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+                  <field name="ddcPlace" type="string" indexed="true"
+           stored="false" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="ddcSubject" type="string" indexed="true"
+           stored="false" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="ddcTime" type="string" indexed="true"
+           stored="false" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+           <!--        <field name="effective" type="date" indexed="true" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+                  <field name="effectiveRange" type="date" indexed="true"
+           stored="false" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="end" type="date" indexed="true"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+           <!--        <field name="exclude_from_nav" type="boolean" indexed="false" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+                  <field name="exhibitor" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+           <!--        <field name="expires" type="date" indexed="true" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+                  <field name="getAuthors" type="string" indexed="false"
+           stored="true" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+           <!--        <field name="getIcon" type="string" indexed="false" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+           <!--        <field name="getId" type="string" indexed="true" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+                  <field name="get_issue_title" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="get_publication_title" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="get_volume_title" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="getObjPositionInParent" type="integer" indexed="true"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="getObjSize" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="getOfficialYearOfPublication" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="getRawRelatedItems" type="string" indexed="true"
+           stored="false" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+           <!--        <field name="getRemoteUrl" type="string" indexed="false" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+                  <field name="getReviewAuthor" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="getReviewAuthorFirstname" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="getReviewAuthorLastname" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="getYearOfPublication" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="gndId" type="string" indexed="true"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="herausgeberSammelband" type="string" indexed="false"
+           stored="false" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="hide_from_listing" type="boolean" indexed="true"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+           <!--        <field name="id" type="string" indexed="true" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+                  <field name="in_reply_to" type="string" indexed="true"
+           stored="false" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="in_response_to" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="is_default_page" type="boolean" indexed="true"
+           stored="false" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+           <!--        <field name="is_folderish" type="boolean" indexed="true" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+                  <field name="isbn" type="string" indexed="true"
+           stored="true" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="languageReviewedText" type="string" indexed="true"
+           stored="false" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="languageReview" type="string" indexed="true"
+           stored="false" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="last_comment_date" type="date" indexed="true"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="listCreators" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="listAuthors" type="string" indexed="false"
+           stored="true" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="listAuthorsAndEditors" type="string" indexed="false"
+           stored="true" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="listDates" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="listReviewAuthors" type="string" indexed="false"
+           stored="true" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="listReviewAuthorsFirstnameFirst" type="string" indexed="false"
+           stored="true" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="location" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="meta_type" type="string" indexed="true"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+           <!--        <field name="modified" type="date" indexed="true" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+           <!--        <field name="object_provides" type="string" indexed="true" -->
+           <!-- stored="false" required="false" multiValued="true" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+                  <field name="officialYearOfPublication" type="string" indexed="false"
+           stored="false" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+           <!--        <field name="path_parents" type="string" indexed="true" -->
+           <!-- stored="false" required="false" multiValued="true" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+           <!--        <field name="path_depth" type="integer" indexed="true" -->
+           <!-- stored="false" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+           <!--        <field name="path_string" type="string" indexed="false" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+                  <field name="place" type="string" indexed="true"
+           stored="false" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="placeOfPublication" type="string" indexed="false"
+           stored="false" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+           <!--        <field name="portal_type" type="string" indexed="true" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+                  <field name="publisher" type="text" indexed="true"
+           stored="false" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="punctuated_title_and_subtitle" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="recensioID" type="string" indexed="true"
+           stored="false" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="reviewAuthor" type="string" indexed="false"
+           stored="false" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+           <!--        <field name="review_state" type="string" indexed="true" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+                  <field name="series" type="text" indexed="true"
+           stored="false" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+           <!--        <field name="sortable_title" type="string" indexed="true" -->
+           <!-- stored="true" required="false" multiValued="false" -->
+           <!-- termVectors="false" termPositions="false" -->
+           <!-- termOffsets="false" -->
+           <!--            /> -->
+                  <field name="sortable_year" type="string" indexed="true"
+           stored="false" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="spelling" type="text_general" indexed="true"
+           stored="false" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="start" type="date" indexed="true"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="subtitle" type="string" indexed="false"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="titleOrShortname" type="text" indexed="true"
+           stored="false" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="total_comments" type="string" indexed="true"
+           stored="true" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="year" type="string" indexed="true"
+           stored="false" required="false" multiValued="true"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+                  <field name="yearOfPublication" type="string" indexed="false"
+           stored="false" required="false" multiValued="false"
+           termVectors="false" termPositions="false"
+           termOffsets="false"
+                      />
+
+
+
 
     <copyField source="Title" dest="default"/>
     <copyField source="Description" dest="default"/>

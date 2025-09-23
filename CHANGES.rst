@@ -16,6 +16,7 @@ Changelog
 - Update the pre-commit linters [gyst]
 - Don't error out on main nav on a clean install [gyst]
 - Upgrade ftw.upgrade to the SLC patched version [gyst]
+- Add collective.solr and make the eea.facetednavigation view compatible with that [gyst]
 
 1.0.6 (2025-05-22)
 ------------------

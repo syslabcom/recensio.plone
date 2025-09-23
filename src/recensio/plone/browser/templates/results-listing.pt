@@ -252,7 +252,7 @@
                     </span>
 
                     <span class="relevance"
-                          tal:condition="python: result.data_record_normalized_score_ &gt; 1"
+                          tal:condition="python: hasattr(result, 'data_record_normalized_score_') and float(result.data_record_normalized_score_) &gt; 1"
                     >
                         &mdash;
                       <tal:relevance i18n:translate="label_relevance_percentage">
