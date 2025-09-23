@@ -47,7 +47,7 @@ setup(
         "setuptools",
         "beautifulsoup4",
         "eea.facetednavigation",
-        "ftw.upgrade",
+        "ftw.upgrade>=3.4.0a0",
         "guess-language>0.2",
         "plone.api",
         "plone.app.discussion",

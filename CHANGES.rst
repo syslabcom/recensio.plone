@@ -15,6 +15,7 @@ Changelog
 - Upgrade to Plone 6.1.2 [reinhardt, gyst]
 - Update the pre-commit linters [gyst]
 - Don't error out on main nav on a clean install [gyst]
+- Upgrade ftw.upgrade to the SLC patched version [gyst]
 
 1.0.6 (2025-05-22)
 ------------------
