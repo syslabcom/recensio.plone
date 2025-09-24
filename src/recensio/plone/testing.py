@@ -1,3 +1,4 @@
+from collective.solr.testing import COLLECTIVE_SOLR_FIXTURE
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import applyProfile
 from plone.app.testing import IntegrationTesting
@@ -24,4 +25,9 @@ RECENSIO_PLONE_FIXTURE = RecensioPloneLayer()
 RECENSIO_PLONE_INTEGRATION_TESTING = IntegrationTesting(
     bases=(RECENSIO_PLONE_FIXTURE,),
     name="RecensioPloneLayer:IntegrationTesting",
+)
+
+RECENSIO_PLONE_SOLR_INTEGRATION_TESTING = IntegrationTesting(
+    bases=(RECENSIO_PLONE_FIXTURE, COLLECTIVE_SOLR_FIXTURE),
+    name="RecensioPloneLayer:SolrIntegrationTesting",
 )
