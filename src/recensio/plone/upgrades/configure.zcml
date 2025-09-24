@@ -12,5 +12,9 @@
       profile="recensio.plone:default"
       directory="v1"
       />
+  <upgrade-step:directory
+      profile="recensio.plone:default"
+      directory="v2"
+      />
 
 </configure>

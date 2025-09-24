@@ -27,6 +27,7 @@ pip-selfcheck.json
 pyvenv.cfg
 report.html
 reports/
+src/ftw.upgrade/
 src/guess-language/
 share/
 var/
