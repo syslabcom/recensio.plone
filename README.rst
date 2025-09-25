@@ -31,3 +31,5 @@ There are a few gotchas:
   To get it to work properly, your Solr needs to be started up with special environment variables::
 
     SOLR_ENABLE_REMOTE_STREAMING=true SOLR_ENABLE_STREAM_BODY=true SOLR_OPTS="-Dsolr.allowPaths=${instance:blob-storage}"
+
+  For more background, see https://github.com/collective/collective.solr/issues/385
