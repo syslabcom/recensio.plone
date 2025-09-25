@@ -105,10 +105,8 @@ class Publicationlisting(ViewletBase):
     def volumes(self):
         # This is nasty. #3678 Decarbonize
         objects = [
-            x.getObject()
-            for x in self.parent.restrictedTraverse("@@contentlisting")(
-                portal_type="Volume"
-            )
+            brain.getObject()
+            for brain in api.content.find(self.parent, depth=1, portal_type="Volume")
         ]
         volume_objs = sorted(objects, key=lambda v: v.effective(), reverse=True)
         volumes = [self._make_iss_or_vol_dict(v) for v in volume_objs]
@@ -119,9 +117,9 @@ class Publicationlisting(ViewletBase):
             return []
         # This is nasty. #3678 Decarbonize
         objects = [
-            x.getObject()
-            for x in self.parent[volume].restrictedTraverse("@@contentlisting")(
-                portal_type="Issue"
+            brain.getObject()
+            for brain in api.content.find(
+                self.parent[volume], depth=1, portal_type="Issue"
             )
         ]
         issue_objs = sorted(objects, key=lambda v: v.effective(), reverse=True)
@@ -135,8 +133,10 @@ class Publicationlisting(ViewletBase):
         if issue is None:
             # This is nasty. #3678 Decarbonize
             review_objs = [
-                x.getObject()
-                for x in self.parent[volume].restrictedTraverse("@@contentlisting")(
+                brain.getObject()
+                for brain in api.content.find(
+                    self.parent[volume],
+                    depth=1,
                     portal_type=["Review Monograph", "Review Journal"],
                 )
             ]
@@ -145,10 +145,10 @@ class Publicationlisting(ViewletBase):
                 return []
             # This is nasty. #3678 Decarbonize
             review_objs = [
-                x.getObject()
-                for x in self.parent[volume][issue].restrictedTraverse(
-                    "@@contentlisting"
-                )(
+                brain.getObject()
+                for brain in api.content.find(
+                    self.parent[volume][issue],
+                    depth=1,
                     portal_type=["Review Monograph", "Review Journal"],
                 )
             ]
