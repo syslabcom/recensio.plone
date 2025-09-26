@@ -103,9 +103,11 @@ class Publicationlisting(ViewletBase):
         return issue_dict
 
     def volumes(self):
-        objects = self.parent.getFolderContents(
-            {"portal_type": "Volume"}, full_objects=True
-        )
+        # This is nasty. #3678 Decarbonize
+        objects = [
+            brain.getObject()
+            for brain in api.content.find(self.parent, depth=1, portal_type="Volume")
+        ]
         volume_objs = sorted(objects, key=lambda v: v.effective(), reverse=True)
         volumes = [self._make_iss_or_vol_dict(v) for v in volume_objs]
         return volumes
@@ -113,9 +115,13 @@ class Publicationlisting(ViewletBase):
     def issues(self, volume):
         if volume not in self.parent:
             return []
-        objects = self.parent[volume].getFolderContents(
-            {"portal_type": "Issue"}, full_objects=True
-        )
+        # This is nasty. #3678 Decarbonize
+        objects = [
+            brain.getObject()
+            for brain in api.content.find(
+                self.parent[volume], depth=1, portal_type="Issue"
+            )
+        ]
         issue_objs = sorted(objects, key=lambda v: v.effective(), reverse=True)
         issues = [self._make_iss_or_vol_dict(i) for i in issue_objs]
         return issues
@@ -125,17 +131,27 @@ class Publicationlisting(ViewletBase):
         if volume not in self.parent.objectIds():
             return []
         if issue is None:
-            review_objs = self.parent[volume].getFolderContents(
-                {"portal_type": ["Review Monograph", "Review Journal"]},
-                full_objects=True,
-            )
+            # This is nasty. #3678 Decarbonize
+            review_objs = [
+                brain.getObject()
+                for brain in api.content.find(
+                    self.parent[volume],
+                    depth=1,
+                    portal_type=["Review Monograph", "Review Journal"],
+                )
+            ]
         else:
             if issue not in self.parent[volume].objectIds():
                 return []
-            review_objs = self.parent[volume][issue].getFolderContents(
-                {"portal_type": ["Review Monograph", "Review Journal"]},
-                full_objects=True,
-            )
+            # This is nasty. #3678 Decarbonize
+            review_objs = [
+                brain.getObject()
+                for brain in api.content.find(
+                    self.parent[volume][issue],
+                    depth=1,
+                    portal_type=["Review Monograph", "Review Journal"],
+                )
+            ]
         reviews = [self._make_dict(rev) for rev in review_objs]
         reviews = sorted(
             reviews, key=lambda r: r["listAuthorsAndEditors"], reverse=True

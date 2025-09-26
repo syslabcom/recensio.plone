@@ -18,6 +18,7 @@ Changelog
 - Upgrade ftw.upgrade to the SLC patched version [gyst]
 - Add collective.solr and make the eea.facetednavigation view compatible with that [gyst]
 - Activate fulltext PDF solr search, provide upgrade, adjust tests [gyst]
+- Bugfix PublicationsViewlet for the Plone upgrade [gyst]
 
 1.0.6 (2025-05-22)
 ------------------
