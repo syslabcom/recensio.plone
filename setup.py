@@ -53,10 +53,11 @@ setup(
         "plone.app.discussion",
         "collective.vdexvocabulary",
         "collective.z3cform.datagridfield",
+        "paramiko-ng", 
         "pypdf",
         "reportlab",
         "xlrd",
-        "z3c.jbot",
+        "z3c.jbot"
     ],
     extras_require={
         "test": [

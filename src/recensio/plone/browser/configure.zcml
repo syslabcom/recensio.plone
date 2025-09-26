@@ -93,6 +93,12 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <browser:page
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      name="chronicon-export"
+      class=".export.ChroniconExport"
+      permission="cmf.ManagePortal" />
+
   <!-- Listing views -->
 
   <configure package="eea.facetednavigation.browser">
