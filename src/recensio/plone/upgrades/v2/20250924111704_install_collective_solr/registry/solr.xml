@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<registry>
+  <record field="active"
+          interface="collective.solr.interfaces.ISolrSchema"
+          name="collective.solr.active"
+  >
+    <value>True</value>
+  </record>
+</registry>
