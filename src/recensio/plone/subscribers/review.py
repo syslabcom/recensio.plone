@@ -1,18 +1,16 @@
-from logging import getLogger
-from plone import api
-from plone.base.utils import safe_bytes
-from plone.base.utils import safe_text
-from plone.namedfile import NamedBlobImage
-from plone.namedfile.file import NamedBlobFile
-from shutil import which
-from string import Template
-from tempfile import NamedTemporaryFile
-
 import glob
 import os
 import subprocess
 import tempfile
+from logging import getLogger
+from shutil import which
+from string import Template
+from tempfile import NamedTemporaryFile
 
+from plone import api
+from plone.base.utils import safe_bytes, safe_text
+from plone.namedfile import NamedBlobImage
+from plone.namedfile.file import NamedBlobFile
 
 DISABLED = os.environ.get("RECENSIO_DISABLE_SUBSCRIBERS", False)
 if DISABLED:
@@ -88,7 +86,9 @@ class RunSubprocess:
             )
 
         if self.program is None:
-            raise SubprocessException("Unable to find the %s program" % (program_name))
+            raise SubprocessException(
+                "Unable to find the %s program" % (program_name)
+            )
         self.tmp_input = None
         self.tmp_output = None
         self.tmp_output_dir = None
@@ -109,15 +109,21 @@ class RunSubprocess:
         return path
 
     def create_tmp_input(self, prefix="", suffix="", data=None):
-        self.input_path = self._create_tmp_file(prefix=prefix, suffix=suffix, data=data)
+        self.input_path = self._create_tmp_file(
+            prefix=prefix, suffix=suffix, data=data
+        )
 
     def create_tmp_ouput(self, prefix="", suffix="", data=None):
-        self.tmp_output = self._create_tmp_file(prefix=prefix, suffix=suffix, data=data)
+        self.tmp_output = self._create_tmp_file(
+            prefix=prefix, suffix=suffix, data=data
+        )
 
     def create_tmp_output_dir(self, **kw):
         self.tmp_output_dir = tempfile.mkdtemp(**kw)
 
-    def run(self, input_params="", input_path="", output_params="", output_path=""):
+    def run(
+        self, input_params="", input_path="", output_params="", output_path=""
+    ):
         """Run the command."""
 
         if input_params != "":
@@ -154,7 +160,9 @@ class RunSubprocess:
         returncode = process.returncode
 
         if returncode:
-            raise RuntimeError(" ".join([str(returncode), safe_text(stderrdata)]))
+            raise RuntimeError(
+                " ".join([str(returncode), safe_text(stderrdata)])
+            )
 
         if stderrdata:
             stderrdata = safe_text(stderrdata)
@@ -181,7 +189,9 @@ def SimpleSubprocess(*cmd, **kwargs):
     stderr If the process run failed, raise an Exception cmd imput arg is
     supposed to be a list with the command and the passed arguments."""
     try:
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen(
+            cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
         stdoutdata, stderrdata = process.communicate()
     except OSError as e:
         raise RuntimeError(str(e))
@@ -225,7 +235,9 @@ def update_generated_pdf(obj):
             # valid html file
             if not review:
                 return
-            data = HTML_TEMPLATE.substitute(body=review.output_relative_to(obj))
+            data = HTML_TEMPLATE.substitute(
+                body=review.output_relative_to(obj)
+            )
 
             with NamedTemporaryFile() as tmp_input:
                 with NamedTemporaryFile() as tmp_output:
@@ -235,6 +247,7 @@ def update_generated_pdf(obj):
                         SimpleSubprocess(
                             "tidy",
                             "-utf8",
+                            "-asxhtml",
                             "-numeric",
                             "-o",
                             tmp_output.name,
@@ -291,7 +304,9 @@ def _getAllPageImages(context, size=(320, 452)):
     else:
         # Split the pdf, one file per page
         try:
-            split_pdf_pages = RunSubprocess("pdftk", output_params="burst output")
+            split_pdf_pages = RunSubprocess(
+                "pdftk", output_params="burst output"
+            )
         except SubprocessException as e:
             return e
         split_pdf_pages.create_tmp_input(suffix=".pdf", data=pdf_data)
@@ -303,7 +318,10 @@ def _getAllPageImages(context, size=(320, 452)):
 
         msg = tuple()
         if split_pdf_pages.errors != "":
-            msg += ("Message from split_pdf_pages:" "\n%s\n" % split_pdf_pages.errors,)
+            msg += (
+                "Message from split_pdf_pages:"
+                "\n%s\n" % split_pdf_pages.errors,
+            )
 
         # Convert the pages to .gifs
         # rewritten to have one converter step per page as we have seen process
@@ -316,13 +334,18 @@ def _getAllPageImages(context, size=(320, 452)):
                 output_params="-resize %sx%s -background white -flatten"
                 % (size[0], size[1]),
             )
-            outputname = ".".join(filename.split("/")[-1].split(".")[:-1]) + ".gif"
+            outputname = (
+                ".".join(filename.split("/")[-1].split(".")[:-1]) + ".gif"
+            )
             pdf_to_image.output_path = os.path.join(
                 split_pdf_pages.tmp_output_dir, outputname
             )
             pdf_to_image.run()
             if pdf_to_image.errors != "":
-                msg += ("Message from pdfs_to_images:" "\n%s\n" % pdf_to_image.errors,)
+                msg += (
+                    "Message from pdfs_to_images:"
+                    "\n%s\n" % pdf_to_image.errors,
+                )
 
             pdf_to_image.clean_up()
 
@@ -335,7 +358,9 @@ def _getAllPageImages(context, size=(320, 452)):
 
         pages = []
         for img in imgfiles:
-            with open(os.path.join(split_pdf_pages.tmp_output_dir, img), "br") as img:
+            with open(
+                os.path.join(split_pdf_pages.tmp_output_dir, img), "br"
+            ) as img:
                 pages.append(img.read())
 
         # Remove temporary files
