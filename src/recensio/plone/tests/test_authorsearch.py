@@ -1,4 +1,4 @@
-from collective.solr import testing as solr_testing
+from collective.solr.testing import activateAndReindex
 from plone import api
 from recensio.plone.interfaces import IRecensioPloneLayer
 from recensio.plone.testing import RECENSIO_PLONE_SOLR_INTEGRATION_TESTING
@@ -37,7 +37,7 @@ class TestAuthorSearch(unittest.TestCase):
         ]:
             gnd_view.createPerson(**data)
 
-        solr_testing.activateAndReindex(self.portal)
+        activateAndReindex(self.portal)
 
     def tearDown(self):
         noLongerProvides(self.request, IRecensioPloneLayer)

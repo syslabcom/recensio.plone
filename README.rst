@@ -24,12 +24,13 @@ This package now works with collective.solr and performs fulltext indexing of PD
 
 There are a few gotchas:
 
-- Test runs will roughshod nuke your existing indexed data, unless you stop your development solr first.
-  We're using a testlayer from collective.solr that connects to port 8983.
-
 - Fulltext indexing of PDFs on reviews works fine, but fulltext indexing of standalone files will error out with a default Solr install.
   To get it to work properly, your Solr needs to be started up with special environment variables::
 
     SOLR_ENABLE_REMOTE_STREAMING=true SOLR_ENABLE_STREAM_BODY=true SOLR_OPTS="-Dsolr.allowPaths=${instance:blob-storage}"
 
   For more background, see https://github.com/collective/collective.solr/issues/385
+
+- The buildout provided Solr is to be used only for testing; it will be nuked on test runs.
+  recensio.buildout provides both a testing solr (via buildout, on :8984) and a development solr (via Makefile, on :8983)
+  to effect this split.
