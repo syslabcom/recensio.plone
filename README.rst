@@ -31,6 +31,6 @@ There are a few gotchas:
 
   For more background, see https://github.com/collective/collective.solr/issues/385
 
-- The buildout provided Solr is to be used only for testing; it will be nuked on test runs.
-  recensio.buildout provides both a testing solr (via buildout, on :8984) and a development solr (via Makefile, on :8983)
-  to effect this split.
+- The recensio.plone buildout provided Solr is to be used only for testing; it will be nuked on test runs.
+
+Recensio.buildout provides both a testing solr (via buildout, on :8984) and a development solr (via Makefile, on :8983) to effect this split.
