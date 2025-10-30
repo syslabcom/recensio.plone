@@ -11,6 +11,7 @@
       package="collective.vdexvocabulary"
       file="meta.zcml"
       />
+  <include package="collective.solr" />
   <include package="collective.vdexvocabulary" />
   <include package="collective.z3cform.datagridfield" />
   <include package="ftw.upgrade" />
