@@ -19,7 +19,8 @@ Changelog
 - Add collective.solr and make the eea.facetednavigation view compatible with that [gyst]
 - Activate fulltext PDF solr search, provide upgrade, adjust tests [gyst]
 - Bugfix PublicationsViewlet for the Plone upgrade [gyst]
-- Aplly vanilla new collective.solr search [gyst]
+- Apply vanilla new collective.solr search [gyst]
+- Configure two demo facets [gyst]
 
 1.0.6 (2025-05-22)
 ------------------
