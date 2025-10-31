@@ -21,6 +21,7 @@ Changelog
 - Bugfix PublicationsViewlet for the Plone upgrade [gyst]
 - Apply vanilla new collective.solr search [gyst]
 - Configure two demo facets [gyst]
+- Disable livesearch [gyst]
 
 1.0.6 (2025-05-22)
 ------------------
