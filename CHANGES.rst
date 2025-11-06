@@ -5,6 +5,7 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Tested on Python 3.10 and Python 3.13 [ale-rt]
 - Avoid computing ``listAuthorsAndEditors`` twice
   `#3678 <https://github.com/syslabcom/scrum/issues/3678>`_
 - Set redirect-to-publication as default view for Issue and Volume
@@ -12,7 +13,7 @@ Changelog
 - Fix ResourceWarning on unclosed file handles in tests [gyst]
 - Upgrade github CI pre-commit action to 3.0.1 [gyst]
 - Fix the CI build [gyst]
-- Upgrade to Plone 6.1.2 [reinhardt, gyst]
+- Upgrade to Plone 6.1.3 [ale-rt, reinhardt, gyst]
 - Update the pre-commit linters [gyst]
 - Don't error out on main nav on a clean install [gyst]
 - Upgrade ftw.upgrade to the SLC patched version [gyst]
@@ -22,6 +23,10 @@ Changelog
 - Apply vanilla new collective.solr search [gyst]
 - Configure two demo facets [gyst]
 - Disable livesearch [gyst]
+- Add parameter -asxhtml to tidy to fix pdf generation of html reviews [pilz]
+- Fix the ``sehepunkte-import`` view
+  `#4071 <https://github.com/syslabcom/scrum/issues/4071>`_
+  [ale-rt]
 
 1.0.6 (2025-05-22)
 ------------------
