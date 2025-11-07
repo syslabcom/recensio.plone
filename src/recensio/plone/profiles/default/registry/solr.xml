@@ -4,6 +4,7 @@
            prefix="collective.solr"
   >
     <value key="active">True</value>
+    <value key="required" />
     <value key="facets">
       <element>portal_type</element>
       <element>Subject</element>
