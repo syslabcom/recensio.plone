@@ -1,7 +1,7 @@
 # from Products.Archetypes.utils import OrderedDict
 from collections import OrderedDict
 
-#from recensio.policy.utility import convertFacets
+# from recensio.policy.utility import convertFacets
 from collective.solr.browser.facets import convertFacets  # may need to be overridden
 from collective.solr.browser.facets import param
 from collective.solr.browser.facets import SearchFacetsView
@@ -18,7 +18,7 @@ import logging
 
 
 browsing_facets = ["ddcPlace", "ddcTime", "ddcSubject"]
-#filter_facets = ["languageReview"]
+# filter_facets = ["languageReview"]
 
 log = logging.getLogger(__name__)
 PORTAL_TYPES = REVIEW_TYPES
@@ -33,10 +33,11 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
         self.context = context
         self.request = request
         helper = api.content.get_view(context=context, name="vocabulary-helper")
-        #self.vocDict = {name: getattr(helper, name) for name in {"dccTime", "dccPlace", "dccSubject"}}
-        self.vocDict = dict(dccPlace=helper.ddcPlace,
-                            dccTime=helper.ddcTime,
-                            dccSubject=helper.ddcSubject)
+        self.vocDict = dict(
+            ddcPlace=helper.ddcPlace,
+            ddcTime=helper.ddcTime,
+            ddcSubject=helper.ddcSubject,
+        )
         self.submenus = [
             dict(title="Epoch", id="ddcTime"),
             dict(title="Region", id="ddcPlace"),
@@ -45,12 +46,14 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
         self.queryparam = "fq"
 
     def __call__(self):
-        #super().__call__(self.results)
+        # super().__call__(self.results)
         return self.index()
 
     @property
     def use_view_action_types(self):
-        return api.portal.get_registry_record("plone.types_use_view_action_in_listings", default=[])
+        return api.portal.get_registry_record(
+            "plone.types_use_view_action_in_listings", default=[]
+        )
 
     @property
     def default_query(self):
@@ -61,7 +64,6 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
             "b_size": 10,
             "b_start": 0,
         }
-
 
     @property
     def facet_fields(self):
@@ -110,7 +112,7 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
                 )
         return results
 
-    def facets(self):
+    def XXfacets(self):
         """prepare and return facetting info for the given SolrResponse"""
         fcs = getattr(self.results, "facet_counts", None)
         if self.results is not None and fcs is not None:
@@ -211,30 +213,44 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
 
         def getSubmenu(vocab, facet, selected):
             submenu = []
-            for item in vocab.items():
+            for item in [item for item in vocab.items()]:
                 # extract vocabulary term for item
                 itemvoc = item[0]
-                if isinstance(item[1], basestring):
+                if isinstance(item[1], str):
                     itemvoc = item[1]
                 elif isinstance(item[1], tuple):
                     itemvoc = item[1][0]
 
-                iteminfo = dict(name=item[0], voc=itemvoc, count=0, query="", submenu=[])
+                iteminfo = dict(
+                    name=item[0], voc=itemvoc, count=0, query="", submenu=[]
+                )
                 # look if we have info from facets()
                 if facet:
-                    facetinfo = filter(lambda x: x["name"] == item[0], facet["counts"])
+                    facetinfo = [
+                        y
+                        for y in filter(
+                            lambda x, item=item: x["name"] == item[0], facet["counts"]
+                        )
+                    ]
                     if facetinfo:  # and facetinfo[0]['count'] > 0:
                         iteminfo.update(facetinfo[0])
                 # look if we have info from selected()
                 if selected:
-                    selectedinfo = filter(lambda x: x["value"] == item[0], selected)
+                    selectedinfo = [
+                        y
+                        for y in filter(
+                            lambda x, item=item: x["value"] == item[0], selected
+                        )
+                    ]
                     if selectedinfo:
                         iteminfo["clearquery"] = selectedinfo[0]["query"]
                         log.debug("selected %(value)s for %(title)s" % selectedinfo[0])
 
                 # recurse if we have subordinate vocabulary items
-                if isinstance(item[1][1], dict) or isinstance(item[1][1], OrderedDict):
-                    subsubmenu = getSubmenu(item[1][1], facet, selected)
+                breakpoint()
+                subitem = [x for x in item[1].values()][1]
+                if isinstance(subitem, dict) or isinstance(subitem, OrderedDict):
+                    subsubmenu = getSubmenu(subitem, facet, selected)
                     iteminfo["submenu"] = subsubmenu
                     # iteminfo['count'] += sum(map(
                     #         lambda x: x['count'], subsubmenu))
@@ -248,11 +264,21 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
         for attrib in self.facet_fields:
             submenu = []
             if facets:
-                facets_sub = filter(lambda x: x["title"] == attrib, facets)
+                facets_sub = [
+                    y
+                    for y in filter(
+                        lambda x, attrib=attrib: x["title"] == attrib, facets
+                    )
+                ]
             else:
                 facets_sub = []
             if selected:
-                selected_sub = filter(lambda x: x["title"] == attrib, selected)
+                selected_sub = [
+                    y
+                    for y in filter(
+                        lambda x, attrib=attrib: x["title"] == attrib, selected
+                    )
+                ]
             else:
                 selected_sub = []
 
