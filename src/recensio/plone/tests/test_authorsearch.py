@@ -1,6 +1,7 @@
+from collective.solr.testing import activateAndReindex
 from plone import api
 from recensio.plone.interfaces import IRecensioPloneLayer
-from recensio.plone.testing import RECENSIO_PLONE_INTEGRATION_TESTING
+from recensio.plone.testing import RECENSIO_PLONE_SOLR_INTEGRATION_TESTING
 from zope.interface import alsoProvides
 from zope.interface import noLongerProvides
 
@@ -10,7 +11,7 @@ import unittest
 class TestAuthorSearch(unittest.TestCase):
     """"""
 
-    layer = RECENSIO_PLONE_INTEGRATION_TESTING
+    layer = RECENSIO_PLONE_SOLR_INTEGRATION_TESTING
 
     def setUp(self):
         self.portal = self.layer["portal"]
@@ -35,6 +36,8 @@ class TestAuthorSearch(unittest.TestCase):
             {"lastname": "Eimer", "firstname": "Kathy"},
         ]:
             gnd_view.createPerson(**data)
+
+        activateAndReindex(self.portal)
 
     def tearDown(self):
         noLongerProvides(self.request, IRecensioPloneLayer)

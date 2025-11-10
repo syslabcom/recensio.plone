@@ -29,6 +29,13 @@ class TestSetup(unittest.TestCase):
         """Test if recensio.plone is installed."""
         self.assertTrue(self.installer.is_product_installed("recensio.plone"))
 
+    def test_collective_solr_installed(self):
+        """Test if recensio.plone is installed."""
+        self.assertTrue(self.installer.is_product_installed("collective.solr"))
+
+    def test_collective_solr_activated(self):
+        self.assertTrue(api.portal.get_registry_record("collective.solr.active"))
+
     def test_browserlayer(self):
         """Test that IRecensioPloneLayer is registered."""
         from plone.browserlayer import utils

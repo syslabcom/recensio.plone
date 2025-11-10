@@ -30,7 +30,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cache-
       - name: Code Analysis
-        uses: pre-commit/action@v3.0.1
+        uses: pre-commit-ci/lite-action@v1.1.0
         if: ${{ matrix.config[1] == '3.13' }}
       - name: Install dependencies
         run: |

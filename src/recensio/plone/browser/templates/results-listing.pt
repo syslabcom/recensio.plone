@@ -71,7 +71,10 @@
                            people python:[gnd_view.getByUID(uid) for uid in people_uids] if people_uids else [];
                            authors_and_editors python:[item for item in people if item and item.Title in (result.listAuthorsAndEditors or [])];
                            review_authors python:[item for item in people if item and item.Title in (result.listReviewAuthors or [])];
-                         ">
+                         "
+                         on-error=""
+              >
+                <tal:comment condition="nothing">FIXME on-error is a hack to avoid cross-site results when using Solr. To be refactored.</tal:comment>
                 <dt class="${result_class}"
                     tal:define="
                       item_wf_state_class string:state-${result/review_state};
@@ -252,7 +255,7 @@
                     </span>
 
                     <span class="relevance"
-                          tal:condition="python: result.data_record_normalized_score_ &gt; 1"
+                          tal:condition="python: float(getattr(result, 'data_record_normalized_score_', 0)) &gt; 1"
                     >
                         &mdash;
                       <tal:relevance i18n:translate="label_relevance_percentage">

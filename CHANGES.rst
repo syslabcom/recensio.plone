@@ -17,6 +17,8 @@ Changelog
 - Update the pre-commit linters [gyst]
 - Don't error out on main nav on a clean install [gyst]
 - Upgrade ftw.upgrade to the SLC patched version [gyst]
+- Add collective.solr and make the eea.facetednavigation view compatible with that [gyst]
+- Activate fulltext PDF solr search, provide upgrade, adjust tests [gyst]
 - Bugfix PublicationsViewlet for the Plone upgrade [gyst]
 - Add parameter -asxhtml to tidy to fix pdf generation of html reviews [pilz]
 - Fix the ``sehepunkte-import`` view

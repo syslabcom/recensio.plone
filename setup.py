@@ -48,6 +48,7 @@ setup(
     install_requires=[
         "setuptools",
         "beautifulsoup4",
+        "collective.solr",
         "eea.facetednavigation",
         "ftw.upgrade>=3.4.0a0",
         "guess-language>0.2",
