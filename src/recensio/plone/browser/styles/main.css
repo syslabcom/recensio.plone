@@ -53,3 +53,13 @@ img.gnd {
     margin: 0 0 1em 1em;
     box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.2);
 }
+
+
+#browsing-menu {
+    width: 20em;
+    float: left;
+}
+
+#browsing-menu svg.togglebutton {
+    display: none;
+}
