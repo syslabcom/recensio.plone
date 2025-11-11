@@ -88,7 +88,7 @@
                 <div class="submenu-lvl2" 
                      tal:condition="python:item['count']>0 or 'clearquery' in item or view.showSubmenu(item['submenu'])"
                      tal:define="level python:2;
-                                  can_expand python:item['submenu'] and True or False">
+                                  can_expand python:'submenu' in item['submenu']">
                   <metal:macro define-macro="submenu">
                   <div class="submenu_title empty"
                        tal:attributes="id python:'sub-title-' + item['name'].replace(':','-').replace('.','_');
