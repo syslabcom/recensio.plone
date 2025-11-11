@@ -58,8 +58,15 @@ img.gnd {
 #browsing-menu {
     width: 20em;
     float: left;
+    padding-right: 2em;
 }
 
 #browsing-menu svg.togglebutton {
     display: none;
+}
+
+.menu_headline {
+    font-size: large;
+    font-weight: bold;
+    margin: 1em 0 0.5em;
 }
