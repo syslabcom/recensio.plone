@@ -214,17 +214,17 @@
                                   <span class="volume-title" tal:content="volume_title" /><tal:c condition="volume_title">, </tal:c>
                               </tal:block>
                           </tal:block>
-                          <tal:title-punctuated condition="python: False and result.punctuated_title_and_subtitle" content="python: result.punctuated_title_and_subtitle"/>
-                          <tal:title-fallback condition="python: True or not result.punctuated_title_and_subtitle">
-                            <!-- <tal:block tal:condition="not:re" tal:content="python:rhv.punctuated_title(result.pretty_title_or_id(), result.subtitle)" /> -->
+                          <tal:title-punctuated condition="python: result.punctuated_title_and_subtitle" content="python: result.punctuated_title_and_subtitle"/>
+                          <tal:title-fallback condition="python: not result.punctuated_title_and_subtitle">
+                            <tal:block tal:condition="not:re" tal:content="python:rhv.punctuated_title(result.pretty_title_or_id(), result.subtitle)" />
                             <tal:block tal:condition="re" i18n:translate="">Dauerausstellung</tal:block>
                             <tal:block tal:condition="not:re" replace="result/subtitle | nothing" />
                           </tal:title-fallback>
                         </a>
                         </span>
                         <tal:dates condition="result/listDates|nothing">, <span tal:content="result/listDates"></span></tal:dates>
-                        <!-- <tal:block tal:condition="result/getYearOfPublication | result/getOfficialYearOfPublication">,</tal:block>
-                             <span class="year" tal:attributes="class string:year" tal:content="result/getYearOfPublication | result/getOfficialYearOfPublication" /> -->
+                        <tal:block tal:condition="result/getYearOfPublication | result/getOfficialYearOfPublication">,</tal:block>
+                        <span class="year" tal:attributes="class string:year" tal:content="result/getYearOfPublication | result/getOfficialYearOfPublication" />
 
                         <span class="review-author" tal:condition="is_review" tal:attributes="class string:review-author">
                             <br />
