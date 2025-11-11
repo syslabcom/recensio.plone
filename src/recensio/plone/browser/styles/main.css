@@ -54,6 +54,24 @@ img.gnd {
     box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.2);
 }
 
+.template-browse-topics .search-form {
+    margin-bottom: 2em;
+}
+
+.template-browse-topics .search-form label {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.template-browse-topics .search-form .search-text-inputs {
+    display: grid;
+    grid-template-columns: auto min-content;
+}
+
 
 #browsing-menu {
     width: 20em;
@@ -65,8 +83,9 @@ img.gnd {
     display: none;
 }
 
-.menu_headline {
-    font-size: large;
+.template-browse-topics legend,
+.template-browse-topics .menu_headline {
+    font-size: 1.5em;
     font-weight: bold;
     margin-bottom: 0.5em;
 }

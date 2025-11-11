@@ -48,6 +48,20 @@
           </span>
         </h1>
 
+        <div class="search-form">
+          <legend i18n:translate="">Fulltext search</legend>
+          <fieldset class="widget-fieldset">
+            <form action="${request/URL}" method="get">
+              <label class="text-field form-check-label" for="search-text" i18n:translate="">Fulltext search</label>
+              <div class="search-text-inputs">
+                <input type="text" class="form-control" name="SearchableText" id="search-text" placeholder="" value="${request/SearchableText|nothing}">
+                <input type="submit" class="context btn btn-primary" value="search" name="search" id="search-button" i18n:attributes="value">
+              </div>
+            </form>
+          </fieldset>
+        </div>
+  
+  
         <tal:comment replace="nothing">
             <!-- Deactivating according to #13568-41 -->
             <p class="cross-portal">

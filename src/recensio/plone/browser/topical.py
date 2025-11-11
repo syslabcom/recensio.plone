@@ -43,7 +43,6 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
         self.queryparam = "fq"
 
     def __call__(self):
-        # super().__call__(self.results)
         return self.index()
 
     @property
