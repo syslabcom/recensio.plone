@@ -212,6 +212,7 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
         def getSubmenu(vocab, facet, selected):
             submenu = []
             for item in vocab.items():
+                name = item[0]
                 # extract vocabulary term for item
                 itemvoc = item[0]
                 if isinstance(item[1], str):
@@ -219,27 +220,15 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
                 elif isinstance(item[1], tuple):
                     itemvoc = item[1][0]
 
-                iteminfo = dict(
-                    name=item[0], voc=itemvoc, count=0, query="", submenu=[]
-                )
+                iteminfo = dict(name=name, voc=itemvoc, count=0, query="", submenu=[])
                 # look if we have info from facets()
                 if facet:
-                    facetinfo = [
-                        y
-                        for y in filter(
-                            lambda x, item=item: x["name"] == item[0], facet["counts"]
-                        )
-                    ]
+                    facetinfo = [x for x in facet["counts"] if x["name"] == name]
                     if facetinfo:  # and facetinfo[0]['count'] > 0:
                         iteminfo.update(facetinfo[0])
                 # look if we have info from selected()
                 if selected:
-                    selectedinfo = [
-                        y
-                        for y in filter(
-                            lambda x, item=item: x["value"] == item[0], selected
-                        )
-                    ]
+                    selectedinfo = [x for x in selected if x["value"] == name]
                     if selectedinfo:
                         iteminfo["clearquery"] = selectedinfo[0]["query"]
                         log.debug("selected %(value)s for %(title)s" % selectedinfo[0])
@@ -261,21 +250,11 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
         for attrib in self.facet_fields:
             submenu = []
             if facets:
-                facets_sub = [
-                    y
-                    for y in filter(
-                        lambda x, attrib=attrib: x["title"] == attrib, facets
-                    )
-                ]
+                facets_sub = [x for x in facets if x["title"] == attrib]
             else:
                 facets_sub = []
             if selected:
-                selected_sub = [
-                    y
-                    for y in filter(
-                        lambda x, attrib=attrib: x["title"] == attrib, selected
-                    )
-                ]
+                selected_sub = [x for x in selected if x["title"] == attrib]
             else:
                 selected_sub = []
 
@@ -297,9 +276,7 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
             cq = [item for item in menu[mid] if "clearquery" in item]
             for item in menu[mid]:
                 cq = cq + [
-                    subitem
-                    for subitem in item["submenu"]
-                    if "clearquery" in subitem
+                    subitem for subitem in item["submenu"] if "clearquery" in subitem
                 ]
             submenu["selected"] = cq
 
@@ -309,19 +286,16 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
         """Returns True if submenu has an entry with query or clearquery set,
         i.e. should be displayed
         """
-        return (
-            not filter(lambda x: x.has_key("clearquery") or x["count"] > 0, submenu)
-            == []
-        )
+        return bool([x for x in submenu if "clearquery" in x or x["count"] > 0])
 
     def expandSubmenu(self, submenu):
         """Returns True if submenu has an entry with clearquery set, i.e.
         should be displayed expanded
         """
-        return (
-            not filter(
-                lambda x: x.has_key("clearquery") or self.expandSubmenu(x["submenu"]),
-                submenu,
-            )
-            == []
+        return bool(
+            [
+                x
+                for x in submenu
+                if "clearquery" in x or self.expandSubmenu(x["submenu"])
+            ]
         )
