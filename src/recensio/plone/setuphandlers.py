@@ -26,9 +26,20 @@ def create_main_nav_content():
     api.content.transition(ueber_uns, to_state="published")
 
 
+def set_theme_browser_layout():
+    """Set @@browse-topics as default view of themen_epochen_regionen"""
+    portal = api.portal.get()
+    if "themen-epochen-regionen" not in portal:
+        return
+    themen_epochen_regionen = portal["themen-epochen-regionen"]
+    if hasattr(themen_epochen_regionen, "setLayout"):
+        themen_epochen_regionen.setLayout("browse-topics")
+
+
 def default(context):
     """Run when installing the default profile."""
     create_main_nav_content()
+    set_theme_browser_layout()
 
 
 @implementer(INonInstallable)
