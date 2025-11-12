@@ -49,13 +49,13 @@
         </h1>
 
         <div class="search-form">
-          <legend i18n:translate="">Fulltext search</legend>
+          <legend i18n:translate="title_search_title">Search reviews</legend>
           <fieldset class="widget-fieldset">
             <form action="${request/URL}" method="get">
-              <label class="text-field form-check-label" for="search-text" i18n:translate="">Fulltext search</label>
+              <label class="text-field form-check-label" for="search-text" i18n:translate="title_search_title">Search reviews</label>
               <div class="search-text-inputs">
                 <input type="text" class="form-control" name="SearchableText" id="search-text" placeholder="" value="${request/SearchableText|nothing}">
-                <input type="submit" class="context btn btn-primary" value="search" name="search" id="search-button" i18n:attributes="value">
+                <input type="submit" class="context btn btn-primary" value="Search" name="search" id="search-button" i18n:attributes="value label_search;">
               </div>
             </form>
           </fieldset>
