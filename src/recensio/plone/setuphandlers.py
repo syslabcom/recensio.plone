@@ -17,11 +17,11 @@ def create_main_nav_content():
     )
     api.content.transition(zeitschriften, to_state="published")
     themen_epochen_regionen = api.content.create(
-        container=portal, title="Themen", id="themen_epochen_regionen", type="Folder"
+        container=portal, title="Themen", id="themen-epochen-regionen", type="Folder"
     )
     api.content.transition(themen_epochen_regionen, to_state="published")
     ueber_uns = api.content.create(
-        container=portal, title="Über uns", id="ueber_uns", type="Folder"
+        container=portal, title="Über uns", id="ueber-uns", type="Folder"
     )
     api.content.transition(ueber_uns, to_state="published")
 
