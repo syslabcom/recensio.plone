@@ -27,6 +27,8 @@ Changelog
 - Fix the ``sehepunkte-import`` view
   `#4071 <https://github.com/syslabcom/scrum/issues/4071>`_
   [ale-rt]
+- Port the Solr based topic browser for themen-epochen-regionen from the old plone4 implementation [gyst]
+- Add SearchableText to the topic browser [gyst]
 
 1.0.6 (2025-05-22)
 ------------------
