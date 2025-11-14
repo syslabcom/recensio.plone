@@ -1,12 +1,11 @@
 # from Products.Archetypes.utils import OrderedDict
 from collections import OrderedDict
-
 from collective.solr.browser.facets import param
 from collective.solr.browser.facets import SearchFacetsView
 from plone import api
 from plone.memoize.view import memoize
 from Products.CMFCore.utils import getToolByName
-from Products.Five.browser import BrowserView
+from recensio.plone.adapter.parentgetter import IParentGetter
 from recensio.plone.browser.facets import browsing_facets
 from recensio.plone.browser.facets import convertFacets
 from recensio.plone.browser.helper import CrossPlatformMixin
@@ -114,10 +113,10 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
         if self.results is not None and fcs is not None:
             filt = None  # lambda name, count: name and count > 0
             if self.queryparam in self.form:
-                if self.queryparam == "fq":
-                    container = self.form[self.queryparam]
-                else:
-                    container = self.form
+                # if self.queryparam == "fq":
+                #     container = self.form[self.queryparam]
+                # else:
+                #     container = self.form
                 # filter out everything but our ddc attributes
                 if self.queryparam == "fq":
                     self.form[self.queryparam] = [
@@ -298,3 +297,11 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
                 if "clearquery" in x or self.expandSubmenu(x["submenu"])
             ]
         )
+
+    def get_tfpot(self, obj, _t):
+        """Get the title of the publication for a parent of type _t
+        Sorry for the cryptic name but for the sake of brevity in the template…
+        And no, this is not final code, cleanup is scheduled.
+        """
+        value = IParentGetter(obj).get_title_from_parent_of_type(_t)
+        return value

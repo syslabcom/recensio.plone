@@ -372,9 +372,9 @@
                       </span>
                       <tal:dates condition="result/listDates|nothing">,
                         <span tal:content="result/listDates"></span></tal:dates>
-                      <tal:block tal:condition="result/getYearOfPublication | result/getOfficialYearOfPublication">,</tal:block>
+                      <tal:block tal:condition="result_obj/yearOfPublication | nothing">,</tal:block>
                       <span class="year"
-                            tal:content="result/getYearOfPublication | result/getOfficialYearOfPublication"
+                            tal:content="result_obj/yearOfPublication"
                             tal:attributes="
                               class string:year;
                             "
@@ -396,13 +396,20 @@
                                 /
                               </tal:c></tal:repeatblock></tal:nameblock></tal:author><tal:block tal:condition="result/get_publication_title | nothing">,
                         </tal:block>
-                        <tal:block tal:condition="result/get_publication_title | nothing">
-                          <tal:journal tal:condition="result/get_publication_title | nothing"
+
+                        <tal:block tal:define="
+                                     publication_title python:view.get_tfpot(result_obj, 'Publication');
+                                     volume_title python:view.get_tfpot(result_obj, 'Volume');
+                                     issue_title python:view.get_tfpot(result_obj, 'Issue');
+                                   "
+                                   tal:condition="publication_title | nothing"
+                        >
+                          <tal:journal tal:condition="publication_title | nothing"
                                        i18n:translate="source_journal"
                           >in:
-                            <tal:block i18n:name="publication_volume_issue"><tal:publication tal:replace="result/get_publication_title" />,
-                              <tal:block replace="result/get_volume_title" /><tal:comma tal:condition="result/get_issue_title|nothing">,
-                              </tal:comma><tal:block replace="result/get_issue_title" /></tal:block>
+                            <tal:block i18n:name="publication_volume_issue"><tal:publication tal:replace="publication_title" />,
+                              <tal:block replace="volume_title" /><tal:comma tal:condition="issue_title|nothing">,
+                              </tal:comma><tal:block replace="issue_title" /></tal:block>
                           </tal:journal><tal:pages tal:condition="result_obj/page_start_end_in_print|nothing">,
                             <tal:block i18n:translate="text_pages">p.</tal:block>
                             <tal:block tal:replace="result_obj/page_start_end_in_print" /></tal:pages>
