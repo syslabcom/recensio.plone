@@ -2693,7 +2693,7 @@ msgstr ""
 #: recensio.theme:/browser/templates/results-listing.pt:155
 #: recensio.theme:/browser/templates/topical.pt:179
 msgid "label_relevance_percentage"
-msgstr "Relevanz: ${percentage}"
+msgstr "Relevanz: ${percentage}%"
 
 #. Default: "Sort by"
 #: recensio.theme:/browser/templates/sorting-menu.pt:7
