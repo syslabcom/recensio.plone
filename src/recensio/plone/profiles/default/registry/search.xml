@@ -22,4 +22,7 @@
       <element>Topic</element>
     </value>
   </record>
+  <record name="plone.enable_livesearch">
+    <value>False</value>
+  </record>
 </registry>

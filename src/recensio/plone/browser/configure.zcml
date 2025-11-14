@@ -93,6 +93,15 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <browser:page
+      name="browse-topics"
+      for="*"
+      class=".topical.BrowseTopicsView"
+      template="templates/topical.pt"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
   <!-- Listing views -->
 
   <configure package="eea.facetednavigation.browser">

@@ -2644,7 +2644,7 @@ msgstr "Subscribe to an RSS feed of these search terms"
 #: recensio.theme:/browser/templates/results-listing.pt:155
 #: recensio.theme:/browser/templates/topical.pt:179
 msgid "label_relevance_percentage"
-msgstr "Pertinence : ${percentage} %"
+msgstr "Pertinence : ${percentage}%"
 
 #. Default: "Sort by"
 #: recensio.theme:/browser/templates/sorting-menu.pt:7

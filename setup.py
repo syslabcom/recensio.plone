@@ -54,6 +54,7 @@ setup(
         "guess-language>0.2",
         "plone.api",
         "plone.app.discussion",
+        "collective.solr>=10.0.0.dev0",
         "collective.vdexvocabulary",
         "collective.z3cform.datagridfield",
         "pypdf",
