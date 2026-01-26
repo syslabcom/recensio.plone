@@ -23,6 +23,32 @@ def _render_cachekey(method, self, volume, issue=None):
     return (context_url, roles, today, volume, issue)
 
 
+def _volume_cachekey(method, self):
+    portal_membership = getToolByName(self.context, "portal_membership")
+    member = portal_membership.getAuthenticatedMember()
+    roles = member.getRolesInContext(self.context)
+    today = DateTime().strftime("%Y-%m-%d")
+    parent_url = self.parent.absolute_url()
+    return (parent_url, roles, today)
+
+
+def _obj_cachekey(method, self, obj):
+    portal_membership = getToolByName(self.context, "portal_membership")
+    member = portal_membership.getAuthenticatedMember()
+    roles = member.getRolesInContext(self.context)
+    today = DateTime().strftime("%Y-%m-%d")
+    obj_uid = obj.UID()
+    return (obj_uid, roles, today)
+
+
+def _issues_cachekey(method, self, volume):
+    portal_membership = getToolByName(self.context, "portal_membership")
+    member = portal_membership.getAuthenticatedMember()
+    roles = member.getRolesInContext(self.context)
+    today = DateTime().strftime("%Y-%m-%d")
+    return (volume, roles, today, volume)
+
+
 @implementer(IViewlet)
 class Publicationlisting(ViewletBase):
     """Lists Volumes/Issues/Reviews in the current Publication"""
@@ -77,6 +103,7 @@ class Publicationlisting(ViewletBase):
         )
         return toggle_link
 
+    @ram.cache(_obj_cachekey)
     def _get_css_classes(self, obj):
         css_classes = []
         reviews = api.content.find(
@@ -88,6 +115,7 @@ class Publicationlisting(ViewletBase):
                 css_classes.append("expanded")
         return " ".join(css_classes) or None
 
+    @ram.cache(_obj_cachekey)
     def _make_iss_or_vol_dict(self, obj):
         issue_dict = {
             "Title": obj.Title(),
@@ -102,16 +130,23 @@ class Publicationlisting(ViewletBase):
             issue_dict["pdfsize"] = self._formatsize(obj["issue.pdf"].file.size)
         return issue_dict
 
+    @ram.cache(_volume_cachekey)
     def volumes(self):
         # This is nasty. #3678 Decarbonize
-        objects = [
+        volume_objs = [
             brain.getObject()
-            for brain in api.content.find(self.parent, depth=1, portal_type="Volume")
+            for brain in api.content.find(
+                self.parent,
+                depth=1,
+                portal_type="Volume",
+                sort_on="effective",
+                sort_order="descending",
+            )
         ]
-        volume_objs = sorted(objects, key=lambda v: v.effective(), reverse=True)
         volumes = [self._make_iss_or_vol_dict(v) for v in volume_objs]
         return volumes
 
+    @ram.cache(_issues_cachekey)
     def issues(self, volume):
         if volume not in self.parent:
             return []

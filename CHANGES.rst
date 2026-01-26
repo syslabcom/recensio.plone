@@ -2,7 +2,13 @@ Changelog
 =========
 
 
-2.0.0 (unreleased)
+2.0.1 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
+2.0.0 (2026-01-26)
 ------------------
 
 - Tested on Python 3.10 and Python 3.13 [ale-rt]
@@ -21,6 +27,9 @@ Changelog
 - Activate fulltext PDF solr search, provide upgrade, adjust tests [gyst]
 - Bugfix PublicationsViewlet for the Plone upgrade [gyst]
 - Add parameter -asxhtml to tidy to fix pdf generation of html reviews [pilz]
+- Performance improvements
+  `#3678 <https://github.com/syslabcom/scrum/issues/3678>`_
+  [ale-rt]
 - Fix the ``sehepunkte-import`` view
   `#4071 <https://github.com/syslabcom/scrum/issues/4071>`_
   [ale-rt]
