@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.0 (unreleased)
+2.0.0 (2026-01-26)
 ------------------
 
 - Tested on Python 3.10 and Python 3.13 [ale-rt]
