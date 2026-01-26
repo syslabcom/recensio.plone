@@ -19,6 +19,9 @@ Changelog
 - Upgrade ftw.upgrade to the SLC patched version [gyst]
 - Bugfix PublicationsViewlet for the Plone upgrade [gyst]
 - Add parameter -asxhtml to tidy to fix pdf generation of html reviews [pilz]
+- Performance improvements
+  `#3678 <https://github.com/syslabcom/scrum/issues/3678>`_
+  [ale-rt]
 - Fix the ``sehepunkte-import`` view
   `#4071 <https://github.com/syslabcom/scrum/issues/4071>`_
   [ale-rt]
