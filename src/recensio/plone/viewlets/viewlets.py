@@ -46,7 +46,8 @@ def _issues_cachekey(method, self, volume):
     member = portal_membership.getAuthenticatedMember()
     roles = member.getRolesInContext(self.context)
     today = DateTime().strftime("%Y-%m-%d")
-    return (volume, roles, today, volume)
+    parent_url = self.parent.absolute_url()
+    return (volume, roles, today, parent_url)
 
 
 @implementer(IViewlet)
