@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<registry>
+  <record name="plone.enable_livesearch">
+    <value>False</value>
+  </record>
+</registry>

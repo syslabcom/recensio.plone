@@ -1,0 +1,511 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      xml:lang="en"
+      i18n:domain="recensio"
+>
+  <head>
+    <metal:block fill-slot="top_slot"
+                 tal:define="
+                   dummy python:request.set('disable_border',1);
+                   disable_column_one python:request.set('disable_plone.leftcolumn',1);
+                   disable_column_two python:request.set('disable_plone.rightcolumn',1);
+                 "
+    />
+    <metal:javascript_head fill-slot="javascript_head_slot">
+      <!-- JS doesn't work because it depends on jQuery. Should be refactored. -->
+      <script src="++resource++recensio.theme.javascript/topical.js"
+              type="text/javascript"
+      ></script>
+    </metal:javascript_head>
+
+  </head>
+
+  <body>
+    <metal:main fill-slot="main"
+                tal:define="
+                  results view/results;
+                  Batch python:modules['Products.CMFPlone'].Batch;
+                  b_size python:10;
+                  b_size request/b_size | b_size;
+                  b_start python:0;
+                  b_start request/b_start | b_start;
+                  desc_length python:60;
+                  desc_ellipsis string:...;
+                  use_view_action view/use_view_action_types;
+                  portal_url context/portal_url;
+                  submenus view/getSubmenus;
+                  rhv context/@@recensio-helper-view;
+                  gnd_view nocall:context/@@gnd-view;
+                "
+    >
+
+      <div id="content-core">
+
+        <h1 class="documentFirstHeading">
+          <span i18n:translate="heading_browsing_results">
+            Browsing
+          </span>
+          <span class="discreet">
+            &mdash;
+            <span i18n:translate="batch_x_reviews_matching_your_criteria"><span tal:content="python:len(results)"
+                    tal:omit-tag=""
+                    i18n:name="number"
+              >0</span>
+              reviews matching</span>
+          </span>
+        </h1>
+
+        <div class="search-form">
+          <legend i18n:translate="title_search_title">Search reviews</legend>
+          <fieldset class="widget-fieldset">
+            <form action="${request/URL}"
+                  method="get"
+            >
+              <label class="text-field form-check-label"
+                     for="search-text"
+                     i18n:translate="title_search_title"
+              >Search reviews</label>
+              <div class="search-text-inputs">
+                <input class="form-control"
+                       id="search-text"
+                       name="SearchableText"
+                       placeholder=""
+                       type="text"
+                       value="${request/SearchableText|nothing}"
+                />
+                <input class="context btn btn-primary"
+                       id="search-button"
+                       name="search"
+                       type="submit"
+                       value="Search"
+                       i18n:attributes="value label_search;"
+                />
+              </div>
+            </form>
+          </fieldset>
+        </div>
+
+
+        <tal:comment replace="nothing">
+          <!-- Deactivating according to #13568-41 -->
+          <p class="cross-portal">
+            <a id="toggle-cross-portal"
+               href="#"
+               tal:attributes="
+                 href view/get_toggle_cross_portal_url;
+               "
+            >
+              <img src="++resource++recensio.theme.images/checkbox_selected_brown_bg.png"
+                   tal:condition="not:request/use_navigation_root|python:True"
+              />
+              <img src="++resource++recensio.theme.images/checkbox_unselected_brown_bg.png"
+                   tal:condition="request/use_navigation_root|python:True"
+              />
+              <label for="use_navigation_root:boolean"
+                     i18n:translate=""
+              >
+                      Plattform&uuml;bergreifendes Browsing:
+              </label><tal:portals replace="structure view/get_portal_link_snippet"><a href="http://www.recensio.net">recensio.net</a>,
+                <a href="http://www.recensio.antiquitatis.net">recensio.antiquitatis</a></tal:portals>
+            </a>
+          </p>
+        </tal:comment>
+
+        <div class="visualClear"></div>
+        <div class="results-and-menu"
+             tal:define="
+               normalizeString nocall: context/plone_utils/normalizeString;
+               isAnon context/@@plone_portal_state/anonymous;
+               toLocalizedTime nocall: context/@@plone/toLocalizedTime;
+               batch python:Batch(results, b_size, int(b_start), orphan=0);
+             "
+             tal:condition="results"
+        >
+
+
+
+          <div id="browsing-menu"
+               tal:define="
+                 menu view/getMenu;
+               "
+          >
+            <tal:submenus repeat="submenu submenus">
+              <div class="submenu"
+                   tal:attributes="
+                     id python:'submenu_' + submenu['id'];
+                   "
+              >
+                <div class="menu_headline"
+                     tal:attributes="
+                       id python:'headline_' + submenu['id'];
+                     "
+                >
+                  <span class="headlinebutton"
+                        tal:content="submenu/title"
+                        i18n:translate=""
+                  ></span>
+                </div>
+
+                <div class="visualClear"><!-- --></div>
+
+                <tal:block tal:repeat="item python:menu[submenu['id']]">
+                  <div class="submenu-lvl2"
+                       tal:define="
+                         level python:2;
+                         can_expand python:'submenu' in item['submenu'];
+                       "
+                       tal:condition="python:item['count']>0 or 'clearquery' in item or view.showSubmenu(item['submenu'])"
+                  >
+                    <metal:macro define-macro="submenu">
+                      <div class="submenu_title empty"
+                           tal:attributes="
+                             id python:'sub-title-' + item['name'].replace(':','-').replace('.','_');
+                             class python:'submenu_title ' + 'level-' + str(level) + (not item['submenu'] and ' empty' or '') + (view.expandSubmenu(item['submenu']) and ' open' or '');
+                             title item/voc;
+                           "
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink"
+                             class="togglebutton closed"
+                             height="25.2"
+                             version="1.1"
+                             viewbox="0 0 9 25.2"
+                             width="9"
+                        >
+                          <path d="m 8.55,12.600006 q 0,0.3654 -0.2664,0.6336 l -6.3,6.3 q -0.2664,0.2664 -0.6336,0.2664 -0.3672,0 -0.6336,-0.2664 Q 0.45,19.267206 0.45,18.900006 V 6.3000064 q 0,-0.3654 0.2664,-0.6336 0.2664,-0.2682 0.6336,-0.2664 0.3672,0.0018 0.6336,0.2664 l 6.3,6.2999996 q 0.2664,0.2664 0.2664,0.6336 z"></path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink"
+                             class="togglebutton open"
+                             height="25.2"
+                             version="1.1"
+                             viewbox="0 0 14.4 25.2"
+                             width="14.4"
+                        >
+                          <path d="m 14.399994,9.4500004 q 0,0.3654 -0.2664,0.6335996 l -6.3,6.3 q -0.2664,0.2664 -0.6336,0.2664 -0.3672,0 -0.6336,-0.2664 l -6.30000004,-6.3 Q -6.0407349e-6,9.8172004 -6.0407349e-6,9.4500004 q 0,-0.3672 0.2664000007349,-0.6336 0.2664,-0.2664 0.6336,-0.2664 H 13.499994 q 0.3654,0 0.6336,0.2664 0.2682,0.2664 0.2664,0.6336 z"></path>
+                        </svg>
+                        <div class="togglebutton"
+                             tal:condition="can_expand"
+                        ></div>
+                        <div class="delimiterbox">
+                          <tal:block tal:condition="exists:item/clearquery">
+                            <a title="Remove this selection"
+                               tal:attributes="
+                                 href string:${request/ACTUAL_URL}?${item/clearquery};
+                               "
+                               i18n:attributes="title"
+                            ><img src="++resource++recensio.theme.images/checkbox_selected_brown_bg.png" /></a>
+                          </tal:block>
+                          <a href="#"
+                             tal:condition="not:exists:item/clearquery"
+                             tal:attributes="
+                               href string:${request/ACTUAL_URL}?${item/query};
+                               class python:'clearquery' in item and 'selected_facet' or '';
+                             "
+                          ><img src="++resource++recensio.theme.images/checkbox_unselected_brown_bg.png" /></a>
+                          <span>
+                            <tal:title tal:replace="item/voc" />
+                            <tal:count tal:condition="python:item['count'] > 0"
+                                       tal:replace="string:(${item/count})"
+                            />
+                          </span>
+                        </div>
+                      </div>
+
+                      <ul class="submenu_content"
+                          tal:attributes="
+                            id python:'sub-content-' + item['name'].replace(':','-').replace('.','_');
+                            class python:'submenu_content' + (view.expandSubmenu(item['submenu']) and ' open' or '');
+                          "
+                      >
+                        <tal:submenu repeat="subitem item/submenu">
+                          <li class="submenu_item"
+                              tal:define="
+                                selected python:subitem.get('clearquery') and 'selected' or 'unselected';
+                                item subitem;
+                                level python:level + 1;
+                              "
+                              tal:condition="python:subitem['count']>0 or 'clearquery' in subitem or view.expandSubmenu(subitem['submenu'])"
+                              tal:attributes="
+                                class string:submenu_item ${selected};
+                              "
+                          >
+
+                            <metal:submenu use-macro="view/macros/submenu" />
+                          </li>
+
+                        </tal:submenu>
+                      </ul>
+
+                      <div class="visualClear"><!-- --></div>
+                    </metal:macro>
+                  </div>
+                </tal:block>
+                <div class="submenu_more invisible">
+                  <a i18n:translate="browsing_submenu_more">Mehr anzeigen...</a>
+                </div>
+              </div>
+              <div class="visualClear"></div>
+            </tal:submenus>
+          </div>
+
+          <div class="visualClear"></div>
+
+
+          <dl class="searchResults"
+              tal:define="
+                use_navigation_root request/use_navigation_root|python:True;
+              "
+          >
+
+            <tal:results repeat="result batch">
+              <tal:has_results condition="result">
+                <tal:entry define="
+                             result_url result/getURL;
+                             result_obj result/getObject;
+                             result_type result/portal_type;
+                             is_review python:result_type.startswith('Review');
+                             is_presentation python:result_type.startswith('Presentation');
+                             re python:result_type == 'Review Exhibition';
+                             portal_path context/portal_url/getPortalPath;
+                             result_portal python:result.getPath().split('/')[1];
+                             result_foreign python:result_portal != portal_path[1:];
+                             result_url python:result_foreign and view.get_foreign_url(result) or result_url;
+                             url python:result_url+'/view' if result_type in use_view_action else result_url+'/';
+                             result_class python:'contenttype-' + normalizeString(result.portal_type);
+                             result_class python:result_foreign and (result_class + ' foreign portal-' + result_portal) or result_class;
+                             people_uids result/authorsUID;
+                             people python:[gnd_view.getByUID(uid) for uid in people_uids] if people_uids else [];
+                             authors_and_editors python:[item for item in people if item.Title in (result.listAuthorsAndEditors or [])];
+                             review_authors python:[item for item in people if item.Title in (result.listReviewAuthors or [])];
+                           ">
+                  <dt tal:define="
+                        item_wf_state_class string:state-${result/review_state};
+                      "
+                      tal:attributes="
+                        class result_class;
+                      "
+                  >
+                    <img height="32"
+                         width="32"
+                         tal:condition="python:is_review or is_presentation"
+                         tal:attributes="
+                           src python:(re and '%s/++resource++recensio.theme.images/Ausstellung32.png' or is_review and '%s/++resource++recensio.theme.images/Aufsatz32.png' or '%s/++resource++recensio.theme.images/Internetresource32.png') % portal_url;
+                           alt result_type;
+                           title result_type;
+                         "
+                         i18n:attributes="alt; title;"
+                    />
+                    <div class="metadata">
+
+                      <tal:block condition="result/listAuthorsAndEditors">
+                        <span class="authors"
+                              tal:attributes="
+                                class string:authors;
+                              "
+                        >
+                          <span class="author"
+                                tal:repeat="author authors_and_editors"
+                                tal:attributes="
+                                  class string:author;
+                                "
+                          >
+                            <tal:author tal:define="
+                                          author_name author/Title;
+                                        ">
+                              <a tal:content="author_name"
+                                 tal:attributes="
+                                   href string:$portal_url/search?authorsUID:list=${author/UID}&amp;advanced_search:boolean=True&amp;use_navigation_root:boolean=${use_navigation_root};
+                                 "
+                              ></a><tal:ed tal:condition="python:not author_name in (result.get('listAuthors') or [])">
+                                <tal:ed i18n:translate="label_abbrev_editor">(Hg.)</tal:ed></tal:ed><tal:c condition="not: repeat/author/end">
+                                /
+                              </tal:c><tal:c condition="repeat/author/end" /></tal:author></span></span>:
+                      </tal:block>
+
+                      <span class="authors"
+                            tal:condition="result/exhibitor|nothing"
+                      ><tal:authors tal:replace="structure result/exhibitor">Aussteller</tal:authors>:</span>
+
+                      <span class="title">
+                        <a href="#"
+                           tal:attributes="
+                             href url;
+                             class string:$item_wf_state_class;
+                           "
+                        >
+                          <tal:block condition="python:result_type == 'Issue'">
+                            <tal:block define="
+                                         volume python:result.getObject().getParentNode();
+                                         volume_title python:volume.Title();
+                                         publication_title python:volume.getParentNode().Title();
+                                       ">
+                              <span class="publication-title"
+                                    tal:content="publication_title"
+                              ></span><tal:c condition="publication_title">:
+                              </tal:c>
+                              <span class="volume-title"
+                                    tal:content="volume_title"
+                              ></span><tal:c condition="volume_title">,
+                              </tal:c>
+                            </tal:block>
+                          </tal:block>
+                          <tal:title-punctuated condition="python: result.punctuated_title_and_subtitle"
+                                                content="python: result.punctuated_title_and_subtitle"
+                          />
+                          <tal:title-fallback condition="python: not result.punctuated_title_and_subtitle">
+                            <tal:block tal:condition="not:re"
+                                       tal:content="python:rhv.punctuated_title(result.pretty_title_or_id(), result.subtitle)"
+                            />
+                            <tal:block tal:condition="re"
+                                       i18n:translate=""
+                            >Dauerausstellung</tal:block>
+                            <tal:block tal:condition="not:re"
+                                       replace="result/subtitle | nothing"
+                            />
+                          </tal:title-fallback>
+                        </a>
+                      </span>
+                      <tal:dates condition="result/listDates|nothing">,
+                        <span tal:content="result/listDates"></span></tal:dates>
+                      <tal:block tal:condition="result_obj/yearOfPublication | nothing">,</tal:block>
+                      <span class="year"
+                            tal:content="result_obj/yearOfPublication"
+                            tal:attributes="
+                              class string:year;
+                            "
+                      ></span>
+
+                      <span class="review-author"
+                            tal:condition="is_review"
+                            tal:attributes="
+                              class string:review-author;
+                            "
+                      >
+                        <br />
+                        <tal:author i18n:translate="reviewed_by">Reviewed by
+                          <tal:nameblock i18n:name="review_authors"><tal:repeatblock repeat="reviewAuthor review_authors"><a tal:content="python:' '.join(reversed(reviewAuthor.Title.split(', ')))"
+                                 tal:attributes="
+                                   href string:$portal_url/search?authorsUID:list=${reviewAuthor/UID}&amp;advanced_search:boolean=True&amp;use_navigation_root:boolean=${use_navigation_root};
+                                 "
+                              ></a><tal:c condition="not: repeat/reviewAuthor/end">
+                                /
+                              </tal:c></tal:repeatblock></tal:nameblock></tal:author><tal:block tal:condition="result/get_publication_title | nothing">,
+                        </tal:block>
+
+                        <tal:block tal:define="
+                                     publication_title python:view.get_tfpot(result_obj, 'Publication');
+                                     volume_title python:view.get_tfpot(result_obj, 'Volume');
+                                     issue_title python:view.get_tfpot(result_obj, 'Issue');
+                                   "
+                                   tal:condition="publication_title | nothing"
+                        >
+                          <tal:journal tal:condition="publication_title | nothing"
+                                       i18n:translate="source_journal"
+                          >in:
+                            <tal:block i18n:name="publication_volume_issue"><tal:publication tal:replace="publication_title" />,
+                              <tal:block replace="volume_title" /><tal:comma tal:condition="issue_title|nothing">,
+                              </tal:comma><tal:block replace="issue_title" /></tal:block>
+                          </tal:journal><tal:pages tal:condition="result_obj/page_start_end_in_print|nothing">,
+                            <tal:block i18n:translate="text_pages">p.</tal:block>
+                            <tal:block tal:replace="result_obj/page_start_end_in_print" /></tal:pages>
+                        </tal:block>
+                      </span>
+
+                      <tal:author tal:condition="is_presentation">
+                        <br /><span class="review-author"
+                              tal:attributes="
+                                class string:review-author;
+                              "
+                              i18n:translate="presented_by"
+                        >
+                            Presented by
+                          <tal:nameblock i18n:name="review_authors"><tal:repeatblock repeat="reviewAuthor result/listReviewAuthorsFirstnameFirst"><tal:block tal:replace="reviewAuthor" /><tal:c condition="not: repeat/reviewAuthor/end">
+                                /
+                              </tal:c></tal:repeatblock></tal:nameblock>
+                        </span>
+                      </tal:author>
+                    </div>
+                  </dt>
+
+                  <dd tal:attributes="
+                        class result_class;
+                      ">
+
+                    <span class="documentByLine">
+
+                      <span class="documentEffective"
+                            tal:condition="python:result.review_state == 'published' and toLocalizedTime(result.EffectiveDate)"
+                      >
+                        <span i18n:translate="box_effective">
+                        Published
+                        </span>
+                        <span tal:replace="python:toLocalizedTime(result.EffectiveDate)">
+                        August 16, 2001 at 23:35:59
+                        </span>
+                      </span>
+
+                      <span tal:define="
+                              tags result/Subject|nothing;
+                            "
+                            tal:condition="tags"
+                      >
+                        &mdash;
+                        <tal:filedunder i18n:translate="label_filed_under">Schlagw&ouml;rter:</tal:filedunder>
+                        <span tal:repeat="tag tags">
+                          <a class="link-tag"
+                             href=""
+                             rel="tag"
+                             tal:content="tag"
+                             tal:attributes="
+                               href string:${context/@@plone_portal_state/navigation_root_url}/search?Subject%3Alist=${tag}&amp;advanced_search:boolean=True&amp;use_navigation_root:boolean=${use_navigation_root};
+                             "
+                          >
+                                   Tag
+                          </a><tal:separator condition="not: repeat/tag/end">,</tal:separator>
+                        </span>
+                      </span>
+
+                      <span class="relevance"
+                            tal:condition="python: float(result.data_record_normalized_score_) > 1"
+                      >
+                        &mdash;
+                        <tal:relevance i18n:translate="label_relevance_percentage">
+                        Relevance:
+                          <span tal:content="result/data_record_normalized_score_"
+                                tal:omit-tag=""
+                                i18n:name="percentage"
+                          >23</span>%
+                        </tal:relevance>
+                      </span>
+                    </span>
+
+                    <span class="source-portal"
+                          tal:condition="result_foreign"
+                    >&mdash;
+                      <span tal:content="python:context.restrictedTraverse('/' + result_portal).Title()">Recensio.net</span></span>
+
+                  </dd>
+
+                </tal:entry>
+              </tal:has_results>
+            </tal:results>
+
+          </dl>
+
+
+
+          <div metal:use-macro="context/batch_macros/macros/navigation"></div>
+
+        </div>
+
+
+      </div>
+
+    </metal:main>
+  </body>
+</html>
