@@ -29,6 +29,7 @@
              href publication/link;
            ">
           <img class="floatBefore publication-image"
+               loading="lazy"
                src="#"
                tal:attributes="
                  src publication/logo;
