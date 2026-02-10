@@ -12,6 +12,7 @@
    i18n:domain="plone"
 >
   <img alt=""
+       fetchpriority="high"
        src="${here/portal_url}/++resource++recensio.theme.images/${lang}/logo_recensio.png"
        tal:attributes="
          alt view/logo_title;
