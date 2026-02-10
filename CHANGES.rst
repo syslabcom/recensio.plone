@@ -5,7 +5,17 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Define high-priority images.
+  Define high-priority images which need to be loaded early for layout purposes
+  and a good UX. These are the logo and the main page image.\
+  Byproduct of `#4498 <https://github.com/syslabcom/scrum/issues/4498>`_
+  [thet]
+
+- Lazy load images.
+  Define lazy loading for images which are potentially below the fold and of
+  significant size to prevent high server load and canceled loading.
+  `#4498 <https://github.com/syslabcom/scrum/issues/4498>`_
+  [thet]
 
 
 2.0.0 (2026-01-26)
