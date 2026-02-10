@@ -5,7 +5,11 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Lazy load images.
+  Define lazy loading for images which are potentially below the fold and of
+  significant size to prevent high server load and canceled loading.
+  `#4498 <https://github.com/syslabcom/scrum/issues/4498>`_
+  [thet]
 
 
 2.0.0 (2026-01-26)
