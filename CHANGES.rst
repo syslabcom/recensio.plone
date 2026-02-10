@@ -18,7 +18,7 @@ Changelog
   [thet]
 
 - Proposed more precise cache key to avoid volume mixes.
-  `#4471<https://github.com/syslabcom/scrum/issues/4471>`_
+  `#4471 <https://github.com/syslabcom/scrum/issues/4471>`_
   [pilz]
 
 
