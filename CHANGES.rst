@@ -17,6 +17,10 @@ Changelog
   `#4498 <https://github.com/syslabcom/scrum/issues/4498>`_
   [thet]
 
+- Proposed more precise cache key to avoid volume mixes.
+  `#4471<https://github.com/syslabcom/scrum/issues/4471>`_
+  [pilz]
+
 
 2.0.0 (2026-01-26)
 ------------------
