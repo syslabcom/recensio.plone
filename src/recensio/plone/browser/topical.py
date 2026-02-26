@@ -247,7 +247,7 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
                     iteminfo["submenu"] = subsubmenu
                     # iteminfo['count'] += sum(map(
                     #         lambda x: x['count'], subsubmenu))
-                    self._reset_b_start_if_needed(iteminfo)
+                self._reset_b_start_if_needed(iteminfo)
                 submenu.append(iteminfo)
 
             return self.sort(submenu)
