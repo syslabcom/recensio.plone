@@ -58,6 +58,8 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
             "facet.field": self.facet_fields,
             "b_size": 10,
             "b_start": 0,
+            "sort_on": "score",
+            "sort_order": "desc",
         }
 
     @property
@@ -98,6 +100,15 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
         catalog = getToolByName(self.context, "portal_catalog")
         results = catalog(query)
         return results
+
+    @property
+    def max_score(self):
+        """Calculate the score based on the maxScore attribute of the SolrResponse, if available."""
+        if self.results is not None and hasattr(self.results, "results"):
+            solr_results = self.results.results()
+            if hasattr(solr_results, "maxScore"):
+                return float(solr_results.maxScore)
+        return None
 
     def facets(self):
         """prepare and return facetting info for the given SolrResponse"""

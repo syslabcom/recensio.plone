@@ -28,6 +28,7 @@
     <metal:main fill-slot="main"
                 tal:define="
                   results view/results;
+                  max_score view/max_score;
                   Batch python:modules['Products.CMFPlone'].Batch;
                   b_size python:10;
                   b_size request/b_size | b_size;
@@ -469,14 +470,14 @@
                           </a><tal:separator condition="not: repeat/tag/end">,</tal:separator>
                         </span>
                       </span>
-
                       <span class="relevance"
-                            tal:condition="python: float(result.data_record_normalized_score_) > 1"
+                            tal:condition="python:max_score and result.score"
                       >
+
                         &mdash;
                         <tal:relevance i18n:translate="label_relevance_percentage">
                         Relevance:
-                          <span tal:content="result/data_record_normalized_score_"
+                          <span tal:content="python:int((float(result.score) / float(max_score)) * 100)"
                                 tal:omit-tag=""
                                 i18n:name="percentage"
                           >23</span>%
