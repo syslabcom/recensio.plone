@@ -2,6 +2,7 @@
 from collections import OrderedDict
 from collective.solr.browser.facets import param
 from collective.solr.browser.facets import SearchFacetsView
+from copy import deepcopy
 from plone import api
 from plone.memoize.view import memoize
 from Products.CMFCore.utils import getToolByName
@@ -89,16 +90,20 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
     def results(self):
         query = self.default_query.copy()
         query.update(self.form)
+        log.info("Querying Solr with query: %s" % query)
         if "set_language" in query:
             del query["set_language"]
-        for key in query.keys():
+        stripped_query = deepcopy(query)
+        for key in query:
             if query[key] in ["", []]:
-                del query[key]
+                del stripped_query[key]
         if self.form.get("use_navigation_root", True) and "path" not in query:
-            query["path_parents"] = "/".join(api.portal.get().getPhysicalPath())
-        query["use_solr"] = True
+            stripped_query["path_parents"] = "/".join(
+                api.portal.get().getPhysicalPath()
+            )
+        stripped_query["use_solr"] = True
         catalog = getToolByName(self.context, "portal_catalog")
-        results = catalog(query)
+        results = catalog(stripped_query)
         return results
 
     @property

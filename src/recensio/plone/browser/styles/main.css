@@ -89,7 +89,7 @@ body.template-browse-topics h1.documentFirstHeading {
 }
 
 .search-form-wrapper {
-    max-width: 500px;
+    max-width: 1000px;
     width: 100%;
 }
 
@@ -115,7 +115,7 @@ body.template-browse-topics h1.documentFirstHeading {
 }
 
 .search-input {
-    min-width: 500px;
+    min-width: 900px;
     flex: 1;
     border: none;
     outline: none;
@@ -153,6 +153,33 @@ body.template-browse-topics h1.documentFirstHeading {
 .search-icon {
     width: 20px;
     height: 20px;
+}
+
+.reset-button {
+    background: none;
+    border: none;
+    padding: 12px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999999;
+    transition: color 0.3s ease;
+    flex-shrink: 0;
+    text-decoration: none;
+}
+
+.reset-button:hover {
+    color: #cc6600;
+}
+
+.reset-button:active {
+    color: #994400;
+}
+
+.reset-icon {
+    width: 18px;
+    height: 18px;
 }
 
 .sr-only {
