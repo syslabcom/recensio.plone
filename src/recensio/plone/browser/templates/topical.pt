@@ -395,8 +395,7 @@
                                  "
                               ></a><tal:c condition="not: repeat/reviewAuthor/end">
                                 /
-                              </tal:c></tal:repeatblock></tal:nameblock></tal:author><tal:block tal:condition="result/get_publication_title | nothing">,
-                        </tal:block>
+                              </tal:c></tal:repeatblock></tal:nameblock></tal:author>
 
                         <tal:block tal:define="
                                      publication_title python:view.get_tfpot(result_obj, 'Publication');

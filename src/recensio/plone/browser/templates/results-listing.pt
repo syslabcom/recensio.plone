@@ -189,8 +189,7 @@
                                tal:content="python:' '.join(reversed(reviewAuthor.Title.split(', ')))"
                             ></a><tal:c condition="not: repeat/reviewAuthor/end">
                           /
-                            </tal:c></tal:repeatblock></tal:nameblock></tal:author><tal:block tal:condition="result/get_publication_title | nothing">,
-                      </tal:block>
+                            </tal:c></tal:repeatblock></tal:nameblock></tal:author>
                       <tal:block tal:condition="publication_reference">
                         <tal:journal i18n:translate="source_journal">in:
                           <tal:block i18n:name="publication_volume_issue"><tal:publication tal:replace="publication_reference" /></tal:block>
