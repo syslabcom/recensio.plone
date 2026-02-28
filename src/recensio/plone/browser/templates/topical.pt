@@ -16,7 +16,7 @@
                  "
     />
     <metal:javascript_head fill-slot="javascript_head_slot">
-      <!-- JS doesn't work because it depends on jQuery. Should be refactored. -->
+      <!-- Native details/summary for expand/collapse, minimal JS for "show more" -->
       <script src="++resource++recensio.theme.javascript/topical.js"
               type="text/javascript"
       ></script>
@@ -203,41 +203,106 @@
                   <div class="submenu-lvl2"
                        tal:define="
                          level python:2;
-                         can_expand python:'submenu' in item['submenu'];
+                         has_children python:bool(item['submenu']);
+                         should_expand python:view.expandSubmenu(item['submenu']);
                        "
                        tal:condition="python:item['count']>0 or 'clearquery' in item or view.showSubmenu(item['submenu'])"
                   >
                     <metal:macro define-macro="submenu">
-                      <div class="submenu_title empty"
+                      <!-- Item with children: use details/summary -->
+                      <details class="submenu-details"
+                               tal:condition="has_children"
+                               tal:attributes="
+                                 open python:should_expand or None;
+                                 class python:'submenu-details level-' + str(level);
+                               "
+                      >
+                        <summary class="submenu_title"
+                                 tal:attributes="
+                                   id python:'sub-title-' + item['name'].replace(':','-').replace('.','_');
+                                   class python:'submenu_title level-' + str(level);
+                                   title item/voc;
+                                 "
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg"
+                               xmlns:xlink="http://www.w3.org/1999/xlink"
+                               class="togglebutton closed"
+                               height="25.2"
+                               version="1.1"
+                               viewbox="0 0 9 25.2"
+                               width="9"
+                          >
+                            <path d="m 8.55,12.600006 q 0,0.3654 -0.2664,0.6336 l -6.3,6.3 q -0.2664,0.2664 -0.6336,0.2664 -0.3672,0 -0.6336,-0.2664 Q 0.45,19.267206 0.45,18.900006 V 6.3000064 q 0,-0.3654 0.2664,-0.6336 0.2664,-0.2682 0.6336,-0.2664 0.3672,0.0018 0.6336,0.2664 l 6.3,6.2999996 q 0.2664,0.2664 0.2664,0.6336 z"></path>
+                          </svg>
+                          <svg xmlns="http://www.w3.org/2000/svg"
+                               xmlns:xlink="http://www.w3.org/1999/xlink"
+                               class="togglebutton open"
+                               height="25.2"
+                               version="1.1"
+                               viewbox="0 0 14.4 25.2"
+                               width="14.4"
+                          >
+                            <path d="m 14.399994,9.4500004 q 0,0.3654 -0.2664,0.6335996 l -6.3,6.3 q -0.2664,0.2664 -0.6336,0.2664 -0.3672,0 -0.6336,-0.2664 l -6.30000004,-6.3 Q -6.0407349e-6,9.8172004 -6.0407349e-6,9.4500004 q 0,-0.3672 0.2664000007349,-0.6336 0.2664,-0.2664 0.6336,-0.2664 H 13.499994 q 0.3654,0 0.6336,0.2664 0.2682,0.2664 0.2664,0.6336 z"></path>
+                          </svg>
+                          <div class="delimiterbox">
+                            <tal:block tal:condition="exists:item/clearquery">
+                              <a title="Remove this selection"
+                                 tal:attributes="
+                                   href string:${request/ACTUAL_URL}?${item/clearquery};
+                                 "
+                                 i18n:attributes="title"
+                              ><img src="++resource++recensio.theme.images/checkbox_selected_brown_bg.png" /></a>
+                            </tal:block>
+                            <a href="#"
+                               tal:condition="not:exists:item/clearquery"
+                               tal:attributes="
+                                 href string:${request/ACTUAL_URL}?${item/query};
+                                 class python:'clearquery' in item and 'selected_facet' or '';
+                               "
+                            ><img src="++resource++recensio.theme.images/checkbox_unselected_brown_bg.png" /></a>
+                            <span>
+                              <tal:title tal:replace="item/voc" />
+                              <tal:count tal:condition="python:item['count'] > 0"
+                                         tal:replace="string:(${item/count})"
+                              />
+                            </span>
+                          </div>
+                        </summary>
+
+                        <ul class="submenu_content"
+                            tal:attributes="
+                              id python:'sub-content-' + item['name'].replace(':','-').replace('.','_');
+                            "
+                        >
+                          <tal:submenu repeat="subitem item/submenu">
+                            <li class="submenu_item"
+                                tal:define="
+                                  selected python:subitem.get('clearquery') and 'selected' or 'unselected';
+                                  item subitem;
+                                  level python:level + 1;
+                                "
+                                tal:condition="python:subitem['count']>0 or 'clearquery' in subitem or view.expandSubmenu(subitem['submenu'])"
+                                tal:attributes="
+                                  class string:submenu_item ${selected};
+                                "
+                            >
+
+                              <metal:submenu use-macro="view/macros/submenu" />
+                            </li>
+
+                          </tal:submenu>
+                        </ul>
+                      </details>
+
+                      <!-- Item without children: plain div -->
+                      <div class="submenu_item_simple"
+                           tal:condition="not:has_children"
                            tal:attributes="
                              id python:'sub-title-' + item['name'].replace(':','-').replace('.','_');
-                             class python:'submenu_title ' + 'level-' + str(level) + (not item['submenu'] and ' empty' or '') + (view.expandSubmenu(item['submenu']) and ' open' or '');
+                             class python:'submenu_item_simple level-' + str(level);
                              title item/voc;
                            "
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             xmlns:xlink="http://www.w3.org/1999/xlink"
-                             class="togglebutton closed"
-                             height="25.2"
-                             version="1.1"
-                             viewbox="0 0 9 25.2"
-                             width="9"
-                        >
-                          <path d="m 8.55,12.600006 q 0,0.3654 -0.2664,0.6336 l -6.3,6.3 q -0.2664,0.2664 -0.6336,0.2664 -0.3672,0 -0.6336,-0.2664 Q 0.45,19.267206 0.45,18.900006 V 6.3000064 q 0,-0.3654 0.2664,-0.6336 0.2664,-0.2682 0.6336,-0.2664 0.3672,0.0018 0.6336,0.2664 l 6.3,6.2999996 q 0.2664,0.2664 0.2664,0.6336 z"></path>
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             xmlns:xlink="http://www.w3.org/1999/xlink"
-                             class="togglebutton open"
-                             height="25.2"
-                             version="1.1"
-                             viewbox="0 0 14.4 25.2"
-                             width="14.4"
-                        >
-                          <path d="m 14.399994,9.4500004 q 0,0.3654 -0.2664,0.6335996 l -6.3,6.3 q -0.2664,0.2664 -0.6336,0.2664 -0.3672,0 -0.6336,-0.2664 l -6.30000004,-6.3 Q -6.0407349e-6,9.8172004 -6.0407349e-6,9.4500004 q 0,-0.3672 0.2664000007349,-0.6336 0.2664,-0.2664 0.6336,-0.2664 H 13.499994 q 0.3654,0 0.6336,0.2664 0.2682,0.2664 0.2664,0.6336 z"></path>
-                        </svg>
-                        <div class="togglebutton"
-                             tal:condition="can_expand"
-                        ></div>
                         <div class="delimiterbox">
                           <tal:block tal:condition="exists:item/clearquery">
                             <a title="Remove this selection"
@@ -262,31 +327,6 @@
                           </span>
                         </div>
                       </div>
-
-                      <ul class="submenu_content"
-                          tal:attributes="
-                            id python:'sub-content-' + item['name'].replace(':','-').replace('.','_');
-                            class python:'submenu_content' + (view.expandSubmenu(item['submenu']) and ' open' or '');
-                          "
-                      >
-                        <tal:submenu repeat="subitem item/submenu">
-                          <li class="submenu_item"
-                              tal:define="
-                                selected python:subitem.get('clearquery') and 'selected' or 'unselected';
-                                item subitem;
-                                level python:level + 1;
-                              "
-                              tal:condition="python:subitem['count']>0 or 'clearquery' in subitem or view.expandSubmenu(subitem['submenu'])"
-                              tal:attributes="
-                                class string:submenu_item ${selected};
-                              "
-                          >
-
-                            <metal:submenu use-macro="view/macros/submenu" />
-                          </li>
-
-                        </tal:submenu>
-                      </ul>
 
                       <div class="visualClear"><!-- --></div>
                     </metal:macro>

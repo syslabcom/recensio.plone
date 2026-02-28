@@ -201,8 +201,151 @@ body.template-browse-topics h1.documentFirstHeading {
     margin-right: 3em;
 }
 
-#browsing-menu svg.togglebutton {
+/* Submenu with native details/summary elements */
+details.submenu-details {
+    margin: 0;
+}
+
+summary.submenu_title {
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    padding: 6px 0;
+    line-height: 1.4;
+}
+
+/* Indentation based on level */
+summary.submenu_title.level-2 {
+    padding-left: 0;
+}
+
+summary.submenu_title.level-3 {
+    padding-left: 1.5em;
+}
+
+summary.submenu_title.level-4 {
+    padding-left: 3em;
+}
+
+summary.submenu_title.level-5 {
+    padding-left: 4.5em;
+}
+
+summary.submenu_title.level-6 {
+    padding-left: 6em;
+}
+
+/* Hide default details marker */
+summary.submenu_title::-webkit-details-marker {
     display: none;
+}
+
+summary.submenu_title::marker {
+    display: none;
+}
+
+summary.submenu_title:hover {
+    opacity: 0.8;
+}
+
+/* Toggle icon management */
+#browsing-menu svg.togglebutton {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    min-width: 14px;
+    min-height: 14px;
+    margin-right: 8px;
+    flex-shrink: 0;
+    fill: #666;
+    transition: transform 0.2s ease;
+}
+
+/* Show closed arrow by default */
+#browsing-menu svg.togglebutton.closed {
+    display: inline-block;
+}
+
+#browsing-menu svg.togglebutton.open {
+    display: none;
+}
+
+/* When details is open, swap the icons */
+details[open] > summary svg.togglebutton.closed {
+    display: none;
+}
+
+details[open] > summary svg.togglebutton.open {
+    display: inline-block;
+}
+
+/* Simple submenu items without children */
+.submenu_item_simple {
+    display: flex;
+    align-items: center;
+    padding: 6px 0;
+    line-height: 1.4;
+}
+
+.submenu_item_simple .delimiterbox {
+    width: 100%;
+}
+
+/* Indentation for simple items - add space equal to icon + margin */
+.submenu_item_simple.level-2 {
+    padding-left: 22px; /* 14px icon + 8px margin */
+}
+
+.submenu_item_simple.level-3 {
+    padding-left: calc(1.5em + 22px);
+}
+
+.submenu_item_simple.level-4 {
+    padding-left: calc(3em + 22px);
+}
+
+.submenu_item_simple.level-5 {
+    padding-left: calc(4.5em + 22px);
+}
+
+.submenu_item_simple.level-6 {
+    padding-left: calc(6em + 22px);
+}
+
+/* Delimiterbox alignment */
+.delimiterbox {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+}
+
+.delimiterbox img {
+    flex-shrink: 0;
+    vertical-align: middle;
+}
+
+.delimiterbox span {
+    line-height: 1.4;
+}
+
+/* Submenu content styling */
+.submenu_content {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.submenu_item {
+    margin: 0;
+    padding: 0;
+}
+
+/* Nested details within submenu */
+.submenu_content .submenu-details {
+    margin: 0;
 }
 
 .template-browse-topics legend,
