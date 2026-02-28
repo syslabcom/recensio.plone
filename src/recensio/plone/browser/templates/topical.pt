@@ -46,48 +46,73 @@
 
       <div id="content-core">
 
-        <h1 class="documentFirstHeading">
-          <span i18n:translate="heading_browsing_results">
+        <h1 class="documentFirstHeading"
+            i18n:translate="heading_browsing_results"
+        >
             Browsing
-          </span>
-          <span class="discreet">
-            &mdash;
-            <span i18n:translate="batch_x_reviews_matching_your_criteria"><span tal:content="python:len(results)"
-                    tal:omit-tag=""
-                    i18n:name="number"
-              >0</span>
-              reviews matching</span>
-          </span>
         </h1>
 
-        <div class="search-form">
+        <div class="search-form search-form-modern">
           <legend i18n:translate="title_search_title">Search reviews</legend>
           <fieldset class="widget-fieldset">
-            <form action="${request/URL}"
+            <form class="search-form-wrapper"
+                  action="${request/URL}"
                   method="get"
             >
-              <label class="text-field form-check-label"
+              <label class="sr-only"
                      for="search-text"
                      i18n:translate="title_search_title"
               >Search reviews</label>
-              <div class="search-text-inputs">
-                <input class="form-control"
+              <div class="search-input-wrapper">
+                <input class="search-input"
                        id="search-text"
+                       aria-label="Search reviews"
                        name="SearchableText"
-                       placeholder=""
+                       placeholder="Search reviews..."
                        type="text"
                        value="${request/SearchableText|nothing}"
                 />
-                <input class="context btn btn-primary"
-                       id="search-button"
-                       name="search"
-                       type="submit"
-                       value="Search"
-                       i18n:attributes="value label_search;"
-                />
+                <button class="search-button"
+                        id="search-button"
+                        aria-label="Submit search"
+                        name="search"
+                        type="submit"
+                        value="Search"
+                        i18n:attributes="aria-label label_search"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                       class="search-icon"
+                       aria-hidden="true"
+                       viewbox="0 0 24 24"
+                  >
+                    <circle cx="10"
+                            cy="10"
+                            fill="none"
+                            r="6"
+                            stroke="currentColor"
+                            stroke-width="2"
+                    ></circle>
+                    <path d="m14.5 14.5 5.5 5.5"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-width="2"
+                    ></path>
+                  </svg>
+                </button>
               </div>
             </form>
           </fieldset>
+          <div class="search-results-info">
+            <span class="discreet"
+                  i18n:translate="batch_x_reviews_matching_your_criteria"
+            >
+              <span tal:content="python:len(results)"
+                    tal:omit-tag=""
+                    i18n:name="number"
+              >0</span>
+              reviews matching
+            </span>
+          </div>
         </div>
 
 
