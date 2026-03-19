@@ -1,6 +1,7 @@
 from copy import deepcopy
 from ZTUtils import make_query
 
+
 browsing_facets = ["ddcPlace", "ddcTime", "ddcSubject"]
 
 
@@ -17,13 +18,10 @@ def getSelectedQuery(
         for name in values:
             if name:
                 if queryparam == "fq":
-                    params.setdefault(queryparam, []).append(
-                        '%s:"%s"' % (field, name)
-                    )
+                    params.setdefault(queryparam, []).append(f'{field}:"{name}"')
                 else:
                     params.setdefault(queryparam, []).append(name)
     return make_query(params, doseq=True)
-
 
 
 def convertFacets(
@@ -37,12 +35,14 @@ def convertFacets(
     """convert facet info to a form easy to process in templates"""
     info = []
     params = request.copy()  # request needs to be a dict, i.e. request.form
+    if "b_start" in params:
+        del params["b_start"]  # Clear the batch when limiting a result set
     facets = facet_fields
     params["facet.field"] = facets = list(facets)
     fq = params.get(queryparam, [])
     if isinstance(fq, str):
         fq = params[queryparam] = [fq]
-    selected = set([facet.split(":", 1)[0].strip("+") for facet in fq])
+    selected = {facet.split(":", 1)[0].strip("+") for facet in fq}
     selected = selected.intersection(set(browsing_facets))
     for field, values in fields.items():
         counts = []
@@ -72,7 +72,14 @@ def convertFacets(
             except ValueError:
                 return len(facets)  # position the item at the end
 
-        func = lambda x: pos(x)
+        def sort_key(item):
+            return pos(item["title"])
+
+        func = sort_key
     else:  # otherwise sort by title
-        func = lambda x: x["title"]
+
+        def sort_key_default(item):
+            return item["title"]
+
+        func = sort_key_default
     return sorted(info, key=func)
