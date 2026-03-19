@@ -14,7 +14,6 @@ from recensio.plone.config import REVIEW_TYPES
 from ZTUtils import make_query
 
 import logging
-import re
 
 
 log = logging.getLogger(__name__)
@@ -210,23 +209,6 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
     def sort(self, submenu):
         return sorted(submenu, key=lambda x: x["count"], reverse=True)
 
-    def _reset_b_start_if_needed(self, iteminfo):
-        """Reset b_start to 0 if count is smaller than b_start value"""
-
-        if (
-            "query" in iteminfo
-            and isinstance(iteminfo["count"], int)
-            and iteminfo["count"] > 0
-        ):
-            if isinstance(iteminfo["query"], str):
-                match = re.search(r"b_start:int=(\d+)", iteminfo["query"])
-                if match:
-                    b_start_value = int(match.group(1))
-                    if iteminfo["count"] < b_start_value:
-                        iteminfo["query"] = re.sub(
-                            r"b_start:int=\d+", "b_start:int=0", iteminfo["query"]
-                        )
-
     @memoize
     def getMenu(self):
         facets = self.facets()
@@ -263,7 +245,6 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
                     iteminfo["submenu"] = subsubmenu
                     # iteminfo['count'] += sum(map(
                     #         lambda x: x['count'], subsubmenu))
-                self._reset_b_start_if_needed(iteminfo)
                 submenu.append(iteminfo)
 
             return self.sort(submenu)
