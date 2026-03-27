@@ -21,6 +21,9 @@ Changelog
   `#4471 <https://github.com/syslabcom/scrum/issues/4471>`_
   [pilz]
 
+- Replaced z3c.jbot overrides with template overrides on layer.
+   `#4626 <https://github.com/syslabcom/scrum/issues/4626>`
+  [pilz]
 
 2.0.0 (2026-01-26)
 ------------------

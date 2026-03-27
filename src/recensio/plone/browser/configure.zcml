@@ -6,16 +6,8 @@
     >
 
   <include
-      package="z3c.jbot"
-      file="meta.zcml"
-      />
-  <include
       package="eea.facetednavigation"
       file="meta.zcml"
-      />
-  <browser:jbot
-      directory="overrides"
-      layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
   <browser:resourceDirectory
@@ -46,6 +38,24 @@
       name="contact-info"
       for="*"
       class=".contact_info.RecensioContactInfoRedirect"
+      permission="zope.Public"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <!-- The logo -->
+  <browser:viewlet
+      name="plone.logo"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      class="plone.app.layout.viewlets.common.LogoViewlet"
+      template="templates/logo.pt"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
+      name="footer"
+      for="*"
+      template="templates/footer.pt"
       permission="zope.Public"
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
