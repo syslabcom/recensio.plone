@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.1 (unreleased)
+2.0.1 (2026-03-27)
 ------------------
 
 - Define high-priority images.
