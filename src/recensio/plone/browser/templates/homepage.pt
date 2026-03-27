@@ -41,6 +41,7 @@
         >
           <img id="page_image"
                alt="Banner ${language}"
+               fetchpriority="high"
                src="${here/portal_url}/${view/resource_directory}/${language}/mainimage_${language}.png"
           />
         </div>

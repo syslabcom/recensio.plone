@@ -63,7 +63,8 @@
                 <div class="pat-gallery"
                      data-pat-gallery="item-selector: img"
                 >
-                  <img src="${cover_picture_url}"
+                  <img loading="lazy"
+                       src="${cover_picture_url}"
                        tal:condition="cover_picture_url"
                   />
                   <tal:gallery condition="num_pages"
@@ -80,7 +81,8 @@
                "
                tal:condition="view/isUseExternalFulltext|nothing"
             >
-              <img src="${context/absolute_url}/@@images/customCoverImage/mini"
+              <img loading="lazy"
+                   src="${context/absolute_url}/@@images/customCoverImage/mini"
                    tal:condition="custom_cover"
               />
               <p tal:condition="not:custom_cover"

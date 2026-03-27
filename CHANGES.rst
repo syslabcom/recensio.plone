@@ -2,7 +2,43 @@ Changelog
 =========
 
 
-2.0.0 (unreleased)
+2.0.3 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
+2.0.2 (2026-03-27)
+------------------
+
+- re-release of 2.0.1
+  [pilz]
+
+
+2.0.1 (2026-03-27)
+------------------
+
+- Define high-priority images.
+  Define high-priority images which need to be loaded early for layout purposes
+  and a good UX. These are the logo and the main page image.\
+  Byproduct of `#4498 <https://github.com/syslabcom/scrum/issues/4498>`_
+  [thet]
+
+- Lazy load images.
+  Define lazy loading for images which are potentially below the fold and of
+  significant size to prevent high server load and canceled loading.
+  `#4498 <https://github.com/syslabcom/scrum/issues/4498>`_
+  [thet]
+
+- Proposed more precise cache key to avoid volume mixes.
+  `#4471 <https://github.com/syslabcom/scrum/issues/4471>`_
+  [pilz]
+
+- Replaced z3c.jbot overrides with template overrides on layer.
+   `#4626 <https://github.com/syslabcom/scrum/issues/4626>`
+  [pilz]
+
+2.0.0 (2026-01-26)
 ------------------
 
 - Tested on Python 3.10 and Python 3.13 [ale-rt]
@@ -24,6 +60,9 @@ Changelog
 - Configure two demo facets [gyst]
 - Disable livesearch [gyst]
 - Add parameter -asxhtml to tidy to fix pdf generation of html reviews [pilz]
+- Performance improvements
+  `#3678 <https://github.com/syslabcom/scrum/issues/3678>`_
+  [ale-rt]
 - Fix the ``sehepunkte-import`` view
   `#4071 <https://github.com/syslabcom/scrum/issues/4071>`_
   [ale-rt]
