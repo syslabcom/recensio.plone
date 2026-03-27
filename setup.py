@@ -59,7 +59,6 @@ setup(
         "pypdf",
         "reportlab",
         "xlrd",
-        "z3c.jbot",
     ],
     extras_require={
         "test": [
