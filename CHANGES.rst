@@ -5,7 +5,8 @@ Changelog
 2.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- re-release of 2.0.1
+  [pilz]
 
 
 2.0.1 (2026-03-27)
