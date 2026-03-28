@@ -37,7 +37,6 @@
                   desc_length python:60;
                   desc_ellipsis string:...;
                   use_view_action view/use_view_action_types;
-                  portal_url context/portal_url;
                   submenus view/getSubmenus;
                   rhv context/@@recensio-helper-view;
                   gnd_view nocall:context/@@gnd-view;
@@ -328,11 +327,7 @@
               </tal:submenus>
             </div>
 
-            <dl class="searchResults"
-                tal:define="
-                  use_navigation_root request/use_navigation_root|python:True;
-                "
-            >
+            <dl class="searchResults">
 
               <tal:results repeat="result batch">
                 <tal:has_results condition="result">
@@ -404,13 +399,9 @@
                                 <tal:author tal:define="
                                               author_name author/Title;
                                             ">
-                                  <a tal:content="author_name"
-                                     tal:attributes="
-                                       href string:$portal_url/search?authorsUID:list=${author/UID}&amp;advanced_search:boolean=True&amp;use_navigation_root:boolean=${use_navigation_root};
-                                     "
-                                  ></a><tal:ed tal:condition="python:not author_name in (result.get('listAuthors') or [])">
+                                  <span tal:content="author_name"></span><tal:ed tal:condition="python:not author_name in (result.get('listAuthors') or [])">
                                     <tal:ed i18n:translate="label_abbrev_editor">(Hg.)</tal:ed></tal:ed><tal:c condition="not: repeat/author/end">
-                                /
+                                 /
                                   </tal:c><tal:c condition="repeat/author/end" /></tal:author></span></span>:
                           </tal:block>
 
@@ -475,12 +466,8 @@
                           >
                             <br />
                             <tal:author i18n:translate="reviewed_by">Reviewed by
-                              <tal:nameblock i18n:name="review_authors"><tal:repeatblock repeat="reviewAuthor review_authors"><a tal:content="python:' '.join(reversed(reviewAuthor.Title.split(', ')))"
-                                     tal:attributes="
-                                       href string:$portal_url/search?authorsUID:list=${reviewAuthor/UID}&amp;advanced_search:boolean=True&amp;use_navigation_root:boolean=${use_navigation_root};
-                                     "
-                                  ></a><tal:c condition="not: repeat/reviewAuthor/end">
-                                /
+                              <tal:nameblock i18n:name="review_authors"><tal:repeatblock repeat="reviewAuthor review_authors"><span tal:content="python:' '.join(reversed(reviewAuthor.Title.split(', ')))"></span><tal:c condition="not: repeat/reviewAuthor/end">
+                                 /
                                   </tal:c></tal:repeatblock></tal:nameblock></tal:author>
 
                             <tal:block tal:define="
@@ -556,16 +543,9 @@
                           >
                             <tal:filedunder i18n:translate="label_filed_under">Schlagw&ouml;rter:</tal:filedunder>
                             <span tal:repeat="tag tags">
-                              <a class="link-tag"
-                                 href=""
-                                 rel="tag"
-                                 tal:content="tag"
-                                 tal:attributes="
-                                   href string:${context/@@plone_portal_state/navigation_root_url}/search?Subject%3Alist=${tag}&amp;advanced_search:boolean=True&amp;use_navigation_root:boolean=${use_navigation_root};
-                                 "
-                              >
-                                   Tag
-                              </a><tal:separator condition="not: repeat/tag/end">,</tal:separator>
+                              <span class="result-tag"
+                                    tal:content="tag"
+                              >Tag</span><tal:separator condition="not: repeat/tag/end">,</tal:separator>
                             </span>
                           </span>
 

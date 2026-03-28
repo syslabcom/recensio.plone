@@ -189,6 +189,8 @@ body.template-browse-topics h1.documentFirstHeading {
 }
 
 .topical-layout .searchResults > .search-result-card {
+    position: relative;
+    cursor: pointer;
     margin: 0 0 1.5rem;
     padding: 1.25rem 1.5rem 1.1rem;
     border: 1px solid #d7ddd8;
@@ -199,10 +201,16 @@ body.template-browse-topics h1.documentFirstHeading {
     transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.topical-layout .searchResults > .search-result-card:hover {
+.topical-layout .searchResults > .search-result-card:hover,
+.topical-layout .searchResults > .search-result-card:focus-within {
     border-color: #c5cec7;
     box-shadow: 0 14px 28px rgba(50, 58, 52, 0.1);
     transform: translateY(-1px);
+}
+
+.topical-layout .searchResults > .search-result-card:focus-within {
+    border-color: #173f5f;
+    box-shadow: 0 0 0 3px rgba(23, 63, 95, 0.18), 0 14px 28px rgba(50, 58, 52, 0.1);
 }
 
 .topical-layout .searchResults dt.search-result-head,
@@ -271,7 +279,6 @@ body.template-browse-topics h1.documentFirstHeading {
 }
 
 .topical-layout .searchResults .metadata .authors,
-.topical-layout .searchResults .metadata .authors a,
 .topical-layout .searchResults .metadata .year {
     color: #55635b;
 }
@@ -295,10 +302,23 @@ body.template-browse-topics h1.documentFirstHeading {
     text-underline-offset: 0.14em;
 }
 
+.topical-layout .searchResults .metadata .title a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
 .topical-layout .searchResults .metadata .title a:hover,
-.topical-layout .searchResults .metadata .title a:focus {
+.topical-layout .searchResults .metadata .title a:focus,
+.topical-layout .searchResults > .search-result-card:hover .metadata .title a,
+.topical-layout .searchResults > .search-result-card:focus-within .metadata .title a {
     color: #0e2d46;
     text-decoration: underline;
+}
+
+.topical-layout .searchResults .metadata .title a:focus-visible {
+    outline: none;
 }
 
 .topical-layout .searchResults .metadata .publication-title,
@@ -345,18 +365,8 @@ body.template-browse-topics h1.documentFirstHeading {
     color: #707b73;
 }
 
-.topical-layout .searchResults .documentByLine .link-tag {
-    display: inline-block;
-    margin-right: 0.35rem;
+.topical-layout .searchResults .documentByLine .result-tag {
     color: #4f5f56;
-    text-decoration: none;
-    border-bottom: 1px solid #c8d2cb;
-}
-
-.topical-layout .searchResults .documentByLine .link-tag:hover,
-.topical-layout .searchResults .documentByLine .link-tag:focus {
-    color: #173f5f;
-    border-bottom-color: #173f5f;
 }
 
 .topical-layout .searchResults .source-portal {
