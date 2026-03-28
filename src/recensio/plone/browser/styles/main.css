@@ -427,6 +427,65 @@ body.template-browse-topics h1.documentFirstHeading {
     color: #8a4500;
 }
 
+.submenu_more {
+    margin: 0.85rem 0 0;
+    padding-left: 22px;
+}
+
+.submenu_more.invisible {
+    display: none;
+}
+
+.submenu-more-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.95rem;
+    border: 1px dashed #ccb98b;
+    border-radius: 999px;
+    background: #fcf7ec;
+    color: #6e541d;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.submenu-more-link:hover,
+.submenu-more-link:focus-visible {
+    background: #fff2e6;
+    border-color: #b98a39;
+    color: #8a4500;
+    box-shadow: 0 0 0 3px rgba(185, 138, 57, 0.12);
+}
+
+.submenu-more-link:focus-visible {
+    outline: 2px solid #173f5f;
+    outline-offset: 2px;
+}
+
+.submenu-more-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.35rem;
+    height: 1.35rem;
+    border-radius: 999px;
+    background: #8b6a2b;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.submenu-more-link:hover .submenu-more-icon,
+.submenu-more-link:focus-visible .submenu-more-icon {
+    background: #8a4500;
+}
+
 /* Submenu with native details/summary elements */
 details.submenu-details {
     margin: 0;

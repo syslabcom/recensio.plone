@@ -320,7 +320,14 @@
                     </div>
                   </tal:block>
                   <div class="submenu_more invisible">
-                    <a i18n:translate="browsing_submenu_more">Mehr anzeigen...</a>
+                    <button class="submenu-more-link"
+                            type="button"
+                    >
+                      <span class="submenu-more-icon"
+                            aria-hidden="true"
+                      >+</span>
+                      <span i18n:translate="browsing_submenu_more">Mehr anzeigen...</span>
+                    </button>
                   </div>
                 </div>
                 <div class="visualClear"></div>

@@ -8,7 +8,7 @@
 
     function showMoreItems() {
         const submenuItems = document.querySelectorAll('#submenu_ddcSubject .submenu-lvl2');
-        const moreButton = document.querySelector('#submenu_ddcSubject .submenu_more');
+        const moreContainer = document.querySelector('#submenu_ddcSubject .submenu_more');
 
         for (let i = visibleCount; i < Math.min(visibleCount + show_step, submenuItems.length); i++) {
             submenuItems[i].style.display = '';
@@ -16,14 +16,16 @@
 
         visibleCount += show_step;
 
-        if (submenuItems.length <= visibleCount && moreButton) {
-            moreButton.classList.add('invisible');
+        if (submenuItems.length <= visibleCount && moreContainer) {
+            moreContainer.classList.add('invisible');
         }
     }
 
     function initializeShowMore() {
         // Handle "show more" functionality
-        const moreButton = document.querySelector('#submenu_ddcSubject .submenu_more');
+        const moreContainer = document.querySelector('#submenu_ddcSubject .submenu_more');
+        const moreButton = document.querySelector('#submenu_ddcSubject .submenu-more-link');
+
         if (moreButton) {
             moreButton.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -37,8 +39,8 @@
             for (let i = show_num; i < submenuItems.length; i++) {
                 submenuItems[i].style.display = 'none';
             }
-            if (moreButton) {
-                moreButton.classList.remove('invisible');
+            if (moreContainer) {
+                moreContainer.classList.remove('invisible');
             }
         }
     }
