@@ -3,7 +3,6 @@
   <records interface="collective.solr.interfaces.ISolrSchema"
            prefix="collective.solr"
   >
-    <value key="active">True</value>
     <value key="max_results">1000</value>
     <value key="search_pattern">+(Title:{value}^10 OR
 Description:{value}^5 OR
@@ -23,10 +22,6 @@ searchwords:({base_value})^1000)
       <element>Subject</element>
       <element>ddcPlace</element>
       <element>ddcTime</element>
-    </value>
-    <value key="filter_queries">
-      <element>portal_type</element>
-      <element>Subject</element>
     </value>
   </records>
 </registry>
