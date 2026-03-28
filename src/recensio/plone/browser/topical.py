@@ -11,6 +11,7 @@ from recensio.plone.browser.facets import browsing_facets
 from recensio.plone.browser.facets import convertFacets
 from recensio.plone.browser.helper import CrossPlatformMixin
 from recensio.plone.config import REVIEW_TYPES
+from urllib.parse import urlencode
 from ZTUtils import make_query
 
 import logging
@@ -113,6 +114,14 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
             if hasattr(solr_results, "maxScore"):
                 return float(solr_results.maxScore)
         return None
+
+    def reset_facets_href(self):
+        if self.request.get("SearchableText"):
+            qs = {"SearchableText": self.request.get("SearchableText")}
+            url = "./browse-topics?%s" % urlencode(qs)
+        else:
+            url = "./browse-topics"
+        return url
 
     def facets(self):
         """prepare and return facetting info for the given SolrResponse"""

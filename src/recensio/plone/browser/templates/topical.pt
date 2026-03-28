@@ -157,7 +157,6 @@
                  tal:define="
                    menu view/getMenu;
                    has_active_facets python:any(view.expandSubmenu(menu[submenu['id']]) for submenu in submenus);
-                   reset_facets_href python:'./browse-topics?%s' % modules['urllib.parse'].urlencode({'SearchableText': request.get('SearchableText')}) if request.get('SearchableText') else './browse-topics';
                  "
             >
               <div class="facet-actions"
@@ -165,7 +164,7 @@
               >
                 <a class="reset-facets-button"
                    tal:attributes="
-                     href reset_facets_href;
+                     href view/reset_facets_href;
                    "
                 >Reset facets</a>
               </div>
