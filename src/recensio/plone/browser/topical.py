@@ -30,10 +30,12 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
         self.context = context
         self.request = request
         helper = api.content.get_view(context=context, name="vocabulary-helper")
+        language = api.portal.get_current_language() or "en"
+        language = language.split("-", 1)[0].split("_", 1)[0]
         self.vocDict = dict(
-            ddcPlace=helper.ddcPlace.vdex.getVocabularyDict(),
-            ddcTime=helper.ddcTime.vdex.getVocabularyDict(),
-            ddcSubject=helper.ddcSubject.vdex.getVocabularyDict(),
+            ddcPlace=helper.ddcPlace.vdex.getVocabularyDict(lang=language),
+            ddcTime=helper.ddcTime.vdex.getVocabularyDict(lang=language),
+            ddcSubject=helper.ddcSubject.vdex.getVocabularyDict(lang=language),
         )
         self.submenus = [
             dict(title="Epoch", id="ddcTime"),
