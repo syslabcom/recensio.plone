@@ -2092,7 +2092,7 @@ msgstr "Search"
 
 #: recensio.policy:/missing_18n_labels.py:57
 msgid "label_nav_themes"
-msgstr "Themes"
+msgstr "Search"
 
 #: recensio.policy:/missing_18n_labels.py:58
 msgid "label_nav_about_us"
@@ -2601,7 +2601,7 @@ msgstr "More..."
 #. Default: "Browsing"
 #: recensio.theme:/browser/templates/topical.pt:37
 msgid "heading_browsing_results"
-msgstr "Content Browsing"
+msgstr "Search"
 
 #. Default: "Hier gelangen Sie zu einem Formular, mit dem Sie Ihren Aufsatz in einem Sammelband auf recensio.net pr\303\244sentieren k\303\266nnen."
 #: recensio.theme:/skins/recensio_theme/add_new_item.pt:108
