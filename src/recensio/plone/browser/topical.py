@@ -6,6 +6,7 @@ from copy import deepcopy
 from plone import api
 from plone.memoize.view import memoize
 from Products.CMFCore.utils import getToolByName
+from recensio.plone import _
 from recensio.plone.adapter.parentgetter import IParentGetter
 from recensio.plone.browser.facets import browsing_facets
 from recensio.plone.browser.facets import convertFacets
@@ -19,6 +20,26 @@ import logging
 
 log = logging.getLogger(__name__)
 PORTAL_TYPES = REVIEW_TYPES
+SORT_RELEVANCE = "relevance"
+SORT_CREATED = "created"
+TOPICAL_SORTS = OrderedDict(
+    (
+        (
+            SORT_RELEVANCE,
+            {
+                "title": _("label_sort_relevance", default="Relevance"),
+            },
+        ),
+        (
+            SORT_CREATED,
+            {
+                "title": _("label_sort_newest", default="Newest first"),
+                "sort_on": "created",
+                "sort_order": "reverse",
+            },
+        ),
+    )
+)
 
 
 class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
@@ -30,8 +51,7 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
         self.context = context
         self.request = request
         helper = api.content.get_view(context=context, name="vocabulary-helper")
-        language = api.portal.get_current_language() or "en"
-        language = language.split("-", 1)[0].split("_", 1)[0]
+        language = self.vocabulary_language
         self.vocDict = dict(
             ddcPlace=helper.ddcPlace.vdex.getVocabularyDict(lang=language),
             ddcTime=helper.ddcTime.vdex.getVocabularyDict(lang=language),
@@ -48,6 +68,11 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
         return self.index()
 
     @property
+    def vocabulary_language(self):
+        language = api.portal.get_current_language() or "en"
+        return language.split("-", 1)[0].split("_", 1)[0]
+
+    @property
     def use_view_action_types(self):
         return api.portal.get_registry_record(
             "plone.types_use_view_action_in_listings", default=[]
@@ -61,8 +86,6 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
             "facet.field": self.facet_fields,
             "b_size": 10,
             "b_start": 0,
-            "sort_on": "score",
-            "sort_order": "desc",
         }
 
     @property
@@ -72,10 +95,12 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
     @property
     @memoize
     def form(self):
-        form = self.request.form
+        form = self.request.form.copy()
         if self.queryparam in form:
             # filter out everything but our ddc attributes
             if self.queryparam == "fq":
+                if not isinstance(form[self.queryparam], list):
+                    form[self.queryparam] = [form[self.queryparam]]
                 form[self.queryparam] = [
                     x
                     for x in form[self.queryparam]
@@ -86,6 +111,60 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
             form_facet_fields = [form_facet_fields]
         form["facet.field"] = list(set(form_facet_fields + self.facet_fields))
         return form
+
+    @property
+    def current_sort(self):
+        sort_on = self.request.form.get("sort_on")
+        sort_order = (self.request.form.get("sort_order") or "").lower()
+        if (
+            sort_on == TOPICAL_SORTS[SORT_CREATED]["sort_on"]
+            and sort_order == TOPICAL_SORTS[SORT_CREATED]["sort_order"]
+        ):
+            return SORT_CREATED
+        return SORT_RELEVANCE
+
+    @property
+    def current_sort_on(self):
+        return TOPICAL_SORTS[self.current_sort].get("sort_on")
+
+    @property
+    def current_sort_order(self):
+        return TOPICAL_SORTS[self.current_sort].get("sort_order")
+
+    @property
+    def show_relevance_scores(self):
+        return self.current_sort == SORT_RELEVANCE
+
+    @property
+    def sort_options(self):
+        options = []
+        for key, config in TOPICAL_SORTS.items():
+            options.append(
+                {
+                    "title": config["title"],
+                    "url": self._sort_url(
+                        sort_on=config.get("sort_on"),
+                        sort_order=config.get("sort_order"),
+                    ),
+                    "selected": self.current_sort == key and "selected" or None,
+                }
+            )
+        return options
+
+    def _sort_url(self, sort_on=None, sort_order=None):
+        params = self.request.form.copy()
+        params.pop("b_start", None)
+        params.pop("sort_on", None)
+        params.pop("sort_order", None)
+        params.pop("facet.field", None)
+        if sort_on:
+            params["sort_on"] = sort_on
+        if sort_order:
+            params["sort_order"] = sort_order
+        query_string = urlencode(params, doseq=True)
+        if not query_string:
+            return self.request.URL
+        return f"{self.request.URL}?{query_string}"
 
     @property
     @memoize
@@ -118,12 +197,18 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
         return None
 
     def reset_facets_href(self):
+        qs = {}
         if self.request.get("SearchableText"):
-            qs = {"SearchableText": self.request.get("SearchableText")}
-            url = "./browse-topics?%s" % urlencode(qs)
-        else:
-            url = "./browse-topics"
-        return url
+            qs["SearchableText"] = self.request.get("SearchableText")
+        if self.current_sort_on:
+            qs["sort_on"] = self.current_sort_on
+        if self.current_sort_order:
+            qs["sort_order"] = self.current_sort_order
+        if "use_navigation_root" in self.request.form:
+            qs["use_navigation_root"] = self.request.form["use_navigation_root"]
+        if qs:
+            return "./browse-topics?%s" % urlencode(qs, doseq=True)
+        return "./browse-topics"
 
     def facets(self):
         """prepare and return facetting info for the given SolrResponse"""
@@ -137,6 +222,8 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
                 #     container = self.form
                 # filter out everything but our ddc attributes
                 if self.queryparam == "fq":
+                    if not isinstance(self.form[self.queryparam], list):
+                        self.form[self.queryparam] = [self.form[self.queryparam]]
                     self.form[self.queryparam] = [
                         x
                         for x in self.form[self.queryparam]

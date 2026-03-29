@@ -5,7 +5,8 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Implement sorting for the search.
+  [pilz]
 
 - Cleanup eea.facetednavigation, now that we have solr.
   [pilz]
