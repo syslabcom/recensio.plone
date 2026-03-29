@@ -5,7 +5,9 @@ Changelog
 2.0.3 (unreleased)
 ------------------
 
-- Add a new publication listing view matchting the new search result layout.
+- Revamp the publication listing viewlet with a modern card layout matching
+  the redesigned result and publication views, and lazy-load nested contents
+  via pat-inject.
   `#4662 <https://github.com/syslabcom/scrum/issues/4662>`
   [pilz]
 

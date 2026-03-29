@@ -2233,6 +2233,42 @@ msgstr ""
 msgid "description_publications"
 msgstr ""
 
+#. Default: "Issues and reviews"
+msgid "heading_publicationlisting"
+msgstr ""
+
+#. Default: "Expand a volume to load its issues and reviews."
+msgid "description_publicationlisting"
+msgstr ""
+
+#. Default: "Volume"
+msgid "label_publication_volume"
+msgstr ""
+
+#. Default: "Issue"
+msgid "label_publication_issue"
+msgstr ""
+
+#. Default: "Show contents"
+msgid "label_publication_show_contents"
+msgstr ""
+
+#. Default: "Show reviews"
+msgid "label_publication_show_reviews"
+msgstr ""
+
+#. Default: "Loading contents…"
+msgid "label_publicationlisting_loading"
+msgstr ""
+
+#. Default: "Could not load contents."
+msgid "description_publicationlisting_loading_failed"
+msgstr ""
+
+#. Default: "No reviews are available yet."
+msgid "description_publicationlisting_no_contents"
+msgstr ""
+
 #. Default: "Jump to"
 msgid "label_publications_jump_to"
 msgstr ""

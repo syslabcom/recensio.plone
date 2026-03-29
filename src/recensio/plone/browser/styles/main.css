@@ -449,6 +449,336 @@ body.template-browse-topics h1.documentFirstHeading {
     color: #435147;
 }
 
+.publicationlisting-header {
+    margin: 3rem 0 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e9e5;
+}
+
+.publicationlisting-title {
+    margin: 0;
+    color: #173f5f;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.7rem;
+    line-height: 1.35;
+}
+
+.publicationlisting-intro {
+    max-width: 46rem;
+    margin: 0.65rem 0 0;
+    color: #55635b;
+    line-height: 1.7;
+}
+
+.publicationlisting-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.publicationlisting-stack--nested {
+    margin-top: 0.9rem;
+}
+
+.publicationlisting-card {
+    border: 1px solid #d7ddd8;
+    border-left: 4px solid #8b6a2b;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #fffefb 0%, #f7f7f4 100%);
+    box-shadow: 0 10px 24px rgba(50, 58, 52, 0.06);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.publicationlisting-card:hover,
+.publicationlisting-card:focus-within {
+    border-color: #c5cec7;
+    box-shadow: 0 14px 28px rgba(50, 58, 52, 0.1);
+    transform: translateY(-1px);
+}
+
+.publicationlisting-card:focus-within {
+    border-color: #173f5f;
+    box-shadow: 0 0 0 3px rgba(23, 63, 95, 0.18), 0 14px 28px rgba(50, 58, 52, 0.1);
+}
+
+.publicationlisting-card--issue {
+    border-left-color: #58748b;
+    background: linear-gradient(180deg, #fbfcfd 0%, #f6f8f9 100%);
+}
+
+.publicationlisting-card__summary,
+.publicationlisting-card__summary--static {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.15rem 1.25rem 0.8rem;
+}
+
+.publicationlisting-card__summary {
+    cursor: pointer;
+    list-style: none;
+}
+
+.publicationlisting-card__summary::-webkit-details-marker {
+    display: none;
+}
+
+.publicationlisting-card__summary-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    min-width: 0;
+}
+
+.publicationlisting-card__eyebrow {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+    background: #f4ead2;
+    color: #725a23;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.publicationlisting-card--issue .publicationlisting-card__eyebrow {
+    background: #e6edf2;
+    color: #365366;
+}
+
+.publicationlisting-card__title {
+    color: #173f5f;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.18rem;
+    line-height: 1.45;
+}
+
+.publicationlisting-card__summary-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.publicationlisting-card__hint {
+    color: #725a23;
+    font-size: 0.9rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.publicationlisting-card--issue .publicationlisting-card__hint {
+    color: #365366;
+}
+
+.publicationlisting-card__chevron {
+    width: 0.85rem;
+    height: 0.85rem;
+    border-right: 2px solid #725a23;
+    border-bottom: 2px solid #725a23;
+    transform: rotate(45deg);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.publicationlisting-card--issue .publicationlisting-card__chevron {
+    border-color: #365366;
+}
+
+.publicationlisting-card[open] .publicationlisting-card__chevron {
+    transform: rotate(225deg);
+}
+
+.publicationlisting-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    padding: 0 1.25rem 1rem;
+}
+
+.publicationlisting-card__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.publicationlisting-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    background: #f4ead2;
+    color: #4e5c53;
+    font-size: 0.86rem;
+    font-weight: 600;
+}
+
+.publicationlisting-card--issue .publicationlisting-badge {
+    background: #e6edf2;
+}
+
+.publicationlisting-badge strong {
+    color: #725a23;
+    font-weight: 700;
+}
+
+.publicationlisting-card--issue .publicationlisting-badge strong {
+    color: #365366;
+}
+
+.publicationlisting-card__downloads {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem 0.75rem;
+}
+
+.publicationlisting-download {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.7rem;
+    border: 1px solid #d6d2c6;
+    border-radius: 999px;
+    background: #fff;
+    color: #4d3913;
+    font-size: 0.86rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.publicationlisting-download:hover,
+.publicationlisting-download:focus {
+    border-color: #b98a39;
+    color: #8a4500;
+    text-decoration: none;
+}
+
+.publicationlisting-download__meta {
+    color: #677269;
+    font-size: 0.84rem;
+}
+
+.publicationlisting-card__panel {
+    padding: 0 1.25rem 1.25rem;
+}
+
+.publicationlisting-card__panel--loading {
+    opacity: 0.75;
+}
+
+.publicationlisting-panel__loader {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.25rem;
+    width: 100%;
+    padding: 0.95rem 1rem;
+    border: 1px dashed #d5dcd6;
+    border-radius: 10px;
+    background: #fafbf9;
+    color: #55635b;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+}
+
+.publicationlisting-panel__loader:hover,
+.publicationlisting-panel__loader:focus {
+    border-color: #c5cec7;
+    color: #173f5f;
+    text-decoration: none;
+}
+
+.publicationlisting-children {
+    margin-top: 0.25rem;
+}
+
+.publicationlisting-panel-section + .publicationlisting-panel-section {
+    margin-top: 1.2rem;
+}
+
+.publicationlisting-panel-section__title {
+    margin: 0 0 0.85rem;
+    color: #173f5f;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.publicationlisting-review-list {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.publicationlisting-review-list__item {
+    margin: 0;
+}
+
+.publicationlisting-review-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.95rem 1rem;
+    border: 1px solid #dde3de;
+    border-radius: 10px;
+    background: #fff;
+    color: #2f3c34;
+    text-decoration: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.publicationlisting-review-card:hover,
+.publicationlisting-review-card:focus {
+    border-color: #c5cec7;
+    box-shadow: 0 12px 24px rgba(50, 58, 52, 0.08);
+    color: #173f5f;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.publicationlisting-review-card__authors {
+    color: #55635b;
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.publicationlisting-review-card__title {
+    color: #173f5f;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.05rem;
+    line-height: 1.5;
+}
+
+.publicationlisting-review-card__date {
+    color: #6a756d;
+    font-size: 0.84rem;
+    font-weight: 600;
+}
+
+.publicationlisting-panel__empty,
+.publicationlisting-panel__status {
+    margin: 0;
+    padding: 0.95rem 1rem;
+    border: 1px dashed #d5dcd6;
+    border-radius: 10px;
+    background: #fafbf9;
+    color: #55635b;
+}
+
+.publicationlisting-panel__status--error {
+    border-color: #d8c8c8;
+    background: #fff8f8;
+    color: #7b4c4c;
+}
+
 .topical-layout {
     display: flex;
     align-items: stretch;
@@ -673,6 +1003,26 @@ body.template-browse-topics h1.documentFirstHeading {
         width: 5.25rem;
     }
 
+    .publicationlisting-card__summary,
+    .publicationlisting-card__summary--static,
+    .publicationlisting-card__meta {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .publicationlisting-card__summary {
+        align-items: flex-start;
+    }
+
+    .publicationlisting-card__summary-actions {
+        margin-top: 0.2rem;
+    }
+
+    .publicationlisting-card__panel {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
     .topical-layout {
         flex-direction: column;
         gap: 2rem;
@@ -713,6 +1063,25 @@ body.template-browse-topics h1.documentFirstHeading {
 
     .publication-card {
         grid-template-columns: 1fr;
+    }
+
+    .publicationlisting-title {
+        font-size: 1.45rem;
+    }
+
+    .publicationlisting-card__summary,
+    .publicationlisting-card__summary--static,
+    .publicationlisting-card__meta {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .publicationlisting-card__summary-actions {
+        justify-content: space-between;
+    }
+
+    .publicationlisting-card__downloads {
+        width: 100%;
     }
 }
 
