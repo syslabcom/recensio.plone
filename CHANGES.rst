@@ -5,7 +5,11 @@ Changelog
 2.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Allow sorting the topical browse by relevance or newest first, and
+  point the homepage latest reviews link to topical browse with newest-first
+  sorting.
+  `#4662 <https://github.com/syslabcom/scrum/issues/4662>`_
+  [pilz]
 
 
 2.0.2 (2026-03-27)

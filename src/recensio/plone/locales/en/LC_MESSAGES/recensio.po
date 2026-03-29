@@ -2587,6 +2587,14 @@ msgstr "Relevance: ${percentage}%"
 msgid "sort_by"
 msgstr "Sort results by"
 
+#. Default: "Relevance"
+msgid "label_sort_relevance"
+msgstr "Relevance"
+
+#. Default: "Newest first"
+msgid "label_sort_newest"
+msgstr "Newest first"
+
 #: recensio.theme:/browser/templates/topical.pt:228
 #: recensio.theme:/browser/templates/languagefilter.pt:29
 msgid "Remove this selection"
