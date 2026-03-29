@@ -1,17 +1,17 @@
+import string
+import unicodedata
 from collections import OrderedDict
+
 from DateTime import DateTime
-from plone import api
-from plone.memoize import ram
-from plone.memoize.view import memoize
 from Products.CMFPlone.browser.defaultpage import DefaultPage
 from Products.Five.browser import BrowserView
 from recensio.plone.adapter.parentgetter import ParentGetter
 from recensio.plone.browser.canonical import CanonicalURLHelper
 from recensio.plone.config import REVIEW_TYPES
 
-import string
-import unicodedata
-
+from plone import api
+from plone.memoize import ram
+from plone.memoize.view import memoize
 
 PUBLICATION_DESCENDANT_TYPES = ("Volume", "Issue") + tuple(REVIEW_TYPES)
 PUBLICATION_JUMP_LETTERS = tuple(string.ascii_uppercase)
@@ -137,6 +137,13 @@ class PublicationDocumentView(PublicationSummaryMixin, BrowserView):
 class PublicationsView(PublicationSummaryMixin, BrowserView, CanonicalURLHelper):
     """Overview page of publications."""
 
+    def format_effective_date(self, date_string):
+        """Format the publication date for compact display."""
+        if not date_string or date_string == "None":
+            return ""
+        date = DateTime(date_string)
+        return "%s-%02d-%02d" % (date.year(), date.month(), date.day())
+
     def _publication_letter(self, title):
         """Return the A-Z jump target for a publication title."""
         for character in (title or "").strip():
@@ -151,6 +158,33 @@ class PublicationsView(PublicationSummaryMixin, BrowserView, CanonicalURLHelper)
     def _section_anchor(self, label):
         suffix = "other" if label == "#" else label.lower()
         return f"publication-section-{suffix}"
+
+    def _publication_stats(self, publication_path):
+        descendants = self.context.portal_catalog(
+            path={"query": publication_path, "depth": 3},
+            portal_type=PUBLICATION_DESCENDANT_TYPES,
+            review_state="published",
+            sort_on="effective",
+            sort_order="reverse",
+        )
+        stats = dict(
+            volume_count=0,
+            issue_count=0,
+            review_count=0,
+            latest_review_date="",
+        )
+        for descendant in descendants:
+            if descendant.portal_type == "Volume":
+                stats["volume_count"] += 1
+            elif descendant.portal_type == "Issue":
+                stats["issue_count"] += 1
+            elif descendant.portal_type in REVIEW_TYPES:
+                stats["review_count"] += 1
+                if not stats["latest_review_date"]:
+                    stats["latest_review_date"] = self.format_effective_date(
+                        descendant.EffectiveDate
+                    )
+        return stats
 
     @ram.cache(_render_cachekey)
     def brain_to_pub(self, brain, lang):
