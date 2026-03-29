@@ -1,9 +1,19 @@
+from collections import OrderedDict
 from DateTime import DateTime
 from plone import api
 from plone.memoize import ram
+from plone.memoize.view import memoize
 from Products.CMFPlone.browser.defaultpage import DefaultPage
 from Products.Five.browser import BrowserView
 from recensio.plone.browser.canonical import CanonicalURLHelper
+from recensio.plone.config import REVIEW_TYPES
+
+import string
+import unicodedata
+
+
+PUBLICATION_DESCENDANT_TYPES = ("Volume", "Issue") + tuple(REVIEW_TYPES)
+PUBLICATION_JUMP_LETTERS = tuple(string.ascii_uppercase)
 
 
 def _render_cachekey(method, self, brain, lang):
@@ -41,26 +51,82 @@ class PublicationDefaultPage(DefaultPage):
 class PublicationsView(BrowserView, CanonicalURLHelper):
     """Overview page of publications."""
 
+    def format_effective_date(self, date_string):
+        """Format the publication date for compact display."""
+        if not date_string or date_string == "None":
+            return ""
+        date = DateTime(date_string)
+        return "%s-%02d-%02d" % (date.year(), date.month(), date.day())
+
+    def _publication_letter(self, title):
+        """Return the A-Z jump target for a publication title."""
+        for character in (title or "").strip():
+            if character.isdigit():
+                return "#"
+            normalized = unicodedata.normalize("NFKD", character)
+            normalized = normalized.encode("ascii", "ignore").decode("ascii")
+            if normalized and normalized[0].isalpha():
+                return normalized[0].upper()
+        return "#"
+
+    def _section_anchor(self, label):
+        suffix = "other" if label == "#" else label.lower()
+        return f"publication-section-{suffix}"
+
+    def _publication_stats(self, publication_path):
+        descendants = self.context.portal_catalog(
+            path={"query": publication_path, "depth": 3},
+            portal_type=PUBLICATION_DESCENDANT_TYPES,
+            review_state="published",
+            sort_on="effective",
+            sort_order="reverse",
+        )
+        stats = dict(
+            volume_count=0,
+            issue_count=0,
+            review_count=0,
+            latest_review_date="",
+        )
+        for descendant in descendants:
+            if descendant.portal_type == "Volume":
+                stats["volume_count"] += 1
+            elif descendant.portal_type == "Issue":
+                stats["issue_count"] += 1
+            elif descendant.portal_type in REVIEW_TYPES:
+                stats["review_count"] += 1
+                if not stats["latest_review_date"]:
+                    stats["latest_review_date"] = self.format_effective_date(
+                        descendant.EffectiveDate
+                    )
+        return stats
+
     @ram.cache(_render_cachekey)
     def brain_to_pub(self, brain, lang):
         pubob = brain.getObject()
-        if "logo" in pubob.objectIds():
-            logo_path = brain.getPath() + "/logo/@@images/image/thumb"
-        else:
-            logo_path = (
-                self.context.portal_url.getPortalPath() + "/empty_publication.jpg"
-            )
+        has_logo = "logo" in pubob.objectIds()
         if pubob.getDefaultPage():
-            defob = getattr(pubob, pubob.getDefaultPage())
-            # XXX restore this line when we have an alternative to getTranslation
-            # defob = defob.getTranslation(lang) or defob
+            default_page = api.content.get_view(
+                context=pubob,
+                request=self.request,
+                name="default_page",
+            ).getDefaultPage()
+            defob = getattr(pubob, default_page, None) or pubob
         else:
             defob = pubob
         title = defob and defob.Title() != "" and defob.Title() or pubob.Title()
-        desc = defob and defob.Description() or pubob.Description()
+        desc = (defob and defob.Description() or pubob.Description() or "").strip()
         path = defob and "/".join(defob.getPhysicalPath()) or ""
-        return dict(title=title, desc=desc, logo_path=logo_path, path=path)
+        info = dict(
+            title=title,
+            desc=desc,
+            has_logo=has_logo,
+            path=path,
+            initial=self._publication_letter(title),
+        )
+        info.update(self._publication_stats(brain.getPath()))
+        return info
 
+    @memoize
     def publications(self):
         pc = self.context.portal_catalog
         publist = []
@@ -72,11 +138,49 @@ class PublicationsView(BrowserView, CanonicalURLHelper):
             review_state="published",
         )
         for pub in pubs:
-            info = self.brain_to_pub(pub, currlang)
-            info["logo"] = self.request.physicalPathToURL(info["logo_path"])
+            info = self.brain_to_pub(pub, currlang).copy()
+            info["logo"] = (
+                f"{pub.getURL()}/logo/@@images/image/thumb"
+                if info["has_logo"]
+                else None
+            )
             info["link"] = self.request.physicalPathToURL(info["path"])
             publist.append(info)
         return publist
+
+    @memoize
+    def publication_sections(self):
+        grouped = OrderedDict((label, []) for label in PUBLICATION_JUMP_LETTERS)
+        grouped["#"] = []
+        for publication in self.publications():
+            grouped[publication["initial"]].append(publication)
+        return [
+            dict(
+                label=label,
+                anchor=self._section_anchor(label),
+                publications=publications,
+            )
+            for label, publications in grouped.items()
+            if publications
+        ]
+
+    @memoize
+    def publication_jump_links(self):
+        available_sections = {
+            section["label"]: section["anchor"]
+            for section in self.publication_sections()
+        }
+        labels = list(PUBLICATION_JUMP_LETTERS)
+        if "#" in available_sections:
+            labels.append("#")
+        return [
+            dict(
+                label=label,
+                anchor=available_sections.get(label),
+                enabled=label in available_sections,
+            )
+            for label in labels
+        ]
 
     def __call__(self):
         # XXX: Restore this commented code

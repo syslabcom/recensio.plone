@@ -5,7 +5,9 @@ Changelog
 2.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add a new publication listing view matchting the new search result layout.
+  `#4662 <https://github.com/syslabcom/scrum/issues/4662>`
+  [pilz]
 
 
 2.0.2 (2026-03-27)

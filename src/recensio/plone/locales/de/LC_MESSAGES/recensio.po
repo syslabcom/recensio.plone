@@ -2659,6 +2659,30 @@ msgstr "Zeitschriften/Partner"
 msgid "description_publications"
 msgstr "Liste von Publikationen, zu denen Rezensionen vorliegen"
 
+#. Default: "Jump to"
+msgid "label_publications_jump_to"
+msgstr "Direkt zu"
+
+#. Default: "No publications were found."
+msgid "description_no_publications_found"
+msgstr "Es wurden keine Publikationen gefunden."
+
+#. Default: "Reviews"
+msgid "label_publication_reviews"
+msgstr "Rezensionen"
+
+#. Default: "Issues"
+msgid "label_publication_issues"
+msgstr "Ausgaben"
+
+#. Default: "Volumes"
+msgid "label_publication_volumes"
+msgstr "Bände"
+
+#. Default: "Latest review"
+msgid "label_publication_latest_review"
+msgstr "Neueste Rezension"
+
 #. Default: "Reviewed by ${review_authors}"
 #: recensio.theme:/browser/templates/results-listing.pt:103
 #: recensio.theme:/browser/templates/topical.pt:128

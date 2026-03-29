@@ -2611,6 +2611,30 @@ msgstr "Publications"
 msgid "description_publications"
 msgstr "Liste des revues publiant des recensions sur recensio.net"
 
+#. Default: "Jump to"
+msgid "label_publications_jump_to"
+msgstr "Aller à"
+
+#. Default: "No publications were found."
+msgid "description_no_publications_found"
+msgstr "Aucune publication n'a été trouvée."
+
+#. Default: "Reviews"
+msgid "label_publication_reviews"
+msgstr "Recensions"
+
+#. Default: "Issues"
+msgid "label_publication_issues"
+msgstr "Numéros"
+
+#. Default: "Volumes"
+msgid "label_publication_volumes"
+msgstr "Volumes"
+
+#. Default: "Latest review"
+msgid "label_publication_latest_review"
+msgstr "Dernière recension"
+
 #. Default: "Reviewed by ${review_authors}"
 #: recensio.theme:/browser/templates/results-listing.pt:103
 #: recensio.theme:/browser/templates/topical.pt:128
