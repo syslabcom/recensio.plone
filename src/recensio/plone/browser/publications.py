@@ -144,21 +144,6 @@ class PublicationsView(PublicationSummaryMixin, BrowserView, CanonicalURLHelper)
         date = DateTime(date_string)
         return "%s-%02d-%02d" % (date.year(), date.month(), date.day())
 
-    def _publication_letter(self, title):
-        """Return the A-Z jump target for a publication title."""
-        for character in (title or "").strip():
-            if character.isdigit():
-                return "#"
-            normalized = unicodedata.normalize("NFKD", character)
-            normalized = normalized.encode("ascii", "ignore").decode("ascii")
-            if normalized and normalized[0].isalpha():
-                return normalized[0].upper()
-        return "#"
-
-    def _section_anchor(self, label):
-        suffix = "other" if label == "#" else label.lower()
-        return f"publication-section-{suffix}"
-
     def _publication_stats(self, publication_path):
         descendants = self.context.portal_catalog(
             path={"query": publication_path, "depth": 3},
@@ -185,6 +170,74 @@ class PublicationsView(PublicationSummaryMixin, BrowserView, CanonicalURLHelper)
                         descendant.EffectiveDate
                     )
         return stats
+
+
+class PublicationDocumentView(PublicationSummaryMixin, BrowserView):
+    """Compact document view for publication profile pages."""
+
+    @property
+    @memoize
+    def publication(self):
+        return ParentGetter(self.context).get_parent_object_of_type("Publication")
+
+    @property
+    @memoize
+    def publication_stats(self):
+        publication = self.publication
+        if publication is None:
+            return dict(
+                volume_count=0,
+                issue_count=0,
+                review_count=0,
+                latest_review_date="",
+            )
+        publication_path = "/".join(publication.getPhysicalPath())
+        return self._publication_stats(publication_path)
+
+    @property
+    def show_jump_to_listing(self):
+        publication = self.publication
+        stats = self.publication_stats
+        return publication is not None and any(
+            stats[key] for key in ("volume_count", "issue_count", "review_count")
+        )
+
+    @property
+    def publication_logo_url(self):
+        publication = self.publication
+        if publication is None or "logo" not in publication.objectIds():
+            return None
+        return f"{publication.absolute_url()}/logo/@@images/image/thumb"
+
+    @property
+    def publication_initial(self):
+        title = self.publication and self.publication.Title() or self.context.Title()
+        for character in (title or "").strip():
+            if character.isalnum():
+                normalized = unicodedata.normalize("NFKD", character)
+                normalized = normalized.encode("ascii", "ignore").decode("ascii")
+                if normalized:
+                    return normalized[0].upper()
+        return "P"
+
+
+class PublicationsView(PublicationSummaryMixin, BrowserView, CanonicalURLHelper):
+    """Overview page of publications."""
+
+    def _publication_letter(self, title):
+        """Return the A-Z jump target for a publication title."""
+        for character in (title or "").strip():
+            if character.isdigit():
+                return "#"
+            normalized = unicodedata.normalize("NFKD", character)
+            normalized = normalized.encode("ascii", "ignore").decode("ascii")
+            if normalized and normalized[0].isalpha():
+                return normalized[0].upper()
+        return "#"
+
+    def _section_anchor(self, label):
+        suffix = "other" if label == "#" else label.lower()
+        return f"publication-section-{suffix}"
 
     @ram.cache(_render_cachekey)
     def brain_to_pub(self, brain, lang):
