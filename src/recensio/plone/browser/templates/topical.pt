@@ -81,7 +81,7 @@
                        id="search-text"
                        aria-label="Search reviews"
                        name="SearchableText"
-                       placeholder="Search reviews"
+                       placeholder="title_search_title"
                        type="text"
                        value="${request/SearchableText|nothing}"
                        i18n:attributes="placeholder"
