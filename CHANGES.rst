@@ -15,6 +15,10 @@ Changelog
   with a jump link to the publication contents below, and expose it as an
   alternative display via an upgrade step.
   `#4662 <https://github.com/syslabcom/scrum/issues/4662>`
+- Allow sorting the topical browse by relevance or newest first, and
+  point the homepage latest reviews link to topical browse with newest-first
+  sorting.
+  `#4662 <https://github.com/syslabcom/scrum/issues/4662>`_
   [pilz]
 
 
