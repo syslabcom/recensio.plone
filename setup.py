@@ -48,9 +48,9 @@ setup(
     install_requires=[
         "setuptools",
         "beautifulsoup4",
-        "collective.solr",
+        "collective.solr>=10.1.0",
         "eea.facetednavigation",
-        "ftw.upgrade>=3.4.0a0",
+        "collective.ftw.upgrade",
         "guess-language>0.2",
         "plone.api",
         "plone.app.discussion",
