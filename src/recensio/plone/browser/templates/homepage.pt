@@ -53,7 +53,7 @@
             <div class="card homepage-card">
               <div class="card-header">
                 <a class="one-line"
-                   href="${portal}/@@latest-review-items"
+                   href="${portal}/@@browse-topics?sort_on=created&amp;sort_order=reverse"
                 >
                   <tal:i18n i18n:translate="label_latest_reviews">
                   Neueste Rezensionen online

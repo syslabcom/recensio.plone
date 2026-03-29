@@ -2360,6 +2360,14 @@ msgstr ""
 msgid "sort_by"
 msgstr ""
 
+#. Default: "Relevance"
+msgid "label_sort_relevance"
+msgstr ""
+
+#. Default: "Newest first"
+msgid "label_sort_newest"
+msgstr ""
+
 #: recensio.theme:/browser/templates/topical.pt:228
 #: recensio.theme:/browser/templates/languagefilter.pt:29
 msgid "Remove this selection"
