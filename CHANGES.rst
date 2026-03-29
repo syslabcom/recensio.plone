@@ -11,6 +11,12 @@ Changelog
   `#4662 <https://github.com/syslabcom/scrum/issues/4662>`
   [pilz]
 
+- Add a compact publication profile display for Documents inside publications,
+  with a jump link to the publication contents below, and expose it as an
+  alternative display via an upgrade step.
+  `#4662 <https://github.com/syslabcom/scrum/issues/4662>`
+  [pilz]
+
 
 2.0.2 (2026-03-27)
 ------------------

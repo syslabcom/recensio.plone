@@ -1,0 +1,112 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      metal:use-macro="context/@@main_template/macros/master"
+      xml:lang="en"
+      i18n:domain="recensio"
+>
+  <body>
+
+    <metal:content-title fill-slot="content-title">
+      <header class="publication-profile-header"
+              tal:define="
+                publication_context nocall:view/publication | nothing;
+                publication_stats view/publication_stats;
+                publication_logo view/publication_logo_url | nothing;
+                publication_initial view/publication_initial;
+              "
+      >
+        <div class="publication-profile-header__media"
+             tal:condition="publication_context"
+        >
+          <img class="publication-profile-header__image"
+               loading="lazy"
+               src="#"
+               tal:condition="publication_logo"
+               tal:attributes="
+                 src publication_logo;
+                 alt string:${publication_context/Title};
+               "
+          />
+          <div class="publication-profile-header__placeholder"
+               aria-hidden="true"
+               tal:condition="not:publication_logo"
+               tal:content="publication_initial"
+          >P</div>
+        </div>
+
+        <div class="publication-profile-header__body">
+          <span class="publication-profile-header__eyebrow"
+                i18n:translate="label_publication_profile"
+          >Publication profile</span>
+
+          <h1 class="documentFirstHeading publication-profile-header__title"
+              tal:content="context/Title"
+          >Publication information</h1>
+
+          <p class="publication-profile-header__publication"
+             tal:condition="publication_context"
+             i18n:translate="label_publication_profile_for"
+          >
+            Information about
+            <span tal:replace="publication_context/Title"
+                  i18n:name="publication_title"
+            >Publication</span>
+          </p>
+
+          <div class="publication-profile-header__meta"
+               tal:condition="publication_context"
+          >
+            <span class="publication-profile-badge">
+              <strong tal:content="publication_stats/volume_count">0</strong>
+              <span i18n:translate="label_publication_volumes">Volumes</span>
+            </span>
+            <span class="publication-profile-badge">
+              <strong tal:content="publication_stats/issue_count">0</strong>
+              <span i18n:translate="label_publication_issues">Issues</span>
+            </span>
+            <span class="publication-profile-badge">
+              <strong tal:content="publication_stats/review_count">0</strong>
+              <span i18n:translate="label_publication_reviews">Reviews</span>
+            </span>
+            <span class="publication-profile-badge publication-profile-badge--date"
+                  tal:condition="publication_stats/latest_review_date"
+            >
+              <span i18n:translate="label_publication_latest_review">Latest review</span>
+              <strong tal:content="publication_stats/latest_review_date">2026-03-29</strong>
+            </span>
+          </div>
+        </div>
+
+        <a class="publication-profile-header__jump"
+           href="#publicationslisting"
+           tal:condition="view/show_jump_to_listing"
+           i18n:translate="label_publication_jump_to_contents"
+        >Browse issues and reviews</a>
+      </header>
+    </metal:content-title>
+
+    <metal:content-core fill-slot="content-core">
+      <metal:content-core define-macro="content-core"
+                          tal:define="
+                            toc python:getattr(context, 'table_of_contents', False);
+                          "
+      >
+        <section class="publication-profile-card">
+          <div class="publication-profile-card__body">
+            <div class="${python: toc and 'pat-autotoc' or ''}"
+                 id="parent-fieldname-text"
+                 tal:condition="python:getattr(context, 'text', None)"
+                 tal:content="structure python:context.text.output_relative_to(view.context)"
+            >
+        Text
+            </div>
+          </div>
+        </section>
+      </metal:content-core>
+    </metal:content-core>
+
+  </body>
+</html>
