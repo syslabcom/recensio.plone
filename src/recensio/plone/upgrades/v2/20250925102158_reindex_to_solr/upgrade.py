@@ -1,7 +1,7 @@
-from ftw.upgrade import UpgradeStep
 from logging import getLogger
-from plone import api
 
+from collective.ftw.upgrade import UpgradeStep
+from plone import api
 
 log = getLogger(__name__)
 
