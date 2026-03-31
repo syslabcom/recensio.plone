@@ -51,7 +51,7 @@ setup(
         "collective.solr>=10.1.0",
         "eea.facetednavigation",
         "collective.ftw.upgrade",
-        "guess-language>0.2",
+        "guess-language>=1.0.0",
         "plone.api",
         "plone.app.discussion",
         "collective.vdexvocabulary",
