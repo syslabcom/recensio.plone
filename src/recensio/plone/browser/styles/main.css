@@ -1491,6 +1491,7 @@ summary.submenu_title:hover {
 .delimiterbox img {
     flex-shrink: 0;
     vertical-align: middle;
+    min-width: 20px;
 }
 
 .delimiterbox span {
