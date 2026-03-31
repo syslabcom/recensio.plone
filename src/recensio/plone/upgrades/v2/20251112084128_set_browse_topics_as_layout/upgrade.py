@@ -1,4 +1,4 @@
-from ftw.upgrade import UpgradeStep
+from collective.ftw.upgrade import UpgradeStep
 from recensio.plone.setuphandlers import set_theme_browser_layout
 
 

@@ -14,7 +14,7 @@
   <include package="collective.solr" />
   <include package="collective.vdexvocabulary" />
   <include package="collective.z3cform.datagridfield" />
-  <include package="ftw.upgrade" />
+  <include package="collective.ftw.upgrade" />
 
   <genericsetup:registerProfile
       name="default"
