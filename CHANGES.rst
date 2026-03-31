@@ -1,11 +1,20 @@
 Changelog
 =========
 
-
-2.0.3 (unreleased)
+2.1.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Upgrade to Plone 6.2rc1
+  [pilz]
+
+- Switched to collective.ftw.upgrade
+  [pilz]
+
+- Switch to released egg for guess-language 1.0.1+slc0
+  [pilz]
+
+- Switch to native namespaces.
+  [pilz]
 
 
 2.0.2 (2026-03-27)

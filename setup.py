@@ -1,6 +1,4 @@
-from setuptools import find_packages
-from setuptools import setup
-
+from setuptools import find_packages, setup
 
 long_description = "\n\n".join(
     [
@@ -12,7 +10,7 @@ long_description = "\n\n".join(
 
 setup(
     name="recensio.plone",
-    version="2.0.3.dev0",
+    version="2.1.0.dev0",
     description="Base package of the Recensio Plone portal.",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
@@ -21,7 +19,7 @@ setup(
         "Environment :: Web Environment",
         "Framework :: Plone",
         "Framework :: Plone :: Addon",
-        "Framework :: Plone :: 6.1",
+        "Framework :: Plone :: 6.2",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
@@ -40,7 +38,6 @@ setup(
     },
     license="GPL version 2",
     packages=find_packages("src"),
-    namespace_packages=["recensio"],
     package_dir={"": "src"},
     include_package_data=True,
     zip_safe=False,
@@ -50,8 +47,8 @@ setup(
         "beautifulsoup4",
         "collective.solr",
         "eea.facetednavigation",
-        "ftw.upgrade>=3.4.0a0",
-        "guess-language>0.2",
+        "collective.ftw.upgrade",
+        "guess-language==1.0.1+slc0",
         "plone.api",
         "plone.app.discussion",
         "collective.vdexvocabulary",
