@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.3 (unreleased)
+2.1.1 (2026-04-05)
 ------------------
 
 - Revamp the publication listing viewlet with a modern card layout matching
