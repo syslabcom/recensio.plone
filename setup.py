@@ -58,6 +58,7 @@ setup(
         "pypdf",
         "reportlab",
         "xlrd",
+        "zc.recipe.testrunner",
     ],
     extras_require={
         "test": [
