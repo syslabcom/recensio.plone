@@ -40,7 +40,6 @@ setup(
     },
     license="GPL version 2",
     packages=find_packages("src"),
-    namespace_packages=["recensio"],
     package_dir={"": "src"},
     include_package_data=True,
     zip_safe=False,
@@ -48,7 +47,7 @@ setup(
     install_requires=[
         "setuptools",
         "beautifulsoup4",
-        "collective.solr>=10.1.0",
+        "collective.solr>=10.1.1",
         "eea.facetednavigation",
         "collective.ftw.upgrade",
         "guess-language>=1.0.0",
