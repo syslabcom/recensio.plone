@@ -9,6 +9,10 @@ Changelog
   point the homepage latest reviews link to topical browse with newest-first
   sorting.
   `#4662 <https://github.com/syslabcom/scrum/issues/4662>`_
+- Switch to find_namespace_packages
+  [pilz]
+
+- Align the test setup with the one from the deployment, cleanup more ft.upgrade rests, added twine release, remove guess-language and solr from checkout, preparing solr release.
   [pilz]
 
 
