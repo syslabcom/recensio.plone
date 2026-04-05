@@ -15,6 +15,10 @@ Changelog
   with a jump link to the publication contents below, and expose it as an
   alternative display via an upgrade step.
   `#4662 <https://github.com/syslabcom/scrum/issues/4662>`
+- Switch to find_namespace_packages
+  [pilz]
+
+- Align the test setup with the one from the deployment, cleanup more ft.upgrade rests, added twine release, remove guess-language and solr from checkout, preparing solr release.
   [pilz]
 
 
