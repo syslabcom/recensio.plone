@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.3 (unreleased)
+2.1.1 (2026-04-05)
 ------------------
 
 - Allow sorting the topical browse by relevance or newest first, and
