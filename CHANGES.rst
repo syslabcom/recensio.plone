@@ -5,7 +5,11 @@ Changelog
 2.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Switch to find_namespace_packages
+  [pilz]
+
+- Align the test setup with the one from the deployment, cleanup more ft.upgrade rests, added twine release, remove guess-language and solr from checkout, preparing solr release.
+  [pilz]
 
 
 2.0.2 (2026-03-27)
