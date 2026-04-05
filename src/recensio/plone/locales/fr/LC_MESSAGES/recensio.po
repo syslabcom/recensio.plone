@@ -2647,10 +2647,6 @@ msgstr "Le contenu n'a pas pu être chargé."
 msgid "description_publicationlisting_no_contents"
 msgstr "Aucune recension n'est encore disponible."
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a9e2fda (Compact publication view. Refs #4662)
 #. Default: "Publication profile"
 msgid "label_publication_profile"
 msgstr "Profil de publication"
@@ -2663,13 +2659,6 @@ msgstr "Informations sur ${publication_title}"
 msgid "label_publication_jump_to_contents"
 msgstr "Voir les numéros et recensions"
 
-<<<<<<< HEAD
-=======
->>>>>>> 1d894fe (Refs 4662 - new publications listing view)
-=======
->>>>>>> 82843fe (Implement a fresher UI for the publications viewlet that makes it clear that the issues can be expanded. Refs #4662. Also implements lazy loading of the issues and reviews, addressing the main point of #3678 Decarbonize part 2.)
-=======
->>>>>>> a9e2fda (Compact publication view. Refs #4662)
 #. Default: "Jump to"
 msgid "label_publications_jump_to"
 msgstr "Aller à"
