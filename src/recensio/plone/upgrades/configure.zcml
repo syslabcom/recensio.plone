@@ -1,20 +1,20 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:upgrade-step="http://namespaces.zope.org/ftw.upgrade"
+    xmlns:upgrade-step="http://namespaces.zope.org/collective.ftw.upgrade"
     >
 
   <include
-      package="ftw.upgrade"
+      package="collective.ftw.upgrade"
       file="meta.zcml"
       />
 
   <upgrade-step:directory
-      profile="recensio.plone:default"
       directory="v1"
+      profile="recensio.plone:default"
       />
   <upgrade-step:directory
-      profile="recensio.plone:default"
       directory="v2"
+      profile="recensio.plone:default"
       />
 
 </configure>

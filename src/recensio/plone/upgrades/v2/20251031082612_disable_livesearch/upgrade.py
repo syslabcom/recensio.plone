@@ -1,8 +1,8 @@
 from collective.ftw.upgrade import UpgradeStep
 
 
-class SetRedirectToPublicationAsDefaultView(UpgradeStep):
-    """Set redirect-to-publication as default view."""
+class DisableLivesearch(UpgradeStep):
+    """disable-livesearch."""
 
     def __call__(self):
         self.install_upgrade_profile()

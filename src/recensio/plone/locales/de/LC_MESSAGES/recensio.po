@@ -2190,7 +2190,7 @@ msgstr "Suche"
 
 #: recensio.policy:/missing_18n_labels.py:57
 msgid "label_nav_themes"
-msgstr "Themen"
+msgstr "Suche"
 
 #: recensio.policy:/missing_18n_labels.py:58
 msgid "label_nav_about_us"
@@ -2693,7 +2693,7 @@ msgstr ""
 #: recensio.theme:/browser/templates/results-listing.pt:155
 #: recensio.theme:/browser/templates/topical.pt:179
 msgid "label_relevance_percentage"
-msgstr "Relevanz: ${percentage}"
+msgstr "Relevanz: ${percentage}%"
 
 #. Default: "Sort by"
 #: recensio.theme:/browser/templates/sorting-menu.pt:7
@@ -2714,7 +2714,7 @@ msgstr "Mehr anzeigen..."
 #. Default: "Browsing"
 #: recensio.theme:/browser/templates/topical.pt:37
 msgid "heading_browsing_results"
-msgstr "Themenbrowsing"
+msgstr "Suche"
 
 #. Default: "Hier gelangen Sie zu einem Formular, mit dem Sie Ihren Aufsatz in einem Sammelband auf recensio.net pr\303\244sentieren k\303\266nnen."
 #: recensio.theme:/skins/recensio_theme/add_new_item.pt:108

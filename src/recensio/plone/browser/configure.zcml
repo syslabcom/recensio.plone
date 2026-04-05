@@ -52,6 +52,16 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <!-- The search box -->
+  <browser:viewlet
+      name="plone.searchbox"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      class="plone.app.layout.viewlets.common.SearchBoxViewlet"
+      template="templates/searchbox.pt"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
   <browser:page
       name="footer"
       for="*"
@@ -99,6 +109,15 @@
       name="authorsearch"
       for="*"
       class=".authorsearch.AuthorSearchView"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
+      name="browse-topics"
+      for="*"
+      class=".topical.BrowseTopicsView"
+      template="templates/topical.pt"
       permission="zope2.View"
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />

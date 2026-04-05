@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<registry>
+    <records interface="collective.solr.interfaces.ISolrSchema"
+           prefix="collective.solr"
+  >
+    <value key="facets">
+      <element>portal_type</element>
+      <element>Subject</element>
+    </value>
+    <value key="filter_queries">
+      <element>portal_type</element>
+      <element>Subject</element>
+    </value>
+  </records>
+</registry>

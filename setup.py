@@ -1,4 +1,4 @@
-from setuptools import find_packages
+from setuptools import find_namespace_packages
 from setuptools import setup
 
 
@@ -39,8 +39,7 @@ setup(
         "Tracker": "https://github.com/syslabcom/recensio.plone/issues",
     },
     license="GPL version 2",
-    packages=find_packages("src"),
-    namespace_packages=["recensio"],
+    packages=find_namespace_packages("src"),
     package_dir={"": "src"},
     include_package_data=True,
     zip_safe=False,
@@ -48,10 +47,10 @@ setup(
     install_requires=[
         "setuptools",
         "beautifulsoup4",
-        "collective.solr",
+        "collective.solr>=10.1.1",
         "eea.facetednavigation",
-        "ftw.upgrade>=3.4.0a0",
-        "guess-language>0.2",
+        "collective.ftw.upgrade",
+        "guess-language>=1.0.0",
         "plone.api",
         "plone.app.discussion",
         "collective.vdexvocabulary",

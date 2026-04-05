@@ -1,8 +1,8 @@
 from collective.ftw.upgrade import UpgradeStep
 
 
-class SetRedirectToPublicationAsDefaultView(UpgradeStep):
-    """Set redirect-to-publication as default view."""
+class BrowseWithoutSearchabletext(UpgradeStep):
+    """browse-without-searchabletext."""
 
     def __call__(self):
         self.install_upgrade_profile()

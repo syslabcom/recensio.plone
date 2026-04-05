@@ -5,7 +5,11 @@ Changelog
 2.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Switch to find_namespace_packages
+  [pilz]
+
+- Align the test setup with the one from the deployment, cleanup more ft.upgrade rests, added twine release, remove guess-language and solr from checkout, preparing solr release.
+  [pilz]
 
 
 2.0.2 (2026-03-27)
@@ -56,6 +60,9 @@ Changelog
 - Add collective.solr and make the eea.facetednavigation view compatible with that [gyst]
 - Activate fulltext PDF solr search, provide upgrade, adjust tests [gyst]
 - Bugfix PublicationsViewlet for the Plone upgrade [gyst]
+- Apply vanilla new collective.solr search [gyst]
+- Configure two demo facets [gyst]
+- Disable livesearch [gyst]
 - Add parameter -asxhtml to tidy to fix pdf generation of html reviews [pilz]
 - Performance improvements
   `#3678 <https://github.com/syslabcom/scrum/issues/3678>`_
@@ -63,6 +70,8 @@ Changelog
 - Fix the ``sehepunkte-import`` view
   `#4071 <https://github.com/syslabcom/scrum/issues/4071>`_
   [ale-rt]
+- Port the Solr based topic browser for themen-epochen-regionen from the old plone4 implementation [gyst]
+- Add SearchableText to the topic browser [gyst]
 
 1.0.6 (2025-05-22)
 ------------------

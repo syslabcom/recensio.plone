@@ -1,8 +1,8 @@
+from collective.solr.browser.facets import SearchView
 from eea.facetednavigation.browser.app.query import FacetedQueryHandler
 from plone import api
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.base.navigationroot import get_navigation_root
-from Products.CMFPlone.browser.search import Search
 from Products.CMFPlone.utils import normalizeString
 from Products.Five.browser import BrowserView
 from recensio.plone import _
@@ -70,8 +70,19 @@ class RecensioFacetedQueryHandler(FacetedQueryHandler, ListingBase):
         return criteria
 
 
-class RecensioSearch(Search, ListingBase):
+class RecensioSearch(SearchView, ListingBase):
     """Add recensio capabilities"""
+
+    def filter_query(self, query):
+        """Avoid throwing Unauthorized.
+
+        Solr indexes across sibling sites recensio, regio, altertum. We should
+        return results only from the current site.
+        """
+        query = super(RecensioSearch, self).filter_query(query)
+        if "path" not in query and "parent_path" not in query:
+            query["path_parents"] = "/".join(api.portal.get().getPhysicalPath())
+        return query
 
 
 class ReviewSectionsListing(ListingBase):
