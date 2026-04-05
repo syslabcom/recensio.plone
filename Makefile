@@ -4,35 +4,42 @@ TWINE_REPOSITORY ?= pypi.syslab.com
 all: .installed.cfg
 
 
-py3/bin/buildout: py3/bin/pip3 py3/bin/pre-commit
-	./py3/bin/pip3 uninstall -y setuptools
-	./py3/bin/pip3 install -IUr requirements.txt
+.venv/bin/buildout: .venv/bin/uv requirements.txt .venv/bin/pre-commit
+	# To really be sure we have the desired setuptools we need to uninstall it first
+	.venv/bin/uv pip uninstall setuptools
+	# ... and reinstall it later
+	.venv/bin/uv pip install -r requirements.txt
+	.venv/bin/uv pip install horse_with_no_namespace
+
+.venv/bin/pip3:
+	python3.11 -m venv .venv
+
+.venv/bin/uv: .venv/bin/pip3
+	.venv/bin/pip3 install uv
+
 
 .PHONY: pre-commit
-pre-commit: py3/bin/pre-commit
-py3/bin/pre-commit: py3/bin/pip3
-	./py3/bin/pip3 install pre-commit
-	./py3/bin/pre-commit install
+pre-commit: .venv/bin/pre-commit
+.venv/bin/pre-commit: .venv/bin/pip3
+	.venv/bin/pip3 install pre-commit
+	.venv/bin/pre-commit install
 
 
-py3/bin/pip3:
-	python3 -m venv py3
 
-
-.installed.cfg: py3/bin/buildout
-	./py3/bin/buildout
+.installed.cfg: .venv/bin/buildout
+	./.venv/bin/buildout
 
 
 .PHONY: check
 check: .installed.cfg
-	./py3/bin/pre-commit run --all-files
-	./bin/coverage run ./bin/test -s recensio.plone
-	./bin/coverage report --fail-under=10 -i
+	./.venv/bin/pre-commit run --all-files
+	./.venv/bin/coverage run ./bin/test -s recensio.plone
+	./.venv/bin/coverage report --fail-under=10 -i
 
 
 .PHONY: clean
 clean:
-	rm -rf ./py3 .installed.cfg
+	rm -rf .venv .installed.cfg
 
 
 # Build custom JavaScript bundle
