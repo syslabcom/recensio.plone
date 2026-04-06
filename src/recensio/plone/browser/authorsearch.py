@@ -1,65 +1,280 @@
 #!/usr/bin/python
-from datetime import datetime
+from collections import OrderedDict
 from plone.base.navigationroot import get_navigation_root
+from plone.base.utils import safe_text
 from plone.memoize import instance
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from recensio.plone.browser.helper import CrossPlatformMixin
 from string import ascii_uppercase
+from urllib.parse import urlencode
 
-import logging
-
-
-logger = logging.getLogger(__name__)
+import unicodedata
 
 
-def _render_cachekey(_, self):
-    hour = datetime.now().strftime("%Y-%m-%d:%H")
-    b_start = self.request.get("b_start", "0")
-    letter = self.request.get("letter")
-    use_navigation_root = self.request.get("use_navigation_root", True)
-    navigation_root = get_navigation_root(self.context)
-    return (b_start, letter, hour, use_navigation_root, navigation_root)
+class AuthorSearchBase(BrowserView):
+    """Author index helpers shared by full-page and batch views."""
 
-
-class AuthorSearchView(BrowserView, CrossPlatformMixin):
-    """Dynamic elements on the homepage."""
-
-    template = ViewPageTemplateFile("templates/authorsearch.pt")
     ALPHABET = ascii_uppercase
+    BATCH_SIZE = 30
+    BATCH_FRAGMENT_ID = "authorsearch-batch"
 
-    def __call__(self):
-        self.request.set("disable_border", True)
-        return self.template(self)
+    def _request_int(self, name, default=0):
+        value = self.request.get(name, default)
+        try:
+            return max(int(value), 0)
+        except (TypeError, ValueError):
+            return default
+
+    def _request_bool(self, name, default=True):
+        value = self.request.get(name, default)
+        if isinstance(value, str):
+            return value.lower() not in {"", "0", "false", "no", "off"}
+        return bool(value)
+
+    def _brain_title(self, brain):
+        return safe_text(getattr(brain, "Title", "") or brain["Title"])
+
+    def _brain_uid(self, brain):
+        return getattr(brain, "UID", "") or brain["UID"]
+
+    def _author_initial(self, title):
+        """Return a stable A-Z section label for the author title."""
+        for character in (safe_text(title) or "").strip():
+            if character.isdigit():
+                return "#"
+            normalized = unicodedata.normalize("NFKD", character)
+            normalized = normalized.encode("ascii", "ignore").decode("ascii")
+            if normalized and normalized[0].isalpha():
+                return normalized[0].upper()
+        return "#"
+
+    def _letter_suffix(self, label):
+        return "other" if label == "#" else label.lower()
+
+    def _panel_id(self, label):
+        return f"authorsearch-panel-{self._letter_suffix(label)}"
+
+    def _tab_id(self, label):
+        return f"authorsearch-tab-{self._letter_suffix(label)}"
+
+    def _authorsearch_query(self, letter=""):
+        query = {
+            "use_navigation_root:boolean": (
+                "True" if self.use_navigation_root else "False"
+            )
+        }
+        if self.search_term:
+            query["authors"] = self.search_term
+        if letter:
+            query["letter"] = letter
+        return query
+
+    def authorsearch_href(self, letter=""):
+        encoded = urlencode(self._authorsearch_query(letter=letter), doseq=True)
+        if encoded:
+            return f"{self.authorsearch_url}?{encoded}"
+        return self.authorsearch_url
+
+    def batch_url(self, letter, start=0):
+        query = self._authorsearch_query()
+        query["letter"] = letter
+        query["b_start:int"] = start
+        query["b_size:int"] = self.BATCH_SIZE
+        encoded = urlencode(query, doseq=True)
+        return f"{self.context.absolute_url()}/@@authorsearch-batch?{encoded}"
+
+    @property
+    def search_term(self):
+        return safe_text(self.request.get("authors", "") or "").strip()
+
+    @property
+    def use_navigation_root(self):
+        return self._request_bool("use_navigation_root", True)
 
     @property
     @instance.memoize
     def authors(self):
         catalog = getToolByName(self.context, "portal_catalog")
-        author_string = safe_unicode(self.request.get("authors"))
-        letter = safe_unicode(self.request.get("letter"))
-        b_start = int(self.request.get("b_start", 0))
-        b_size = int(self.request.get("b_size", 30))
         query = {
             "portal_type": "Person",
-            "b_start": b_start,
-            "b_size": b_size,
             "sort_on": "sortable_title",
             "fl": "Title,UID,path_string",
         }
-        navigation_root = get_navigation_root(self.context)
-        if self.request.get("use_navigation_root", True):
-            query["path"] = navigation_root
-        if author_string:
-            query["SearchableText"] = author_string.strip("\"'")
-        if letter and letter in self.ALPHABET:
-            # XXX conflicts with navigation root
-            context_path = "/".join(self.context.getPhysicalPath())
-            query["path"] = f"{context_path}/gnd/{letter.lower()}"
-        return catalog(query)
+        if self.use_navigation_root:
+            query["path"] = get_navigation_root(self.context)
+        if self.search_term:
+            query["SearchableText"] = self.search_term.strip("\"'")
+        return list(catalog(query))
+
+    @property
+    @instance.memoize
+    def letter_groups(self):
+        grouped = {}
+        for author in self.authors:
+            label = self._author_initial(self._brain_title(author))
+            grouped.setdefault(label, [])
+            grouped[label].append(author)
+
+        ordered = OrderedDict()
+        for label in self.ALPHABET:
+            if label in grouped:
+                ordered[label] = grouped[label]
+        if "#" in grouped:
+            ordered["#"] = grouped["#"]
+        return ordered
+
+    @property
+    def available_letters(self):
+        return list(self.letter_groups.keys())
+
+    @property
+    def selected_letter(self):
+        requested = safe_text(self.request.get("letter", "") or "").strip().upper()
+        if requested in self.letter_groups:
+            return requested
+        if self.available_letters:
+            return self.available_letters[0]
+        return ""
+
+    def letter_authors(self, letter):
+        return self.letter_groups.get(letter, [])
+
+    def letter_count(self, letter):
+        return len(self.letter_authors(letter))
+
+    def next_batch_start(self, letter, current_start):
+        next_start = current_start + self.BATCH_SIZE
+        if next_start < self.letter_count(letter):
+            return next_start
+        return None
+
+    def next_batch_url(self, letter, current_start):
+        next_start = self.next_batch_start(letter, current_start)
+        if next_start is None:
+            return ""
+        return self.batch_url(letter, start=next_start)
+
+    def author_results_url(self, author_uid):
+        portal_url = (
+            getToolByName(self.context, "portal_url").getPortalObject().absolute_url()
+        )
+        query = {
+            "authorsUID:list": author_uid,
+            "advanced_search:boolean": "True",
+            "use_navigation_root:boolean": (
+                "True" if self.use_navigation_root else "False"
+            ),
+        }
+        return f"{portal_url}/search?{urlencode(query, doseq=True)}"
+
+    def _author_card(self, brain, letter=None):
+        title = self._brain_title(brain)
+        return {
+            "initial": letter or self._author_initial(title),
+            "title": title,
+            "url": self.author_results_url(self._brain_uid(brain)),
+        }
+
+    def _author_cards(self, brains, letter=None):
+        return [self._author_card(brain, letter=letter) for brain in brains]
+
+    def panel(self, letter):
+        current = letter == self.selected_letter
+        initial_authors = (
+            self.letter_authors(letter)[: self.BATCH_SIZE] if current else []
+        )
+        return {
+            "authors": self._author_cards(initial_authors, letter=letter),
+            "count": self.letter_count(letter),
+            "current": current,
+            "initial_url": "" if current else self.batch_url(letter, start=0),
+            "letter": letter,
+            "loaded": current,
+            "next_url": current and self.next_batch_url(letter, 0) or "",
+            "panel_id": self._panel_id(letter),
+            "tab_id": self._tab_id(letter),
+        }
+
+    @property
+    def panels(self):
+        return [self.panel(letter) for letter in self.available_letters]
+
+    @property
+    def author_jump_links(self):
+        links = []
+        labels = list(self.ALPHABET)
+        if "#" in self.letter_groups:
+            labels.append("#")
+        for label in labels:
+            enabled = label in self.letter_groups
+            links.append(
+                {
+                    "current": enabled and label == self.selected_letter,
+                    "enabled": enabled,
+                    "href": enabled and self.authorsearch_href(label) or "",
+                    "label": label,
+                    "panel_id": enabled and self._panel_id(label) or "",
+                    "tab_id": self._tab_id(label),
+                }
+            )
+        return links
+
+    @property
+    def total_authors(self):
+        return len(self.authors)
 
     @property
     def portal_title(self):
         return getToolByName(self.context, "portal_url").getPortalObject().Title()
+
+    @property
+    def authorsearch_url(self):
+        return f"{self.context.absolute_url()}/@@authorsearch"
+
+    @property
+    def batch_letter(self):
+        letter = safe_text(self.request.get("letter", "") or "").strip().upper()
+        if letter in self.letter_groups:
+            return letter
+        return ""
+
+    @property
+    def batch_start(self):
+        return self._request_int("b_start", 0)
+
+    @property
+    def batch_authors(self):
+        if not self.batch_letter:
+            return []
+        authors = self.letter_authors(self.batch_letter)
+        return authors[self.batch_start : self.batch_start + self.BATCH_SIZE]
+
+    @property
+    def batch_cards(self):
+        return self._author_cards(self.batch_authors, letter=self.batch_letter)
+
+    @property
+    def batch_next_url(self):
+        if not self.batch_letter:
+            return ""
+        return self.next_batch_url(self.batch_letter, self.batch_start)
+
+
+class AuthorSearchView(AuthorSearchBase):
+    """Full-page author index view."""
+
+    template = ViewPageTemplateFile("templates/authorsearch.pt")
+
+    def __call__(self):
+        self.request.set("disable_border", True)
+        return self.template(self)
+
+
+class AuthorSearchBatchView(AuthorSearchBase):
+    """Batch fragment view for lazy loading author results."""
+
+    template = ViewPageTemplateFile("templates/authorsearch_batch.pt")
+
+    def __call__(self):
+        return self.template(self)

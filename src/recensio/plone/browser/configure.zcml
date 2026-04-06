@@ -119,6 +119,14 @@
       />
 
   <browser:page
+      name="authorsearch-batch"
+      for="*"
+      class=".authorsearch.AuthorSearchBatchView"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
       name="browse-topics"
       for="*"
       class=".topical.BrowseTopicsView"

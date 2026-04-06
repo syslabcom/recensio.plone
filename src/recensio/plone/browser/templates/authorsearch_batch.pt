@@ -1,0 +1,29 @@
+<div id="authorsearch-batch"
+     tal:attributes="
+       data-next-url view/batch_next_url | nothing;
+     "
+     i18n:domain="recensio"
+>
+  <a class="authorsearch-card"
+     tal:repeat="author view/batch_cards"
+     tal:attributes="
+       href author/url;
+     "
+  >
+    <span class="authorsearch-card__marker"
+          aria-hidden="true"
+    >
+      <span class="authorsearch-card__initial"
+            tal:content="author/initial"
+      >A</span>
+    </span>
+    <span class="authorsearch-card__body">
+      <span class="authorsearch-card__title"
+            tal:content="author/title"
+      >Author Name</span>
+      <span class="authorsearch-card__description"
+            i18n:translate="label_all_reviews_author"
+      >All reviews of this author</span>
+    </span>
+  </a>
+</div>
