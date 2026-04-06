@@ -30,6 +30,14 @@ Changelog
   `#4685 <https://github.com/syslabcom/scrum/issues/4685>`_
   [pilz]
 
+- Translate the reset facets button and rename the placeholder in the search field.
+  `#4684 <https://github.com/syslabcom/scrum/issues/4684>`_
+  [pilz]
+
+- Sort all listings in the publication list viewlet by object position in parent.
+  `#4686 <https://github.com/syslabcom/scrum/issues/4686>`_
+  [pilz]
+
 
 2.1.1 (2026-04-05)
 ------------------
