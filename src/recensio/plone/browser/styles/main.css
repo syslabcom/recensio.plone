@@ -1525,3 +1525,110 @@ summary.submenu_title:hover {
     font-weight: bold;
     margin-bottom: 0.5em;
 }
+
+/* Review page image gallery (CSS-only lightbox) */
+.review-gallery {
+    position: relative;
+}
+.review-gallery__thumb {
+    display: inline-block;
+    cursor: pointer;
+}
+.review-gallery__thumb img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Overlay (hidden by default, shown via :target) */
+.review-gallery__overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+}
+.review-gallery__overlay:target {
+    display: flex;
+}
+
+/* Dimmed backdrop — fills the entire overlay, click closes */
+.review-gallery__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    text-decoration: none;
+    color: transparent;
+    cursor: default;
+}
+
+/* Lightbox: fixed size so controls never jump between slides */
+.review-gallery__lightbox {
+    position: relative;
+    z-index: 1;
+    width: min(80vw, 900px);
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.review-gallery__lightbox img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Close button */
+.review-gallery__close {
+    position: absolute;
+    top: -2.25rem;
+    right: 0;
+    color: #fff;
+    font-size: 2rem;
+    line-height: 1;
+    text-decoration: none;
+    z-index: 2;
+}
+.review-gallery__close:hover {
+    color: #ccc;
+}
+
+/* Prev / Next — outside the image, at fixed positions on the lightbox */
+.review-gallery__prev,
+.review-gallery__next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 3rem;
+    line-height: 1;
+    text-decoration: none;
+    padding: 0.5rem;
+    z-index: 2;
+    user-select: none;
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 3px;
+}
+.review-gallery__prev:hover,
+.review-gallery__next:hover {
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+}
+.review-gallery__prev {
+    left: -3.5rem;
+}
+.review-gallery__next {
+    right: -3.5rem;
+}
+
+/* Slide counter */
+.review-gallery__counter {
+    position: absolute;
+    bottom: -1.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ccc;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
