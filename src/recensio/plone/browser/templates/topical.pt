@@ -167,6 +167,7 @@
                    tal:attributes="
                      href view/reset_facets_href;
                    "
+                   i18n:translate="label_reset_facets"
                 >Reset facets</a>
               </div>
               <tal:submenus repeat="submenu submenus">
