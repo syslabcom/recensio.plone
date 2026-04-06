@@ -26,6 +26,9 @@ Changelog
   `#4683 <https://github.com/syslabcom/scrum/issues/4683>`_
   [pilz]
 
+- Make the close button in the mobile menu black.
+  `#4685 <https://github.com/syslabcom/scrum/issues/4685>`_
+  [pilz]
 
 
 2.1.1 (2026-04-05)

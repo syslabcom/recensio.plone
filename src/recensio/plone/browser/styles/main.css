@@ -10,6 +10,10 @@
     --bs-navbar-color: #7f4b2b;
 }
 
+.navbar-barceloneta .offcanvas .btn-close.btn-close-white {
+    filter: none;
+}
+
 .btn-outline-light {
     --bs-btn-color: #7f4b2b;
 }
