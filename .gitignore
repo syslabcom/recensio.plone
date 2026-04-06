@@ -8,6 +8,7 @@
 .env
 .installed.cfg
 .mr.developer.cfg
+.DS_Store
 bin/
 buildout-cache/
 coverage.xml

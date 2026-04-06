@@ -81,6 +81,8 @@ class GNDView(BrowserView):
             sort_on="sortable_title",
         )
         if not solr:
+            # Fix for special characters that portal catalog cannot handle
+            search_term = search_term.replace("(", "").replace(")", "")
             results = catalog.search(query)
         else:
             results = catalog(query)
@@ -89,6 +91,8 @@ class GNDView(BrowserView):
     def find(self, search_term=None, firstname=None, lastname=None):
         if not search_term:
             search_term = self._getPersonTitle(firstname=firstname, lastname=lastname)
+            # Fix for special characters that portal catalog cannot handle
+            search_term = search_term.replace("(", "").replace(")", "")
         catalog = api.portal.get_tool("portal_catalog")
         # XXX general interface, IGND?
         query = dict(

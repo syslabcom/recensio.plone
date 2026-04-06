@@ -1,4 +1,4 @@
-from setuptools import find_packages
+from setuptools import find_namespace_packages
 from setuptools import setup
 
 
@@ -12,7 +12,7 @@ long_description = "\n\n".join(
 
 setup(
     name="recensio.plone",
-    version="2.0.0.dev0",
+    version="2.1.2.dev0",
     description="Base package of the Recensio Plone portal.",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
@@ -25,6 +25,8 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Operating System :: OS Independent",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
     ],
@@ -37,8 +39,7 @@ setup(
         "Tracker": "https://github.com/syslabcom/recensio.plone/issues",
     },
     license="GPL version 2",
-    packages=find_packages("src"),
-    namespace_packages=["recensio"],
+    packages=find_namespace_packages("src"),
     package_dir={"": "src"},
     include_package_data=True,
     zip_safe=False,
@@ -46,18 +47,18 @@ setup(
     install_requires=[
         "setuptools",
         "beautifulsoup4",
+        "collective.solr>=10.1.1",
         "eea.facetednavigation",
-        "ftw.upgrade>=3.4.0a0",
-        "guess-language>0.2",
+        "collective.ftw.upgrade",
+        "guess-language>=1.0.0",
         "plone.api",
         "plone.app.discussion",
         "collective.vdexvocabulary",
         "collective.z3cform.datagridfield",
-        "paramiko-ng", 
+        "paramiko-ng",
         "pypdf",
         "reportlab",
         "xlrd",
-        "z3c.jbot"
     ],
     extras_require={
         "test": [

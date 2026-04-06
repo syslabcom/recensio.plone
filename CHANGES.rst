@@ -2,9 +2,56 @@ Changelog
 =========
 
 
-2.0.0 (unreleased)
+2.1.2 (unreleased)
 ------------------
 
+- Nothing changed yet.
+
+
+2.1.1 (2026-04-05)
+------------------
+
+- Switch to find_namespace_packages
+  [pilz]
+
+- Align the test setup with the one from the deployment, cleanup more ft.upgrade rests, added twine release, remove guess-language and solr from checkout, preparing solr release.
+  [pilz]
+
+
+2.0.2 (2026-03-27)
+------------------
+
+- re-release of 2.0.1
+  [pilz]
+
+
+2.0.1 (2026-03-27)
+------------------
+
+- Define high-priority images.
+  Define high-priority images which need to be loaded early for layout purposes
+  and a good UX. These are the logo and the main page image.\
+  Byproduct of `#4498 <https://github.com/syslabcom/scrum/issues/4498>`_
+  [thet]
+
+- Lazy load images.
+  Define lazy loading for images which are potentially below the fold and of
+  significant size to prevent high server load and canceled loading.
+  `#4498 <https://github.com/syslabcom/scrum/issues/4498>`_
+  [thet]
+
+- Proposed more precise cache key to avoid volume mixes.
+  `#4471 <https://github.com/syslabcom/scrum/issues/4471>`_
+  [pilz]
+
+- Replaced z3c.jbot overrides with template overrides on layer.
+   `#4626 <https://github.com/syslabcom/scrum/issues/4626>`
+  [pilz]
+
+2.0.0 (2026-01-26)
+------------------
+
+- Tested on Python 3.10 and Python 3.13 [ale-rt]
 - Avoid computing ``listAuthorsAndEditors`` twice
   `#3678 <https://github.com/syslabcom/scrum/issues/3678>`_
 - Set redirect-to-publication as default view for Issue and Volume
@@ -12,11 +59,25 @@ Changelog
 - Fix ResourceWarning on unclosed file handles in tests [gyst]
 - Upgrade github CI pre-commit action to 3.0.1 [gyst]
 - Fix the CI build [gyst]
-- Upgrade to Plone 6.1.2 [reinhardt, gyst]
+- Upgrade to Plone 6.1.3 [ale-rt, reinhardt, gyst]
 - Update the pre-commit linters [gyst]
 - Don't error out on main nav on a clean install [gyst]
 - Upgrade ftw.upgrade to the SLC patched version [gyst]
+- Add collective.solr and make the eea.facetednavigation view compatible with that [gyst]
+- Activate fulltext PDF solr search, provide upgrade, adjust tests [gyst]
 - Bugfix PublicationsViewlet for the Plone upgrade [gyst]
+- Apply vanilla new collective.solr search [gyst]
+- Configure two demo facets [gyst]
+- Disable livesearch [gyst]
+- Add parameter -asxhtml to tidy to fix pdf generation of html reviews [pilz]
+- Performance improvements
+  `#3678 <https://github.com/syslabcom/scrum/issues/3678>`_
+  [ale-rt]
+- Fix the ``sehepunkte-import`` view
+  `#4071 <https://github.com/syslabcom/scrum/issues/4071>`_
+  [ale-rt]
+- Port the Solr based topic browser for themen-epochen-regionen from the old plone4 implementation [gyst]
+- Add SearchableText to the topic browser [gyst]
 
 1.0.6 (2025-05-22)
 ------------------

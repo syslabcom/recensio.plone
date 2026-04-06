@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<registry>
+  <records interface="collective.solr.interfaces.ISolrSchema"
+           prefix="collective.solr"
+  >
+    <value key="max_results">1000</value>
+    <value key="search_pattern">+(Title:{value}^10 OR
+Description:{value}^5 OR
+SearchableText:{value} OR
+SearchableText:({base_value} OR
+Subject:{value}^5 OR
+isbn:{value}^1000 OR
+publisher:{value}^5
+) OR
+searchwords:({base_value})^1000)
+-showinsearch:False</value>
+    <value key="required">
+      <element>use_solr</element>
+    </value>
+    <value key="facets">
+      <element>portal_type</element>
+      <element>Subject</element>
+      <element>ddcPlace</element>
+      <element>ddcTime</element>
+    </value>
+  </records>
+</registry>

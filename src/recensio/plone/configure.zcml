@@ -11,9 +11,10 @@
       package="collective.vdexvocabulary"
       file="meta.zcml"
       />
+  <include package="collective.solr" />
   <include package="collective.vdexvocabulary" />
   <include package="collective.z3cform.datagridfield" />
-  <include package="ftw.upgrade" />
+  <include package="collective.ftw.upgrade" />
 
   <genericsetup:registerProfile
       name="default"
@@ -45,9 +46,10 @@
   <include package=".vocabularies" />
 
   <utility
-      component=".export.ChroniconExporterFactory"
       provides="zope.component.interfaces.IFactory"
-      name="chronicon_exporter" />
+      name="chronicon_exporter"
+      component=".export.ChroniconExporterFactory"
+      />
 
   <utility
       factory=".setuphandlers.HiddenProfiles"

@@ -99,7 +99,7 @@ class RunSubprocess:
         self.errors = ""
         self.cmd = ""
 
-    def _create_tmp_file(self, prefix="", suffix="", data=None):
+    def _create_tmp_file(self, prefix="", suffix="", data: bytes | None = None) -> str:
         """Create a temporary file as input for the command."""
         fd, path = tempfile.mkstemp(prefix=prefix, suffix=suffix)
         tmp_file = os.fdopen(fd, "bw")
@@ -108,10 +108,10 @@ class RunSubprocess:
         tmp_file.close()
         return path
 
-    def create_tmp_input(self, prefix="", suffix="", data=None):
+    def create_tmp_input(self, prefix="", suffix="", data: bytes | None = None):
         self.input_path = self._create_tmp_file(prefix=prefix, suffix=suffix, data=data)
 
-    def create_tmp_ouput(self, prefix="", suffix="", data=None):
+    def create_tmp_ouput(self, prefix="", suffix="", data: bytes | None = None):
         self.tmp_output = self._create_tmp_file(prefix=prefix, suffix=suffix, data=data)
 
     def create_tmp_output_dir(self, **kw):
@@ -189,7 +189,7 @@ def SimpleSubprocess(*cmd, **kwargs):
     returncode = process.returncode
 
     if returncode not in kwargs.get("exitcodes", [0]):
-        raise RuntimeError(" ".join([str(returncode), stderrdata]))
+        raise RuntimeError(" ".join([str(returncode), safe_text(stderrdata)]))
 
     return stdoutdata, stderrdata
 
@@ -225,16 +225,19 @@ def update_generated_pdf(obj):
             # valid html file
             if not review:
                 return
-            data = HTML_TEMPLATE.substitute(body=review.output_relative_to(obj))
 
+            data: bytes = safe_bytes(
+                HTML_TEMPLATE.substitute(body=review.output_relative_to(obj))
+            )
             with NamedTemporaryFile() as tmp_input:
                 with NamedTemporaryFile() as tmp_output:
-                    tmp_input.write(safe_bytes(data))
+                    tmp_input.write(data)
                     tmp_input.flush()
                     try:
                         SimpleSubprocess(
                             "tidy",
                             "-utf8",
+                            "-asxhtml",
                             "-numeric",
                             "-o",
                             tmp_output.name,
@@ -242,7 +245,7 @@ def update_generated_pdf(obj):
                             exitcodes=[0, 1],
                         )
                         tmp_output.seek(0)
-                        data = tmp_output.read()
+                        data = safe_bytes(tmp_output.read())
                     except RuntimeError:
                         logger.error(
                             "Tidy was unable to tidy the html for %s",
@@ -303,7 +306,7 @@ def _getAllPageImages(context, size=(320, 452)):
 
         msg = tuple()
         if split_pdf_pages.errors != "":
-            msg += ("Message from split_pdf_pages:" "\n%s\n" % split_pdf_pages.errors,)
+            msg += ("Message from split_pdf_pages:\n%s\n" % split_pdf_pages.errors,)
 
         # Convert the pages to .gifs
         # rewritten to have one converter step per page as we have seen process
@@ -322,7 +325,7 @@ def _getAllPageImages(context, size=(320, 452)):
             )
             pdf_to_image.run()
             if pdf_to_image.errors != "":
-                msg += ("Message from pdfs_to_images:" "\n%s\n" % pdf_to_image.errors,)
+                msg += ("Message from pdfs_to_images:\n%s\n" % pdf_to_image.errors,)
 
             pdf_to_image.clean_up()
 

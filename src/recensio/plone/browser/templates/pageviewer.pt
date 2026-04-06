@@ -9,6 +9,7 @@
          "
     >
       <img alt="Review page ${id}"
+           loading="lazy"
            src="${base_url}/get_page_image?no:int=${id}"
       />
     </div>

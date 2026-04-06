@@ -17,37 +17,20 @@ We need some system packages to be available for this package to be fully functi
 - poppler_utils (pdf)
 - html-tidy (cleans up the html that will be converted to pdf)
 
+Solr: cave canem
+================
 
-Migration
-=========
+This package now works with collective.solr and performs fulltext indexing of PDF documents.
 
-Read `Notes on speed and large migrations <https://github.com/collective/collective.exportimport#notes-on-speed-and-large-migrations>`_ in the collective.exportimport README.
+There are a few gotchas:
 
-Then decide if you want to do an export from Plone 4 and only set blob paths.
-If so, set the `COLLECTIVE_EXPORTIMPORT_BLOB_HOME` variable on import.
+- Fulltext indexing of PDFs on reviews works fine, but fulltext indexing of standalone files will error out with a default Solr install.
+  To get it to work properly, your Solr needs to be started up with special environment variables::
 
-Also disable the recensio event subscribers which would generate PDFs from already generated content.
-To do this, set `RECENSIO_DISABLE_SUBSCRIBERS=true`.
+    SOLR_ENABLE_REMOTE_STREAMING=true SOLR_ENABLE_STREAM_BODY=true SOLR_OPTS="-Dsolr.allowPaths=${instance:blob-storage}"
 
-After successful migration import the page pictures, which were not in the Recensio Archetypes schema in Plone 4 and therefore not exported.
-The blob home environment variable must be set to import the page pictures.
+  For more background, see https://github.com/collective/collective.solr/issues/385
 
-`http://localhost:8080/recensio/@@import-page-pictures`
+- The recensio.plone buildout provided Solr is to be used only for testing; it will be nuked on test runs.
 
-
-Order of import:
-
-1) Create fresh Plone instance "recensio"
-2) Apply profile `recensio.plone:default`
-
-3) Import users (< 5m):           http://localhost:8080/recensio/@@import_members
-4) Import content: (3.5-4h):      http://localhost:8080/recensio/@@import_content
-5) Import relations: (5 minutes): http://localhost:8080/recensio/@@import_relations
-6) Import translations (0):       http://localhost:8080/recensio/@@import_translations
-7) Import local roles (< 5m):     http://localhost:8080/recensio/@@import_localroles
-8) Import default pages (< 5m):   http://localhost:8080/recensio/@@import_defaultpages
-9) Import ordering (~ 20m):       http://localhost:8080/recensio/@@import_ordering
-10) Import portlets (< 5m):        http://localhost:8080/recensio/@@import_portlets
-11) Reset dates (< 5m):            http://localhost:8080/recensio/@@reset_dates
-12) Fix collections (0m):          http://localhost:8080/recensio/@@fix_collection_queries
-13) Fix html (< 5m):               http://localhost:8080/recensio/@@fix_html
+Recensio.buildout provides both a testing solr (via buildout, on :8984) and a development solr (via Makefile, on :8983) to effect this split.

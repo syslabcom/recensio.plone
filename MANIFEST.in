@@ -1,10 +1,11 @@
 graft src/recensio
 graft docs
+graft etc/solr
 include *.md
 include *.rst
+include *.txt
 exclude *.cfg
 exclude *.js
-exclude *.txt
 exclude .*
 exclude Makefile
 exclude package.json
@@ -12,3 +13,4 @@ exclude yarn.lock
 prune .github
 prune resources
 global-exclude *.pyc
+global-exclude .DS_Store
