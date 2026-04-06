@@ -7,6 +7,11 @@ Changelog
 
 - Nothing changed yet.
 
+- Don't stop indexing authors and editors if authors is empty.
+  `#4683 <https://github.com/syslabcom/scrum/issues/4683>`_
+  [pilz]
+
+
 
 2.1.1 (2026-04-05)
 ------------------
