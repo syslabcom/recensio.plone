@@ -1,5 +1,4 @@
 from collective.solr.browser.facets import SearchView
-from eea.facetednavigation.browser.app.query import FacetedQueryHandler
 from plone import api
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.base.navigationroot import get_navigation_root
@@ -60,16 +59,6 @@ class ListingBase(BrowserView):
         )
 
 
-class RecensioFacetedQueryHandler(FacetedQueryHandler, ListingBase):
-    """Add recensio capabilities"""
-
-    def criteria(self, **kwargs):
-        """Don't restrict language"""
-        criteria = super().criteria(**kwargs)
-        del criteria["Language"]
-        return criteria
-
-
 class RecensioSearch(SearchView, ListingBase):
     """Add recensio capabilities"""
 
@@ -79,7 +68,7 @@ class RecensioSearch(SearchView, ListingBase):
         Solr indexes across sibling sites recensio, regio, altertum. We should
         return results only from the current site.
         """
-        query = super(RecensioSearch, self).filter_query(query)
+        query = super().filter_query(query)
         if "path" not in query and "parent_path" not in query:
             query["path_parents"] = "/".join(api.portal.get().getPhysicalPath())
         return query
