@@ -69,6 +69,8 @@ class ParentGetter:
         publication = self.get_parent_object_of_type("Publication")
         current = self.context
         value = not override_value
+        if publication is None:
+            return value
         while current != publication.aq_parent:
             base_obj = current.aq_base
             if hasattr(base_obj, field_name):

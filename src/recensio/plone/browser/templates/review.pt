@@ -198,11 +198,11 @@
                     <dl>
                       <tal:field_names repeat="field_name metadata_field_names">
                         <tal:def define="
-                                   data python:metadata[field_name];
-                                   use_widget_view data/use_widget_view;
+                                   data python:metadata and metadata[field_name];
+                                   use_widget_view data/use_widget_view|nothing;
                                    widget python:widgets.get(field_name);
                                  "
-                                 condition="data/value"
+                                 condition="python: data and data.get(value)"
                         >
                           <dt>
                               ${data/label}
@@ -305,18 +305,19 @@
                     <div tal:define="
                            online_review_urls view/get_online_review_urls;
                            published_reviews view/get_published_reviews;
-                           user_home_page context/getReviewAuthorPersonalUrl;
+                           user_home_page context/getReviewAuthorPersonalUrl|nothing;
+                           uri context/uri|nothing;
                          ">
                       <dl>
-                        <dt tal:condition="context/uri"
+                        <dt tal:condition="uri"
                             i18n:translate="online_accessible"
                         >
                         Diese Schrift ist online abrufbar
                         </dt>
                         <dd>
-                          <a href="${context/uri}">${context/uri}</a>
+                          <a href="${uri}">${uri}</a>
                         </dd>
-                        <dt tal:condition="not:context/uri"
+                        <dt tal:condition="not:uri"
                             i18n:translate="online_not_accessible"
                         >
                         Diese Schrift ist nicht online abrufbar

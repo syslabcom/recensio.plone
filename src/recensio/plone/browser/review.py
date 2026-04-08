@@ -1,5 +1,6 @@
 from AccessControl.SecurityManagement import getSecurityManager
 from html import escape
+from logging import getLogger
 from plone import api
 from plone.autoform.interfaces import WIDGETS_KEY
 from plone.autoform.utils import _process_widgets
@@ -23,6 +24,9 @@ from z3c.form.interfaces import DISPLAY_MODE
 from z3c.form.interfaces import IWidgets
 from zope.component import getMultiAdapter
 from ZTUtils import make_query
+
+
+logger = getLogger(__name__)
 
 
 class View(BrowserView, CanonicalURLHelper):
@@ -185,6 +189,16 @@ class View(BrowserView, CanonicalURLHelper):
                 value = self.list_rows(context.reviewAuthors, "lastname", "firstname")
             elif field == "metadata_presentation_author":
                 label = _("label_metadata_presentation_author")
+                try:
+                    value = self.list_rows(
+                        context.reviewAuthors, "lastname", "firstname"
+                    )
+                except AttributeError:
+                    logger.warning(
+                        "Object %r has no attribute 'reviewAuthors', cannot get presentation authors.",  # noqa: E501
+                        context,
+                    )
+                    return ""
                 value = self.list_rows(context.reviewAuthors, "lastname", "firstname")
             elif field == "authors":
                 label = self.get_label(field)
@@ -431,6 +445,10 @@ class View(BrowserView, CanonicalURLHelper):
 
     def get_citation_string(self):
         raise NotImplementedError("specific to subtypes; implement in specific views")
+
+    def getDecoratedTitle(self):
+        """Fallback title for publication types without specific formatting."""
+        return self.context.Title()
 
     def is_url_shown_in_citation_note(self):
         is_external_fulltext = getattr(

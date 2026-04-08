@@ -5,7 +5,7 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix an error on the author page. [ale-rt]
 
 
 2.1.1 (2026-04-05)
