@@ -91,6 +91,13 @@ class AuthorSearchBase(BrowserView):
     def use_navigation_root(self):
         return self._request_bool("use_navigation_root", True)
 
+    @property
+    @instance.memoize
+    def authors(self):
+        """All matching authors (lazy catalog result set)."""
+        catalog = getToolByName(self.context, "portal_catalog")
+        return catalog(self._base_query())
+
     def _base_query(self):
         """Common catalog query parameters."""
         query = {
