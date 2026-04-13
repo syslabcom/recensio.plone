@@ -1,5 +1,4 @@
 #!/usr/bin/python
-from collections import OrderedDict
 from plone.base.navigationroot import get_navigation_root
 from plone.base.utils import safe_text
 from plone.memoize import instance
@@ -92,10 +91,8 @@ class AuthorSearchBase(BrowserView):
     def use_navigation_root(self):
         return self._request_bool("use_navigation_root", True)
 
-    @property
-    @instance.memoize
-    def authors(self):
-        catalog = getToolByName(self.context, "portal_catalog")
+    def _base_query(self):
+        """Common catalog query parameters."""
         query = {
             "portal_type": "Person",
             "sort_on": "sortable_title",
@@ -105,43 +102,47 @@ class AuthorSearchBase(BrowserView):
             query["path"] = get_navigation_root(self.context)
         if self.search_term:
             query["SearchableText"] = self.search_term.strip("\"'")
-        return list(catalog(query))
+        return query
+
+    def _letter_query(self, letter):
+        """Catalog query scoped to titles starting with *letter*."""
+        query = self._base_query()
+        if letter == "#":
+            query["sortable_title"] = {"query": ("0", ":"), "range": "min:max"}
+        else:
+            low = letter.lower()
+            high = chr(ord(low) + 1)
+            query["sortable_title"] = {"query": (low, high), "range": "min:max"}
+        return query
+
+    @instance.memoize
+    def _letter_results(self, letter):
+        """Lazy catalog results for a single letter (memoized per request)."""
+        catalog = getToolByName(self.context, "portal_catalog")
+        return catalog(self._letter_query(letter))
 
     @property
     @instance.memoize
-    def letter_groups(self):
-        grouped = {}
-        for author in self.authors:
-            label = self._author_initial(self._brain_title(author))
-            grouped.setdefault(label, [])
-            grouped[label].append(author)
-
-        ordered = OrderedDict()
-        for label in self.ALPHABET:
-            if label in grouped:
-                ordered[label] = grouped[label]
-        if "#" in grouped:
-            ordered["#"] = grouped["#"]
-        return ordered
-
-    @property
     def available_letters(self):
-        return list(self.letter_groups.keys())
+        letters = [lt for lt in self.ALPHABET if len(self._letter_results(lt))]
+        if len(self._letter_results("#")):
+            letters.append("#")
+        return letters
 
     @property
     def selected_letter(self):
         requested = safe_text(self.request.get("letter", "") or "").strip().upper()
-        if requested in self.letter_groups:
+        if requested in self.available_letters:
             return requested
         if self.available_letters:
             return self.available_letters[0]
         return ""
 
     def letter_authors(self, letter):
-        return self.letter_groups.get(letter, [])
+        return self._letter_results(letter)
 
     def letter_count(self, letter):
-        return len(self.letter_authors(letter))
+        return len(self._letter_results(letter))
 
     def next_batch_start(self, letter, current_start):
         next_start = current_start + self.BATCH_SIZE
@@ -202,12 +203,13 @@ class AuthorSearchBase(BrowserView):
 
     @property
     def author_jump_links(self):
+        available = set(self.available_letters)
         links = []
         labels = list(self.ALPHABET)
-        if "#" in self.letter_groups:
+        if "#" in available:
             labels.append("#")
         for label in labels:
-            enabled = label in self.letter_groups
+            enabled = label in available
             links.append(
                 {
                     "current": enabled and label == self.selected_letter,
@@ -222,7 +224,7 @@ class AuthorSearchBase(BrowserView):
 
     @property
     def total_authors(self):
-        return len(self.authors)
+        return sum(self.letter_count(lt) for lt in self.available_letters)
 
     @property
     def portal_title(self):
@@ -235,7 +237,7 @@ class AuthorSearchBase(BrowserView):
     @property
     def batch_letter(self):
         letter = safe_text(self.request.get("letter", "") or "").strip().upper()
-        if letter in self.letter_groups:
+        if letter in self.available_letters:
             return letter
         return ""
 
