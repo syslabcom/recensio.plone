@@ -1,17 +1,17 @@
-import string
-import unicodedata
 from collections import OrderedDict
-
 from DateTime import DateTime
+from plone import api
+from plone.memoize import ram
+from plone.memoize.view import memoize
 from Products.CMFPlone.browser.defaultpage import DefaultPage
 from Products.Five.browser import BrowserView
 from recensio.plone.adapter.parentgetter import ParentGetter
 from recensio.plone.browser.canonical import CanonicalURLHelper
 from recensio.plone.config import REVIEW_TYPES
 
-from plone import api
-from plone.memoize import ram
-from plone.memoize.view import memoize
+import string
+import unicodedata
+
 
 PUBLICATION_DESCENDANT_TYPES = ("Volume", "Issue") + tuple(REVIEW_TYPES)
 PUBLICATION_JUMP_LETTERS = tuple(string.ascii_uppercase)
@@ -50,93 +50,6 @@ class PublicationDefaultPage(DefaultPage):
 
 
 class PublicationSummaryMixin:
-    def format_effective_date(self, date_string):
-        """Format the publication date for compact display."""
-        if not date_string or date_string == "None":
-            return ""
-        date = DateTime(date_string)
-        return "%s-%02d-%02d" % (date.year(), date.month(), date.day())
-
-    def _publication_stats(self, publication_path):
-        descendants = self.context.portal_catalog(
-            path={"query": publication_path, "depth": 3},
-            portal_type=PUBLICATION_DESCENDANT_TYPES,
-            review_state="published",
-            sort_on="effective",
-            sort_order="reverse",
-        )
-        stats = dict(
-            volume_count=0,
-            issue_count=0,
-            review_count=0,
-            latest_review_date="",
-        )
-        for descendant in descendants:
-            if descendant.portal_type == "Volume":
-                stats["volume_count"] += 1
-            elif descendant.portal_type == "Issue":
-                stats["issue_count"] += 1
-            elif descendant.portal_type in REVIEW_TYPES:
-                stats["review_count"] += 1
-                if not stats["latest_review_date"]:
-                    stats["latest_review_date"] = self.format_effective_date(
-                        descendant.EffectiveDate
-                    )
-        return stats
-
-
-class PublicationDocumentView(PublicationSummaryMixin, BrowserView):
-    """Compact document view for publication profile pages."""
-
-    @property
-    @memoize
-    def publication(self):
-        return ParentGetter(self.context).get_parent_object_of_type("Publication")
-
-    @property
-    @memoize
-    def publication_stats(self):
-        publication = self.publication
-        if publication is None:
-            return dict(
-                volume_count=0,
-                issue_count=0,
-                review_count=0,
-                latest_review_date="",
-            )
-        publication_path = "/".join(publication.getPhysicalPath())
-        return self._publication_stats(publication_path)
-
-    @property
-    def show_jump_to_listing(self):
-        publication = self.publication
-        stats = self.publication_stats
-        return publication is not None and any(
-            stats[key] for key in ("volume_count", "issue_count", "review_count")
-        )
-
-    @property
-    def publication_logo_url(self):
-        publication = self.publication
-        if publication is None or "logo" not in publication.objectIds():
-            return None
-        return f"{publication.absolute_url()}/logo/@@images/image/thumb"
-
-    @property
-    def publication_initial(self):
-        title = self.publication and self.publication.Title() or self.context.Title()
-        for character in (title or "").strip():
-            if character.isalnum():
-                normalized = unicodedata.normalize("NFKD", character)
-                normalized = normalized.encode("ascii", "ignore").decode("ascii")
-                if normalized:
-                    return normalized[0].upper()
-        return "P"
-
-
-class PublicationsView(PublicationSummaryMixin, BrowserView, CanonicalURLHelper):
-    """Overview page of publications."""
-
     def format_effective_date(self, date_string):
         """Format the publication date for compact display."""
         if not date_string or date_string == "None":
