@@ -5,7 +5,7 @@ from plone.memoize import ram
 from plone.memoize.view import memoize
 from Products.CMFPlone.browser.defaultpage import DefaultPage
 from Products.Five.browser import BrowserView
-from recensio.plone.adapter.parentgetter import ParentGetter
+from recensio.plone.adapter.parentgetter import IParentGetter
 from recensio.plone.browser.canonical import CanonicalURLHelper
 from recensio.plone.config import REVIEW_TYPES
 
@@ -55,22 +55,22 @@ class PublicationSummaryMixin:
         if not date_string or date_string == "None":
             return ""
         date = DateTime(date_string)
-        return "%s-%02d-%02d" % (date.year(), date.month(), date.day())
+        return f"{date.year()}-{date.month():02d}-{date.day():02d}"
 
     def _publication_stats(self, publication_path):
-        descendants = self.context.portal_catalog(
+        descendants = api.content.find(
             path={"query": publication_path, "depth": 3},
             portal_type=PUBLICATION_DESCENDANT_TYPES,
             review_state="published",
             sort_on="effective",
             sort_order="reverse",
         )
-        stats = dict(
-            volume_count=0,
-            issue_count=0,
-            review_count=0,
-            latest_review_date="",
-        )
+        stats = {
+            "volume_count": 0,
+            "issue_count": 0,
+            "review_count": 0,
+            "latest_review_date": "",
+        }
         for descendant in descendants:
             if descendant.portal_type == "Volume":
                 stats["volume_count"] += 1
@@ -91,19 +91,19 @@ class PublicationDocumentView(PublicationSummaryMixin, BrowserView):
     @property
     @memoize
     def publication(self):
-        return ParentGetter(self.context).get_parent_object_of_type("Publication")
+        return IParentGetter(self.context).get_parent_object_of_type("Publication")
 
     @property
     @memoize
     def publication_stats(self):
         publication = self.publication
         if publication is None:
-            return dict(
-                volume_count=0,
-                issue_count=0,
-                review_count=0,
-                latest_review_date="",
-            )
+            return {
+                "volume_count": 0,
+                "issue_count": 0,
+                "review_count": 0,
+                "latest_review_date": "",
+            }
         publication_path = "/".join(publication.getPhysicalPath())
         return self._publication_stats(publication_path)
 
@@ -168,24 +168,23 @@ class PublicationsView(PublicationSummaryMixin, BrowserView, CanonicalURLHelper)
         title = defob and defob.Title() != "" and defob.Title() or pubob.Title()
         desc = (defob and defob.Description() or pubob.Description() or "").strip()
         path = defob and "/".join(defob.getPhysicalPath()) or ""
-        info = dict(
-            title=title,
-            desc=desc,
-            has_logo=has_logo,
-            path=path,
-            initial=self._publication_letter(title),
-        )
+        info = {
+            "title": title,
+            "desc": desc,
+            "has_logo": has_logo,
+            "path": path,
+            "initial": self._publication_letter(title),
+        }
         info.update(self._publication_stats(brain.getPath()))
         return info
 
     @memoize
     def publications(self):
-        pc = self.context.portal_catalog
         publist = []
         currlang = api.portal.get_current_language()
-        pubs = pc(
-            portal_type="Publication",
+        pubs = api.content.find(
             path="/".join(self.context.getPhysicalPath()),
+            portal_type="Publication",
             sort_on="sortable_title",
             review_state="published",
         )
@@ -207,11 +206,11 @@ class PublicationsView(PublicationSummaryMixin, BrowserView, CanonicalURLHelper)
         for publication in self.publications():
             grouped[publication["initial"]].append(publication)
         return [
-            dict(
-                label=label,
-                anchor=self._section_anchor(label),
-                publications=publications,
-            )
+            {
+                "label": label,
+                "anchor": self._section_anchor(label),
+                "publications": publications,
+            }
             for label, publications in grouped.items()
             if publications
         ]
@@ -226,11 +225,11 @@ class PublicationsView(PublicationSummaryMixin, BrowserView, CanonicalURLHelper)
         if "#" in available_sections:
             labels.append("#")
         return [
-            dict(
-                label=label,
-                anchor=available_sections.get(label),
-                enabled=label in available_sections,
-            )
+            {
+                "label": label,
+                "anchor": available_sections.get(label),
+                "enabled": label in available_sections,
+            }
             for label in labels
         ]
 

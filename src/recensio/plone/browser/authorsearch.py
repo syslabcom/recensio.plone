@@ -4,7 +4,6 @@ from plone.base.utils import safe_text
 from plone.memoize import instance
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from string import ascii_uppercase
 from urllib.parse import urlencode
 
@@ -32,10 +31,10 @@ class AuthorSearchBase(BrowserView):
         return bool(value)
 
     def _brain_title(self, brain):
-        return safe_text(getattr(brain, "Title", "") or brain["Title"])
+        return brain.Title
 
     def _brain_uid(self, brain):
-        return getattr(brain, "UID", "") or brain["UID"]
+        return brain.UID
 
     def _author_initial(self, title):
         """Return a stable A-Z section label for the author title."""
@@ -273,17 +272,6 @@ class AuthorSearchBase(BrowserView):
 class AuthorSearchView(AuthorSearchBase):
     """Full-page author index view."""
 
-    template = ViewPageTemplateFile("templates/authorsearch.pt")
-
     def __call__(self):
         self.request.set("disable_border", True)
-        return self.template(self)
-
-
-class AuthorSearchBatchView(AuthorSearchBase):
-    """Batch fragment view for lazy loading author results."""
-
-    template = ViewPageTemplateFile("templates/authorsearch_batch.pt")
-
-    def __call__(self):
-        return self.template(self)
+        return super().__call__()

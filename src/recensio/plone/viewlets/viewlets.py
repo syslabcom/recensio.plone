@@ -1,6 +1,7 @@
 from DateTime import DateTime
 from plone import api
 from plone.app.layout.viewlets import ViewletBase
+from plone.memoize import instance
 from plone.memoize import ram
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
@@ -35,14 +36,9 @@ class PublicationListingMixin:
     review_types = REVIEW_TYPES
 
     @property
+    @instance.memoize
     def publication(self):
-        publication = getattr(self, "_v_publication", None)
-        if publication is None:
-            publication = ParentGetter(self.context).get_parent_object_of_type(
-                "Publication"
-            )
-            self._v_publication = publication
-        return publication
+        return ParentGetter(self.context).get_parent_object_of_type("Publication")
 
     @property
     def publication_path(self):
@@ -54,10 +50,7 @@ class PublicationListingMixin:
     def _container_load_url(self, uid):
         if not self.publication:
             return ""
-        return "{}/@@publicationlisting-children?{}".format(
-            self.publication.absolute_url(),
-            make_query(container_uid=uid),
-        )
+        return f"{self.publication.absolute_url()}/@@publicationlisting-children?{make_query(container_uid=uid)}"
 
     def inject_options(self, panel_id):
         return (
@@ -93,7 +86,7 @@ class PublicationListingMixin:
         if not date_string or date_string == "None":
             return ""
         date = DateTime(date_string)
-        return "%s-%02d-%02d" % (date.year(), date.month(), date.day())
+        return f"{date.year()}-{date.month():02d}-{date.day():02d}"
 
     def _pdf_data(self, obj):
         if "issue.pdf" not in obj.objectIds():
@@ -282,12 +275,9 @@ class PublicationListingChildren(PublicationListingMixin, BrowserView):
         return f"publicationlisting-panel-{self.container_uid}"
 
     @property
+    @instance.memoize
     def listing_container(self):
-        container = getattr(self, "_v_container", None)
-        if container is None:
-            container = self._container_by_uid(self.container_uid)
-            self._v_container = container
-        return container
+        return self._container_by_uid(self.container_uid)
 
     @property
     def issues(self):
@@ -306,4 +296,4 @@ class PublicationListingChildren(PublicationListingMixin, BrowserView):
         if self.listing_container is None:
             self.request.response.setStatus(404)
             return ""
-        return self.index()
+        return super().__call__()

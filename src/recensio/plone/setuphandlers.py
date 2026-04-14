@@ -36,10 +36,19 @@ def set_theme_browser_layout():
         themen_epochen_regionen.setLayout("browse-topics")
 
 
+def set_authorsearch_layout():
+    """Set @@authorsearch as default view of the autoren folder."""
+    portal = api.portal.get()
+    if "autoren" not in portal:
+        return
+    portal["autoren"].setLayout("authorsearch")
+
+
 def default(context):
     """Run when installing the default profile."""
     create_main_nav_content()
     set_theme_browser_layout()
+    set_authorsearch_layout()
 
 
 @implementer(INonInstallable)

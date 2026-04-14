@@ -13,6 +13,12 @@ class TestPublicationDocumentView(unittest.TestCase):
         self.portal = self.layer["portal"]
         self.request = self.layer["request"]
 
+    def test_document_fti_includes_publication_document_view(self):
+        document_fti = api.portal.get_tool("portal_types").Document
+
+        self.assertIn("publication_document_view", document_fti.view_methods)
+
+    def test_publication_document_view_renders_publication_context(self):
         with api.env.adopt_user(SITE_OWNER_NAME):
             container = api.content.create(
                 type="Folder",
@@ -21,59 +27,47 @@ class TestPublicationDocumentView(unittest.TestCase):
                 container=self.portal,
             )
 
-            self.publication = api.content.create(
+            publication = api.content.create(
                 type="Publication",
                 id="publication-profile-a",
                 title="Publication A",
                 container=container,
             )
-            self.document = api.content.create(
+            document = api.content.create(
                 type="Document",
                 id="profile",
                 title="About this publication",
-                container=self.publication,
+                container=publication,
             )
-            self.document.text = RichTextValue(
+            document.text = RichTextValue(
                 "<p>This publication focuses on new historical research.</p>"
             )
 
-            self.volume = api.content.create(
+            volume = api.content.create(
                 type="Volume",
                 id="volume-2025",
                 title="Volume 2025",
-                container=self.publication,
+                container=publication,
             )
-            self.issue = api.content.create(
+            issue = api.content.create(
                 type="Issue",
                 id="issue-01",
                 title="Issue 01",
-                container=self.volume,
+                container=volume,
             )
-            self.review = api.content.create(
+            review = api.content.create(
                 type="Review Monograph",
                 id="review-01",
                 title="Review title",
-                container=self.issue,
+                container=issue,
             )
 
-            for obj in [
-                self.publication,
-                self.document,
-                self.volume,
-                self.issue,
-                self.review,
-            ]:
+            for obj in [publication, document, volume, issue, review]:
                 api.content.transition(obj=obj, transition="publish")
 
-    def test_document_fti_includes_publication_document_view(self):
-        document_fti = api.portal.get_tool("portal_types").Document
-
-        self.assertIn("publication_document_view", document_fti.view_methods)
-
-    def test_publication_document_view_renders_publication_context(self):
         view = api.content.get_view(
             "publication_document_view",
-            self.document,
+            document,
             self.request,
         )
 

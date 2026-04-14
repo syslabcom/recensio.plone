@@ -17,20 +17,11 @@ class SetAuthorsearchLayoutAndActions(UpgradeStep):
         # Set layout on the autoren folder
         if "autoren" in portal:
             autoren = portal["autoren"]
-            if autoren.hasProperty("layout"):
-                old = autoren.getProperty("layout")
-                autoren.manage_changeProperties({"layout": "@@authorsearch"})
-                log.info(
-                    "%s/autoren: layout changed from %r to '@@authorsearch'",
-                    portal_path,
-                    old,
-                )
-            else:
-                autoren.manage_addProperty("layout", "@@authorsearch", "string")
-                log.info(
-                    "%s/autoren: layout property added as '@@authorsearch'",
-                    portal_path,
-                )
+            autoren.setLayout("authorsearch")
+            log.info(
+                "%s/autoren: layout set to 'authorsearch'",
+                portal_path,
+            )
         else:
             log.warning(
                 "%s: 'autoren' folder not found, skipping layout update", portal_path

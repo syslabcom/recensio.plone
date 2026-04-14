@@ -22,24 +22,14 @@ log = logging.getLogger(__name__)
 PORTAL_TYPES = REVIEW_TYPES
 SORT_RELEVANCE = "relevance"
 SORT_CREATED = "created"
-TOPICAL_SORTS = OrderedDict(
-    (
-        (
-            SORT_RELEVANCE,
-            {
-                "title": _("label_sort_relevance", default="Relevance"),
-            },
-        ),
-        (
-            SORT_CREATED,
-            {
-                "title": _("label_sort_newest", default="Newest first"),
-                "sort_on": "created",
-                "sort_order": "reverse",
-            },
-        ),
-    )
-)
+TOPICAL_SORTS = OrderedDict([
+    (SORT_RELEVANCE, {"title": _("label_sort_relevance", default="Relevance")}),
+    (SORT_CREATED, {
+        "title": _("label_sort_newest", default="Newest first"),
+        "sort_on": "created",
+        "sort_order": "reverse",
+    }),
+])
 
 
 class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
@@ -206,9 +196,10 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
             qs["sort_order"] = self.current_sort_order
         if "use_navigation_root" in self.request.form:
             qs["use_navigation_root"] = self.request.form["use_navigation_root"]
+        base = f"{self.context.absolute_url()}/browse-topics"
         if qs:
-            return "./browse-topics?%s" % urlencode(qs, doseq=True)
-        return "./browse-topics"
+            return f"{base}?{urlencode(qs, doseq=True)}"
+        return base
 
     def facets(self):
         """prepare and return facetting info for the given SolrResponse"""
