@@ -19,7 +19,7 @@
               "
       >
         <div class="publication-profile-header__media"
-             tal:condition="publication_context"
+             tal:condition="python: publication_context"
         >
           <img class="publication-profile-header__image"
                loading="lazy"
@@ -47,7 +47,7 @@
           >Publication information</h1>
 
           <p class="publication-profile-header__publication"
-             tal:condition="publication_context"
+             tal:condition="python: publication_context"
              i18n:translate="label_publication_profile_for"
           >
             Information about
@@ -57,7 +57,7 @@
           </p>
 
           <div class="publication-profile-header__meta"
-               tal:condition="publication_context"
+               tal:condition="python: publication_context"
           >
             <span class="publication-profile-badge">
               <strong tal:content="publication_stats/volume_count">0</strong>
