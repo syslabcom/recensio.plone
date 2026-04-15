@@ -76,7 +76,7 @@ class TestAuthorSearch(unittest.TestCase):
         self.assertTrue(panels["E"]["loaded"])
         self.assertEqual(
             ["Eimer, Claudio", "Eimer, Kathy"],
-            [author["title"] for author in panels["E"]["authors"]],
+            [author["Title"] for author in panels["E"]["authors"]],
         )
         self.assertFalse(panels["B"]["loaded"])
         self.assertIn("@@authorsearch-batch", panels["B"]["initial_url"])

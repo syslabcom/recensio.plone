@@ -1,4 +1,5 @@
 from recensio.plone.browser.publications import PublicationsView
+from unittest.mock import patch
 
 import unittest
 
@@ -10,9 +11,8 @@ class DummyBrain:
 
 
 class TestPublicationsView(unittest.TestCase):
-    def _view(self, catalog_results=None):
+    def _view(self):
         context = type("DummyContext", (), {})()
-        context.portal_catalog = lambda **kwargs: catalog_results or []
         request = type("DummyRequest", (), {})()
         return PublicationsView(context, request)
 
@@ -23,16 +23,16 @@ class TestPublicationsView(unittest.TestCase):
         self.assertEqual("#", view._publication_letter("123 Journal"))
 
     def test_publication_stats_count_descendants_and_latest_review(self):
-        view = self._view(
-            [
-                DummyBrain("Issue", "2026-03-29"),
-                DummyBrain("Review Journal", "2026-03-28"),
-                DummyBrain("Volume", "2026-03-20"),
-                DummyBrain("Review Monograph", "2026-03-10"),
-            ]
-        )
+        view = self._view()
+        results = [
+            DummyBrain("Issue", "2026-03-29"),
+            DummyBrain("Review Journal", "2026-03-28"),
+            DummyBrain("Volume", "2026-03-20"),
+            DummyBrain("Review Monograph", "2026-03-10"),
+        ]
 
-        stats = view._publication_stats("/plone/reviews/publication-a")
+        with patch("recensio.plone.browser.publications.api.content.find", return_value=results):
+            stats = view._publication_stats("/plone/reviews/publication-a")
 
         self.assertEqual(1, stats["volume_count"])
         self.assertEqual(1, stats["issue_count"])
