@@ -30,12 +30,6 @@ class AuthorSearchBase(BrowserView):
             return value.lower() not in {"", "0", "false", "no", "off"}
         return bool(value)
 
-    def _brain_title(self, brain):
-        return brain.Title
-
-    def _brain_uid(self, brain):
-        return brain.UID
-
     def _author_initial(self, title):
         """Return a stable A-Z section label for the author title."""
         for character in (safe_text(title) or "").strip():
@@ -176,11 +170,11 @@ class AuthorSearchBase(BrowserView):
         return f"{portal_url}/search?{urlencode(query, doseq=True)}"
 
     def _author_card(self, brain, letter=None):
-        title = self._brain_title(brain)
+        title = brain.Title
         return {
             "initial": letter or self._author_initial(title),
             "title": title,
-            "url": self.author_results_url(self._brain_uid(brain)),
+            "url": self.author_results_url(brain.UID),
         }
 
     def _author_cards(self, brains, letter=None):
