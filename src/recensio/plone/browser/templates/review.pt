@@ -67,7 +67,7 @@
                        href string:#rg-${uid}-0;
                      "
                   >
-                    <img alt="Open gallery"
+                    <img alt=""
                          loading="lazy"
                          src="${thumb_url}"
                     />
@@ -85,6 +85,8 @@
                       <div class="review-gallery__lightbox">
                         <a class="review-gallery__close"
                            href="#_"
+                           aria-label="Close gallery"
+                           i18n:attributes="aria-label label_gallery_close"
                         >&times;</a>
                         <img alt="${slide/img_alt}"
                              loading="lazy"
@@ -95,11 +97,15 @@
                              tal:attributes="
                                href string:#rg-${uid}-${slide/prev_idx};
                              "
+                             aria-label="Previous image"
+                             i18n:attributes="aria-label label_gallery_prev"
                           >&#8249;</a>
                           <a class="review-gallery__next"
                              tal:attributes="
                                href string:#rg-${uid}-${slide/next_idx};
                              "
+                             aria-label="Next image"
+                             i18n:attributes="aria-label label_gallery_next"
                           >&#8250;</a>
                         </tal:nav>
                         <span class="review-gallery__counter">${python:slide['idx'] + 1} / ${total_slides}</span>
