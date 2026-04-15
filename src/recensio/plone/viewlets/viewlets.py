@@ -1,7 +1,7 @@
 from DateTime import DateTime
+from functools import cached_property
 from plone import api
 from plone.app.layout.viewlets import ViewletBase
-from plone.memoize import instance
 from plone.memoize import ram
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
@@ -35,8 +35,7 @@ def _container_cachekey(method, self, container_uid):
 class PublicationListingMixin:
     review_types = REVIEW_TYPES
 
-    @property
-    @instance.memoize
+    @cached_property
     def publication(self):
         return ParentGetter(self.context).get_parent_object_of_type("Publication")
 
@@ -274,8 +273,7 @@ class PublicationListingChildren(PublicationListingMixin, BrowserView):
             return ""
         return f"publicationlisting-panel-{self.container_uid}"
 
-    @property
-    @instance.memoize
+    @cached_property
     def listing_container(self):
         return self._container_by_uid(self.container_uid)
 
