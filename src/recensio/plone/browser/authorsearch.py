@@ -7,8 +7,6 @@ from Products.Five.browser import BrowserView
 from string import ascii_uppercase
 from urllib.parse import urlencode
 
-import unicodedata
-
 
 class AuthorSearchBase(BrowserView):
     """Author index helpers shared by full-page and batch views."""
@@ -29,17 +27,6 @@ class AuthorSearchBase(BrowserView):
         if isinstance(value, str):
             return value.lower() not in {"", "0", "false", "no", "off"}
         return bool(value)
-
-    def _author_initial(self, title):
-        """Return a stable A-Z section label for the author title."""
-        for character in (safe_text(title) or "").strip():
-            if character.isdigit():
-                return "#"
-            normalized = unicodedata.normalize("NFKD", character)
-            normalized = normalized.encode("ascii", "ignore").decode("ascii")
-            if normalized and normalized[0].isalpha():
-                return normalized[0].upper()
-        return "#"
 
     def _letter_suffix(self, label):
         return "other" if label == "#" else label.lower()
@@ -169,24 +156,13 @@ class AuthorSearchBase(BrowserView):
         }
         return f"{portal_url}/search?{urlencode(query, doseq=True)}"
 
-    def _author_card(self, brain, letter=None):
-        title = brain.Title
-        return {
-            "initial": letter or self._author_initial(title),
-            "title": title,
-            "url": self.author_results_url(brain.UID),
-        }
-
-    def _author_cards(self, brains, letter=None):
-        return [self._author_card(brain, letter=letter) for brain in brains]
-
     def panel(self, letter):
         current = letter == self.selected_letter
         initial_authors = (
             self.letter_authors(letter)[: self.BATCH_SIZE] if current else []
         )
         return {
-            "authors": self._author_cards(initial_authors, letter=letter),
+            "authors": initial_authors,
             "count": self.letter_count(letter),
             "current": current,
             "initial_url": "" if current else self.batch_url(letter, start=0),
@@ -251,10 +227,6 @@ class AuthorSearchBase(BrowserView):
             return []
         authors = self.letter_authors(self.batch_letter)
         return authors[self.batch_start : self.batch_start + self.BATCH_SIZE]
-
-    @property
-    def batch_cards(self):
-        return self._author_cards(self.batch_authors, letter=self.batch_letter)
 
     @property
     def batch_next_url(self):

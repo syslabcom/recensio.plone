@@ -5,21 +5,21 @@
      i18n:domain="recensio"
 >
   <a class="authorsearch-card"
-     tal:repeat="author view/batch_cards"
+     tal:repeat="brain view/batch_authors"
      tal:attributes="
-       href author/url;
+       href python:view.author_results_url(brain.UID);
      "
   >
     <span class="authorsearch-card__marker"
           aria-hidden="true"
     >
       <span class="authorsearch-card__initial"
-            tal:content="author/initial"
+            tal:content="view/batch_letter"
       >A</span>
     </span>
     <span class="authorsearch-card__body">
       <span class="authorsearch-card__title"
-            tal:content="author/title"
+            tal:content="brain/Title"
       >Author Name</span>
       <span class="authorsearch-card__description"
             i18n:translate="label_all_reviews_author"
