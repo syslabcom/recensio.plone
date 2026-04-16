@@ -2490,6 +2490,11 @@ msgstr "Tous les textes du même auteur"
 msgid "Autorensuche"
 msgstr "Recherche d'auteurs"
 
+#. Default: "${number} authors matching your criteria"
+#: recensio.theme:/browser/templates/authorsearch.pt:57
+msgid "batch_x_authors_matching_your_criteria"
+msgstr "${number} auteurs correspondant à vos critères"
+
 #. Default: "&nbsp;und Kommentaren"
 #: recensio.theme:/browser/templates/authorsearch.pt:25
 msgid "description_authorsearch_1a"
@@ -2517,6 +2522,11 @@ msgstr "Index d’auteurs multiPORTAILE:"
 #: recensio.theme:/browser/templates/authorsearch.pt:56
 msgid "authorsearch_placeholder"
 msgstr "Recherche l’index d’auteurs"
+
+#. Default: "Browse authors by initial"
+#: recensio.theme:/browser/templates/authorsearch.pt:67
+msgid "label_authorsearch_browse_initial"
+msgstr "Parcourir de A à Z"
 
 #: recensio.theme:/browser/templates/authorsearch.pt:63
 msgid "Search"
