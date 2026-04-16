@@ -79,7 +79,7 @@ class RecensioSearch(SearchView, ListingBase):
         Solr indexes across sibling sites recensio, regio, altertum. We should
         return results only from the current site.
         """
-        query = super(RecensioSearch, self).filter_query(query)
+        query = super().filter_query(query)
         if "path" not in query and "parent_path" not in query:
             query["path_parents"] = "/".join(api.portal.get().getPhysicalPath())
         return query
