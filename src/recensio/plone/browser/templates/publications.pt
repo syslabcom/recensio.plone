@@ -9,37 +9,151 @@
 >
   <metal:main fill-slot="main"
               tal:define="
-                ploneview python:context.restrictedTraverse('@@plone');
+                sections view/publication_sections;
+                jump_links view/publication_jump_links;
               "
   >
-    <h1 i18n:translate="heading_publications">Publications</h1>
-    <p i18n:translate="description_publications">Here you see a list of publications of which we present reviews.</p>
-    <div id="content_left">
-      <tal:rep repeat="publication view/publications">
-        <h2>
-          <a tal:attributes="
-               href publication/link;
-             ">
-            <span tal:replace="publication/title">
-                    Publication Title
-            </span>
-          </a>
-        </h2>
-        <a tal:attributes="
-             href publication/link;
-           ">
-          <img class="floatBefore publication-image"
-               loading="lazy"
-               src="#"
-               tal:attributes="
-                 src publication/logo;
-                 alt string:${publication/title} logo;
-               "
-          /></a>
+    <div class="publications-directory"
+         id="content-core"
+    >
+      <header class="publications-hero">
+        <h1 class="documentFirstHeading"
+            i18n:translate="heading_publications"
+        >Publications</h1>
+        <p class="publications-intro"
+           i18n:translate="description_publications"
+        >Here you see a list of publications of which we present reviews.</p>
+      </header>
 
-        <p tal:content="structure publication/desc">The Description</p>
-        <div class="visualClear"></div>
-      </tal:rep>
+      <nav class="publications-jumpnav"
+           aria-label="Jump to publications"
+           tal:condition="python:len(sections) > 1"
+           i18n:attributes="aria-label label_publications_jump_to"
+      >
+        <span class="publications-jumpnav__label"
+              i18n:translate="label_publications_jump_to"
+        >Jump to</span>
+        <ul class="publications-jumpnav__list">
+          <tal:jump repeat="item jump_links">
+            <li class="publications-jumpnav__item"
+                tal:attributes="
+                  class python:'publications-jumpnav__item ' + ('is-active' if item['enabled'] else 'is-disabled');
+                "
+            >
+              <a class="publications-jumpnav__link"
+                 href="#"
+                 tal:condition="item/enabled"
+                 tal:content="item/label"
+                 tal:attributes="
+                   href python:'#' + item['anchor'];
+                 "
+              >A</a>
+              <span class="publications-jumpnav__link"
+                    tal:condition="not:item/enabled"
+                    tal:content="item/label"
+              >A</span>
+            </li>
+          </tal:jump>
+        </ul>
+      </nav>
+
+      <div class="publications-empty alert alert-info"
+           tal:condition="not:sections"
+           i18n:translate="description_no_publications_found"
+      >No publications were found.</div>
+
+      <tal:sections repeat="section sections">
+        <section class="publication-section"
+                 tal:attributes="
+                   id section/anchor;
+                 "
+        >
+          <div class="publication-section__header">
+            <h2 class="publication-section__title"
+                tal:content="section/label"
+            >A</h2>
+            <span class="publication-section__count"
+                  tal:content="python:len(section['publications'])"
+            >0</span>
+          </div>
+
+          <div class="publication-card-grid">
+            <article class="publication-card"
+                     tal:repeat="publication section/publications"
+            >
+              <div class="publication-card__media">
+                <img class="publication-card__image"
+                     loading="lazy"
+                     src="#"
+                     tal:condition="publication/logo"
+                     tal:attributes="
+                       src publication/logo;
+                       alt string:${publication/title};
+                     "
+                />
+                <div class="publication-card__placeholder"
+                     aria-hidden="true"
+                     tal:condition="not:publication/logo"
+                     tal:content="publication/initial"
+                >P</div>
+              </div>
+
+              <div class="publication-card__body">
+                <h3 class="publication-card__title">
+                  <a tal:attributes="
+                       href publication/link;
+                     ">
+                    <span tal:replace="publication/title">Publication Title</span>
+                  </a>
+                </h3>
+
+                <p class="publication-card__description"
+                   tal:condition="publication/desc"
+                   tal:content="publication/desc"
+                >The Description</p>
+
+                <div class="publication-card__stats">
+                  <span class="publication-card__stat">
+                    <span class="publication-card__stat-label"
+                          i18n:translate="label_publication_reviews"
+                    >Reviews</span>
+                    <span class="publication-card__stat-count"
+                          tal:content="publication/review_count"
+                    >0</span>
+                  </span>
+                  <span class="publication-card__stat">
+                    <span class="publication-card__stat-label"
+                          i18n:translate="label_publication_issues"
+                    >Issues</span>
+                    <span class="publication-card__stat-count"
+                          tal:content="publication/issue_count"
+                    >0</span>
+                  </span>
+                  <span class="publication-card__stat">
+                    <span class="publication-card__stat-label"
+                          i18n:translate="label_publication_volumes"
+                    >Volumes</span>
+                    <span class="publication-card__stat-count"
+                          tal:content="publication/volume_count"
+                    >0</span>
+                  </span>
+                </div>
+
+                <p class="publication-card__activity"
+                   tal:condition="publication/latest_review_date"
+                >
+                  <span class="publication-card__activity-label"
+                        i18n:translate="label_publication_latest_review"
+                  >Latest review</span>
+                  <span class="publication-card__activity-date"
+                        tal:content="publication/latest_review_date"
+                  >2026-03-29</span>
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+      </tal:sections>
     </div>
 
   </metal:main>

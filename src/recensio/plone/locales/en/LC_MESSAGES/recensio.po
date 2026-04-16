@@ -2547,6 +2547,78 @@ msgstr "Journals/Partners"
 msgid "description_publications"
 msgstr "List of journals providing their reviews"
 
+#. Default: "Issues and reviews"
+msgid "heading_publicationlisting"
+msgstr "Issues and reviews"
+
+#. Default: "Expand a volume to load its issues and reviews."
+msgid "description_publicationlisting"
+msgstr "Expand a volume to load its issues and reviews."
+
+#. Default: "Volume"
+msgid "label_publication_volume"
+msgstr "Volume"
+
+#. Default: "Issue"
+msgid "label_publication_issue"
+msgstr "Issue"
+
+#. Default: "Show contents"
+msgid "label_publication_show_contents"
+msgstr "Show contents"
+
+#. Default: "Show reviews"
+msgid "label_publication_show_reviews"
+msgstr "Show reviews"
+
+#. Default: "Loading contents…"
+msgid "label_publicationlisting_loading"
+msgstr "Loading contents…"
+
+#. Default: "Could not load contents."
+msgid "description_publicationlisting_loading_failed"
+msgstr "Could not load contents."
+
+#. Default: "No reviews are available yet."
+msgid "description_publicationlisting_no_contents"
+msgstr "No reviews are available yet."
+
+#. Default: "Publication profile"
+msgid "label_publication_profile"
+msgstr "Publication profile"
+
+#. Default: "Information about ${publication_title}"
+msgid "label_publication_profile_for"
+msgstr "Information about ${publication_title}"
+
+#. Default: "Browse issues and reviews"
+msgid "label_publication_jump_to_contents"
+msgstr "Browse issues and reviews"
+
+#. Default: "Jump to"
+msgid "label_publications_jump_to"
+msgstr "Jump to"
+
+#. Default: "No publications were found."
+msgid "description_no_publications_found"
+msgstr "No publications were found."
+
+#. Default: "Reviews"
+msgid "label_publication_reviews"
+msgstr "Reviews"
+
+#. Default: "Issues"
+msgid "label_publication_issues"
+msgstr "Issues"
+
+#. Default: "Volumes"
+msgid "label_publication_volumes"
+msgstr "Volumes"
+
+#. Default: "Latest review"
+msgid "label_publication_latest_review"
+msgstr "Latest review"
+
 #. Default: "Reviewed by ${review_authors}"
 #: recensio.theme:/browser/templates/results-listing.pt:103
 #: recensio.theme:/browser/templates/topical.pt:128

@@ -97,6 +97,17 @@
       />
 
   <browser:page
+      name="publication_document_view"
+      for="plone.app.contenttypes.interfaces.IDocument"
+      class=".publications.PublicationDocumentView"
+      template="templates/publication_document.pt"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      menu="plone_displayviews"
+      title="Publication profile"
+      />
+
+  <browser:page
       name="gnd-view"
       for="*"
       class=".gnd.GNDView"

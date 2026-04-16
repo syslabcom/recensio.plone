@@ -2659,6 +2659,78 @@ msgstr "Zeitschriften/Partner"
 msgid "description_publications"
 msgstr "Liste von Publikationen, zu denen Rezensionen vorliegen"
 
+#. Default: "Issues and reviews"
+msgid "heading_publicationlisting"
+msgstr "Ausgaben und Rezensionen"
+
+#. Default: "Expand a volume to load its issues and reviews."
+msgid "description_publicationlisting"
+msgstr "Öffnen Sie einen Band, um seine Ausgaben und Rezensionen zu laden."
+
+#. Default: "Volume"
+msgid "label_publication_volume"
+msgstr "Band"
+
+#. Default: "Issue"
+msgid "label_publication_issue"
+msgstr "Ausgabe"
+
+#. Default: "Show contents"
+msgid "label_publication_show_contents"
+msgstr "Inhalte anzeigen"
+
+#. Default: "Show reviews"
+msgid "label_publication_show_reviews"
+msgstr "Rezensionen anzeigen"
+
+#. Default: "Loading contents…"
+msgid "label_publicationlisting_loading"
+msgstr "Inhalte werden geladen…"
+
+#. Default: "Could not load contents."
+msgid "description_publicationlisting_loading_failed"
+msgstr "Die Inhalte konnten nicht geladen werden."
+
+#. Default: "No reviews are available yet."
+msgid "description_publicationlisting_no_contents"
+msgstr "Es sind noch keine Rezensionen vorhanden."
+
+#. Default: "Publication profile"
+msgid "label_publication_profile"
+msgstr "Publikationsprofil"
+
+#. Default: "Information about ${publication_title}"
+msgid "label_publication_profile_for"
+msgstr "Informationen zu ${publication_title}"
+
+#. Default: "Browse issues and reviews"
+msgid "label_publication_jump_to_contents"
+msgstr "Zu Ausgaben und Rezensionen"
+
+#. Default: "Jump to"
+msgid "label_publications_jump_to"
+msgstr "Direkt zu"
+
+#. Default: "No publications were found."
+msgid "description_no_publications_found"
+msgstr "Es wurden keine Publikationen gefunden."
+
+#. Default: "Reviews"
+msgid "label_publication_reviews"
+msgstr "Rezensionen"
+
+#. Default: "Issues"
+msgid "label_publication_issues"
+msgstr "Ausgaben"
+
+#. Default: "Volumes"
+msgid "label_publication_volumes"
+msgstr "Bände"
+
+#. Default: "Latest review"
+msgid "label_publication_latest_review"
+msgstr "Neueste Rezension"
+
 #. Default: "Reviewed by ${review_authors}"
 #: recensio.theme:/browser/templates/results-listing.pt:103
 #: recensio.theme:/browser/templates/topical.pt:128

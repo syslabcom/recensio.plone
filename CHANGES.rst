@@ -5,7 +5,41 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Revamp the publication listing viewlet with a modern card layout matching
+  the redesigned result and publication views, and lazy-load nested contents
+  via pat-inject.
+  `#4662 <https://github.com/syslabcom/scrum/issues/4662>`
+  [pilz]
+
+- Add a compact publication profile display for Documents inside publications,
+  with a jump link to the publication contents below, and expose it as an
+  alternative display via an upgrade step.
+  `#4662 <https://github.com/syslabcom/scrum/issues/4662>`
+  [pilz]
+
+- Translate the reset facets button and rename the placeholder in the search field.
+  `#4684 <https://github.com/syslabcom/scrum/issues/4684>`_
+  [pilz]
+
+- Sort all listings in the publication list viewlet by object position in parent.
+  `#4686 <https://github.com/syslabcom/scrum/issues/4686>`_
+  [pilz]
+
+
+2.1.1 (2026-04-05)
+------------------
+
+- Revamp the publication listing viewlet with a modern card layout matching
+  the redesigned result and publication views, and lazy-load nested contents
+  via pat-inject.
+  `#4662 <https://github.com/syslabcom/scrum/issues/4662>`
+  [pilz]
+
+- Add a compact publication profile display for Documents inside publications,
+  with a jump link to the publication contents below, and expose it as an
+  alternative display via an upgrade step.
+  `#4662 <https://github.com/syslabcom/scrum/issues/4662>`
+  [pilz]
 
 
 2.1.1 (2026-04-05)

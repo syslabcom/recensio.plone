@@ -1,138 +1,143 @@
-<div id="publicationlisting"
-     tal:define="
-       language context/@@plone_portal_state/language;
-       portal_url context/portal_url;
-     "
-     tal:condition="view/visible"
-     i18n:domain="recensio"
+<section id="publicationlisting"
+         tal:define="
+           volumes view/volumes | nothing;
+         "
+         tal:condition="python:view.visible() and volumes"
+         i18n:domain="recensio"
 >
 
-  <a name="publicationslisting"></a>
-  <tal:volumes repeat="volume view/volumes | nothing">
-    <div class="review_container"
-         tal:define="
-           volume_expanded python:view.is_expanded(volume['UID']);
-           is_container python:volume['css_classes'] and 'review_container' in volume['css_classes'];
-         "
-         tal:attributes="
-           id volume/UID;
-           class volume/css_classes;
-         "
-    >
-      <a class="container_trigger"
-         href="#"
-         tal:condition="is_container"
-         tal:attributes="
-           href volume/toggle_link;
-         "
+  <a id="publicationslisting"></a>
+
+  <header class="publicationlisting-header">
+    <h2 class="publicationlisting-title"
+        i18n:translate="heading_publicationlisting"
+    >Issues and reviews</h2>
+    <p class="publicationlisting-intro"
+       i18n:translate="description_publicationlisting"
+    >Expand a volume to load its issues and reviews.</p>
+  </header>
+
+  <div class="publicationlisting-stack">
+    <tal:volumes repeat="volume volumes">
+      <details class="publicationlisting-card publicationlisting-card--volume"
+               data-error-label="Could not load contents."
+               data-loading-label="Loading contents…"
+               tal:condition="volume/has_children"
+               tal:attributes="
+                 data-publicationlisting-load-url volume/load_url;
+               "
+               i18n:attributes="data-error-label description_publicationlisting_loading_failed; data-loading-label label_publicationlisting_loading"
       >
-        <h2 tal:content="volume/Title"></h2>
-      </a>
-      <h2 tal:condition="not:is_container"
-          tal:content="volume/Title"
-      ></h2>
-
-      <span class="pdf"
-            tal:condition="volume/pdf | nothing"
-      >
-        <a href=""
-           tal:attributes="
-             href string:${volume/pdf}/@@download/file;
-           "
-        >
-          <img alt=""
-               src="pdf.png"
-          />&nbsp;
-          <span i18n:translate="label_download_complete_pdf">download Gesamt-pdf</span>
-        </a>
-        <span class="discreet">
-                &mdash;
-          <span>PDF</span>,
-          <tal:size content="volume/pdfsize">?</tal:size>
-        </span>
-      </span>
-
-      <ul tal:condition="is_container">
-        <li tal:condition="volume_expanded"
-            tal:repeat="review python:view.reviews(volume=volume['id'])"
-        >
-          <a tal:content="review/getDecoratedTitle"
-             tal:attributes="
-               href review/absolute_url;
-             "
-          ></a>
-        </li>
-      </ul>
-    </div>
-
-    <tal:issues repeat="issue python:view.issues(volume=volume['id'])">
-      <div class="review_container"
-           tal:define="
-             issue_expanded python:view.is_expanded(issue['UID']);
-             is_container python:issue['css_classes'] and 'review_container' in issue['css_classes'];
-           "
-           tal:attributes="
-             id issue/UID;
-             class issue/css_classes;
-           "
-      >
-        <a class="container_trigger"
-           href="#"
-           tal:condition="is_container"
-           tal:attributes="
-             href issue/toggle_link;
-           "
-        >
-          <h3 tal:content="issue/Title"></h3>
-        </a>
-        <h3 tal:condition="not:is_container"
-            tal:content="issue/Title"
-        ></h3>
-
-
-        <span class="pdf"
-              tal:condition="issue/pdf | nothing"
-        >
-          <a href=""
-             tal:attributes="
-               href string:${issue/pdf}/@@download/file;
-             "
-          >
-            <img alt=""
-                 src="pdf.png"
-            />&nbsp;
-            <span i18n:translate="label_download_complete_pdf">download Gesamt-pdf</span>
-          </a>
-          <span class="discreet">
-                  &mdash;
-            <span>PDF</span>,
-            <tal:size content="issue/pdfsize">?</tal:size>
+        <summary class="publicationlisting-card__summary">
+          <span class="publicationlisting-card__summary-copy">
+            <span class="publicationlisting-card__eyebrow"
+                  i18n:translate="label_publication_volume"
+            >Volume</span>
+            <span class="publicationlisting-card__title"
+                  tal:content="volume/title"
+            >Volume 2026</span>
           </span>
-        </span>
+          <span class="publicationlisting-card__summary-actions">
+            <span class="publicationlisting-card__hint"
+                  i18n:translate="label_publication_show_contents"
+            >Show contents</span>
+            <span class="publicationlisting-card__chevron"
+                  aria-hidden="true"
+            ></span>
+          </span>
+        </summary>
 
-        <tal:comment replace="nothing">
-          An image would be nicer, but not my expertise :(
-          <img class="loading"
-               src="++resource++recensio.theme.images/fancy_loading.png"
-               tal:condition="is_container"
-               tal:attributes="
-                 src string:${context/portal_url}/++resource++recensio.theme.images/fancy_loading.png;
-               "
-          />&nbsp;
-        </tal:comment>
-        <ul tal:condition="is_container">
-          <li tal:condition="issue_expanded"
-              tal:repeat="review python:view.reviews(volume=volume['id'],issue=issue['id'])"
+        <div class="publicationlisting-card__meta">
+          <div class="publicationlisting-card__badges">
+            <span class="publicationlisting-badge">
+              <strong tal:content="volume/issue_count">0</strong>
+              <span i18n:translate="label_publication_issues">Issues</span>
+            </span>
+            <span class="publicationlisting-badge">
+              <strong tal:content="volume/review_count">0</strong>
+              <span i18n:translate="label_publication_reviews">Reviews</span>
+            </span>
+          </div>
+
+          <div class="publicationlisting-card__downloads"
+               tal:condition="volume/pdf | nothing"
           >
-            <a tal:content="review/getDecoratedTitle"
+            <a class="publicationlisting-download"
+               href=""
                tal:attributes="
-                 href review/absolute_url;
+                 href string:${volume/pdf}/@@download/file;
                "
-            ></a>
-          </li>
-        </ul>
-      </div>
-    </tal:issues>
-  </tal:volumes>
+            >
+              <span i18n:translate="label_download_complete_pdf">download Gesamt-pdf</span>
+            </a>
+            <span class="publicationlisting-download__meta discreet">
+              PDF,
+              <tal:size content="volume/pdfsize">?</tal:size>
+            </span>
+          </div>
+        </div>
 
-</div>
+        <div class="publicationlisting-card__panel"
+             tal:attributes="
+               id volume/panel_id;
+             "
+        >
+          <a class="pat-inject publicationlisting-panel__loader"
+             href="#"
+             tal:attributes="
+               href string:${volume/load_url}#${volume/panel_id};
+               data-pat-inject python:view.inject_options(volume['panel_id']);
+             "
+          >
+            <span i18n:translate="label_publicationlisting_loading">Loading contents&hellip;</span>
+          </a>
+        </div>
+      </details>
+
+      <article class="publicationlisting-card publicationlisting-card--volume publicationlisting-card--static"
+               tal:condition="not:volume/has_children"
+      >
+        <header class="publicationlisting-card__summary publicationlisting-card__summary--static">
+          <span class="publicationlisting-card__summary-copy">
+            <span class="publicationlisting-card__eyebrow"
+                  i18n:translate="label_publication_volume"
+            >Volume</span>
+            <span class="publicationlisting-card__title"
+                  tal:content="volume/title"
+            >Volume 2026</span>
+          </span>
+        </header>
+
+        <div class="publicationlisting-card__meta">
+          <div class="publicationlisting-card__badges">
+            <span class="publicationlisting-badge">
+              <strong tal:content="volume/issue_count">0</strong>
+              <span i18n:translate="label_publication_issues">Issues</span>
+            </span>
+            <span class="publicationlisting-badge">
+              <strong tal:content="volume/review_count">0</strong>
+              <span i18n:translate="label_publication_reviews">Reviews</span>
+            </span>
+          </div>
+
+          <div class="publicationlisting-card__downloads"
+               tal:condition="volume/pdf | nothing"
+          >
+            <a class="publicationlisting-download"
+               href=""
+               tal:attributes="
+                 href string:${volume/pdf}/@@download/file;
+               "
+            >
+              <span i18n:translate="label_download_complete_pdf">download Gesamt-pdf</span>
+            </a>
+            <span class="publicationlisting-download__meta discreet">
+              PDF,
+              <tal:size content="volume/pdfsize">?</tal:size>
+            </span>
+          </div>
+        </div>
+      </article>
+    </tal:volumes>
+  </div>
+</section>
