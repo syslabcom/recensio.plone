@@ -1,7 +1,6 @@
 from collections import OrderedDict
 from DateTime import DateTime
 from plone import api
-from plone.memoize import ram
 from plone.memoize.view import memoize
 from Products.CMFPlone.browser.defaultpage import DefaultPage
 from Products.Five.browser import BrowserView
@@ -9,12 +8,14 @@ from recensio.plone.adapter.parentgetter import IParentGetter
 from recensio.plone.browser.canonical import CanonicalURLHelper
 from recensio.plone.config import REVIEW_TYPES
 
+import datetime
 import string
 import unicodedata
 
 
 PUBLICATION_DESCENDANT_TYPES = ("Volume", "Issue") + tuple(REVIEW_TYPES)
 PUBLICATION_JUMP_LETTERS = tuple(string.ascii_uppercase)
+ARCHIVE_SECTION_ID = "archive"
 
 
 def _render_cachekey(method, self, brain, lang):
@@ -49,79 +50,13 @@ class PublicationDefaultPage(DefaultPage):
         return default_page
 
 
-class PublicationDocumentView(BrowserView):
-    """Compact document view for publication profile pages."""
-
-    @property
-    @memoize
-    def publication(self):
-        return IParentGetter(self.context).get_parent_object_of_type("Publication")
-
-    @property
-    @memoize
-    def publication_stats(self):
-        publication = self.publication
-        if publication is None:
-            return dict(
-                volume_count=0,
-                issue_count=0,
-                review_count=0,
-                latest_review_date="",
-            )
-        publication_path = "/".join(publication.getPhysicalPath())
-        return self._publication_stats(publication_path)
-
-    @property
-    def show_jump_to_listing(self):
-        publication = self.publication
-        stats = self.publication_stats
-        return publication is not None and any(
-            stats[key] for key in ("volume_count", "issue_count", "review_count")
-        )
-
-    @property
-    def publication_logo_url(self):
-        publication = self.publication
-        if publication is None or "logo" not in publication.objectIds():
-            return None
-        return f"{publication.absolute_url()}/logo/@@images/image/thumb"
-
-    @property
-    def publication_initial(self):
-        title = self.publication and self.publication.Title() or self.context.Title()
-        for character in (title or "").strip():
-            if character.isalnum():
-                normalized = unicodedata.normalize("NFKD", character)
-                normalized = normalized.encode("ascii", "ignore").decode("ascii")
-                if normalized:
-                    return normalized[0].upper()
-        return "P"
-
-
-class PublicationsView(BrowserView, CanonicalURLHelper):
-    """Overview page of publications."""
-
+class PublicationSummaryMixin:
     def format_effective_date(self, date_string):
         """Format the publication date for compact display."""
         if not date_string or date_string == "None":
             return ""
         date = DateTime(date_string)
-        return "%s-%02d-%02d" % (date.year(), date.month(), date.day())
-
-    def _publication_letter(self, title):
-        """Return the A-Z jump target for a publication title."""
-        for character in (title or "").strip():
-            if character.isdigit():
-                return "#"
-            normalized = unicodedata.normalize("NFKD", character)
-            normalized = normalized.encode("ascii", "ignore").decode("ascii")
-            if normalized and normalized[0].isalpha():
-                return normalized[0].upper()
-        return "#"
-
-    def _section_anchor(self, label):
-        suffix = "other" if label == "#" else label.lower()
-        return f"publication-section-{suffix}"
+        return f"{date.year()}-{date.month():02d}-{date.day():02d}"
 
     def _publication_stats(self, publication_path):
         descendants = api.content.find(
@@ -131,12 +66,12 @@ class PublicationsView(BrowserView, CanonicalURLHelper):
             sort_on="effective",
             sort_order="reverse",
         )
-        stats = dict(
-            volume_count=0,
-            issue_count=0,
-            review_count=0,
-            latest_review_date="",
-        )
+        stats = {
+            "volume_count": 0,
+            "issue_count": 0,
+            "review_count": 0,
+            "latest_review_date": "",
+        }
         for descendant in descendants:
             if descendant.portal_type == "Volume":
                 stats["volume_count"] += 1
@@ -150,59 +85,113 @@ class PublicationsView(BrowserView, CanonicalURLHelper):
                     )
         return stats
 
-    @ram.cache(_render_cachekey)
-    def brain_to_pub(self, brain, lang):
-        pubob = brain.getObject()
-        has_logo = "logo" in pubob.objectIds()
-        if pubob.getDefaultPage():
-            default_page = api.content.get_view(
-                context=pubob,
-                request=self.request,
-                name="default_page",
-            ).getDefaultPage()
-            defob = getattr(pubob, default_page, None) or pubob
-        else:
-            defob = pubob
-        title = defob and defob.Title() != "" and defob.Title() or pubob.Title()
-        desc = (defob and defob.Description() or pubob.Description() or "").strip()
-        path = defob and "/".join(defob.getPhysicalPath()) or ""
-        info = {
-            "title": title,
-            "desc": desc,
-            "has_logo": has_logo,
-            "path": path,
-            "initial": self._publication_letter(title),
-        }
-        info.update(self._publication_stats(brain.getPath()))
-        return info
+    def _publication_logo_url(self, publication):
+        if not publication:
+            publication = self.context
+        if "logo" not in publication.objectIds():
+            return None
+        return f"{publication.absolute_url()}/logo/@@images/image/thumb"
+
+    def _publication_letter(self, title):
+        """Return the A-Z jump target for a publication title."""
+        for character in (title or "").strip():
+            if character.isdigit():
+                return "#"
+            normalized = unicodedata.normalize("NFKD", character)
+            normalized = normalized.encode("ascii", "ignore").decode("ascii")
+            if normalized and normalized[0].isalpha():
+                return normalized[0].upper()
+        return "#"
+
+
+class PublicationDocumentView(PublicationSummaryMixin, BrowserView):
+    """Compact document view for publication profile pages."""
+
+    @property
+    @memoize
+    def publication(self):
+        return IParentGetter(self.context).get_parent_object_of_type("Publication")
+
+    @property
+    @memoize
+    def publication_stats(self):
+        publication = self.publication
+        if publication is None:
+            return {
+                "volume_count": 0,
+                "issue_count": 0,
+                "review_count": 0,
+                "latest_review_date": "",
+            }
+        publication_path = "/".join(publication.getPhysicalPath())
+        return self._publication_stats(publication_path)
+
+    @property
+    def show_jump_to_listing(self):
+        publication = self.publication
+        stats = self.publication_stats
+        return publication is not None and any(
+            stats[key] for key in ("volume_count", "issue_count", "review_count")
+        )
+
+    @property
+    def publication_logo_url(self):
+        return self._publication_logo_url(self.publication)
+
+    def publication_initial(self):
+        return self._publication_letter(self.publication.title)
+
+
+class PublicationsView(PublicationSummaryMixin, BrowserView, CanonicalURLHelper):
+    """Overview page of publications."""
+
+    def publication_logo_url(self, publication):
+        return self._publication_logo_url(publication)
+
+    def get_publication_stats(self, publication_brain):
+        publication_path = "/".join(publication_brain.getPhysicalPath())
+        return self._publication_stats(publication_path)
+
+    def _section_anchor(self, label):
+        suffix = "other" if label == "#" else label.lower()
+        return f"publication-section-{suffix}"
+
+    @property
+    def show_archive(self):
+        return self.request.get("show") == ARCHIVE_SECTION_ID
 
     @memoize
-    def publications(self):
-        publist = []
-        currlang = api.portal.get_current_language()
+    def archived_publications(self):
         pubs = api.content.find(
             path="/".join(self.context.getPhysicalPath()),
             portal_type="Publication",
             sort_on="sortable_title",
             review_state="published",
+            expires={"query": datetime.datetime.now(), "range": "max"},
         )
-        for pub in pubs:
-            info = self.brain_to_pub(pub, currlang).copy()
-            info["logo"] = (
-                f"{pub.getURL()}/logo/@@images/image/thumb"
-                if info["has_logo"]
-                else None
-            )
-            info["link"] = self.request.physicalPathToURL(info["path"])
-            publist.append(info)
-        return publist
+        return pubs
 
     @memoize
+    def publications(self):
+        pubs = api.content.find(
+            path="/".join(self.context.getPhysicalPath()),
+            portal_type="Publication",
+            sort_on="sortable_title",
+            review_state="published",
+            expires={"query": datetime.datetime.now(), "range": "min"},
+        )
+        return pubs
+
     def publication_sections(self):
         grouped = OrderedDict((label, []) for label in PUBLICATION_JUMP_LETTERS)
         grouped["#"] = []
-        for publication in self.publications():
-            grouped[publication["initial"]].append(publication)
+        if self.show_archive:
+            pubs = self.archived_publications()
+        else:
+            pubs = self.publications()
+
+        for publication in pubs:
+            grouped[self._publication_letter(publication.Title)].append(publication)
         return [
             {
                 "label": label,
@@ -212,6 +201,21 @@ class PublicationsView(BrowserView, CanonicalURLHelper):
             for label, publications in grouped.items()
             if publications
         ]
+
+    @property
+    def archive_url(self):
+        base = self.request["ACTUAL_URL"]
+        if self.show_archive:
+            return base
+        return f"{base}?show={ARCHIVE_SECTION_ID}"
+
+    @property
+    def active_url(self):
+        return self.request["ACTUAL_URL"]
+
+    @property
+    def has_archived_publications(self):
+        return bool(self.archived_publications())
 
     @memoize
     def publication_jump_links(self):

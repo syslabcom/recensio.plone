@@ -5,6 +5,12 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
+- Add a compact publication profile display for Documents inside publications,
+  with a jump link to the publication contents below, and expose it as an
+  alternative display via an upgrade step.
+  `#4732 <https://github.com/syslabcom/scrum/issues/4732>`
+  [pilz]
+
 - Revamp the publication listing viewlet with a modern card layout matching
   the redesigned result and publication views, and lazy-load nested contents
   via pat-inject.

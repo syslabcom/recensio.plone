@@ -68,6 +68,7 @@ class PublicationListingMixin:
             UID=container_uid,
             path=self.publication_path,
             portal_type=portal_type,
+            sort_on="getObjPositionInParent",
         )
         if not brains:
             return None
@@ -119,6 +120,7 @@ class PublicationListingMixin:
             context=self.publication,
             depth=2,
             portal_type="Issue",
+            sort_on="getObjPositionInParent",
         )
         for brain in issue_brains:
             volume_path = "/".join(brain.getPath().split("/")[:-1])
@@ -135,6 +137,7 @@ class PublicationListingMixin:
             context=self.publication,
             depth=3,
             portal_type=self.review_types,
+            sort_on="getObjPositionInParent",
         )
         for brain in review_brains:
             relative_path = brain.getPath()[len(publication_path) + 1 :]
@@ -155,8 +158,7 @@ class PublicationListingMixin:
             context=self.publication,
             depth=1,
             portal_type="Volume",
-            sort_on="effective",
-            sort_order="descending",
+            sort_on="getObjPositionInParent",
         )
         return [
             self._make_container_summary(
@@ -178,6 +180,7 @@ class PublicationListingMixin:
             context=volume,
             depth=2,
             portal_type=self.review_types,
+            sort_on="getObjPositionInParent",
         )
         for brain in review_brains:
             parent_path = "/".join(brain.getPath().split("/")[:-1])
@@ -189,8 +192,7 @@ class PublicationListingMixin:
             context=volume,
             depth=1,
             portal_type="Issue",
-            sort_on="effective",
-            sort_order="descending",
+            sort_on="getObjPositionInParent",
         )
         return [
             self._make_container_summary(
@@ -209,8 +211,7 @@ class PublicationListingMixin:
             context=container,
             depth=1,
             portal_type=self.review_types,
-            sort_on="effective",
-            sort_order="descending",
+            sort_on="getObjPositionInParent",
         )
         items = []
         for brain in review_brains:

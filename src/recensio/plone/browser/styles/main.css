@@ -184,6 +184,21 @@ body.template-browse-topics h1.documentFirstHeading {
     text-align: center;
 }
 
+.archive-title {
+    margin: 1rem auto 0;
+    padding: 0.75rem 1.5rem;
+    max-width: 32rem;
+    border: 2px dashed #a0aaa4;
+    border-radius: 10px;
+    background: #f4f6f4;
+    color: #55635b;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
 .publications-intro {
     max-width: 46rem;
     margin: 0.85rem auto 0;
@@ -296,7 +311,7 @@ body.template-browse-topics h1.documentFirstHeading {
 
 .publication-card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(21rem, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 1.25rem;
 }
 
@@ -781,6 +796,167 @@ body.template-browse-topics h1.documentFirstHeading {
     color: #7b4c4c;
 }
 
+.publication-profile-header {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 1rem 1.25rem;
+    align-items: center;
+    margin: 0 0 1.35rem;
+    padding: 1.2rem 1.35rem;
+    border: 1px solid #d7ddd8;
+    border-left: 4px solid #8b6a2b;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #fffefb 0%, #f7f7f4 100%);
+    box-shadow: 0 10px 24px rgba(50, 58, 52, 0.06);
+}
+
+.publication-profile-header__media {
+    display: flex;
+    align-items: flex-start;
+}
+
+.publication-profile-header__image,
+.publication-profile-header__placeholder {
+    width: 5rem;
+    aspect-ratio: 4 / 5;
+    border-radius: 10px;
+}
+
+.publication-profile-header__image {
+    display: block;
+    border: 1px solid #e3e6e1;
+    background: #fff;
+    object-fit: contain;
+}
+
+.publication-profile-header__placeholder {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e3e6e1;
+    background: linear-gradient(180deg, #f4ead2 0%, #ebe1c9 100%);
+    color: #725a23;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.publication-profile-header__body {
+    min-width: 0;
+}
+
+.publication-profile-header__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+    background: #f4ead2;
+    color: #725a23;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.publication-profile-header__title {
+    margin: 0.55rem 0 0;
+    color: #173f5f;
+    font-size: clamp(1.7rem, 2.5vw, 2.3rem);
+    line-height: 1.2;
+}
+
+.publication-profile-header__publication {
+    margin: 0.5rem 0 0;
+    color: #55635b;
+    font-size: 1rem;
+    line-height: 1.55;
+}
+
+.publication-profile-header__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+}
+
+.publication-profile-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    background: #f4ead2;
+    color: #4e5c53;
+    font-size: 0.86rem;
+    font-weight: 600;
+}
+
+.publication-profile-badge strong {
+    color: #725a23;
+    font-weight: 700;
+}
+
+.publication-profile-header__jump {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 1rem;
+    border-radius: 999px;
+    background: #173f5f;
+    color: #fff;
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.publication-profile-header__jump:hover,
+.publication-profile-header__jump:focus {
+    background: #0e2d46;
+    color: #fff;
+    text-decoration: none;
+}
+
+.publication-profile-card {
+    padding: 1.25rem 1.35rem;
+    border: 1px solid #d7ddd8;
+    border-left: 4px solid #58748b;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 10px 24px rgba(50, 58, 52, 0.05);
+}
+
+.publication-profile-card__body {
+    color: #2f3c34;
+}
+
+.publication-profile-card__body #parent-fieldname-text {
+    line-height: 1.7;
+}
+
+.publication-profile-card__body #parent-fieldname-text > :first-child {
+    margin-top: 0;
+}
+
+.publication-profile-card__body #parent-fieldname-text > :last-child {
+    margin-bottom: 0;
+}
+
+.publication-profile-card__body #parent-fieldname-text p,
+.publication-profile-card__body #parent-fieldname-text ul,
+.publication-profile-card__body #parent-fieldname-text ol {
+    margin-bottom: 0.9rem;
+}
+
+.publication-profile-card__body #parent-fieldname-text h2,
+.publication-profile-card__body #parent-fieldname-text h3,
+.publication-profile-card__body #parent-fieldname-text h4 {
+    margin-top: 1.25rem;
+    color: #173f5f;
+    line-height: 1.35;
+}
+
 .topical-layout {
     display: flex;
     align-items: stretch;
@@ -1025,6 +1201,29 @@ body.template-browse-topics h1.documentFirstHeading {
         padding-right: 1rem;
     }
 
+    .publication-profile-header {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .publication-profile-header__jump {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
+
+    .search-results-toolbar {
+        align-items: stretch;
+    }
+
+    .topical-sort-control {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .topical-sort-select {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
     .topical-layout {
         flex-direction: column;
         gap: 2rem;
@@ -1065,6 +1264,32 @@ body.template-browse-topics h1.documentFirstHeading {
 
     .publication-card {
         grid-template-columns: 1fr;
+    }
+
+    .publication-profile-header {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .publication-profile-header__media {
+        justify-content: center;
+    }
+
+    .publication-profile-header__body {
+        text-align: center;
+    }
+
+    .publication-profile-header__meta {
+        justify-content: center;
+    }
+
+    .publication-profile-header__jump {
+        width: 100%;
+        justify-self: stretch;
+    }
+
+    .publication-profile-card {
+        padding: 1rem;
     }
 
     .publicationlisting-title {
