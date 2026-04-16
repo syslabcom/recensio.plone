@@ -30,4 +30,12 @@
       permission="zope2.View"
       />
 
+  <browser:page
+      name="publicationlisting-children"
+      for="recensio.plone.content.publication.IPublication"
+      class=".viewlets.PublicationListingChildren"
+      template="templates/publicationlisting_children.pt"
+      permission="zope2.View"
+      />
+
 </configure>
