@@ -1,0 +1,61 @@
+<rm xmlns:tal="http://xml.zope.org/namespaces/tal"
+    id="ed891fc49fdbbb562278aa88e9ffb40d"
+    tal:attributes="
+      id context/UID;
+    "
+>
+  <book>
+    <tal:repl replace="structure view/list_authors" />
+    <tal:repl replace="structure view/list_editors" />
+    <isbn tal:content="context/isbn">978-5-91022-116-5</isbn>
+    <language_reviewed_object tal:condition="context/languageReviewedText"
+                              tal:content="python:', '.join([view.get_lang_name(x) for x in context.languageReviewedText])"
+    >&Rcy;&ucy;&scy;&scy;&kcy;&icy;&jcy;</language_reviewed_object>
+    <pages tal:content="context/pages">896</pages>
+    <place_of_publication tal:content="context/placeOfPublication">Moskva</place_of_publication>
+    <publishing_company tal:content="context/publisher">AIRO-XXI</publishing_company>
+    <series tal:content="context/series">Quellen und Darstellungen zur Zeitgeschichte</series>
+    <subtitle tal:content="context/subtitle">2: Burnye proryvy, rasbitye nade&zcaron;dy. Russkie i nemcy v me&zcaron;voennye gody</subtitle>
+    <title tal:content="context/Title">Rossija i Germanija v XX veke</title>
+    <volume_number tal:content="context/seriesVol">2</volume_number>
+    <year tal:content="context/yearOfPublication">2010</year>
+  </book>
+  <bvid tal:condition="context/bv|nothing"
+        tal:content="context/bv"
+  ></bvid>
+  <classification_place tal:content="python:context.ddcPlace and ', '.join([view.get_voc_title('ddcPlace', x) for x in context.ddcPlace if x]) or ''">Slowenien, Polen, Lettland, Deutschland, Tschechien</classification_place>
+  <classification_subject tal:content="python:context.ddcSubject and ', '.join([view.get_voc_title('ddcSubject', x) for x in context.ddcSubject if x]) or ''">Sprachgeschichte, Wirtschaftsgeschichte, Literaturgeschichte, Siedlungs-, Stadt- und Ortsgeschichte, Bildungs-, Wissenschafts-, Schul- und Universit&auml;tsgeschichte, Sozial- und Kulturgeschichte</classification_subject>
+  <classification_time tal:content="python:context.ddcTime and ', '.join([view.get_voc_title('ddcTime', x) for x in context.ddcTime if x]) or ''">17. Jahrundert, 19. Jahrhundert, 20. Jahrhundert</classification_time>
+  <doi tal:condition="context/doiRegistrationActive"
+       tal:content="context/doi"
+  >10.15463/rec.xxxxxxx</doi>
+  <language_review tal:condition="context/languageReview"
+                   tal:content="python:', '.join([view.get_lang_name(x) for x in context.languageReview])"
+  >Deutsch</language_review>
+  <reviewer tal:repeat="author context/reviewAuthors">
+    <reviewer_last_name tal:define="
+                          lastname author/to_object/lastname | string:'';
+                        "
+                        tal:content="lastname"
+    >Bla&zcaron;ek</reviewer_last_name>
+    <reviewer_first_name tal:define="
+                           firstname author/to_object/firstname | string:'';
+                         "
+                         tal:content="firstname"
+    >David</reviewer_first_name>
+  </reviewer>
+  <subject_headings tal:content="python:context.Subject() and ', '.join(context.Subject()) or ''">Slowenisch-deutscher Sprachvergleich, Riga / Handel, Tschechisch-deutscher Sprachkontakt, Arnim, Bettina von</subject_headings>
+  <filename tal:content="string:http://recensio.net/r/${context/UID}">http://recensio.net/r/8578c6f5e0304309991c1b12abeccc30</filename>
+  <fulltext tal:condition="view/include_fulltext"
+            tal:content="python:'/'.join(context.getPhysicalPath()[2:]) + '.pdf'"
+  >francia-recensio/2010-4/mittelalter-moyen-age-500-1500/die-inszenierung-der-vergangenheit-im-mittelalter.pdf</fulltext>
+  <originalurl tal:condition="context/canonical_uri"
+               tal:content="context/canonical_uri"
+  >http://www.recensio.net/rezensionen/zeitschriften/francia-recensio/2010-4/mittelalter-moyen-age-500-1500/die-inszenierung-der-vergangenheit-im-mittelalter</originalurl>
+  <page_first tal:condition="context/pageStartOfReviewInJournal"
+              tal:content="context/pageStartOfReviewInJournal"
+  >2</page_first>
+  <page_last tal:condition="context/pageEndOfReviewInJournal"
+             tal:content="context/pageEndOfReviewInJournal"
+  >3</page_last>
+</rm>

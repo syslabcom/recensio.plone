@@ -1,26 +1,22 @@
-# -* coding: utf-8 *-
-from Acquisition import aq_parent
-from base64 import b64encode
 from datetime import datetime
 from datetime import timedelta
+from datetime import timezone
 from DateTime import DateTime
-from io import FileIO
+from io import StringIO
 from os import path
 from os import remove
 from os import stat
 from plone import api
+from plone.namedfile.file import NamedBlobFile
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import safe_unicode
+from Products.Five.browser import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from recensio.plone.adapter.parentgetter import IParentGetter
-from recensio.plone.interfaces import IRecensioExporter
 from recensio.plone.controlpanel.settings import IRecensioSettings
-from io import StringIO
+from recensio.plone.interfaces import IRecensioExporter
 from tempfile import NamedTemporaryFile
-from Testing.makerequest import makerequest
-from urllib.request import HTTPError
-from urllib.request import Request
-from urllib.request import urlopen
+from urllib.parse import urlparse
 from zExceptions import NotFound
 from zipfile import ZipFile
 from zope.annotation import IAnnotations
@@ -29,24 +25,28 @@ from zope.component.factory import Factory
 from zope.component.hooks import getSite
 from zope.component.interfaces import IFactory
 from zope.interface import implementer
-from zope.pagetemplate.pagetemplatefile import PageTemplateFile
 
 import csv
 import logging
+import requests
 import tempfile
 
 
 log = logging.getLogger(__name__)
 
 
-class StatusSuccess(object):
+class ContainerExportView(BrowserView):
+    template = ViewPageTemplateFile("browser/templates/export_container_contextless.pt")
+
+
+class StatusSuccess:
     value = True
 
     def __repr__(self):
         return "Success"
 
 
-class StatusFailure(object):
+class StatusFailure:
     value = False
 
     def __repr__(self):
@@ -60,7 +60,7 @@ class StatusSuccessFile(StatusSuccess):
 
 class StatusSuccessFileCreated(StatusSuccessFile):
     def __repr__(self):
-        return "{0} created".format(self.filename)
+        return f"{self.filename} created"
 
 
 class StatusSuccessFileExists(StatusSuccessFile):
@@ -69,7 +69,7 @@ class StatusSuccessFileExists(StatusSuccessFile):
         self.modified = modified
 
     def __repr__(self):
-        return "current file found ({0}, {1})".format(self.filename, self.modified)
+        return f"current file found ({self.filename}, {self.modified})"
 
 
 class StatusFailureAlreadyInProgress(StatusFailure):
@@ -77,10 +77,10 @@ class StatusFailureAlreadyInProgress(StatusFailure):
         self.since = since
 
     def __repr__(self):
-        return "export in progress since {0}".format(self.since)
+        return f"export in progress since {self.since}"
 
 
-class BaseExporter(object):
+class BaseExporter:
     def get_export_obj(self, portal):
         try:
             export_xml = portal.unrestrictedTraverse(self.export_filename)
@@ -101,7 +101,6 @@ class ChroniconExporter(BaseExporter):
     """Export review metadata (but not full text) to a zip file containing one
     XML file per issue/volume"""
 
-    template = "browser/templates/export_container_contextless.pt"
     export_filename = "export_metadata_xml.zip"
     xml_view_name = "@@xml"
 
@@ -116,48 +115,49 @@ class ChroniconExporter(BaseExporter):
         return IParentGetter(self.current_issue).get_parent_object_of_type(meta_type)
 
     def get_publication_shortname(self):
-        return unicode(self.get_parent("Publication").getId(), "utf-8")
+        return self.get_parent("Publication").getId()
 
     def get_publication_title(self):
-        return unicode(self.get_parent("Publication").Title(), "utf-8")
+        return self.get_parent("Publication").Title()
 
     def get_package_journal_volume(self):
-        return unicode(self.get_parent("Volume").getId(), "utf-8")
+        return self.get_parent("Volume").getId()
 
     def get_package_journal_volume_title(self):
-        return unicode(self.get_parent("Volume").Title(), "utf-8")
+        return self.get_parent("Volume").Title()
 
     def get_package_journal_pubyear(self):
-        return self.get_parent("Volume").getYearOfPublication() or None
+        volume = self.get_parent("Volume")
+        return getattr(volume, "year_of_publication", None) or None
 
     def get_package_journal_issue(self):
         issue = self.get_parent("Issue")
         if issue is None:
             return None
-        return unicode(issue.getId(), "utf-8")
+        return issue.getId()
 
     def get_package_journal_issue_title(self):
         issue = self.get_parent("Issue")
         if issue is None:
             return None
-        return unicode(issue.Title(), "utf-8")
+        return issue.Title()
 
     def get_issue_filename(self):
         issue = self.get_package_journal_issue()
         if issue is not None:
-            return "recensio_%s_%s_%s.xml" % (
+            return "recensio_{}_{}_{}.xml".format(
                 self.get_publication_shortname(),
                 self.get_package_journal_volume(),
                 issue,
             )
         else:
-            return "recensio_%s_%s.xml" % (
+            return "recensio_{}_{}.xml".format(
                 self.get_publication_shortname(),
                 self.get_package_journal_volume(),
             )
 
     def finish_issue(self):
-        pt = PageTemplateFile(self.template)
+        view = ContainerExportView(self.current_issue, self.current_issue.REQUEST)
         options = {
             "package": {
                 "publication_title": self.get_publication_title,
@@ -168,7 +168,7 @@ class ChroniconExporter(BaseExporter):
             "reviews": self.reviews_xml,
         }
         filename = self.get_issue_filename()
-        xml = pt(**options)
+        xml = view.template(**options)
         self.issues_xml[filename] = xml
         self.reviews_xml = []
         self.current_issue = None
@@ -183,17 +183,16 @@ class ChroniconExporter(BaseExporter):
 
     def get_zipdata(self):
         cache_file_name = self.cache_filename
-        stream = FileIO(cache_file_name, mode="w")
-        zipfile = ZipFile(stream, "w")
-        self.write_zipfile(zipfile)
-        zipfile.close()
-        stream.close()
-
-        stream = FileIO(cache_file_name, mode="r")
-        zipdata = stream.readall()
-        stream.close()
-        remove(cache_file_name)
-        return zipdata
+        try:
+            open(cache_file_name, "wb").close()
+            with NamedTemporaryFile(mode="w+b", suffix=".zip") as stream:
+                with ZipFile(stream, "w") as zf:
+                    self.write_zipfile(zf)
+                stream.seek(0)
+                return stream.read()
+        finally:
+            if path.exists(cache_file_name):
+                remove(cache_file_name)
 
     def running_export(self):
         if path.exists(self.cache_filename):
@@ -232,8 +231,12 @@ class ChroniconExporter(BaseExporter):
         type_info = pt.getTypeInfo("File")
         if export_xml_obj is None:
             export_xml_obj = type_info._constructInstance(portal, self.export_filename)
-        export_xml_obj.setFile(self.get_zipdata(), filename=self.export_filename)
-        export_xml_obj.setModificationDate(DateTime())
+        export_xml_obj.file = NamedBlobFile(
+            data=self.get_zipdata(),
+            filename=self.export_filename,
+            contentType="application/zip",
+        )
+        export_xml_obj.modification_date = datetime.now(timezone.utc)
         return StatusSuccessFileCreated(self.export_filename)
 
 
@@ -251,16 +254,14 @@ class BVIDExporter(BaseExporter):
         return not self.is_recent(export_file)
 
     def add_review(self, review):
-        if review.getBv():
-            try:
-                use_canonical = review.isUseCanonicalUriForBVID()
-            except AttributeError:
-                use_canonical = False
+        bv = getattr(review, "bv", None)
+        if bv:
+            use_canonical = getattr(review, "use_canonical_uri_for_bvid", False)
             if use_canonical:
-                url = review.getCanonical_uri()
+                url = getattr(review, "canonical_uri", "") or review.absolute_url()
             else:
                 url = review.absolute_url()
-            self.items.append((review.getBv(), url))
+            self.items.append((bv, url))
 
     def export(self):
         csvfile = StringIO()
@@ -275,47 +276,13 @@ class BVIDExporter(BaseExporter):
             type_info = pt.getTypeInfo("File")
             export_file = type_info._constructInstance(portal, self.export_filename)
 
-        export_file.setFile(csvfile.getvalue(), filename=self.export_filename)
-        export_file.setModificationDate(DateTime())
+        export_file.file = NamedBlobFile(
+            data=csvfile.getvalue().encode("utf-8"),
+            filename=self.export_filename,
+            contentType="text/csv",
+        )
+        export_file.modification_date = datetime.now(timezone.utc)
         return StatusSuccessFileCreated(self.export_filename)
-
-
-class LZAExporter(ChroniconExporter):
-    """Like ChroniconExporter but
-    * also exports full text (PDF)
-    * only exports each review once, then never again"""
-
-    export_filename = "export_lza_xml.zip"
-    xml_view_name = "@@xml-lza"
-
-    def __init__(self):
-        super(LZAExporter, self).__init__()
-        self.reviews_pdf = {}
-
-    @property
-    def cache_filename(self):
-        return path.join(tempfile.gettempdir(), "lza_cache.zip")
-
-    def _set_exported(self, review, value=True):
-        IAnnotations(review)["LZA_EXPORTED"] = value and True or False
-
-    def _is_exported(self, review):
-        return IAnnotations(review).get("LZA_EXPORTED")
-
-    def add_review(self, review):
-        if self._is_exported(review):
-            return
-        super(LZAExporter, self).add_review(review)
-        pdf_path = "/".join(review.getPhysicalPath()[2:]) + ".pdf"
-        pdf_blob = review.get_review_pdf()["blob"].open()
-        self.reviews_pdf[pdf_path] = pdf_blob.read()
-        pdf_blob.close()
-        self._set_exported(review)
-
-    def write_zipfile(self, zipfile):
-        super(LZAExporter, self).write_zipfile(zipfile)
-        for filename, pdf in self.reviews_pdf.items():
-            zipfile.writestr(filename, bytes(pdf))
 
 
 @implementer(IRecensioExporter)
@@ -324,11 +291,11 @@ class MissingBVIDExporter(BVIDExporter):
     export_filename = "missing_bvid.csv"
 
     def add_review(self, review):
-        if not review.getBv():
-            if hasattr(review, "getIsbn"):
-                isbn_or_issn = review.getIsbn()
-            else:
-                isbn_or_issn = review.getIssn()
+        bv = getattr(review, "bv", None)
+        if not bv:
+            isbn_or_issn = (
+                getattr(review, "isbn", None) or getattr(review, "issn", None) or ""
+            )
             self.items.append((review.UID(), isbn_or_issn))
 
 
@@ -343,6 +310,56 @@ class DaraExporter(BaseExporter):
         pass
 
 
+class LZAExporter(ChroniconExporter):
+    """Like ChroniconExporter but
+    * also exports full text (PDF)
+    * only exports each review once, then never again"""
+
+    export_filename = "export_lza_xml.zip"
+    xml_view_name = "@@xml-lza"
+
+    def __init__(self):
+        super().__init__()
+        self.reviews_pdf = {}
+
+    @property
+    def cache_filename(self):
+        return path.join(tempfile.gettempdir(), "lza_cache.zip")
+
+    def _set_exported(self, review, value=True):
+        IAnnotations(review)["LZA_EXPORTED"] = bool(value)
+
+    def _is_exported(self, review):
+        return IAnnotations(review).get("LZA_EXPORTED")
+
+    def add_review(self, review):
+        if self._is_exported(review):
+            return
+        super().add_review(review)
+        pdf_path = "/".join(review.getPhysicalPath()[2:]) + ".pdf"
+        review_view = api.content.get_view(
+            name="review", context=review, request=review.REQUEST
+        )
+        review_pdf = review_view.get_review_pdf()
+        if review_pdf:
+            self.reviews_pdf[pdf_path] = review_pdf
+        self._set_exported(review)
+
+    def write_zipfile(self, zipfile):
+        super().write_zipfile(zipfile)
+        for filename, review_pdf in self.reviews_pdf.items():
+            pdf_blob = review_pdf.open()
+            try:
+                with zipfile.open(filename, "w") as zip_entry:
+                    while True:
+                        chunk = pdf_blob.read(64 * 1024)
+                        if not chunk:
+                            break
+                        zip_entry.write(chunk)
+            finally:
+                pdf_blob.close()
+
+
 BVIDExporterFactory = Factory(BVIDExporter, IFactory, "exporter")
 MissingBVIDExporterFactory = Factory(MissingBVIDExporter, IFactory, "exporter")
 ChroniconExporterFactory = Factory(ChroniconExporter, IFactory, "exporter")
@@ -354,39 +371,42 @@ def register_doi_raw(obj):
     settings = registry.forInterface(IRecensioSettings)
     username = settings.doi_registration_username
     password = settings.doi_registration_password
-    auth = b64encode("{0}:{1}".format(username, password))
-    url = settings.doi_registration_url.encode("utf-8")
+    url = settings.doi_registration_url
+    if urlparse(url).scheme not in ("http", "https"):
+        raise ValueError(f"Disallowed URL scheme for DOI registration: {url!r}")
 
     xml = obj.restrictedTraverse("@@xml-dara")().encode("utf-8")
-    headers = {
-        "Content-type": "application/xml;charset=UTF-8",
-        "Authorization": "Basic " + auth,
-    }
-    result = urlopen(Request(url, xml, headers))
-    return_code = result.getcode()
-    result.close()
-    return return_code
+    response = requests.post(
+        url,
+        data=xml,
+        headers={"Content-Type": "application/xml;charset=UTF-8"},
+        auth=(username, password),
+        timeout=30,
+    )
+    response.raise_for_status()
+    return response.status_code
 
 
 def register_doi(obj):
     try:
         return_code = register_doi_raw(obj)
-    except HTTPError as e:
-        if e.code == 401:
+    except requests.exceptions.HTTPError as e:
+        status_code = e.response.status_code
+        if status_code == 401:
             message = (
-                "Dara login failed - check DOI registration " "user name and password"
+                "Dara login failed - check DOI registration user name and password"
             )
-        elif e.code == 400:
+        elif status_code == 400:
             message = "Request rejected by dara - check generated XML"
-        elif e.code == 500:
+        elif status_code == 500:
             message = "Dara server error - try again later"
         else:
-            message = "Error returned by dara server: {0}".format(e)
+            message = f"Error returned by dara server: {e}"
         status = "error"
         log.error(message)
-        body = e.read()
+        body = e.response.text
         if "\n" in body:
-            dump_file = NamedTemporaryFile(suffix=".html", delete=False)
+            dump_file = NamedTemporaryFile(suffix=".html", delete=False, mode="w")
             dump_file.write(body)
             dump_file.close()
             log.info("HTTPError dumped to " + dump_file.name)
@@ -396,7 +416,7 @@ def register_doi(obj):
         exc_msg = e.__class__.__name__ + ": " + str(e)
         message = "Error while updating dara record (" + exc_msg + ")"
         status = "error"
-    except IOError as e:
+    except OSError as e:
         exc_msg = e.__class__.__name__ + ": " + str(e)
         message = "Error contacting dara server (" + exc_msg + ")"
         status = "error"
@@ -406,7 +426,6 @@ def register_doi(obj):
         elif return_code == 200:
             message = "Metadata updated"
         else:
-            message = "Success (status {0})".format(return_code)
+            message = f"Success (status {return_code})"
         status = "success"
     return status, message
-

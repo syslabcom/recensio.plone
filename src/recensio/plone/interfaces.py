@@ -9,6 +9,7 @@ class IRecensioPloneLayer(IDefaultBrowserLayer):
 class IReview(Interface):
     """Marker interface for reviews and other select content types."""
 
+
 class IRecensioExporter(Interface):
     """Interface for bulk exporting review data"""
 
