@@ -5,7 +5,9 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Exchange pat-gallery with a simple, nearly pure CSS gallery that shows well in Chrome.
+  `#4688 <https://github.com/syslabcom/scrum/issues/4688>`_
+  [pilz]
 
 - Cleanup eea.facetednavigation, now that we have solr.
   [pilz]

@@ -2633,3 +2633,18 @@ msgstr ""
 #. Default: "Pr&auml;sentation erstellen"
 msgid "label_secondary_nav_praesentation_erstellen"
 msgstr ""
+
+#: recensio.plone:/browser/templates/review.pt
+#. Default: "Close gallery"
+msgid "label_gallery_close"
+msgstr ""
+
+#: recensio.plone:/browser/templates/review.pt
+#. Default: "Previous image"
+msgid "label_gallery_prev"
+msgstr ""
+
+#: recensio.plone:/browser/templates/review.pt
+#. Default: "Next image"
+msgid "label_gallery_next"
+msgstr ""

@@ -53,25 +53,74 @@
 
           <aside class="preview-images">
             <tal:if condition="not:view/isUseExternalFulltext">
-              <tal:images define="
-                            pageviewer nocall:context/@@pageviewer;
-                            num_pages pageviewer/get_no_pages;
-                            cover_picture_url context/coverPicture|nothing;
-                          "
-                          condition="python: num_pages or cover_picture_url"
+              <tal:gallery define="
+                             slides view/gallery_slides;
+                             thumb_url view/gallery_thumb_url;
+                             uid context/UID;
+                             total_slides python:len(slides);
+                           "
+                           condition="thumb_url"
               >
-                <div class="pat-gallery"
-                     data-pat-gallery="item-selector: img"
-                >
-                  <img loading="lazy"
-                       src="${cover_picture_url}"
-                       tal:condition="cover_picture_url"
-                  />
-                  <tal:gallery condition="num_pages"
-                               replace="structure pageviewer"
-                  />
+                <div class="review-gallery">
+                  <a class="review-gallery__thumb"
+                     tal:attributes="
+                       href string:#rg-${uid}-0;
+                     "
+                  >
+                    <img loading="lazy"
+                         src="${thumb_url}"
+                         tal:attributes="
+                           alt string:Open gallery for ${context/title};
+                         "
+                    />
+                  </a>
+
+                  <tal:slide repeat="slide slides">
+                    <div class="review-gallery__overlay"
+                         tal:attributes="
+                           id string:rg-${uid}-${slide/idx};
+                         "
+                    >
+                      <a class="review-gallery__backdrop"
+                         aria-label="Close gallery"
+                         href="#_"
+                         i18n:attributes="aria-label label_gallery_close"
+                      >&nbsp;</a>
+                      <div class="review-gallery__lightbox">
+                        <a class="review-gallery__close"
+                           aria-label="Close gallery"
+                           href="#_"
+                           i18n:attributes="aria-label label_gallery_close"
+                        >&times;</a>
+                        <img alt="${slide/img_alt}"
+                             loading="lazy"
+                             src="${slide/img_src}"
+                        />
+                        <tal:nav condition="python:total_slides > 1">
+                          <a class="review-gallery__prev"
+                             aria-label="Previous image"
+                             tal:attributes="
+                               href string:#rg-${uid}-${slide/prev_idx};
+                             "
+                             i18n:attributes="aria-label label_gallery_prev"
+                          >&#8249;</a>
+                          <a class="review-gallery__next"
+                             aria-label="Next image"
+                             tal:attributes="
+                               href string:#rg-${uid}-${slide/next_idx};
+                             "
+                             i18n:attributes="aria-label label_gallery_next"
+                          >&#8250;</a>
+                        </tal:nav>
+                        <span class="review-gallery__counter">${python:slide['idx'] + 1} / ${total_slides}</span>
+                      </div>
+                    </div>
+                  </tal:slide>
                 </div>
-              </tal:images>
+                <script src="${context/portal_url}/++resource++recensio.theme.javascript/gallery.js"
+                        type="text/javascript"
+                ></script>
+              </tal:gallery>
             </tal:if>
 
             <a id="cover-image"
