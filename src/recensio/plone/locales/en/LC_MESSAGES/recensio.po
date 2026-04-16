@@ -2406,6 +2406,11 @@ msgstr "Citation style"
 msgid "Creating the pdf has failed! Please try again or ask for support"
 msgstr "The PDF could not be created. Please try again or ask for support."
 
+#. Default: "Reset facets"
+#: recensio.theme:/browser/templates/topical.pt:167
+msgid "label_reset_facets"
+msgstr "Reset facets"
+
 #. Default: "Search Site"
 #: recensio.theme:/browser/template_overrides/collective.solr.browser.searchbox.pt:17
 #: recensio.theme:/skins/recensio_theme/search.pt:66

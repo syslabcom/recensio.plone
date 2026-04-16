@@ -5,7 +5,10 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Adjusting Translations.
+  `#4684 <https://github.com/syslabcom/scrum/issues/4684>`_
+  [pilz]
+
 
 
 2.1.1 (2026-04-05)

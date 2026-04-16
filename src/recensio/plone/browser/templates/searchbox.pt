@@ -18,22 +18,24 @@
 
     <label class="hiddenStructure"
            for="searchGadget"
-           i18n:translate="text_search"
-    >Search Site</label>
+           i18n:domain="recensio"
+           i18n:translate="title_search_title"
+    >Search Reviews</label>
 
     <input class="searchField form-control me-2"
            id="searchGadget"
            name="SearchableText"
-           placeholder="Search Site"
+           placeholder="Search Reviews"
            size="18"
-           title="Search Site"
+           title="Search Reviews"
            type="text"
            value=""
            tal:attributes="
              value request/form/SearchableText|nothing;
            "
-           i18n:attributes="title title_search_site;
-                        placeholder title_search_site"
+           i18n:attributes="title title_search_title;
+                        placeholder title_search_title"
+           i18n:domain="recensio"
     />
 
     <button class="searchButton btn btn-outline-light"
