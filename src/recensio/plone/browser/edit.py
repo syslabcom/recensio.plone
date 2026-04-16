@@ -15,7 +15,6 @@ from recensio.plone.behaviors.serial import ISerial
 from recensio.plone.behaviors.serial import ISerialEditedVolume
 from recensio.plone.behaviors.text_review import ITextReview
 
-
 order = [
     IArticle,
     IBookReview,

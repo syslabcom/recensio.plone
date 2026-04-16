@@ -5,7 +5,6 @@ from Products.Five import BrowserView
 from recensio.plone import _
 from recensio.plone.utils import get_formatted_names
 
-
 NOTIFICATION_LOG_ADDR = "maillog@recensio.net"
 
 
@@ -73,16 +72,12 @@ class MailNewPublication(BrowserView):
     ):
         bcc_to = []
         if NOTIFICATION_LOG_ADDR:
-            msg = (
-                """From: %s
-To: %s
-Bcc: %s
-Subject: %s
+            msg = """From: {}
+To: {}
+Bcc: {}
+Subject: {}
 
-"""
-                % (mail_from, mail_to, NOTIFICATION_LOG_ADDR, subject)
-                + msg
-            )
+""".format(mail_from, mail_to, NOTIFICATION_LOG_ADDR, subject) + msg
             bcc_to = bcc_to + [NOTIFICATION_LOG_ADDR]
         if not isinstance(mail_to, list):
             mail_to = [mail_to]

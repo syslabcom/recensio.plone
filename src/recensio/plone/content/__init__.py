@@ -9,7 +9,6 @@ from z3c.form.interfaces import IAddForm
 from z3c.form.interfaces import IEditForm
 from zope.interface import Interface
 
-
 IShortName.setTaggedValue(
     OMITTED_KEY,
     [

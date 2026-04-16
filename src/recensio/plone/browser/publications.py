@@ -12,7 +12,6 @@ import datetime
 import string
 import unicodedata
 
-
 PUBLICATION_DESCENDANT_TYPES = ("Volume", "Issue") + tuple(REVIEW_TYPES)
 PUBLICATION_JUMP_LETTERS = tuple(string.ascii_uppercase)
 ARCHIVE_SECTION_ID = "archive"

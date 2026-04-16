@@ -24,7 +24,6 @@ from zope.interface import implementer
 from zope.interface import provider
 from zope.schema.interfaces import IContextSourceBinder
 
-
 # TODO, maybe:
 # - Set content type for `generatedPdf` to `application/pdf`
 # - Set a character limit for `review`: 4000 characters

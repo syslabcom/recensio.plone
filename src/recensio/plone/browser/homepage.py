@@ -15,7 +15,6 @@ from ZTUtils import make_query
 
 import logging
 
-
 log = logging.getLogger("recensio.theme")
 
 

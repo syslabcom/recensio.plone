@@ -22,7 +22,6 @@ from zope.intid.interfaces import IIntIds
 import transaction
 import xmlrpc
 
-
 log = getLogger("recensio.imports.browser")
 
 

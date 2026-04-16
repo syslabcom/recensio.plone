@@ -21,7 +21,6 @@ import logging
 import os
 import tempfile
 
-
 log = logging.getLogger(__name__)
 
 COPYRIGHT = """This article may be downloaded and/or used within the

@@ -13,7 +13,6 @@ import os
 import subprocess
 import tempfile
 
-
 DISABLED = os.environ.get("RECENSIO_DISABLE_SUBSCRIBERS", False)
 if DISABLED:
     DISABLED = DISABLED.lower() in ("true", "1")
@@ -24,15 +23,13 @@ RUN_SHELL_COMMANDS = True
 
 logger = getLogger(__name__)
 
-HTML_TEMPLATE = Template(
-    """
+HTML_TEMPLATE = Template("""
 <!DOCTYPE html>
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
 <body>$body</body>
 </html>
-""".strip()
-)
+""".strip())
 
 
 class SubprocessException(Exception):

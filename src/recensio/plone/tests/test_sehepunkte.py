@@ -5,7 +5,6 @@ from recensio.plone.sehepunkte import sehepunkte_parser
 import pkg_resources
 import unittest
 
-
 testdata_filename = pkg_resources.resource_filename(__name__, "testSehepunkte.xml")
 testdata_parsed = [
     {
