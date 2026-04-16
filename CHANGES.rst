@@ -7,6 +7,8 @@ Changelog
 
 - Nothing changed yet.
 
+- Cleanup eea.facetednavigation, now that we have solr.
+  [pilz]
 
 2.1.1 (2026-04-05)
 ------------------
