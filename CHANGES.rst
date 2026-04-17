@@ -22,6 +22,7 @@ Changelog
   [pilz]
 
 -  Fix action for search box and view to keep the navigation highlighting intact.
+- Fix action for search box and view to keep the navigation highlighting intact.
   `#4684 <https://github.com/syslabcom/scrum/issues/4684>`_
   [pilz]
 
