@@ -212,25 +212,25 @@
       name="metadata-export"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       class=".export.MetadataExport"
-      permission="cmf.ModifyPortalContent"
+      permission="cmf.ManagePortal"
       />
   <browser:page
       name="chronicon-export"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       class=".export.ChroniconExport"
-      permission="cmf.ModifyPortalContent"
+      permission="cmf.ManagePortal"
       />
   <browser:page
       name="dara_update"
       for="recensio.plone.interfaces.IReview"
       class=".export.DaraUpdate"
-      permission="cmf.ModifyPortalContent"
+      permission="cmf.ManagePortal"
       />
   <browser:page
       name="reset-lza-export-flag"
       for="*"
       class=".export.ResetLZAExportFlag"
-      permission="cmf.ModifyPortalContent"
+      permission="cmf.ManagePortal"
       />
 
 
