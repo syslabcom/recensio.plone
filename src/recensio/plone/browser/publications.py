@@ -167,6 +167,7 @@ class PublicationsView(PublicationSummaryMixin, BrowserView, CanonicalURLHelper)
             sort_on="sortable_title",
             review_state="published",
             expires={"query": datetime.datetime.now(), "range": "max"},
+            show_inactive=True,
         )
         return pubs
 
