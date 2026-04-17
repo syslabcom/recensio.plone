@@ -1,9 +1,13 @@
 from DateTime import DateTime
+from functools import cached_property
 from plone import api
 from plone.app.layout.viewlets import ViewletBase
 from plone.memoize import ram
 from Products.CMFCore.utils import getToolByName
+from Products.Five.browser import BrowserView
 from recensio.plone.adapter.indexer import listAuthorsAndEditors
+from recensio.plone.adapter.parentgetter import ParentGetter
+from recensio.plone.config import REVIEW_TYPES
 from zope.interface import implementer
 from zope.viewlet.interfaces import IViewlet
 from ZTUtils import make_query
@@ -14,185 +18,224 @@ import logging
 log = logging.getLogger(__name__)
 
 
-def _render_cachekey(method, self, volume, issue=None):
+def _publication_cachekey(method, self):
     portal_membership = getToolByName(self.context, "portal_membership")
     member = portal_membership.getAuthenticatedMember()
     roles = member.getRolesInContext(self.context)
     today = DateTime().strftime("%Y-%m-%d")
-    context_url = self.context.absolute_url()
-    return (context_url, roles, today, volume, issue)
+    publication = self.publication
+    publication_url = publication.absolute_url() if publication else ""
+    return (publication_url, roles, today)
 
 
-def _volume_cachekey(method, self):
-    portal_membership = getToolByName(self.context, "portal_membership")
-    member = portal_membership.getAuthenticatedMember()
-    roles = member.getRolesInContext(self.context)
-    today = DateTime().strftime("%Y-%m-%d")
-    parent_url = self.parent.absolute_url()
-    return (parent_url, roles, today)
+def _container_cachekey(method, self, container_uid):
+    return _publication_cachekey(method, self) + (container_uid,)
 
 
-def _obj_cachekey(method, self, obj):
-    portal_membership = getToolByName(self.context, "portal_membership")
-    member = portal_membership.getAuthenticatedMember()
-    roles = member.getRolesInContext(self.context)
-    today = DateTime().strftime("%Y-%m-%d")
-    obj_uid = obj.UID()
-    return (obj_uid, roles, today)
+class PublicationListingMixin:
+    review_types = REVIEW_TYPES
 
+    @cached_property
+    def publication(self):
+        return ParentGetter(self.context).get_parent_object_of_type("Publication")
 
-def _issues_cachekey(method, self, volume):
-    portal_membership = getToolByName(self.context, "portal_membership")
-    member = portal_membership.getAuthenticatedMember()
-    roles = member.getRolesInContext(self.context)
-    today = DateTime().strftime("%Y-%m-%d")
-    parent_url = self.parent.absolute_url()
-    return (volume, roles, today, parent_url)
+    @property
+    def publication_path(self):
+        publication = self.publication
+        if publication is None:
+            return ""
+        return "/".join(publication.getPhysicalPath())
 
+    def _container_load_url(self, uid):
+        if not self.publication:
+            return ""
+        return f"{self.publication.absolute_url()}/@@publicationlisting-children?{make_query(container_uid=uid)}"
 
-@implementer(IViewlet)
-class Publicationlisting(ViewletBase):
-    """Lists Volumes/Issues/Reviews in the current Publication"""
+    def inject_options(self, panel_id):
+        return (
+            "trigger: autoload-visible; "
+            "target: #{panel}; "
+            "source: #{panel}; "
+            "delay: 0; "
+            "loading-class: publicationlisting-card__panel--loading"
+        ).format(panel=panel_id)
 
-    def __init__(self, context, request, view, manager=None):
-        super().__init__(context, request, view, manager)
+    def _container_by_uid(self, container_uid, expected_portal_type=None):
+        if not container_uid or not self.publication_path:
+            return None
+        portal_type = expected_portal_type or ["Volume", "Issue"]
+        brains = api.content.find(
+            UID=container_uid,
+            path=self.publication_path,
+            portal_type=portal_type,
+        )
+        if not brains:
+            return None
         try:
-            parents = self.request.PARENTS
+            return brains[0].getObject()
         except AttributeError:
-            return False
-        if len(parents) < 2:
-            return False
-        self.parent = self.request.PARENTS[1]
+            log.exception(
+                "Could not resolve publication listing container for UID %s",
+                container_uid,
+            )
+            return None
 
-    def visible(self):
-        """should we display at all?"""
-        if (
-            hasattr(self.context, "portal_type")
-            and self.context.portal_type == "Document"
-            and hasattr(self.parent, "portal_type")
-            and self.parent.portal_type == "Publication"
-        ):
-            return True
-        return False
+    def _format_effective_date(self, date_string):
+        if not date_string or date_string == "None":
+            return ""
+        date = DateTime(date_string)
+        return f"{date.year()}-{date.month():02d}-{date.day():02d}"
 
-    def is_expanded(self, uid):
-        return uid in self.request.get("expand", [])
-
-    def _make_dict(self, obj):
-        "contains the relevant details for listing a Review"
-        view = api.content.get_view(
-            context=obj, request=self.request, name="review_view"
-        )
+    def _pdf_data(self, obj):
+        if "issue.pdf" not in obj.objectIds():
+            return {}
         return {
-            "absolute_url": obj.absolute_url(),
-            "effective": obj.effective(),
-            "getDecoratedTitle": view.getDecoratedTitle(),
-            "listAuthorsAndEditors": listAuthorsAndEditors(obj)(),
-            "Title": obj.Title(),
+            "pdf": obj["issue.pdf"].absolute_url_path(),
+            "pdfsize": self._formatsize(obj["issue.pdf"].file.size),
         }
 
-    def _get_toggle_link(self, uid):
-        expand = self.request.get("expand", [])[:]
-        if uid in expand:
-            expand.remove(uid)
-        else:
-            expand.append(uid)
-        toggle_link = "{}?{}#{}".format(
-            self.context.absolute_url(),
-            make_query(expand=expand),
-            uid,
-        )
-        return toggle_link
-
-    @ram.cache(_obj_cachekey)
-    def _get_css_classes(self, obj):
-        css_classes = []
-        reviews = api.content.find(
-            context=obj, portal_type=["Review Monograph", "Review Journal"], depth=1
-        )
-        if len(reviews) > 0:
-            css_classes.append("review_container")
-            if self.is_expanded(obj.UID()):
-                css_classes.append("expanded")
-        return " ".join(css_classes) or None
-
-    @ram.cache(_obj_cachekey)
-    def _make_iss_or_vol_dict(self, obj):
-        issue_dict = {
-            "Title": obj.Title(),
+    def _make_container_summary(self, obj, review_count=0, issue_count=0):
+        has_children = bool(review_count or issue_count)
+        summary = {
             "id": obj.getId(),
-            "UID": obj.UID(),
-            "toggle_link": self._get_toggle_link(obj.UID()),
-            "css_classes": self._get_css_classes(obj),
+            "issue_count": issue_count,
+            "load_url": has_children and self._container_load_url(obj.UID()) or "",
+            "panel_id": f"publicationlisting-panel-{obj.UID()}",
+            "portal_type": obj.portal_type,
+            "review_count": review_count,
+            "title": obj.Title(),
+            "uid": obj.UID(),
+            "has_children": has_children,
         }
+        summary.update(self._pdf_data(obj))
+        return summary
 
-        if "issue.pdf" in obj.objectIds():
-            issue_dict["pdf"] = obj["issue.pdf"].absolute_url_path()
-            issue_dict["pdfsize"] = self._formatsize(obj["issue.pdf"].file.size)
-        return issue_dict
-
-    @ram.cache(_volume_cachekey)
-    def volumes(self):
-        # This is nasty. #3678 Decarbonize
-        volume_objs = [
-            brain.getObject()
-            for brain in api.content.find(
-                self.parent,
-                depth=1,
-                portal_type="Volume",
-                sort_on="effective",
-                sort_order="descending",
-            )
-        ]
-        volumes = [self._make_iss_or_vol_dict(v) for v in volume_objs]
-        return volumes
-
-    @ram.cache(_issues_cachekey)
-    def issues(self, volume):
-        if volume not in self.parent:
-            return []
-        # This is nasty. #3678 Decarbonize
-        objects = [
-            brain.getObject()
-            for brain in api.content.find(
-                self.parent[volume], depth=1, portal_type="Issue"
-            )
-        ]
-        issue_objs = sorted(objects, key=lambda v: v.effective(), reverse=True)
-        issues = [self._make_iss_or_vol_dict(i) for i in issue_objs]
-        return issues
-
-    @ram.cache(_render_cachekey)
-    def reviews(self, volume, issue=None):
-        if volume not in self.parent.objectIds():
-            return []
-        if issue is None:
-            # This is nasty. #3678 Decarbonize
-            review_objs = [
-                brain.getObject()
-                for brain in api.content.find(
-                    self.parent[volume],
-                    depth=1,
-                    portal_type=["Review Monograph", "Review Journal"],
-                )
-            ]
-        else:
-            if issue not in self.parent[volume].objectIds():
-                return []
-            # This is nasty. #3678 Decarbonize
-            review_objs = [
-                brain.getObject()
-                for brain in api.content.find(
-                    self.parent[volume][issue],
-                    depth=1,
-                    portal_type=["Review Monograph", "Review Journal"],
-                )
-            ]
-        reviews = [self._make_dict(rev) for rev in review_objs]
-        reviews = sorted(
-            reviews, key=lambda r: r["listAuthorsAndEditors"], reverse=True
+    @ram.cache(_publication_cachekey)
+    def _volume_issue_counts(self):
+        counts = {}
+        if not self.publication:
+            return counts
+        issue_brains = api.content.find(
+            context=self.publication,
+            depth=2,
+            portal_type="Issue",
         )
-        return reviews
+        for brain in issue_brains:
+            volume_path = "/".join(brain.getPath().split("/")[:-1])
+            counts[volume_path] = counts.get(volume_path, 0) + 1
+        return counts
+
+    @ram.cache(_publication_cachekey)
+    def _volume_review_counts(self):
+        counts = {}
+        publication_path = self.publication_path
+        if not publication_path:
+            return counts
+        review_brains = api.content.find(
+            context=self.publication,
+            depth=3,
+            portal_type=self.review_types,
+        )
+        for brain in review_brains:
+            relative_path = brain.getPath()[len(publication_path) + 1 :]
+            if not relative_path:
+                continue
+            volume_id = relative_path.split("/", 1)[0]
+            volume_path = f"{publication_path}/{volume_id}"
+            counts[volume_path] = counts.get(volume_path, 0) + 1
+        return counts
+
+    @ram.cache(_publication_cachekey)
+    def volumes(self):
+        if not self.publication:
+            return []
+        issue_counts = self._volume_issue_counts()
+        review_counts = self._volume_review_counts()
+        volume_brains = api.content.find(
+            context=self.publication,
+            depth=1,
+            portal_type="Volume",
+            sort_on="effective",
+            sort_order="descending",
+        )
+        return [
+            self._make_container_summary(
+                brain.getObject(),
+                issue_count=issue_counts.get(brain.getPath(), 0),
+                review_count=review_counts.get(brain.getPath(), 0),
+            )
+            for brain in volume_brains
+        ]
+
+    @ram.cache(_container_cachekey)
+    def _issue_summaries(self, container_uid):
+        volume = self._container_by_uid(container_uid, expected_portal_type="Volume")
+        if volume is None:
+            return []
+        volume_path = "/".join(volume.getPhysicalPath())
+        review_counts = {}
+        review_brains = api.content.find(
+            context=volume,
+            depth=2,
+            portal_type=self.review_types,
+        )
+        for brain in review_brains:
+            parent_path = "/".join(brain.getPath().split("/")[:-1])
+            if parent_path == volume_path:
+                continue
+            review_counts[parent_path] = review_counts.get(parent_path, 0) + 1
+
+        issue_brains = api.content.find(
+            context=volume,
+            depth=1,
+            portal_type="Issue",
+            sort_on="effective",
+            sort_order="descending",
+        )
+        return [
+            self._make_container_summary(
+                brain.getObject(),
+                review_count=review_counts.get(brain.getPath(), 0),
+            )
+            for brain in issue_brains
+        ]
+
+    @ram.cache(_container_cachekey)
+    def _review_items(self, container_uid):
+        container = self._container_by_uid(container_uid)
+        if container is None:
+            return []
+        review_brains = api.content.find(
+            context=container,
+            depth=1,
+            portal_type=self.review_types,
+            sort_on="effective",
+            sort_order="descending",
+        )
+        items = []
+        for brain in review_brains:
+            try:
+                obj = brain.getObject()
+            except AttributeError:
+                log.exception(
+                    "Could not resolve publication listing review for path %s",
+                    brain.getPath(),
+                )
+                continue
+            review_view = api.content.get_view(
+                context=obj,
+                request=self.request,
+                name="review_view",
+            )
+            items.append(
+                {
+                    "authors": " / ".join(listAuthorsAndEditors(obj)()),
+                    "effective_date": self._format_effective_date(brain.EffectiveDate),
+                    "title": review_view.getDecoratedTitle(),
+                    "url": brain.getURL(),
+                }
+            )
+        return items
 
     def _formatsize(self, size):
         size_kb = size / 1024
@@ -203,3 +246,51 @@ class Publicationlisting(ViewletBase):
             display_size_bytes = f"{size:n} bytes"
         display_size = f"{display_size_kb}{display_size_bytes}"
         return display_size
+
+
+@implementer(IViewlet)
+class Publicationlisting(PublicationListingMixin, ViewletBase):
+    """Lists Volumes/Issues/Reviews in the current Publication."""
+
+    def visible(self):
+        return (
+            getattr(self.context, "portal_type", None) == "Document"
+            and self.publication is not None
+        )
+
+
+class PublicationListingChildren(PublicationListingMixin, BrowserView):
+    """Lazy loads volume and issue contents for the publication listing."""
+
+    @property
+    def container_uid(self):
+        return self.request.form.get("container_uid", "")
+
+    @property
+    def panel_id(self):
+        if not self.container_uid:
+            return ""
+        return f"publicationlisting-panel-{self.container_uid}"
+
+    @cached_property
+    def listing_container(self):
+        return self._container_by_uid(self.container_uid)
+
+    @property
+    def issues(self):
+        container = self.listing_container
+        if container is None or container.portal_type != "Volume":
+            return []
+        return self._issue_summaries(self.container_uid)
+
+    @property
+    def reviews(self):
+        if self.listing_container is None:
+            return []
+        return self._review_items(self.container_uid)
+
+    def __call__(self):
+        if self.listing_container is None:
+            self.request.response.setStatus(404)
+            return ""
+        return super().__call__()

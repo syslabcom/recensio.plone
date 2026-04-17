@@ -2469,6 +2469,11 @@ msgstr ""
 "La génération du PDF a échoué. Veuillez réessayer ou contacter le service "
 "d'assistance"
 
+#. Default: "Reset facets"
+#: recensio.theme:/browser/templates/topical.pt:167
+msgid "label_reset_facets"
+msgstr "Réinitialiser les facettes"
+
 #. Default: "Search Site"
 #: recensio.theme:/browser/template_overrides/collective.solr.browser.searchbox.pt:17
 #: recensio.theme:/skins/recensio_theme/search.pt:66
@@ -2620,6 +2625,66 @@ msgstr "Publications"
 #: recensio.theme:/browser/templates/publications.pt:18
 msgid "description_publications"
 msgstr "Liste des revues publiant des recensions sur recensio.net"
+
+#. Default: "Issues and reviews"
+msgid "heading_publicationlisting"
+msgstr "Numéros et recensions"
+
+#. Default: "Expand a volume to load its issues and reviews."
+msgid "description_publicationlisting"
+msgstr "Ouvrez un volume pour charger ses numéros et ses recensions."
+
+#. Default: "Volume"
+msgid "label_publication_volume"
+msgstr "Volume"
+
+#. Default: "Issue"
+msgid "label_publication_issue"
+msgstr "Numéro"
+
+#. Default: "Show contents"
+msgid "label_publication_show_contents"
+msgstr "Afficher le contenu"
+
+#. Default: "Show reviews"
+msgid "label_publication_show_reviews"
+msgstr "Afficher les recensions"
+
+#. Default: "Loading contents…"
+msgid "label_publicationlisting_loading"
+msgstr "Chargement du contenu…"
+
+#. Default: "Could not load contents."
+msgid "description_publicationlisting_loading_failed"
+msgstr "Le contenu n'a pas pu être chargé."
+
+#. Default: "No reviews are available yet."
+msgid "description_publicationlisting_no_contents"
+msgstr "Aucune recension n'est encore disponible."
+
+#. Default: "Jump to"
+msgid "label_publications_jump_to"
+msgstr "Aller à"
+
+#. Default: "No publications were found."
+msgid "description_no_publications_found"
+msgstr "Aucune publication n'a été trouvée."
+
+#. Default: "Reviews"
+msgid "label_publication_reviews"
+msgstr "Recensions"
+
+#. Default: "Issues"
+msgid "label_publication_issues"
+msgstr "Numéros"
+
+#. Default: "Volumes"
+msgid "label_publication_volumes"
+msgstr "Volumes"
+
+#. Default: "Latest review"
+msgid "label_publication_latest_review"
+msgstr "Dernière recension"
 
 #. Default: "Reviewed by ${review_authors}"
 #: recensio.theme:/browser/templates/results-listing.pt:103
