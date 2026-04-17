@@ -5,7 +5,7 @@
                   package_journal_name="Jahrbuch des Bundesinstituts für Kultur und Geschichte der Deutschen im östlichen Europa"
                   package_journal_pubyear="2012"
                   package_journal_volume="20"
-                  xsi:nonamespaceschemalocation="recensio_frompublisher_2015-09-02.xsd"
+                  xsi:noNamespaceSchemaLocation="recensio_frompublisher_2015-09-02.xsd"
                   tal:attributes="
                     package_journal_name options/package/publication_title;
                     package_journal_volume options/package/package_journal_volume_title;
