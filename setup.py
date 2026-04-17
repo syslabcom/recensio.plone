@@ -5,7 +5,7 @@ from setuptools import setup
 long_description = "\n\n".join(
     [
         open("README.rst").read(),
-        open("CHANGES.rst").read(),
+        open("CHANGES.md").read(),
     ]
 )
 
