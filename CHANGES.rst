@@ -5,6 +5,10 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
+- Adjusting Translations.
+  `#4684 <https://github.com/syslabcom/scrum/issues/4684>`_
+  [pilz]
+
 - Revamp the publication listing viewlet with a modern card layout matching
   the redesigned result and publication views, and lazy-load nested contents
   via pat-inject.

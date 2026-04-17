@@ -2517,6 +2517,11 @@ msgstr ""
 "Erstellung des PDF fehlgeschlagen! Bitte versuchen Sie es noch einmal oder "
 "bitten Sie um Unterstützung"
 
+#. Default: "Reset facets"
+#: recensio.theme:/browser/templates/topical.pt:167
+msgid "label_reset_facets"
+msgstr "Facetten zurücksetzen"
+
 #. Default: "Search Site"
 #: recensio.theme:/browser/template_overrides/collective.solr.browser.searchbox.pt:17
 #: recensio.theme:/skins/recensio_theme/search.pt:66
