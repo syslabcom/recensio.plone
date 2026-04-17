@@ -2238,6 +2238,66 @@ msgstr ""
 msgid "description_publications"
 msgstr ""
 
+#. Default: "Issues and reviews"
+msgid "heading_publicationlisting"
+msgstr ""
+
+#. Default: "Expand a volume to load its issues and reviews."
+msgid "description_publicationlisting"
+msgstr ""
+
+#. Default: "Volume"
+msgid "label_publication_volume"
+msgstr ""
+
+#. Default: "Issue"
+msgid "label_publication_issue"
+msgstr ""
+
+#. Default: "Show contents"
+msgid "label_publication_show_contents"
+msgstr ""
+
+#. Default: "Show reviews"
+msgid "label_publication_show_reviews"
+msgstr ""
+
+#. Default: "Loading contents…"
+msgid "label_publicationlisting_loading"
+msgstr ""
+
+#. Default: "Could not load contents."
+msgid "description_publicationlisting_loading_failed"
+msgstr ""
+
+#. Default: "No reviews are available yet."
+msgid "description_publicationlisting_no_contents"
+msgstr ""
+
+#. Default: "Jump to"
+msgid "label_publications_jump_to"
+msgstr ""
+
+#. Default: "No publications were found."
+msgid "description_no_publications_found"
+msgstr ""
+
+#. Default: "Reviews"
+msgid "label_publication_reviews"
+msgstr ""
+
+#. Default: "Issues"
+msgid "label_publication_issues"
+msgstr ""
+
+#. Default: "Volumes"
+msgid "label_publication_volumes"
+msgstr ""
+
+#. Default: "Latest review"
+msgid "label_publication_latest_review"
+msgstr ""
+
 #: recensio.theme:/browser/templates/results-listing.pt:103
 #: recensio.theme:/browser/templates/topical.pt:128
 #. Default: "Reviewed by ${review_authors}"

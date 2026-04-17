@@ -1,14 +1,8 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:faceted="http://namespaces.zope.org/faceted"
     xmlns:plone="http://namespaces.plone.org/plone"
     >
-
-  <include
-      package="eea.facetednavigation"
-      file="meta.zcml"
-      />
 
   <browser:resourceDirectory
       name="recensio.theme.bundles"
@@ -124,17 +118,6 @@
 
   <!-- Listing views -->
 
-  <configure package="eea.facetednavigation.browser">
-    <browser:page
-        name="faceted_query"
-        for="..interfaces.IFacetedNavigable"
-        class="recensio.plone.browser.listing.RecensioFacetedQueryHandler"
-        template="template/query.pt"
-        permission="zope2.View"
-        layer="recensio.plone.interfaces.IRecensioPloneLayer"
-        />
-  </configure>
-
   <browser:page
       name="sorting-menu"
       for="*"
@@ -143,9 +126,8 @@
       permission="zope2.View"
       />
 
-  <faceted:view
+  <browser:page
       name="results-listing"
-      title="Review Results Listing"
       for="*"
       class=".listing.ResultsListing"
       template="templates/results-listing.pt"

@@ -31,6 +31,12 @@
       />
 
   <adapter
+      factory=".parentgetter.ParentGetter"
+      provides=".parentgetter.IParentGetter"
+      for="plone.app.contenttypes.interfaces.IDocument"
+      />
+
+  <adapter
       factory=".indexer.authorsUID"
       name="authorsUID"
       />

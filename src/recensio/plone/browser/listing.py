@@ -1,5 +1,4 @@
 from collective.solr.browser.facets import SearchView
-from eea.facetednavigation.browser.app.query import FacetedQueryHandler
 from plone import api
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.base.navigationroot import get_navigation_root
@@ -58,16 +57,6 @@ class ListingBase(BrowserView):
             msgid=msgid,
             context=self.request,
         )
-
-
-class RecensioFacetedQueryHandler(FacetedQueryHandler, ListingBase):
-    """Add recensio capabilities"""
-
-    def criteria(self, **kwargs):
-        """Don't restrict language"""
-        criteria = super().criteria(**kwargs)
-        del criteria["Language"]
-        return criteria
 
 
 class RecensioSearch(SearchView, ListingBase):
