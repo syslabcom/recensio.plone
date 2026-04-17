@@ -59,8 +59,10 @@
           <legend i18n:translate="title_search_title">Search reviews</legend>
           <fieldset class="widget-fieldset">
             <form class="search-form-wrapper"
-                  action="${request/URL}"
                   method="get"
+                  tal:attributes="
+                    action string:${context/@@plone_portal_state/portal_url}/themen-epochen-regionen/@@browse-topics;
+                  "
             >
               <input name="sort_on"
                      type="hidden"
@@ -200,6 +202,7 @@
                    tal:attributes="
                      href view/reset_facets_href;
                    "
+                   i18n:translate="label_reset_facets"
                 >Reset facets</a>
               </div>
               <tal:submenus repeat="submenu submenus">

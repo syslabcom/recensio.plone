@@ -409,11 +409,53 @@ class View(BrowserView, CanonicalURLHelper):
         return published_reviews
 
     def cover_picture_url(self):
-        """Return cover picture or first page."""
+        """Return cover picture URL or None."""
         coverPicture = getattr(self.context, "coverPicture", None)
         if coverPicture:
             return f"{self.context.absolute_url()}/coverPicture"
         return None
+
+    @property
+    @memoize
+    def gallery_slides(self):
+        """Return a list of slide dicts for the CSS-only gallery.
+
+        Each dict has: img_src, img_alt, prev_idx, next_idx.
+        Returns an empty list when there are no pages and no cover image.
+        """
+        pageviewer = self.context.restrictedTraverse("@@pageviewer")
+        num_pages = pageviewer.get_no_pages()
+        cover_url = self.cover_picture_url()
+        has_cover = bool(cover_url)
+        base_url = self.context.absolute_url()
+
+        slides = []
+        if has_cover:
+            slides.append({"img_src": cover_url, "img_alt": "Cover"})
+        for page_no in range(1, num_pages + 1):
+            slides.append(
+                {
+                    "img_src": f"{base_url}/get_page_image?no:int={page_no}",
+                    "img_alt": f"Page {page_no}",
+                }
+            )
+
+        total = len(slides)
+        for idx, slide in enumerate(slides):
+            slide["idx"] = idx
+            slide["prev_idx"] = idx - 1 if idx > 0 else total - 1
+            slide["next_idx"] = idx + 1 if idx < total - 1 else 0
+
+        return slides
+
+    @property
+    def gallery_thumb_url(self):
+        """Return the URL of the thumbnail shown on the page to open the gallery."""
+        cover = self.cover_picture_url()
+        if cover:
+            return cover
+        slides = self.gallery_slides
+        return slides[0]["img_src"] if slides else None
 
     @property
     def do_visit_canonical_uri(self):
