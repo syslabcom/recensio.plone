@@ -11,11 +11,6 @@ Changelog
   `#4732 <https://github.com/syslabcom/scrum/issues/4732>`_
   [pilz]
 
-- Revamp the publication listing viewlet with a modern card layout matching
-  the redesigned result and publication views, and lazy-load nested contents
-  via pat-inject.
-  `#4662 <https://github.com/syslabcom/scrum/issues/4662>`_
-  
 - Improving and decarbonizing the authorsearch.
   [pilz]
 
