@@ -4,7 +4,7 @@ from setuptools import setup
 
 long_description = "\n\n".join(
     [
-        open("README.rst").read(),
+        open("README.md").read(),
         open("CHANGES.md").read(),
     ]
 )
@@ -15,6 +15,7 @@ setup(
     version="2.1.2.dev0",
     description="Base package of the Recensio Plone portal.",
     long_description=long_description,
+    long_description_content_type="text/markdown",
     # Get more from https://pypi.org/classifiers/
     classifiers=[
         "Development Status :: 5 - Production/Stable",
