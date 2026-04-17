@@ -23,7 +23,6 @@ import logging
 import re
 import requests
 
-
 log = logging.getLogger(__name__)
 
 

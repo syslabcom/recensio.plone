@@ -2,7 +2,6 @@ from lxml import etree
 
 import logging
 
-
 logger = logging.getLogger(__name__)
 
 

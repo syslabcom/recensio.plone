@@ -14,7 +14,6 @@ from ZTUtils import make_query
 
 import logging
 
-
 log = logging.getLogger(__name__)
 
 

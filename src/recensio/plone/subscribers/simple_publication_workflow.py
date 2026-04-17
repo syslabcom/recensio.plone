@@ -6,7 +6,6 @@ from recensio.plone.controlpanel.settings import IRecensioSettings
 
 import os
 
-
 logger = getLogger(__name__)
 
 

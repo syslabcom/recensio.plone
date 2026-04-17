@@ -8,7 +8,6 @@ from zope import schema
 from zope.component import adapter
 from zope.interface import provider
 
-
 description_is_url_shown_in_citation_note = _(
     "description_is_url_shown_in_citation_note",
     default=(

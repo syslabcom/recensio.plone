@@ -13,7 +13,6 @@ from zope import interface
 import json
 import os
 
-
 logger = getLogger(__name__)
 
 COLLECTIVE_EXPORTIMPORT_BLOB_HOME = os.environ.get("COLLECTIVE_EXPORTIMPORT_BLOB_HOME")

@@ -3,7 +3,6 @@ from plone import api
 
 import logging
 
-
 log = logging.getLogger(__name__)
 
 

@@ -9,7 +9,6 @@ from zope.component import getUtility
 
 import unittest
 
-
 UPGRADE_MODULE = (
     "recensio.plone.upgrades.v2.20260328120000_update_solr_panel_settings.upgrade"
 )
@@ -46,8 +45,7 @@ class TestSolrPanelSettingsUpgrade(unittest.TestCase):
 
         self.assertEqual(1000, self.registry["collective.solr.max_results"])
         self.assertEqual(
-            dedent(
-                """\
+            dedent("""\
                 +(Title:{value}^10 OR
                 Description:{value}^5 OR
                 SearchableText:{value} OR
@@ -58,8 +56,7 @@ class TestSolrPanelSettingsUpgrade(unittest.TestCase):
                 ) OR
                 searchwords:({base_value})^1000)
                 -showinsearch:False
-                """
-            ).strip(),
+                """).strip(),
             self.registry["collective.solr.search_pattern"].strip(),
         )
         self.assertEqual(["use_solr"], list(self.registry["collective.solr.required"]))

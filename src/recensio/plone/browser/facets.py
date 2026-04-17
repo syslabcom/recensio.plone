@@ -1,7 +1,6 @@
 from copy import deepcopy
 from ZTUtils import make_query
 
-
 browsing_facets = ["ddcPlace", "ddcTime", "ddcSubject"]
 
 

@@ -17,7 +17,6 @@ from ZTUtils import make_query
 
 import logging
 
-
 log = logging.getLogger(__name__)
 PORTAL_TYPES = REVIEW_TYPES
 SORT_RELEVANCE = "relevance"
