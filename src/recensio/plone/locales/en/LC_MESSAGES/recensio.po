@@ -3061,6 +3061,15 @@ msgstr "online resources"
 msgid "label_secondary_nav_praesentation_erstellen"
 msgstr "create a presentation"
 
+msgid "label_gallery_close"
+msgstr "Close gallery"
+
+msgid "label_gallery_prev"
+msgstr "Previous image"
+
+msgid "label_gallery_next"
+msgstr "Next image"
+
 #~ msgid "batch_x_items_matching_your_criteria"
 #~ msgstr "${number} items matching"
 

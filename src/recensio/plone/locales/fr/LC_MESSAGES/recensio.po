@@ -3129,6 +3129,15 @@ msgstr "Ressources Internet"
 msgid "label_secondary_nav_praesentation_erstellen"
 msgstr "créer une présentation"
 
+msgid "label_gallery_close"
+msgstr "Fermer la galerie"
+
+msgid "label_gallery_prev"
+msgstr "Image précédente"
+
+msgid "label_gallery_next"
+msgstr "Image suivante"
+
 #~ msgid "batch_x_items_matching_your_criteria"
 #~ msgstr "${number} résultats correspondants"
 
