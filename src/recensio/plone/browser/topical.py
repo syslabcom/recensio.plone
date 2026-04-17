@@ -171,7 +171,7 @@ class BrowseTopicsView(SearchFacetsView, CrossPlatformMixin):
     def results(self):
         query = self.default_query.copy()
         query.update(self.form)
-        log.info("Querying Solr with query: %s" % query)
+        log.debug("Querying Solr with query: %r", query)
         if "set_language" in query:
             del query["set_language"]
         stripped_query = deepcopy(query)
