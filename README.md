@@ -1,11 +1,8 @@
-==============
-recensio.plone
-==============
+# recensio.plone
 
 Base package of the Recensio Plone portal.
 
-Requirements
-============
+## Requirements
 
 We need some system packages to be available for this package to be fully functional:
 
@@ -17,17 +14,16 @@ We need some system packages to be available for this package to be fully functi
 - poppler_utils (pdf)
 - html-tidy (cleans up the html that will be converted to pdf)
 
-Solr: cave canem
-================
+## Solr: cave canem
 
 This package now works with collective.solr and performs fulltext indexing of PDF documents.
 
 There are a few gotchas:
 
 - Fulltext indexing of PDFs on reviews works fine, but fulltext indexing of standalone files will error out with a default Solr install.
-  To get it to work properly, your Solr needs to be started up with special environment variables::
+  To get it to work properly, your Solr needs to be started up with special environment variables:
 
-    SOLR_ENABLE_REMOTE_STREAMING=true SOLR_ENABLE_STREAM_BODY=true SOLR_OPTS="-Dsolr.allowPaths=${instance:blob-storage}"
+      SOLR_ENABLE_REMOTE_STREAMING=true SOLR_ENABLE_STREAM_BODY=true SOLR_OPTS="-Dsolr.allowPaths=${instance:blob-storage}"
 
   For more background, see https://github.com/collective/collective.solr/issues/385
 
