@@ -2,16 +2,9 @@
 <object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
         meta_type="Dexterity FTI"
         name="Document"
+        purge="False"
         i18n:domain="plone"
 >
-  <property name="behaviors"
-            purge="false"
-  >
-    <element remove="True"
-             value="plone.versioning"
-    />
-  </property>
-
   <property name="view_methods"
             purge="false"
   >

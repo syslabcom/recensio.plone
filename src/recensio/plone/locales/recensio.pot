@@ -2284,8 +2284,28 @@ msgstr ""
 msgid "description_publicationlisting_no_contents"
 msgstr ""
 
+#. Default: "Publication profile"
+msgid "label_publication_profile"
+msgstr ""
+
+#. Default: "Information about ${publication_title}"
+msgid "label_publication_profile_for"
+msgstr ""
+
+#. Default: "Browse issues and reviews"
+msgid "label_publication_jump_to_contents"
+msgstr ""
+
 #. Default: "Jump to"
 msgid "label_publications_jump_to"
+msgstr ""
+
+#. Default: "Archive"
+msgid "label_publications_archive"
+msgstr ""
+
+#. Default: "All publications"
+msgid "label_publications_all"
 msgstr ""
 
 #. Default: "No publications were found."

@@ -4,6 +4,10 @@ from unittest.mock import patch
 import unittest
 
 
+class AttrDict(dict):
+    __getattr__ = dict.__getitem__
+
+
 class DummyBrain:
     def __init__(self, portal_type, effective_date="None"):
         self.portal_type = portal_type
@@ -13,7 +17,9 @@ class DummyBrain:
 class TestPublicationsView(unittest.TestCase):
     def _view(self):
         context = type("DummyContext", (), {})()
-        request = type("DummyRequest", (), {})()
+        request = type(
+            "DummyRequest", (), {"get": lambda self, key, default=None: default}
+        )()
         return PublicationsView(context, request)
 
     def test_publication_letter_normalizes_titles_for_jump_links(self):
@@ -44,9 +50,9 @@ class TestPublicationsView(unittest.TestCase):
     def test_publication_sections_and_jump_links_follow_available_letters(self):
         view = self._view()
         view.publications = lambda: [
-            {"initial": "A", "title": "A Journal"},
-            {"initial": "N", "title": "New Journal"},
-            {"initial": "N", "title": "Next Journal"},
+            AttrDict({"Title": "A Journal"}),
+            AttrDict({"Title": "New Journal"}),
+            AttrDict({"Title": "Next Journal"}),
         ]
 
         sections = view.publication_sections()

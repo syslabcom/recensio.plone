@@ -20,40 +20,62 @@
         <h1 class="documentFirstHeading"
             i18n:translate="heading_publications"
         >Publications</h1>
+        <div class="archive-title"
+             tal:condition="python: view.show_archive"
+        >
+          <tal:archive i18n:translate="label_publications_archive">Archive</tal:archive>
+        </div>
+
         <p class="publications-intro"
+           tal:condition="python: not view.show_archive"
            i18n:translate="description_publications"
         >Here you see a list of publications of which we present reviews.</p>
       </header>
 
       <nav class="publications-jumpnav"
            aria-label="Jump to publications"
-           tal:condition="python:len(sections) > 1"
+           tal:condition="python:(not view.show_archive and (len(sections) > 1 or view.has_archived_publications)) or view.show_archive"
            i18n:attributes="aria-label label_publications_jump_to"
       >
-        <span class="publications-jumpnav__label"
-              i18n:translate="label_publications_jump_to"
-        >Jump to</span>
         <ul class="publications-jumpnav__list">
           <tal:jump repeat="item jump_links">
-            <li class="publications-jumpnav__item"
+            <li tal:condition="python: item['enabled'] and not view.show_archive"
                 tal:attributes="
                   class python:'publications-jumpnav__item ' + ('is-active' if item['enabled'] else 'is-disabled');
                 "
             >
               <a class="publications-jumpnav__link"
                  href="#"
-                 tal:condition="item/enabled"
                  tal:content="item/label"
                  tal:attributes="
                    href python:'#' + item['anchor'];
                  "
               >A</a>
-              <span class="publications-jumpnav__link"
-                    tal:condition="not:item/enabled"
-                    tal:content="item/label"
-              >A</span>
             </li>
           </tal:jump>
+          <li class="publications-jumpnav__item"
+              tal:condition="python: view.show_archive"
+          >
+            <a class="publications-jumpnav__link"
+               tal:attributes="
+                 href view/active_url;
+               "
+               i18n:translate="label_publications_all"
+            >All publications</a>
+          </li>
+          <li class="publications-jumpnav__item"
+              tal:condition="python: not view.show_archive and view.has_archived_publications"
+              tal:attributes="
+                class string:publications-jumpnav__item;
+              "
+          >
+            <a class="publications-jumpnav__link"
+               tal:attributes="
+                 href view/archive_url;
+               "
+               i18n:translate="label_publications_archive"
+            >Archive</a>
+          </li>
         </ul>
       </nav>
 
@@ -81,75 +103,74 @@
             <article class="publication-card"
                      tal:repeat="publication section/publications"
             >
-              <div class="publication-card__media">
-                <img class="publication-card__image"
-                     loading="lazy"
-                     src="#"
-                     tal:condition="publication/logo"
-                     tal:attributes="
-                       src publication/logo;
-                       alt string:${publication/title};
-                     "
-                />
-                <div class="publication-card__placeholder"
-                     aria-hidden="true"
-                     tal:condition="not:publication/logo"
-                     tal:content="publication/initial"
-                >P</div>
-              </div>
-
-              <div class="publication-card__body">
-                <h3 class="publication-card__title">
-                  <a tal:attributes="
-                       href publication/link;
-                     ">
-                    <span tal:replace="publication/title">Publication Title</span>
-                  </a>
-                </h3>
-
-                <p class="publication-card__description"
-                   tal:condition="publication/desc"
-                   tal:content="publication/desc"
-                >The Description</p>
-
-                <div class="publication-card__stats">
-                  <span class="publication-card__stat">
-                    <span class="publication-card__stat-label"
-                          i18n:translate="label_publication_reviews"
-                    >Reviews</span>
-                    <span class="publication-card__stat-count"
-                          tal:content="publication/review_count"
-                    >0</span>
-                  </span>
-                  <span class="publication-card__stat">
-                    <span class="publication-card__stat-label"
-                          i18n:translate="label_publication_issues"
-                    >Issues</span>
-                    <span class="publication-card__stat-count"
-                          tal:content="publication/issue_count"
-                    >0</span>
-                  </span>
-                  <span class="publication-card__stat">
-                    <span class="publication-card__stat-label"
-                          i18n:translate="label_publication_volumes"
-                    >Volumes</span>
-                    <span class="publication-card__stat-count"
-                          tal:content="publication/volume_count"
-                    >0</span>
-                  </span>
+              <tal:def define="
+                         p_ob python:publication.getObject();
+                         stats python:view.get_publication_stats(p_ob);
+                         logo_url python:view.publication_logo_url(p_ob);
+                       ">
+                <div class="publication-card__media">
+                  <img class="publication-card__image"
+                       loading="lazy"
+                       tal:attributes="
+                         src logo_url;
+                         alt string:${publication/Title};
+                       "
+                  />
                 </div>
 
-                <p class="publication-card__activity"
-                   tal:condition="publication/latest_review_date"
-                >
-                  <span class="publication-card__activity-label"
-                        i18n:translate="label_publication_latest_review"
-                  >Latest review</span>
-                  <span class="publication-card__activity-date"
-                        tal:content="publication/latest_review_date"
-                  >2026-03-29</span>
-                </p>
-              </div>
+                <div class="publication-card__body">
+                  <h3 class="publication-card__title">
+                    <a tal:attributes="
+                         href publication/getURL;
+                       ">
+                      <span tal:replace="publication/Title">Publication Title</span>
+                    </a>
+                  </h3>
+
+                  <p class="publication-card__description"
+                     tal:condition="publication/Description"
+                     tal:content="publication/Description"
+                  >The Description</p>
+
+                  <div class="publication-card__stats">
+                    <span class="publication-card__stat">
+                      <span class="publication-card__stat-label"
+                            i18n:translate="label_publication_reviews"
+                      >Reviews</span>
+                      <span class="publication-card__stat-count"
+                            tal:content="stats/review_count"
+                      >0</span>
+                    </span>
+                    <span class="publication-card__stat">
+                      <span class="publication-card__stat-label"
+                            i18n:translate="label_publication_volumes"
+                      >Volumes</span>
+                      <span class="publication-card__stat-count"
+                            tal:content="stats/volume_count"
+                      >0</span>
+                    </span>
+                    <span class="publication-card__stat">
+                      <span class="publication-card__stat-label"
+                            i18n:translate="label_publication_issues"
+                      >Issues</span>
+                      <span class="publication-card__stat-count"
+                            tal:content="stats/issue_count"
+                      >0</span>
+                    </span>
+                  </div>
+
+                  <p class="publication-card__activity"
+                     tal:condition="stats/latest_review_date"
+                  >
+                    <span class="publication-card__activity-label"
+                          i18n:translate="label_publication_latest_review"
+                    >Latest review</span>
+                    <span class="publication-card__activity-date"
+                          tal:content="stats/latest_review_date"
+                    >2026-03-29</span>
+                  </p>
+                </div>
+              </tal:def>
             </article>
           </div>
         </section>
