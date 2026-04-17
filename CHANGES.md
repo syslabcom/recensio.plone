@@ -2,6 +2,30 @@
 
 <!-- towncrier release notes start -->
 
+## 3.0.0 (2026-04-17)
+
+
+### New features
+
+- Revamp the publication listing viewlet with a modern card layout matching the redesigned result and publication views, and lazy-load nested contents via pat-inject.
+  Implement sorting by creation date for the topical browsing view and link the homepage to it. ([#4662](https://github.com/syslabcom/scrum/issues/4662))
+- Adjusting Translations. ([#4684](https://github.com/syslabcom/scrum/issues/4684))
+- Exchange pat-gallery with a simple, nearly pure CSS gallery that shows well in Chrome. ([#4688](https://github.com/syslabcom/scrum/issues/4688))
+- Add a compact publication profile display for Documents inside publications, with a jump link to the publication contents below, and expose it as an alternative display via an upgrade step. ([#4732](https://github.com/syslabcom/scrum/issues/4732))
+- Markdown changelog with towncrier ([#4733](https://github.com/syslabcom/scrum/issues/4733))
+- Improving and decarbonizing the authorsearch. 
+
+
+### Bug fixes
+
+- Don't stop indexing authors and editors if authors is empty. ([#4683](https://github.com/syslabcom/scrum/issues/4683))
+- Show archive also to anonymous - bypassing implicit filter in catalog. ([#4732](https://github.com/syslabcom/scrum/issues/4732))
+
+
+### Internal
+
+- Cleanup eea.facetednavigation, now that we have solr. 
+
 ## 2.1.1 (2026-04-05)
 
 - Switch to find_namespace_packages
