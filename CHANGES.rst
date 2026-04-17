@@ -7,9 +7,28 @@ Changelog
 
 - Exchange pat-gallery with a simple, nearly pure CSS gallery that shows well in Chrome.
   `#4688 <https://github.com/syslabcom/scrum/issues/4688>`_
+
+- Improving and decarbonizing the authorsearch.
+  [pilz]
+
+- Adjusting Translations.
+  `#4684 <https://github.com/syslabcom/scrum/issues/4684>`_
+  [pilz]
+
+- Revamp the publication listing viewlet with a modern card layout matching
+  the redesigned result and publication views, and lazy-load nested contents
+  via pat-inject.
+  `#4662 <https://github.com/syslabcom/scrum/issues/4662>`_
+
+- Don't stop indexing authors and editors if authors is empty.
+  `#4683 <https://github.com/syslabcom/scrum/issues/4683>`_
   [pilz]
 
 - Cleanup eea.facetednavigation, now that we have solr.
+  [pilz]
+
+- Fix action for search box and view to keep the navigation highlighting intact.
+  `#4684 <https://github.com/syslabcom/scrum/issues/4684>`_
   [pilz]
 
 2.1.1 (2026-04-05)
