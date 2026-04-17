@@ -126,6 +126,114 @@
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />
 
+  <!-- XML Representations for rj, rm and containers, which include the former -->
+  <browser:page
+      name="xml"
+      for="recensio.plone.content.publication.IPublication"
+      class=".xml.XMLRepresentationPublication"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      name="xml"
+      for="recensio.plone.content.volume.IVolume"
+      class=".xml.XMLRepresentationVolume"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      name="xml"
+      for="recensio.plone.content.issue.IIssue"
+      class=".xml.XMLRepresentationIssue"
+      template="templates/export_container.pt"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      name="xml"
+      for="recensio.plone.content.review_monograph.IReviewMonograph"
+      class=".xml.XMLRepresentation"
+      template="templates/export_rm.pt"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      name="xml"
+      for="recensio.plone.content.review_journal.IReviewJournal"
+      class=".xml.XMLRepresentation"
+      template="templates/export_rj.pt"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      name="xml"
+      for="recensio.plone.content.review_article_journal.IReviewArticleJournal"
+      class=".xml.XMLRepresentation"
+      template="templates/export_rj.pt"
+      permission="zope.Public"
+      />
+
+  <!-- XML Representations, dara versions  -->
+  <browser:page
+      name="xml-dara"
+      for="recensio.plone.content.review_monograph.IReviewMonograph"
+      class=".xml.XMLRepresentation"
+      template="templates/export_rm_dara.pt"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      name="xml-dara"
+      for="recensio.plone.content.review_journal.IReviewJournal"
+      class=".xml.XMLRepresentation"
+      template="templates/export_rj_dara.pt"
+      permission="zope.Public"
+      />
+
+  <!-- XML Representations, LZA versions  -->
+  <browser:page
+      name="xml-lza"
+      for="recensio.plone.content.review_monograph.IReviewMonograph"
+      class=".xml.XMLRepresentationLZA"
+      template="templates/export_rm.pt"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      name="xml-lza"
+      for="recensio.plone.content.review_journal.IReviewJournal"
+      class=".xml.XMLRepresentationLZA"
+      template="templates/export_rj.pt"
+      permission="zope.Public"
+      />
+
+  <!-- Export views and helpers -->
+  <browser:page
+      name="metadata-export"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".export.MetadataExport"
+      permission="cmf.ManagePortal"
+      />
+  <browser:page
+      name="chronicon-export"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".export.ChroniconExport"
+      permission="cmf.ManagePortal"
+      />
+  <browser:page
+      name="dara_update"
+      for="recensio.plone.interfaces.IReview"
+      class=".export.DaraUpdate"
+      permission="cmf.ManagePortal"
+      />
+  <browser:page
+      name="reset-lza-export-flag"
+      for="*"
+      class=".export.ResetLZAExportFlag"
+      permission="cmf.ManagePortal"
+      />
+
+
   <!-- Listing views -->
 
   <browser:page
