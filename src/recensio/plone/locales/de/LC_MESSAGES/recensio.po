@@ -2517,6 +2517,11 @@ msgstr ""
 "Erstellung des PDF fehlgeschlagen! Bitte versuchen Sie es noch einmal oder "
 "bitten Sie um Unterstützung"
 
+#. Default: "Reset facets"
+#: recensio.theme:/browser/templates/topical.pt:167
+msgid "label_reset_facets"
+msgstr "Facetten zurücksetzen"
+
 #. Default: "Search Site"
 #: recensio.theme:/browser/template_overrides/collective.solr.browser.searchbox.pt:17
 #: recensio.theme:/skins/recensio_theme/search.pt:66
@@ -2537,6 +2542,11 @@ msgstr "Alle Artikel des Autors"
 #: recensio.theme:/browser/templates/authorsearch.pt:20
 msgid "Autorensuche"
 msgstr "Autoren"
+
+#. Default: "${number} authors matching your criteria"
+#: recensio.theme:/browser/templates/authorsearch.pt:57
+msgid "batch_x_authors_matching_your_criteria"
+msgstr "${number} Autoren gefunden"
 
 #. Default: "&nbsp;und Kommentaren"
 #: recensio.theme:/browser/templates/authorsearch.pt:25
@@ -2565,6 +2575,11 @@ msgstr "PORTALübergreifender Autorenindex:"
 #: recensio.theme:/browser/templates/authorsearch.pt:56
 msgid "authorsearch_placeholder"
 msgstr "Autorenindex durchsuchen"
+
+#. Default: "Browse authors by initial"
+#: recensio.theme:/browser/templates/authorsearch.pt:67
+msgid "label_authorsearch_browse_initial"
+msgstr "Nach Initiale filtern"
 
 #: recensio.theme:/browser/templates/authorsearch.pt:63
 msgid "Search"

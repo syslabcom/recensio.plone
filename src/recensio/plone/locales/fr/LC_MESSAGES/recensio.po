@@ -2469,6 +2469,11 @@ msgstr ""
 "La génération du PDF a échoué. Veuillez réessayer ou contacter le service "
 "d'assistance"
 
+#. Default: "Reset facets"
+#: recensio.theme:/browser/templates/topical.pt:167
+msgid "label_reset_facets"
+msgstr "Réinitialiser les facettes"
+
 #. Default: "Search Site"
 #: recensio.theme:/browser/template_overrides/collective.solr.browser.searchbox.pt:17
 #: recensio.theme:/skins/recensio_theme/search.pt:66
@@ -2489,6 +2494,11 @@ msgstr "Tous les textes du même auteur"
 #: recensio.theme:/browser/templates/authorsearch.pt:20
 msgid "Autorensuche"
 msgstr "Recherche d'auteurs"
+
+#. Default: "${number} authors matching your criteria"
+#: recensio.theme:/browser/templates/authorsearch.pt:57
+msgid "batch_x_authors_matching_your_criteria"
+msgstr "${number} auteurs correspondant à vos critères"
 
 #. Default: "&nbsp;und Kommentaren"
 #: recensio.theme:/browser/templates/authorsearch.pt:25
@@ -2517,6 +2527,11 @@ msgstr "Index d’auteurs multiPORTAILE:"
 #: recensio.theme:/browser/templates/authorsearch.pt:56
 msgid "authorsearch_placeholder"
 msgstr "Recherche l’index d’auteurs"
+
+#. Default: "Browse authors by initial"
+#: recensio.theme:/browser/templates/authorsearch.pt:67
+msgid "label_authorsearch_browse_initial"
+msgstr "Parcourir de A à Z"
 
 #: recensio.theme:/browser/templates/authorsearch.pt:63
 msgid "Search"

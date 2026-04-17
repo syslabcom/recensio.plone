@@ -37,9 +37,6 @@
            tal:condition="python:(not view.show_archive and (len(sections) > 1 or view.has_archived_publications)) or view.show_archive"
            i18n:attributes="aria-label label_publications_jump_to"
       >
-        <!-- <span class="publications-jumpnav__label"
-              i18n:translate="label_publications_jump_to"
-        >Jump to</span> -->
         <ul class="publications-jumpnav__list">
           <tal:jump repeat="item jump_links">
             <li tal:condition="python: item['enabled'] and not view.show_archive"
