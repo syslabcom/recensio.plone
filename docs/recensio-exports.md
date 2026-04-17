@@ -253,7 +253,7 @@ Registration:
 
 - ZCML name: `metadata-export`
 - context: `Products.CMFPlone.interfaces.IPloneSiteRoot`
-- permission: `zope2.View`
+- permission: `cmf.ModifyPortalContent`
 
 Usage URL:
 
