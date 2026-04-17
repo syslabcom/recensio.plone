@@ -21,6 +21,10 @@ Changelog
 - Cleanup eea.facetednavigation, now that we have solr.
   [pilz]
 
+-  Fix action for search box and view to keep the navigation highlighting intact.
+- Fix action for search box and view to keep the navigation highlighting intact.
+  `#4684 <https://github.com/syslabcom/scrum/issues/4684>`_
+  [pilz]
 
 2.1.1 (2026-04-05)
 ------------------
