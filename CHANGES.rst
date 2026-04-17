@@ -5,6 +5,9 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
+- Improving and decarbonizing the authorsearch.
+  [pilz]
+
 - Adjusting Translations.
   `#4684 <https://github.com/syslabcom/scrum/issues/4684>`_
   [pilz]
