@@ -1,4 +1,4 @@
-/* Minimal JavaScript for "show more" functionality - details/summary handles expand/collapse natively */
+/* Minimal JavaScript for topical browse interactions */
 (function () {
     'use strict';
 
@@ -45,10 +45,29 @@
         }
     }
 
+    function initializeSortSelector() {
+        const sortSelect = document.querySelector('#topical-sort-select');
+
+        if (!sortSelect) {
+            return;
+        }
+
+        sortSelect.addEventListener('change', function (e) {
+            if (e.target.value) {
+                window.location.href = e.target.value;
+            }
+        });
+    }
+
+    function initializeTopicalBrowse() {
+        initializeShowMore();
+        initializeSortSelector();
+    }
+
     // Initialize when DOM is ready
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initializeShowMore);
+        document.addEventListener('DOMContentLoaded', initializeTopicalBrowse);
     } else {
-        initializeShowMore();
+        initializeTopicalBrowse();
     }
 })();

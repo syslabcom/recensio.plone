@@ -29,6 +29,10 @@
                 tal:define="
                   results view/results;
                   max_score view/max_score;
+                  sort_options view/sort_options;
+                  current_sort_on view/current_sort_on;
+                  current_sort_order view/current_sort_order;
+                  show_relevance_scores view/show_relevance_scores;
                   Batch python:modules['Products.CMFPlone'].Batch;
                   b_size python:10;
                   b_size request/b_size | b_size;
@@ -60,6 +64,16 @@
                     action string:${context/@@plone_portal_state/portal_url}/themen-epochen-regionen/@@browse-topics;
                   "
             >
+              <input name="sort_on"
+                     type="hidden"
+                     value="${current_sort_on}"
+                     tal:condition="current_sort_on"
+              />
+              <input name="sort_order"
+                     type="hidden"
+                     value="${current_sort_order}"
+                     tal:condition="current_sort_order"
+              />
               <label class="sr-only"
                      for="search-text"
                      i18n:translate="title_search_title"
@@ -104,16 +118,37 @@
               </div>
             </form>
           </fieldset>
-          <div class="search-results-info">
-            <span class="discreet"
-                  i18n:translate="batch_x_reviews_matching_your_criteria"
+          <div class="search-results-toolbar">
+            <div class="search-results-info">
+              <span class="discreet"
+                    i18n:translate="batch_x_reviews_matching_your_criteria"
+              >
+                <span tal:content="python:len(results)"
+                      tal:omit-tag=""
+                      i18n:name="number"
+                >0</span>
+                reviews matching
+              </span>
+            </div>
+            <label class="topical-sort-control"
+                   for="topical-sort-select"
             >
-              <span tal:content="python:len(results)"
-                    tal:omit-tag=""
-                    i18n:name="number"
-              >0</span>
-              reviews matching
-            </span>
+              <span class="topical-sort-label"
+                    i18n:translate="sort_by"
+              >Sort by</span>
+              <select class="topical-sort-select"
+                      id="topical-sort-select"
+              >
+                <tal:sort-options repeat="item sort_options">
+                  <option tal:content="item/title"
+                          tal:attributes="
+                            value item/url;
+                            selected item/selected|nothing;
+                          "
+                  >Relevance</option>
+                </tal:sort-options>
+              </select>
+            </label>
           </div>
         </div>
 
@@ -534,7 +569,7 @@
                             </span>
                           </span>
                           <span class="relevance"
-                                tal:condition="python:max_score and result.score"
+                                tal:condition="python:show_relevance_scores and max_score and result.score"
                           >
 
                             <tal:relevance i18n:translate="label_relevance_percentage">
