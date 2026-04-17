@@ -2368,6 +2368,14 @@ msgstr ""
 msgid "sort_by"
 msgstr ""
 
+#. Default: "Relevance"
+msgid "label_sort_relevance"
+msgstr ""
+
+#. Default: "Newest first"
+msgid "label_sort_newest"
+msgstr ""
+
 #: recensio.theme:/browser/templates/topical.pt:228
 #: recensio.theme:/browser/templates/languagefilter.pt:29
 msgid "Remove this selection"
@@ -2727,4 +2735,19 @@ msgstr ""
 #: recensio.theme:/skins/recensio_theme/secondarynavportlets.pt:61
 #. Default: "Pr&auml;sentation erstellen"
 msgid "label_secondary_nav_praesentation_erstellen"
+msgstr ""
+
+#: recensio.plone:/browser/templates/review.pt
+#. Default: "Close gallery"
+msgid "label_gallery_close"
+msgstr ""
+
+#: recensio.plone:/browser/templates/review.pt
+#. Default: "Previous image"
+msgid "label_gallery_prev"
+msgstr ""
+
+#: recensio.plone:/browser/templates/review.pt
+#. Default: "Next image"
+msgid "label_gallery_next"
 msgstr ""

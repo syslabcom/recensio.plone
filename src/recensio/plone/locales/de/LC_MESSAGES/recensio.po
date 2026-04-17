@@ -2795,6 +2795,14 @@ msgstr "Relevanz: ${percentage}%"
 msgid "sort_by"
 msgstr "Ergebnisse sortieren nach"
 
+#. Default: "Relevance"
+msgid "label_sort_relevance"
+msgstr "Relevanz"
+
+#. Default: "Newest first"
+msgid "label_sort_newest"
+msgstr "Neueste zuerst"
+
 #: recensio.theme:/browser/templates/topical.pt:228
 #: recensio.theme:/browser/templates/languagefilter.pt:29
 msgid "Remove this selection"
@@ -3199,6 +3207,15 @@ msgstr "Internetressourcen"
 #: recensio.theme:/skins/recensio_theme/secondarynavportlets.pt:61
 msgid "label_secondary_nav_praesentation_erstellen"
 msgstr "Präsentation erstellen"
+
+msgid "label_gallery_close"
+msgstr "Galerie schließen"
+
+msgid "label_gallery_prev"
+msgstr "Vorheriges Bild"
+
+msgid "label_gallery_next"
+msgstr "Nächstes Bild"
 
 #~ msgid "batch_x_items_matching_your_criteria"
 #~ msgstr "${number} Artikel gefunden."

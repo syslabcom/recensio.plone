@@ -20,11 +20,17 @@
   document.addEventListener("keydown", function (e) {
     var overlay = activeOverlay();
     if (!overlay) return;
-    if (e.key === "Escape") {
+        if (e.key === "Escape") {
+      e.preventDefault();
+      e.stopPropagation();
       location.hash = "_";
     } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      e.stopPropagation();
       navigate(overlay, ".review-gallery__prev");
     } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      e.stopPropagation();
       navigate(overlay, ".review-gallery__next");
     }
   });

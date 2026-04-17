@@ -431,7 +431,7 @@ class View(BrowserView, CanonicalURLHelper):
 
         slides = []
         if has_cover:
-            slides.append({"img_src": cover_url, "img_alt": "Cover"})
+            slides.append({"img_src": cover_url, "img_alt": self.context.Title()})
         for page_no in range(1, num_pages + 1):
             slides.append(
                 {
@@ -454,8 +454,10 @@ class View(BrowserView, CanonicalURLHelper):
         cover = self.cover_picture_url()
         if cover:
             return cover
-        slides = self.gallery_slides
-        return slides[0]["img_src"] if slides else None
+        pageviewer = self.context.restrictedTraverse("@@pageviewer")
+        if pageviewer.get_no_pages() > 0:
+            return f"{self.context.absolute_url()}/get_page_image?no:int=1"
+        return None
 
     @property
     def do_visit_canonical_uri(self):
