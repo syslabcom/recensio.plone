@@ -103,6 +103,16 @@
       name="authorsearch"
       for="*"
       class=".authorsearch.AuthorSearchView"
+      template="templates/authorsearch.pt"
+      permission="zope2.View"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
+      name="authorsearch-batch"
+      for="*"
+      class=".authorsearch.AuthorSearchBase"
+      template="templates/authorsearch_batch.pt"
       permission="zope2.View"
       layer="recensio.plone.interfaces.IRecensioPloneLayer"
       />

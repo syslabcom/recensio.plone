@@ -2122,6 +2122,11 @@ msgstr ""
 msgid "Autorensuche"
 msgstr ""
 
+#: recensio.theme:/browser/templates/authorsearch.pt:57
+#. Default: "${number} authors matching your criteria"
+msgid "batch_x_authors_matching_your_criteria"
+msgstr ""
+
 #: recensio.theme:/browser/templates/authorsearch.pt:25
 #. Default: "&nbsp;und Kommentaren"
 msgid "description_authorsearch_1a"
@@ -2143,6 +2148,11 @@ msgstr ""
 
 #: recensio.theme:/browser/templates/authorsearch.pt:56
 msgid "authorsearch_placeholder"
+msgstr ""
+
+#: recensio.theme:/browser/templates/authorsearch.pt:67
+#. Default: "Browse authors by initial"
+msgid "label_authorsearch_browse_initial"
 msgstr ""
 
 #: recensio.theme:/browser/templates/authorsearch.pt:63
