@@ -240,7 +240,7 @@ Purpose:
 What it does:
 
 - uses a portal annotation key
-  `recensio.policy.metadata_export_timestamp`
+  `recensio.plone.metadata_export_timestamp`
   as a coarse lock
 - refuses to start if an export has run within the last 2 hours
 - accepts a `force` request parameter to clear that lock first
