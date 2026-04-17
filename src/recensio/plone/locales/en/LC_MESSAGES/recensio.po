@@ -2406,6 +2406,11 @@ msgstr "Citation style"
 msgid "Creating the pdf has failed! Please try again or ask for support"
 msgstr "The PDF could not be created. Please try again or ask for support."
 
+#. Default: "Reset facets"
+#: recensio.theme:/browser/templates/topical.pt:167
+msgid "label_reset_facets"
+msgstr "Reset facets"
+
 #. Default: "Search Site"
 #: recensio.theme:/browser/template_overrides/collective.solr.browser.searchbox.pt:17
 #: recensio.theme:/skins/recensio_theme/search.pt:66
@@ -2426,6 +2431,11 @@ msgstr "All items by this author."
 #: recensio.theme:/browser/templates/authorsearch.pt:20
 msgid "Autorensuche"
 msgstr "Authors"
+
+#. Default: "${number} authors matching your criteria"
+#: recensio.theme:/browser/templates/authorsearch.pt:57
+msgid "batch_x_authors_matching_your_criteria"
+msgstr "${number} authors matching your criteria"
 
 #. Default: "&nbsp;und Kommentaren"
 #: recensio.theme:/browser/templates/authorsearch.pt:25
@@ -2453,6 +2463,11 @@ msgstr "Cross-PORTAL Author Index:"
 #: recensio.theme:/browser/templates/authorsearch.pt:56
 msgid "authorsearch_placeholder"
 msgstr "Search Author Index"
+
+#. Default: "Browse authors by initial"
+#: recensio.theme:/browser/templates/authorsearch.pt:67
+msgid "label_authorsearch_browse_initial"
+msgstr "Browse A–Z"
 
 #: recensio.theme:/browser/templates/authorsearch.pt:63
 msgid "Search"
@@ -2546,6 +2561,66 @@ msgstr "Journals/Partners"
 #: recensio.theme:/browser/templates/publications.pt:18
 msgid "description_publications"
 msgstr "List of journals providing their reviews"
+
+#. Default: "Issues and reviews"
+msgid "heading_publicationlisting"
+msgstr "Issues and reviews"
+
+#. Default: "Expand a volume to load its issues and reviews."
+msgid "description_publicationlisting"
+msgstr "Expand a volume to load its issues and reviews."
+
+#. Default: "Volume"
+msgid "label_publication_volume"
+msgstr "Volume"
+
+#. Default: "Issue"
+msgid "label_publication_issue"
+msgstr "Issue"
+
+#. Default: "Show contents"
+msgid "label_publication_show_contents"
+msgstr "Show contents"
+
+#. Default: "Show reviews"
+msgid "label_publication_show_reviews"
+msgstr "Show reviews"
+
+#. Default: "Loading contents…"
+msgid "label_publicationlisting_loading"
+msgstr "Loading contents…"
+
+#. Default: "Could not load contents."
+msgid "description_publicationlisting_loading_failed"
+msgstr "Could not load contents."
+
+#. Default: "No reviews are available yet."
+msgid "description_publicationlisting_no_contents"
+msgstr "No reviews are available yet."
+
+#. Default: "Jump to"
+msgid "label_publications_jump_to"
+msgstr "Jump to"
+
+#. Default: "No publications were found."
+msgid "description_no_publications_found"
+msgstr "No publications were found."
+
+#. Default: "Reviews"
+msgid "label_publication_reviews"
+msgstr "Reviews"
+
+#. Default: "Issues"
+msgid "label_publication_issues"
+msgstr "Issues"
+
+#. Default: "Volumes"
+msgid "label_publication_volumes"
+msgstr "Volumes"
+
+#. Default: "Latest review"
+msgid "label_publication_latest_review"
+msgstr "Latest review"
 
 #. Default: "Reviewed by ${review_authors}"
 #: recensio.theme:/browser/templates/results-listing.pt:103

@@ -49,8 +49,6 @@ def isbn(obj):
 
 
 def _listAuthors(obj, listEditors=False):
-    if not getattr(obj, "authors", None):
-        return []
     retval = []
     if getattr(obj, "curators", None):
         for curator in obj.curators:
@@ -62,10 +60,11 @@ def _listAuthors(obj, listEditors=False):
             editor_obj = editor.to_object
             if editor_obj and (editor_obj.lastname or editor_obj.firstname):
                 retval.append(f"{editor_obj.lastname}, {editor_obj.firstname}")
-    for author in obj.authors:
-        author_obj = author.to_object
-        if author_obj and (author_obj.lastname or author_obj.firstname):
-            retval.append(f"{author_obj.lastname}, {author_obj.firstname}")
+    if getattr(obj, "authors", None):
+        for author in obj.authors:
+            author_obj = author.to_object
+            if author_obj and (author_obj.lastname or author_obj.firstname):
+                retval.append(f"{author_obj.lastname}, {author_obj.firstname}")
     return retval
 
 

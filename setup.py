@@ -48,7 +48,6 @@ setup(
         "setuptools",
         "beautifulsoup4",
         "collective.solr>=10.1.1",
-        "eea.facetednavigation",
         "collective.ftw.upgrade",
         "guess-language>=1.0.0",
         "plone.api",
