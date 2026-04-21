@@ -150,10 +150,17 @@ class Import(BrowserView):
             name="gnd-view",
         )
         for author in authors:
-            if author["firstname"] or author["lastname"]:
+            firstname = author.get("firstname")
+            lastname = author.get("lastname")
+            # clean up names from deceased marker
+            if firstname:
+                firstname = firstname.replace("(†)", "").strip()
+            if lastname:
+                lastname = lastname.replace("(†)", "").strip()
+            if firstname or lastname:
                 existing = gnd_view.getByName(
-                    firstname=author["firstname"],
-                    lastname=author["lastname"],
+                    firstname=firstname,
+                    lastname=lastname,
                     solr=False,  # solr is only committed on transaction commit
                 )
                 if existing:
@@ -161,8 +168,8 @@ class Import(BrowserView):
                 else:
                     author_objects.append(
                         gnd_view.createPerson(
-                            firstname=author["firstname"],
-                            lastname=author["lastname"],
+                            firstname=firstname,
+                            lastname=lastname,
                         )
                     )
         intids = getUtility(IIntIds)
