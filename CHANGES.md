@@ -2,6 +2,14 @@
 
 <!-- towncrier release notes start -->
 
+## 3.0.1 (2026-04-21)
+
+
+### Bug fixes
+
+- Fix sehepunkte-import by discarding deceased marker on author's name.
+  [cirosilvano] ([#4742](https://github.com/syslabcom/scrum/issues/4742))
+
 ## 3.0.0 (2026-04-17)
 
 
