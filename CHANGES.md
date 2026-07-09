@@ -8,7 +8,9 @@
 ### Bug fixes
 
 - Do not break on a missing publication title, as seen on staging.
-  @thet 
+  @thet
+- Do not break when logged in as admin and solr is returning results without a yearOfPublication
+  [pilz]
 
 ## 3.0.1 (2026-04-21)
 
@@ -29,7 +31,7 @@
 - Exchange pat-gallery with a simple, nearly pure CSS gallery that shows well in Chrome. ([#4688](https://github.com/syslabcom/scrum/issues/4688))
 - Add a compact publication profile display for Documents inside publications, with a jump link to the publication contents below, and expose it as an alternative display via an upgrade step. ([#4732](https://github.com/syslabcom/scrum/issues/4732))
 - Markdown changelog with towncrier ([#4733](https://github.com/syslabcom/scrum/issues/4733))
-- Improving and decarbonizing the authorsearch. 
+- Improving and decarbonizing the authorsearch.
 
 
 ### Bug fixes
@@ -40,7 +42,7 @@
 
 ### Internal
 
-- Cleanup eea.facetednavigation, now that we have solr. 
+- Cleanup eea.facetednavigation, now that we have solr.
 
 ## 2.1.1 (2026-04-05)
 

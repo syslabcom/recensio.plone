@@ -497,7 +497,7 @@
                             <span tal:content="result/listDates"></span></tal:dates>
                           <tal:block tal:condition="result_obj/yearOfPublication | nothing">,</tal:block>
                           <span class="year"
-                                tal:content="result_obj/yearOfPublication"
+                                tal:content="result_obj/yearOfPublication | nothing"
                                 tal:attributes="
                                   class string:year;
                                 "
