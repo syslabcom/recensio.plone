@@ -15,7 +15,7 @@
                 publication_context nocall:view/publication | nothing;
                 publication_stats view/publication_stats;
                 publication_logo view/publication_logo_url | nothing;
-                publication_initial view/publication_initial;
+                publication_initial view/publication_initial | nothing;
               "
       >
         <div class="publication-profile-header__media"
@@ -34,7 +34,7 @@
                aria-hidden="true"
                tal:condition="not:publication_logo"
                tal:content="publication_initial"
-          >P</div>
+          >${python: publication_initial or ""}</div>
         </div>
 
         <div class="publication-profile-header__body">

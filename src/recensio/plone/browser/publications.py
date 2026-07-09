@@ -135,9 +135,13 @@ class PublicationDocumentView(PublicationSummaryMixin, BrowserView):
 
     @property
     def publication_logo_url(self):
+        if not self.publication:
+            return None
         return self._publication_logo_url(self.publication)
 
     def publication_initial(self):
+        if not self.publication:
+            return None
         return self._publication_letter(self.publication.title)
 
 
