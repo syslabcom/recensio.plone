@@ -2,6 +2,14 @@
 
 <!-- towncrier release notes start -->
 
+## 3.0.2 (2026-07-09)
+
+
+### Bug fixes
+
+- Do not break on a missing publication title, as seen on staging.
+  @thet 
+
 ## 3.0.1 (2026-04-21)
 
 
