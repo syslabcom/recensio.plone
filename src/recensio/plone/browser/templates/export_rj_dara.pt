@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://da-ra.de/schema/kernel-4"
+          xmlns:dara="http://da-ra.de/schema/kernel-4"
+          xmlns:tal="http://xml.zope.org/namespaces/tal"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemalocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd"
+>
+  <resourcetype>Text</resourcetype>
+  <resourcetypesfree>
+    <resourcetypefree>
+      <language>de</language>
+      <typename>Rezension</typename>
+    </resourcetypefree>
+    <resourcetypefree>
+      <language>en</language>
+      <typename>Review</typename>
+    </resourcetypefree>
+  </resourcetypesfree>
+  <resourceidentifier>
+    <identifier tal:content="context/UID">ed891fc49fdbbb562278aa88e9ffb40d</identifier>
+    <currentversion>1</currentversion>
+  </resourceidentifier>
+  <titles>
+    <title tal:define="
+             title context/getDecoratedTitle;
+             title python:title[:240];
+           ">
+      &lt;language&gt;de&lt;/language&gt;
+      &lt;titlename&gt;Rezension:
+        &lt;tal:title replace="title"&gt;Autor: Titel. Untertitel&lt;/tal:title&gt;&lt;/titlename&gt;
+    </title>
+  </titles>
+  <creators>
+    <creator tal:repeat="author context/getReviewAuthors">
+      <person>
+        <firstname tal:content="author/firstname">Hans</firstname>
+        <middlename></middlename>
+        <lastname tal:content="author/lastname">Testperson</lastname>
+      </person>
+    </creator>
+  </creators>
+  <dataurls>
+    <dataurl tal:content="context/absolute_url">http://www.recensio.net/</dataurl>
+  </dataurls>
+  <doiproposal tal:content="context/getDoi">10.15463/rec.1517192636</doiproposal>
+  <publicationdate>
+    <date tal:content="python:context.getEffectiveDate().strftime('%Y-%m-%d')">1970</date>
+  </publicationdate>
+  <availability>
+    <availabilitytype>Download</availabilitytype>
+  </availability>
+  <rights>
+    <right>
+      <language>de</language>
+      <freetext>
+                Creative-Commons-Lizenz Namensnennung-Keine kommerzielle Nutzung-Keine Bearbeitung (CC-BY-NC-ND)
+                http://creativecommons.org/licenses/by-nc-nd/2.0/deed.de
+      </freetext>
+    </right>
+  </rights>
+  <freekeywords tal:condition="context/Subject">
+    <freekeyword>
+      <language>de</language>
+      <keywords>
+        <keyword tal:repeat="subject context/Subject"
+                 tal:content="subject"
+        >Aufsatzsammlung</keyword>
+      </keywords>
+    </freekeyword>
+  </freekeywords>
+  <relations tal:define="
+               issn context/issn|nothing;
+               canonical_uri context/canonical_uri|nothing;
+             "
+             tal:condition="python: issn or canonical_uri"
+  >
+    <relation tal:condition="issn">
+      <identifier tal:content="issn">978-3-406-68822-5</identifier>
+      <identifiertype>ISSN</identifiertype>
+      <relationtype>Reviews</relationtype>
+    </relation>
+    <relation tal:condition="canonical_uri">
+      <identifier tal:content="canonical_uri">http://www.sehepunkte.de/2016/06/28546.html</identifier>
+      <identifiertype>URL</identifiertype>
+      <relationtype>IsVariantFormOf</relationtype>
+    </relation>
+  </relations>
+  <publications>
+    <publication>
+      <structuredpublication>
+        <documenttype>Journal</documenttype>
+        <authorseditors>
+          <authoreditor>
+            <editor>
+              <name tal:content="context/getEditor">Herausgeber</name>
+            </editor>
+          </authoreditor>
+        </authorseditors>
+        <title tal:content="context/punctuated_title_and_subtitle">Titel der Zeitschrift</title>
+        <year tal:condition="context/getYearOfPublication"
+              tal:content="context/getYearOfPublication"
+        >1970</year>
+        <publisher tal:content="context/getPublisher"></publisher>
+        <places tal:content="context/getPlaceOfPublication"></places>
+        <pids tal:condition="context/issn">
+          <pid>
+            <id>ISSN
+              <tal:isbn tal:replace="context/issn">978-3-406-68822-5</tal:isbn></id>
+            <pidtype>ISSN</pidtype>
+          </pid>
+        </pids>
+      </structuredpublication>
+    </publication>
+  </publications>
+</resource>
