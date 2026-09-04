@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns="http://da-ra.de/schema/kernel-4"
+          xmlns:dara="http://da-ra.de/schema/kernel-4"
+          xmlns:tal="http://xml.zope.org/namespaces/tal"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemalocation="http://da-ra.de/schema/kernel-4 http://www.da-ra.de/fileadmin/media/da-ra.de/Technik/4.0/dara.xsd"
+>
+  <resourcetype>Text</resourcetype>
+  <resourcetypesfree>
+    <resourcetypefree>
+      <language>de</language>
+      <typename>Rezension</typename>
+    </resourcetypefree>
+    <resourcetypefree>
+      <language>en</language>
+      <typename>Review</typename>
+    </resourcetypefree>
+  </resourcetypesfree>
+  <resourceidentifier>
+    <identifier tal:content="context/UID">ed891fc49fdbbb562278aa88e9ffb40d</identifier>
+    <currentversion>1</currentversion>
+  </resourceidentifier>
+  <titles>
+    <title tal:define="
+             title context/getDecoratedTitle;
+             title python:title[:240];
+           ">
+      &lt;language&gt;de&lt;/language&gt;
+      &lt;titlename&gt;Rezension:
+        &lt;tal:title replace="title"&gt;Autor: Titel. Untertitel&lt;/tal:title&gt;&lt;/titlename&gt;
+    </title>
+  </titles>
+  <creators>
+    <creator tal:repeat="author context/getReviewAuthors">
+      <person>
+        <firstname tal:content="author/firstname">Hans</firstname>
+        <middlename></middlename>
+        <lastname tal:content="author/lastname">Testperson</lastname>
+      </person>
+    </creator>
+  </creators>
+  <dataurls>
+    <dataurl tal:content="context/absolute_url">http://www.recensio.net/</dataurl>
+  </dataurls>
+  <doiproposal tal:content="context/getDoi">10.15463/rec.1517192636</doiproposal>
+  <publicationdate>
+    <date tal:content="python:context.getEffectiveDate().strftime('%Y-%m-%d')">1970</date>
+  </publicationdate>
+  <availability>
+    <availabilitytype>Download</availabilitytype>
+  </availability>
+  <rights>
+    <right>
+      <language>de</language>
+      <freetext>
+                Creative-Commons-Lizenz Namensnennung-Keine kommerzielle Nutzung-Keine Bearbeitung (CC-BY-NC-ND)
+                http://creativecommons.org/licenses/by-nc-nd/2.0/deed.de
+      </freetext>
+    </right>
+  </rights>
+  <freekeywords tal:condition="context/Subject">
+    <freekeyword>
+      <language>de</language>
+      <keywords>
+        <keyword tal:repeat="subject context/Subject"
+                 tal:content="subject"
+        >Aufsatzsammlung</keyword>
+      </keywords>
+    </freekeyword>
+  </freekeywords>
+  <relations tal:define="
+               isbn context/isbn|nothing;
+               canonical_uri context/canonical_uri|nothing;
+             "
+             tal:condition="python: isbn or canonical_uri"
+  >
+    <relation tal:condition="isbn">
+      <identifier tal:content="isbn">978-3-406-68822-5</identifier>
+      <identifiertype>ISBN</identifiertype>
+      <relationtype>Reviews</relationtype>
+    </relation>
+    <relation tal:condition="canonical_uri">
+      <identifier tal:content="canonical_uri">http://www.sehepunkte.de/2016/06/28546.html</identifier>
+      <identifiertype>URL</identifiertype>
+      <relationtype>IsVariantFormOf</relationtype>
+    </relation>
+  </relations>
+  <publications>
+    <publication>
+      <structuredpublication>
+        <documenttype>BookOrMonograph</documenttype>
+        <authorseditors>
+          <tal:comment replace="nothing">
+                        It seems to happen quite often that there is an editor/author entry where both first
+                        name and last name are the empty string. This causes an error on the dara server if
+                        we don't filter it out.
+          </tal:comment>
+          <tal:authors tal:repeat="author context/getAuthors">
+            <authoreditor tal:condition="python:author['lastname'] or author['firstname']">
+              <author>
+                <firstname tal:content="python:author['firstname'] or 'N/A'">Hans</firstname>
+                <middlename></middlename>
+                <lastname tal:content="python:author['lastname'] or 'N/A'">Testautor</lastname>
+              </author>
+            </authoreditor>
+          </tal:authors>
+          <tal:editorial tal:repeat="editor context/getEditorial">
+            <authoreditor tal:condition="python:editor['lastname'] or editor['firstname']">
+              <editor>
+                <name>
+                  <tal:lastname tal:replace="editor/lastname">Testautor</tal:lastname>
+                  <tal:comma condition="python:editor['lastname'] and editor['firstname']">,</tal:comma>
+                  <tal:firstname tal:replace="editor/firstname">Hans</tal:firstname>
+                </name>
+              </editor>
+            </authoreditor>
+          </tal:editorial>
+        </authorseditors>
+        <title tal:content="context/punctuated_title_and_subtitle">Titel der Monographie</title>
+        <year tal:condition="context/getYearOfPublication"
+              tal:content="context/getYearOfPublication"
+        >1970</year>
+        <publisher tal:content="context/getPublisher"></publisher>
+        <places tal:content="context/getPlaceOfPublication"></places>
+        <volume tal:condition="context/getSeriesVol"
+                tal:content="context/getSeriesVol"
+        ></volume>
+        <anthology tal:condition="context/getSeries"
+                   tal:content="context/getSeries"
+        ></anthology>
+        <pages tal:content="context/getPages"></pages>
+        <pids>
+          <pid>
+            <id>ISBN
+              <tal:isbn tal:replace="context/isbn">978-3-406-68822-5</tal:isbn></id>
+            <pidtype>ISBN</pidtype>
+          </pid>
+        </pids>
+      </structuredpublication>
+    </publication>
+  </publications>
+</resource>

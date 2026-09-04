@@ -46,6 +46,12 @@
   <include package=".vocabularies" />
 
   <utility
+      provides="zope.component.interfaces.IFactory"
+      name="chronicon_exporter"
+      component=".export.ChroniconExporterFactory"
+      />
+
+  <utility
       factory=".setuphandlers.HiddenProfiles"
       name="recensio.plone-hiddenprofiles"
       />
