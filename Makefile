@@ -26,7 +26,7 @@ pre-commit: .venv/bin/pre-commit
 
 
 
-.installed.cfg: .venv/bin/buildout
+.installed.cfg: .venv/bin/buildout buildout.cfg
 	./.venv/bin/buildout
 
 
