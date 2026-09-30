@@ -152,11 +152,6 @@ class Import(BrowserView):
         for author in authors:
             firstname = author.get("firstname")
             lastname = author.get("lastname")
-            # clean up names from deceased marker
-            if firstname:
-                firstname = firstname.replace("(†)", "").strip()
-            if lastname:
-                lastname = lastname.replace("(†)", "").strip()
             if firstname or lastname:
                 existing = gnd_view.getByName(
                     firstname=firstname,
