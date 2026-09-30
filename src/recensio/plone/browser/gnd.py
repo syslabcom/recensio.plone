@@ -1,4 +1,5 @@
 from plone import api
+from plone.base.utils import munge_search_term
 from plone.i18n.normalizer.interfaces import IURLNormalizer
 from Products.Five import BrowserView
 from recensio.plone.content.person import IPerson
@@ -75,14 +76,15 @@ class GNDView(BrowserView):
     def getByName(self, firstname=None, lastname=None, solr=True):
         search_term = self._getPersonTitle(firstname=firstname, lastname=lastname)
         catalog = api.portal.get_tool("portal_catalog")
+        if not solr:
+            # Fix for special characters that portal catalog cannot handle
+            search_term = munge_search_term(search_term)
         query = dict(
             Title=search_term,
             object_provides=IPerson.__identifier__,
             sort_on="sortable_title",
         )
         if not solr:
-            # Fix for special characters that portal catalog cannot handle
-            search_term = search_term.replace("(", "").replace(")", "")
             results = catalog.search(query)
         else:
             results = catalog(query)
@@ -92,7 +94,7 @@ class GNDView(BrowserView):
         if not search_term:
             search_term = self._getPersonTitle(firstname=firstname, lastname=lastname)
             # Fix for special characters that portal catalog cannot handle
-            search_term = search_term.replace("(", "").replace(")", "")
+            search_term = munge_search_term(search_term)
         catalog = api.portal.get_tool("portal_catalog")
         # XXX general interface, IGND?
         query = dict(
