@@ -11,7 +11,7 @@ long_description = "\n\n".join(
 
 setup(
     name="recensio.plone",
-    version="3.0.4.dev0",
+    version="4.0.0",
     description="Base package of the Recensio Plone portal.",
     long_description=long_description,
     long_description_content_type="text/markdown",

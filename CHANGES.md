@@ -2,6 +2,19 @@
 
 <!-- towncrier release notes start -->
 
+## 4.0.0 (2026-10-02)
+
+
+### Breaking changes
+
+- Update the supported Plone version to 6.2 
+
+
+### Bug fixes
+
+- Fix query cleanup for sehepunkte import script.
+  @cirosilvano ([#5234](https://github.com/syslabcom/scrum/issues/5234))
+
 ## 3.0.3 (2026-09-01)
 
 
