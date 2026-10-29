@@ -2,6 +2,18 @@
 
 <!-- towncrier release notes start -->
 
+## 4.0.1 (2026-10-29)
+
+
+### Bug fixes
+
+- Remove pkg_resources from tests to avoid test errors in non-setuptools based environments.
+  @thet 
+- Upgrade solr to 9.11.0.
+
+  The old version 9.10.1 is not available for download anymore.
+  @thet 
+
 ## 4.0.0 (2026-10-02)
 
 
