@@ -1,11 +1,11 @@
+from pathlib import Path
 from recensio.plone import sehepunkte
 from recensio.plone.browser.sehepunkte import Import
 from recensio.plone.sehepunkte import sehepunkte_parser
 
-import pkg_resources
 import unittest
 
-testdata_filename = pkg_resources.resource_filename(__name__, "testSehepunkte.xml")
+testdata_filename = Path(__file__).with_name("testSehepunkte.xml")
 testdata_parsed = [
     {
         "authors": [{"firstname": "Mathias", "lastname": "Piana"}],
