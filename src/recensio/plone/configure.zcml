@@ -46,6 +46,30 @@
   <include package=".vocabularies" />
 
   <utility
+      provides="zope.component.interfaces.IFactory"
+      name="chronicon_exporter"
+      component=".export.ChroniconExporterFactory"
+      />
+
+  <utility
+      provides="zope.component.interfaces.IFactory"
+      name="lza_exporter"
+      component=".export.LZAExporterFactory"
+      />
+
+  <utility
+      provides="zope.component.interfaces.IFactory"
+      name="bvid_exporter"
+      component=".export.BVIDExporterFactory"
+      />
+
+  <utility
+      provides="zope.component.interfaces.IFactory"
+      name="missing_bvid_exporter"
+      component=".export.MissingBVIDExporterFactory"
+      />
+
+  <utility
       factory=".setuphandlers.HiddenProfiles"
       name="recensio.plone-hiddenprofiles"
       />
