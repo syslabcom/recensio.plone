@@ -3,6 +3,7 @@ from collective.solr.local import setLocal
 from collective.solr.testing import CollectiveSolrLayer
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import applyProfile
+from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 
@@ -46,4 +47,9 @@ RECENSIO_PLONE_INTEGRATION_TESTING = IntegrationTesting(
 RECENSIO_PLONE_SOLR_INTEGRATION_TESTING = IntegrationTesting(
     bases=(RECENSIO_PLONE_FIXTURE, RECENSIO_SOLR_FIXTURE),
     name="RecensioPloneLayer:SolrIntegrationTesting",
+)
+
+RECENSIO_PLONE_FUNCTIONAL_TESTING = FunctionalTesting(
+    bases=(RECENSIO_PLONE_FIXTURE,),
+    name="RecensioPloneLayer:FunctionalTesting",
 )
