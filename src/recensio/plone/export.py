@@ -338,7 +338,7 @@ class LZAExporter(ChroniconExporter):
         super().add_review(review)
         pdf_path = "/".join(review.getPhysicalPath()[2:]) + ".pdf"
         review_view = api.content.get_view(
-            name="review", context=review, request=review.REQUEST
+            name="review_view", context=review, request=review.REQUEST
         )
         review_pdf = review_view.get_review_pdf()
         if review_pdf:

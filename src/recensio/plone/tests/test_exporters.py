@@ -17,14 +17,17 @@ from recensio.plone.export import StatusFailureAlreadyInProgress
 from recensio.plone.export import StatusSuccessFileCreated
 from recensio.plone.export import StatusSuccessFileExists
 from recensio.plone.interfaces import IRecensioExporter
+from recensio.plone.interfaces import IRecensioPloneLayer
 from recensio.plone.testing import RECENSIO_PLONE_FUNCTIONAL_TESTING
 from recensio.plone.testing import RECENSIO_PLONE_INTEGRATION_TESTING
+from reportlab.pdfgen.canvas import Canvas
 from tempfile import TemporaryDirectory
 from unittest.mock import MagicMock
 from unittest.mock import patch
 from unittest.mock import PropertyMock
 from zipfile import ZipFile
 from zope.component import getFactoriesFor
+from zope.interface import alsoProvides
 
 import requests
 import unittest
@@ -577,6 +580,47 @@ class TestMetadataExportView(unittest.TestCase):
         view = self.portal.restrictedTraverse("@@metadata-export")
         output = view()
         self.assertIn("Nothing to do", output)
+
+    def test_lza_export_includes_uploaded_pdfs_using_registered_review_views(self):
+        alsoProvides(self.layer["request"], IRecensioPloneLayer)
+        pdf = BytesIO()
+        canvas = Canvas(pdf)
+        canvas.drawString(72, 720, "LZA export regression")
+        canvas.save()
+        pdf_data = pdf.getvalue()
+        self.review.pdf = NamedBlobFile(
+            data=pdf_data, filename="monograph.pdf", contentType="application/pdf"
+        )
+        journal_review = _make_review(
+            self.issue,
+            portal_type="Review Journal",
+            pdf=NamedBlobFile(
+                data=pdf_data, filename="journal.pdf", contentType="application/pdf"
+            ),
+        )
+        api.content.transition(obj=journal_review, to_state="published")
+
+        with TemporaryDirectory() as cache_dir:
+            with patch.object(
+                LZAExporter,
+                "cache_filename",
+                new_callable=PropertyMock,
+                return_value=cache_dir + "/lza_cache.zip",
+            ):
+                output = self.portal.restrictedTraverse("@@metadata-export")()
+
+        self.assertIn("lza_exporter: export_lza_xml.zip created", output)
+        archive = self.portal["export_lza_xml.zip"].file
+        with ZipFile(BytesIO(archive.data)) as zf:
+            xml = b"".join(
+                zf.read(name) for name in zf.namelist() if name.endswith(".xml")
+            )
+            for review in (self.review, journal_review):
+                pdf_path = "/".join(review.getPhysicalPath()[2:]) + ".pdf"
+                self.assertEqual(zf.read(pdf_path), pdf_data)
+                self.assertIn(review.UID().encode("utf-8"), xml)
+                self.assertIn(pdf_path.encode("utf-8"), xml)
+                self.assertTrue(LZAExporter()._is_exported(review))
 
 
 # ---------------------------------------------------------------------------
