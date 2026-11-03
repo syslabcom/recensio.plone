@@ -1,10 +1,12 @@
 """Tests for recensio.plone.export exporter classes."""
 
+from datetime import datetime
 from io import BytesIO
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import TEST_USER_ID
+from plone.namedfile.file import NamedBlobFile
 from recensio.plone.export import BVIDExporter
 from recensio.plone.export import ChroniconExporter
 from recensio.plone.export import LZAExporter
@@ -17,8 +19,10 @@ from recensio.plone.export import StatusSuccessFileExists
 from recensio.plone.interfaces import IRecensioExporter
 from recensio.plone.testing import RECENSIO_PLONE_FUNCTIONAL_TESTING
 from recensio.plone.testing import RECENSIO_PLONE_INTEGRATION_TESTING
+from tempfile import TemporaryDirectory
 from unittest.mock import MagicMock
 from unittest.mock import patch
+from unittest.mock import PropertyMock
 from zipfile import ZipFile
 from zope.component import getFactoriesFor
 
@@ -335,6 +339,20 @@ class TestLZAExporter(unittest.TestCase):
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         self.pub, self.vol, self.issue = _make_container(self.portal)
+        cache_dir = TemporaryDirectory()
+        self.addCleanup(cache_dir.cleanup)
+        cache_patch = patch.object(
+            LZAExporter,
+            "cache_filename",
+            new_callable=PropertyMock,
+            return_value=cache_dir.name + "/lza_cache.zip",
+        )
+        cache_patch.start()
+        self.addCleanup(cache_patch.stop)
+        self.review_view = MagicMock()
+        self.review_view.get_review_pdf.return_value = NamedBlobFile(
+            data=b"%PDF-test", filename="review.pdf"
+        )
 
     def tearDown(self):
         with api.env.adopt_user(SITE_OWNER_NAME):
@@ -370,7 +388,7 @@ class TestLZAExporter(unittest.TestCase):
         xml_view.assert_not_called()
         self.assertEqual(exporter.reviews_xml, [])
 
-    def test_new_review_is_added_and_marked(self):
+    def test_new_review_is_added_without_marking(self):
         review = _make_review(self.issue)
         exporter = LZAExporter()
         xml_view = MagicMock(return_value="<review/>")
@@ -381,8 +399,97 @@ class TestLZAExporter(unittest.TestCase):
                 "recensio.plone.export.api.content.get_view", return_value=review_view
             ):
                 exporter.add_review(review)
-        self.assertTrue(exporter._is_exported(review))
+        self.assertFalse(exporter._is_exported(review))
         self.assertEqual(exporter.reviews_xml, ["<review/>"])
+
+    def test_reviews_are_marked_when_archive_is_stored(self):
+        # Given real reviews, XML rendering and PDF blobs.
+        reviews = [_make_review(self.issue, id="r1"), _make_review(self.issue, id="r2")]
+        exporter = LZAExporter()
+        for review in reviews:
+            with patch(
+                "recensio.plone.export.api.content.get_view",
+                return_value=self.review_view,
+            ):
+                exporter.add_review(review)
+        filename = exporter.get_issue_filename()
+
+        # When the complete archive is generated and stored on the portal.
+        result = exporter.export()
+
+        # Then the stored ZIP contains both reviews and their PDFs.
+        self.assertIsInstance(result, StatusSuccessFileCreated)
+        self.assertTrue(result.value)
+        archive = self.portal[exporter.export_filename].file
+        with ZipFile(BytesIO(archive.data)) as zf:
+            xml = zf.read(filename).decode("utf-8")
+            for review in reviews:
+                self.assertIn(review.UID(), xml)
+                pdf_path = "/".join(review.getPhysicalPath()[2:]) + ".pdf"
+                self.assertEqual(zf.read(pdf_path), b"%PDF-test")
+                self.assertTrue(exporter._is_exported(review))
+
+    def test_review_stays_unmarked_when_zip_generation_fails(self):
+        # Given a collected review with real XML rendering.
+        review = _make_review(self.issue)
+        exporter = LZAExporter()
+        with patch(
+            "recensio.plone.export.api.content.get_view", return_value=self.review_view
+        ):
+            exporter.add_review(review)
+
+        # When ZIP writing fails.
+        with patch.object(exporter, "write_zipfile", side_effect=OSError("ZIP failed")):
+            with self.assertRaises(OSError):
+                exporter.export()
+
+        # Then the review remains eligible for a later export.
+        self.assertFalse(exporter._is_exported(review))
+
+    def test_review_stays_unmarked_when_export_is_in_progress(self):
+        # Given a collected review and an already running export.
+        review = _make_review(self.issue)
+        exporter = LZAExporter()
+        with patch(
+            "recensio.plone.export.api.content.get_view", return_value=self.review_view
+        ):
+            exporter.add_review(review)
+
+        # When export returns its truthy failure status object.
+        with patch.object(exporter, "running_export", return_value=datetime.now()):
+            result = exporter.export()
+
+        # Then status.value, rather than object truthiness, controls marking.
+        self.assertIsInstance(result, StatusFailureAlreadyInProgress)
+        self.assertTrue(result)
+        self.assertFalse(result.value)
+        self.assertFalse(exporter._is_exported(review))
+
+    def test_review_stays_unmarked_when_archive_storage_fails(self):
+        # Given a collected review and an existing portal-root archive object.
+        review = _make_review(self.issue)
+        exporter = LZAExporter()
+        with patch(
+            "recensio.plone.export.api.content.get_view", return_value=self.review_view
+        ):
+            exporter.add_review(review)
+        archive = api.content.create(
+            type="File", id=exporter.export_filename, container=self.portal
+        )
+
+        # When assigning the generated ZIP to the file field fails.
+        with patch.object(
+            type(archive.aq_base),
+            "file",
+            new_callable=PropertyMock,
+            create=True,
+            side_effect=OSError("storage failed"),
+        ):
+            with self.assertRaises(OSError):
+                exporter.export()
+
+        # Then collection has not persisted the exported flag.
+        self.assertFalse(exporter._is_exported(review))
 
     def test_pdf_included_in_zip_when_present(self):
         review = _make_review(self.issue)

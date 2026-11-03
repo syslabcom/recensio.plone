@@ -320,6 +320,7 @@ class LZAExporter(ChroniconExporter):
     def __init__(self):
         super().__init__()
         self.reviews_pdf = {}
+        self.pending_reviews = []
 
     @property
     def cache_filename(self):
@@ -342,7 +343,14 @@ class LZAExporter(ChroniconExporter):
         review_pdf = review_view.get_review_pdf()
         if review_pdf:
             self.reviews_pdf[pdf_path] = review_pdf
-        self._set_exported(review)
+        self.pending_reviews.append(review)
+
+    def export(self):
+        status = super().export()
+        if status.value:
+            for review in self.pending_reviews:
+                self._set_exported(review)
+        return status
 
     def write_zipfile(self, zipfile):
         super().write_zipfile(zipfile)
