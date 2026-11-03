@@ -594,11 +594,11 @@ class TestMetadataExportView(unittest.TestCase):
         journal_review = _make_review(
             self.issue,
             portal_type="Review Journal",
-            pdf=NamedBlobFile(
-                data=pdf_data, filename="journal.pdf", contentType="application/pdf"
-            ),
         )
         api.content.transition(obj=journal_review, to_state="published")
+        journal_review.pdf = NamedBlobFile(
+            data=pdf_data, filename="journal.pdf", contentType="application/pdf"
+        )
 
         with TemporaryDirectory() as cache_dir:
             with patch.object(
