@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>PDF</title>
+    <style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #f5f5f5;
+  }
+  #pages {
+    height: 100%;
+    overflow-y: auto;
+  }
+  canvas.page {
+    display: block;
+    margin: 0 auto 8px;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  }
+  canvas.page:first-child {
+    margin-top: 8px;
+  }
+    </style>
+  </head>
+  <body>
+    <div id="pages"></div>
+    <script type="module">
+import * as pdfjsLib from "./pdf.mjs";
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = "./pdf.worker.mjs";
+
+const container = document.getElementById("pages");
+const file = new URLSearchParams(location.search).get("file");
+const dpr = Math.max(1, window.devicePixelRatio || 1);
+
+async function showAllPages() {
+  const doc = await pdfjsLib.getDocument({
+    url: file,
+    cMapUrl: "./cmaps/",
+    cMapPacked: true,
+    standardFontDataUrl: "./standard_fonts/",
+    iccUrl: "./iccs/",
+  }).promise;
+
+  const slots = [];
+  for (let n = 1; n <= doc.numPages; n++) {
+    const page = await doc.getPage(n);
+    const canvas = document.createElement("canvas");
+    canvas.className = "page";
+    container.appendChild(canvas);
+    slots.push({ page, base: page.getViewport({ scale: 1 }), canvas, rendered: false });
+  }
+
+  function sizeSlot(slot) {
+    const scale = container.clientWidth / slot.base.width;
+    slot.scale = scale;
+    slot.canvas.style.width = Math.floor(slot.base.width * scale) + "px";
+    slot.canvas.style.height = Math.floor(slot.base.height * scale) + "px";
+  }
+
+  async function renderSlot(slot) {
+    slot.rendered = true;
+    const viewport = slot.page.getViewport({ scale: slot.scale * dpr });
+    slot.canvas.width = Math.floor(viewport.width);
+    slot.canvas.height = Math.floor(viewport.height);
+    await slot.page.render({
+      canvasContext: slot.canvas.getContext("2d"),
+      viewport,
+    }).promise;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        const slot = slots.find((s) => s.canvas === entry.target);
+        if (slot && !slot.rendered) {
+          renderSlot(slot).catch((err) => console.error("render failed:", err));
+        }
+      }
+    },
+    { root: container, rootMargin: "100% 0px" }
+  );
+
+  slots.forEach((slot) => {
+    sizeSlot(slot);
+    observer.observe(slot.canvas);
+  });
+
+  let resizeTimer;
+  new ResizeObserver(() => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      for (const slot of slots) {
+        sizeSlot(slot);
+        if (slot.rendered) {
+          slot.rendered = false;
+          renderSlot(slot).catch((err) => console.error("render failed:", err));
+        }
+      }
+    }, 200);
+  }).observe(container);
+}
+
+showAllPages().catch((err) => {
+  console.error("pdf viewer failed:", err);
+});
+    </script>
+  </body>
+</html>

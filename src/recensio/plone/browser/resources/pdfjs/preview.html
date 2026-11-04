@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>PDF preview</title>
+    <style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #fff;
+  }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  canvas {
+    display: block;
+  }
+    </style>
+  </head>
+  <body>
+    <canvas id="page"></canvas>
+    <script type="module">
+import * as pdfjsLib from "./pdf.mjs";
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = "./pdf.worker.mjs";
+
+const canvas = document.getElementById("page");
+const ctx = canvas.getContext("2d");
+const file = new URLSearchParams(location.search).get("file");
+
+const debounce = (fn, ms) => {
+  let timer;
+  return () => {
+    clearTimeout(timer);
+    timer = setTimeout(fn, ms);
+  };
+};
+
+async function showFirstPage() {
+  const doc = await pdfjsLib.getDocument({
+    url: file,
+    cMapUrl: "./cmaps/",
+    cMapPacked: true,
+    standardFontDataUrl: "./standard_fonts/",
+    iccUrl: "./iccs/",
+  }).promise;
+  const page = await doc.getPage(1);
+
+  let renderTask = null;
+  async function render() {
+    if (renderTask) {
+      renderTask.cancel();
+    }
+    const boxW = document.documentElement.clientWidth;
+    const boxH = document.documentElement.clientHeight;
+    const base = page.getViewport({ scale: 1 });
+    const scale = Math.max(boxW / base.width, boxH / base.height);
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    const viewport = page.getViewport({ scale: scale * dpr });
+    canvas.width = Math.floor(viewport.width);
+    canvas.height = Math.floor(viewport.height);
+    canvas.style.width = Math.floor(viewport.width / dpr) + "px";
+    canvas.style.height = Math.floor(viewport.height / dpr) + "px";
+    renderTask = page.render({ canvasContext: ctx, viewport });
+    try {
+      await renderTask.promise;
+    } catch (err) {
+      if (!err || err.name !== "RenderingCancelledException") {
+        throw err;
+      }
+    }
+  }
+
+  await render();
+  new ResizeObserver(debounce(render, 150)).observe(document.documentElement);
+}
+
+showFirstPage().catch((err) => {
+  console.error("pdf preview failed:", err);
+});
+    </script>
+  </body>
+</html>
