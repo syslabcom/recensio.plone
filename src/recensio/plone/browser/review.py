@@ -17,6 +17,8 @@ from recensio.plone.browser.canonical import CanonicalURLHelper
 from recensio.plone.utils import get_formatted_names
 from recensio.plone.utils import getFormatter
 from recensio.plone.utils import punctuated_title_and_subtitle
+from recensio.plone.utils import review_pdf_fieldname
+from urllib.parse import quote
 from z3c.form.field import Fields
 from z3c.form.form import DisplayForm
 from z3c.form.interfaces import DISPLAY_MODE
@@ -509,6 +511,40 @@ class View(BrowserView, CanonicalURLHelper):
                 review_pdf = generated_pdf
 
         return review_pdf
+
+    @property
+    def review_pdf_embed_url(self):
+        """URL serving the review PDF inline for embedding, or None when the
+        review has no usable PDF (legacy preview images are the fallback)."""
+        fieldname = review_pdf_fieldname(self.context)
+        if fieldname:
+            return f"{self.context.absolute_url()}/@@display-file/{fieldname}"
+        return None
+
+    def _pdfjs_viewer_url(self, viewer_page):
+        fieldname = review_pdf_fieldname(self.context)
+        if not fieldname:
+            return None
+        file_url = quote(
+            f"{self.context.absolute_url()}/@@display-file/{fieldname}",
+            safe="",
+        )
+        return (
+            f"{self.context.portal_url()}/++plone++recensio/pdfjs/"
+            f"{viewer_page}?file={file_url}"
+        )
+
+    @property
+    def review_pdf_preview_url(self):
+        """URL of the chromeless pdf.js first-page preview for the review
+        PDF, or None when the review has no usable PDF."""
+        return self._pdfjs_viewer_url("preview.html")
+
+    @property
+    def review_pdf_pages_url(self):
+        """URL of the pdf.js all-pages viewer for the lightbox, or None
+        when the review has no usable PDF."""
+        return self._pdfjs_viewer_url("pages.html")
 
     def getLicense(self):
         # XXX It might need some tweaks if we port the presentations
