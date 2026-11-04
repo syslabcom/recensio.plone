@@ -29,7 +29,10 @@ class GetPageImage(BrowserView):
     """
 
     def __call__(self):
-        no = self.request.get("no", 1)
+        try:
+            no = int(self.request.get("no", 1))
+        except (TypeError, ValueError):
+            raise NotFound(self.context, "page", self.request)
         images = getattr(self.context, "pagePictures", None) or []
         if no < 1 or no > len(images):
             raise NotFound(self.context, f"page {no}", self.request)
