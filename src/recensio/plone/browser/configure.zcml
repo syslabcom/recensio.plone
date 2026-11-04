@@ -239,6 +239,15 @@
       />
 
   <browser:page
+      name="cleanup-previews"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".cleanup_previews.CleanupPreviewsView"
+      template="templates/cleanup_previews.pt"
+      permission="cmf.ManagePortal"
+      layer="recensio.plone.interfaces.IRecensioPloneLayer"
+      />
+
+  <browser:page
       name="pageviewer"
       for="recensio.plone.interfaces.IReview"
       class=".pageviewer.Pageviewer"
