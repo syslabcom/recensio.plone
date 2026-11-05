@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recensio_package xmlns:tal="http://xml.zope.org/namespaces/tal"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  package_journal_issue=""
+                  package_journal_name="Jahrbuch des Bundesinstituts für Kultur und Geschichte der Deutschen im östlichen Europa"
+                  package_journal_pubyear="2012"
+                  package_journal_volume="20"
+                  xsi:schemalocation="recensio_frompublisher_2015-09-02.xsd"
+                  tal:attributes="
+                    package_journal_name view/get_publication_title;
+                    package_journal_volume view/get_package_journal_volume_title;
+                    package_journal_issue view/get_package_journal_issue_title;
+                    package_journal_pubyear view/get_package_journal_pubyear;
+                  "
+>
+
+  <tal:r repeat="review view/reviews"><tal:rep replace="structure python:review.restrictedTraverse('@@xml')()"
+             on-error="string:Error in ${review/getId}"
+    /></tal:r>
+
+</recensio_package>
