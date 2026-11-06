@@ -54,7 +54,9 @@ img.gnd {
     margin-bottom: 2em;
 }
 .preview-images {
-    width: 20em;
+    width: 33%;
+    aspect-ratio: 210 / 297;
+    overflow: hidden;
     float: right;
     margin: 0 0 1em 1em;
     box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.2);
@@ -1866,6 +1868,49 @@ summary.submenu_title:hover {
 }
 .review-gallery__close:hover {
     color: #ccc;
+}
+
+/* PDF preview embed */
+.review-pdf-embed__open {
+    display: block;
+    height: 100%;
+    cursor: pointer;
+}
+.review-pdf-embed {
+    width: 100%;
+    height: 100%;
+}
+.review-pdf-embed__frame {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    pointer-events: none;
+    transition: transform 0.18s ease, filter 0.18s ease;
+}
+.review-pdf-lightbox__frame {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #fff;
+}
+.pageviewer-pdf-embed__frame {
+    width: 100%;
+    height: 90vh;
+    border: 0;
+}
+
+/* PDF preview behaves like a pressable button */
+.review-pdf-embed__open:hover .review-pdf-embed__frame {
+    transform: scale(1.03);
+    filter: brightness(1.04);
+}
+.review-pdf-embed__open:active .review-pdf-embed__frame {
+    transform: scale(0.99);
+    filter: brightness(0.96);
+}
+.review-pdf-embed__open:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
 }
 
 /* Prev / Next — outside the image, at fixed positions on the lightbox */

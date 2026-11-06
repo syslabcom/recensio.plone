@@ -1,0 +1,95 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      metal:use-macro="here/main_template/macros/master"
+>
+  <body>
+    <metal:content fill-slot="content">
+      <h1>Release legacy page preview images</h1>
+
+      <div class="portalMessage info"
+           tal:condition="view/feedback"
+      >
+        <strong>Cleanup finished.</strong>
+        <ul>
+          <li tal:content="string:Objects processed: ${view/feedback/processed}">processed</li>
+          <li tal:content="string:Objects cleaned: ${view/feedback/purged_objects}">cleaned</li>
+          <li tal:content="string:Preview images released: ${view/feedback/purged_images}">released</li>
+        </ul>
+        <p>
+      The blob files of the released images are removed by the next ZEO
+      pack. Until the pack has run, no disk space is freed.
+        </p>
+      </div>
+
+      <p>
+    Reviews now render their preview directly from the review PDF with
+    pdf.js. The generated per-page preview images (pagePictures) are no
+    longer created, and the copies stored on existing reviews are dead
+    weight. This view deletes them from every review that has a usable
+    PDF (uploaded or generated). Reviews without a PDF keep their images
+    as their only visual and are listed below.
+      </p>
+      <p>
+        <strong>This view cleans up the portal it is called on only.</strong>
+    It must be run on all three portals:
+        <code>/recensio</code>,
+        <code>/regio</code>
+         and
+        <code>/altertum</code>. After all three runs, a ZEO pack is required
+    to reclaim the disk space.
+      </p>
+
+      <ul>
+        <li>
+      Objects with preview images and a PDF (will be cleaned):
+          <strong tal:content="view/stats/cleanable_objects">0</strong>
+      (preview images:
+          <span tal:content="view/stats/cleanable_images">0</span>)
+        </li>
+        <li>
+      Objects with preview images but no PDF (will be kept):
+          <strong tal:content="python:len(view.stats['kept_urls'])">0</strong>
+        </li>
+      </ul>
+
+      <details>
+        <summary>Show the objects that keep their preview images</summary>
+        <ul>
+          <li tal:repeat="url view/stats/kept_urls">
+            <a tal:content="url"
+               tal:attributes="
+                 href url;
+               "
+            >url</a>
+          </li>
+        </ul>
+      </details>
+
+      <form method="post"
+            tal:condition="python:view.stats['cleanable_objects'] > 0"
+      >
+        <input name="_authenticator"
+               type="hidden"
+               tal:attributes="
+                 value view/token;
+               "
+        />
+        <input name="confirm"
+               type="hidden"
+               value="yes"
+        />
+        <button class="btn btn-danger"
+                type="submit"
+        >
+      Release preview images now
+        </button>
+        <p>
+      The cleanup runs inside this request and commits every 1000
+      objects; on the large portal it can take a few minutes. Progress is
+      written to the instance log.
+        </p>
+      </form>
+    </metal:content>
+  </body>
+</html>

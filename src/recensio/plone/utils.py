@@ -4,6 +4,16 @@ from plone import api
 from Products.CMFCore.WorkflowCore import WorkflowException
 
 
+def review_pdf_fieldname(context):
+    """Name of the field holding the review PDF ("pdf" or "generatedPdf"),
+    or None when the review has no usable PDF."""
+    for fieldname in ("pdf", "generatedPdf"):
+        value = getattr(context, fieldname, None)
+        if value is not None and value.size > 0:
+            return fieldname
+    return None
+
+
 def getFormatter(*specification):
     """Give the specification as a list of separators. Returns a method that
     accepts n+1 attributes and joins them if the attribute is not empty.

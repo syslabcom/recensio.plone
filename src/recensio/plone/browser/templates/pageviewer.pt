@@ -1,17 +1,31 @@
 <tal:def define="
+           pdf_url view/review_pdf_embed_url;
            base_url context/absolute_url;
            num_pages view/get_no_pages;
          ">
-  <tal:loop tal:repeat="cnt python:range(num_pages)">
-    <div style="${python: 'display: none' if id != 1 else ''}"
-         tal:define="
-           id python: cnt+1;
-         "
-    >
-      <img alt="Review page ${id}"
-           loading="lazy"
-           src="${base_url}/get_page_image?no:int=${id}"
-      />
+  <tal:pdf condition="pdf_url">
+    <div class="review-pdf-embed">
+      <iframe class="pageviewer-pdf-embed__frame"
+              loading="lazy"
+              tal:attributes="
+                src pdf_url;
+                title string:PDF preview;
+              "
+              i18n:attributes="title label_pdf_preview"
+      ></iframe>
     </div>
-  </tal:loop>
+  </tal:pdf>
+  <tal:images condition="python: not pdf_url">
+    <tal:loop repeat="cnt python:range(num_pages)">
+      <div tal:define="
+             id python: cnt+1;
+           ">
+        <img alt="Review page ${id}"
+             loading="lazy"
+             src="${base_url}/get_page_image?no:int=${id}"
+             i18n:attributes="alt label_review_page"
+        />
+      </div>
+    </tal:loop>
+  </tal:images>
 </tal:def>
